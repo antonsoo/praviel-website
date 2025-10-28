@@ -66,12 +66,14 @@ function FeatureCard({
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      initial={{ opacity: 0, y: 50, scale: 0.9, rotateX: -15 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1, rotateX: 0 } : {}}
       transition={{
-        duration: 0.6,
-        delay: index * 0.1,
+        duration: 0.8,
+        delay: index * 0.15,
         ease: [0.23, 1, 0.32, 1],
+        type: "spring",
+        stiffness: 100,
       }}
       style={{
         rotateX,
@@ -79,25 +81,41 @@ function FeatureCard({
         transformStyle: "preserve-3d",
       }}
       whileHover={{
-        scale: 1.05,
-        transition: { duration: 0.2 },
+        scale: 1.08,
+        y: -8,
+        transition: { duration: 0.3, type: "spring", stiffness: 300 },
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-6 ring-1 ring-white/5 backdrop-blur transition-colors hover:border-violet-400/40 hover:bg-violet-500/10 hover:ring-violet-500/50 cursor-pointer"
+      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 p-6 ring-1 ring-white/5 backdrop-blur-xl transition-colors hover:border-violet-400/50 hover:bg-gradient-to-br hover:from-violet-950/40 hover:via-purple-950/30 hover:to-violet-950/40 hover:ring-violet-500/60 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-violet-500/30"
     >
-      {/* Animated gradient background */}
+      {/* Enhanced animated gradient background */}
       <motion.div
-        className="absolute -inset-[1px] rounded-2xl opacity-0"
+        className="absolute -inset-[2px] rounded-2xl opacity-0 -z-10"
         style={{
           background:
-            "linear-gradient(135deg, rgba(168,85,247,0.3), rgba(139,92,246,0.3), rgba(192,132,252,0.3))",
-          filter: "blur(10px)",
+            "linear-gradient(135deg, rgba(168,85,247,0.5), rgba(139,92,246,0.4), rgba(192,132,252,0.5))",
+          filter: "blur(12px)",
         }}
         animate={{
           opacity: isHovered ? 1 : 0,
+          scale: isHovered ? 1.05 : 1,
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.4 }}
+      />
+
+      {/* Pulsing outer glow */}
+      <motion.div
+        className="absolute -inset-8 rounded-2xl opacity-0 -z-20"
+        style={{
+          background: "radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)",
+          filter: "blur(20px)",
+        }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+          scale: isHovered ? [1, 1.1, 1] : 1,
+        }}
+        transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
       />
 
       {/* Shimmer effect on hover */}
@@ -119,27 +137,36 @@ function FeatureCard({
         />
       </motion.div>
 
-      {/* Icon with 3D transform */}
+      {/* Enhanced icon with 3D transform and glow */}
       <motion.div
-        className="relative mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 ring-1 ring-violet-500/40 backdrop-blur"
+        className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/30 to-purple-500/30 ring-2 ring-violet-500/50 backdrop-blur shadow-lg shadow-violet-500/20"
         style={{
           transformStyle: "preserve-3d",
           transform: "translateZ(20px)",
         }}
         whileHover={{
-          rotate: [0, -5, 5, -5, 0],
-          scale: 1.15,
+          rotate: [0, -10, 10, -5, 0],
+          scale: 1.2,
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.6, type: "spring" }}
       >
         {feature.icon}
 
-        {/* Icon glow */}
+        {/* Enhanced icon glow */}
         <motion.div
-          className="absolute inset-0 rounded-xl bg-violet-500/40 blur-md opacity-0"
+          className="absolute -inset-2 rounded-xl bg-violet-500/50 blur-xl opacity-0"
           animate={{
-            opacity: isHovered ? 0.8 : 0,
-            scale: isHovered ? 1.2 : 1,
+            opacity: isHovered ? 1 : 0,
+            scale: isHovered ? 1.5 : 1,
+          }}
+          transition={{ duration: 0.4 }}
+        />
+
+        {/* Inner shine effect */}
+        <motion.div
+          className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-0"
+          animate={{
+            opacity: isHovered ? 1 : 0,
           }}
           transition={{ duration: 0.3 }}
         />
@@ -174,44 +201,50 @@ function FeatureCard({
         {feature.body}
       </p>
 
-      {/* Floating particles around card */}
+      {/* Enhanced floating particles around card */}
       {isHovered && (
         <>
-          {[...Array(3)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 rounded-full bg-violet-400"
+              className="absolute w-1.5 h-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50"
               style={{
-                left: `${20 + i * 30}%`,
-                top: "-5px",
+                left: `${15 + i * 15}%`,
+                top: i % 2 === 0 ? "-8px" : "calc(100% + 8px)",
               }}
-              initial={{ opacity: 0, y: 0 }}
+              initial={{ opacity: 0, y: 0, scale: 0 }}
               animate={{
                 opacity: [0, 1, 0],
-                y: [-10, -30],
+                y: i % 2 === 0 ? [-10, -40] : [10, 40],
+                scale: [0, 1, 0],
               }}
               transition={{
-                duration: 1,
+                duration: 1.5,
                 repeat: Infinity,
-                delay: i * 0.2,
+                delay: i * 0.15,
+                ease: "easeOut",
               }}
             />
           ))}
         </>
       )}
 
-      {/* Corner accent pulse */}
-      <motion.div
-        className="absolute right-3 top-3 h-2 w-2 rounded-full bg-violet-400"
-        animate={{
-          opacity: isHovered ? [0, 1, 0] : 0,
-          scale: isHovered ? [1, 1.5, 1] : 1,
-        }}
-        transition={{
-          duration: 1,
-          repeat: isHovered ? Infinity : 0,
-        }}
-      />
+      {/* Multiple corner accent pulses */}
+      {["right-3 top-3", "left-3 bottom-3", "right-3 bottom-3", "left-3 top-3"].map((pos, i) => (
+        <motion.div
+          key={i}
+          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50`}
+          animate={{
+            opacity: isHovered ? [0, 1, 0] : 0,
+            scale: isHovered ? [1, 2, 1] : 1,
+          }}
+          transition={{
+            duration: 1.2,
+            repeat: isHovered ? Infinity : 0,
+            delay: i * 0.3,
+          }}
+        />
+      ))}
     </motion.div>
   );
 }

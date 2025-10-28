@@ -12,7 +12,7 @@ export default function SiteHeader() {
     { href: "https://app.praviel.com", label: "Launch app" },
     { href: "#features", label: "Features" },
     { href: "https://api.praviel.com/docs", label: "API" },
-    { href: "/support", label: "Support" },
+    { href: "/fund", label: "Fund" },
   ];
 
   return (

@@ -9,7 +9,7 @@ export default function Footer() {
     { href: "mailto:contact@praviel.com", label: "contact@praviel.com" },
     { href: "https://app.praviel.com", label: "App" },
     { href: "https://api.praviel.com/docs", label: "API" },
-    { href: "/support", label: "Support" },
+    { href: "/fund", label: "Fund" },
     { href: "/privacy", label: "Privacy" },
   ];
 
@@ -46,7 +46,7 @@ export default function Footer() {
             PRAVIEL
           </motion.div>
           <div className="max-w-xs text-zinc-500 leading-relaxed">
-            AI-native mastery of dead languages.
+            Through ancient tongues, wisdom echoes across millennia.
           </div>
 
           {/* Ancient script decoration */}

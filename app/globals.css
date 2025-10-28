@@ -49,6 +49,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Hide default cursor for custom torch cursor */
+* {
+  cursor: none !important;
+}
+
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
   width: 10px;

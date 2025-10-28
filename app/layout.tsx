@@ -4,7 +4,8 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import MusicToggle from "@/components/MusicToggle";
 import SmoothScroll from "@/components/SmoothScroll";
-import CursorGlow from "@/components/CursorGlow";
+import TorchCursor from "@/components/TorchCursor";
+import SandBackground from "@/components/SandBackground";
 import CookieConsent from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
@@ -52,9 +53,10 @@ export default function RootLayout({
       lang="en"
       className="bg-bg-page text-zinc-100 antialiased"
     >
-      <body className="min-h-dvh flex flex-col bg-[radial-gradient(circle_at_20%_20%,rgba(92,64,255,0.15)_0%,rgba(0,0,0,0)_70%)] overflow-x-hidden">
+      <body className="min-h-dvh flex flex-col overflow-x-hidden" style={{ cursor: "none" }}>
+        <SandBackground />
         <SmoothScroll>
-          <CursorGlow />
+          <TorchCursor />
           <SiteHeader />
           <main className="flex-1 pt-16">{children}</main>
           <Footer />

@@ -73,11 +73,13 @@ function AnimatedTitle({ children, delay = 0 }: { children: string; delay?: numb
       ref={titleRef}
       style={{
         display: "inline-block",
-        background: "linear-gradient(90deg, #e9d5ff, #c084fc, #a855f7, #8b5cf6, #c084fc, #e9d5ff)",
+        color: "#ffffff", // Fallback white color for better contrast
+        background: "linear-gradient(90deg, #ffffff, #f3e8ff, #e9d5ff, #d8b4fe, #c084fc, #a855f7, #c084fc, #d8b4fe, #e9d5ff, #f3e8ff, #ffffff)",
         backgroundSize: "200% auto",
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
         backgroundClip: "text",
+        textShadow: "0 0 40px rgba(192, 132, 252, 0.3)", // Add glow for visibility
       }}
       variants={container}
       initial="hidden"
@@ -228,54 +230,94 @@ export default function HeroSection() {
       <HeroScene />
       <AncientScriptOverlay />
 
-      {/* Glassmorphism floating card */}
+      {/* Enhanced Glassmorphism floating card with depth */}
       <motion.div
         ref={contentRef}
         className="mx-auto max-w-3xl text-center relative z-10"
         style={{ y, opacity, scale, filter: blur }}
       >
-        {/* Glass container with border glow */}
-        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-black/40 via-black/20 to-black/40 p-8 sm:p-12 backdrop-blur-2xl shadow-2xl shadow-violet-500/20">
-          {/* Animated border glow */}
+        {/* Outer glow aura */}
+        <motion.div
+          className="absolute -inset-12 rounded-[3rem] opacity-30 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(139,92,246,0.2) 50%, transparent 70%)",
+          }}
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.35, 0.2],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        {/* Glass container with enhanced depth */}
+        <div className="relative rounded-3xl border border-white/20 bg-gradient-to-b from-black/60 via-black/40 to-black/60 p-8 sm:p-12 backdrop-blur-3xl shadow-2xl shadow-violet-500/30">
+          {/* Multi-layered animated border glow */}
           <motion.div
-            className="absolute -inset-[1px] rounded-3xl opacity-50"
+            className="absolute -inset-[2px] rounded-3xl opacity-60"
             style={{
-              background: "linear-gradient(90deg, #a855f7, #8b5cf6, #c084fc, #a855f7)",
-              backgroundSize: "300% 100%",
+              background: "linear-gradient(135deg, #a855f7, #8b5cf6, #c084fc, #d8b4fe, #a855f7)",
+              backgroundSize: "400% 400%",
+              filter: "blur(2px)",
             }}
             animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
             }}
             transition={{
-              duration: 6,
+              duration: 8,
               repeat: Infinity,
               ease: "linear",
             }}
           />
 
-          <div className="relative z-10">
-            {/* Enhanced Alpha badge */}
+          {/* Inner shimmer effect */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl overflow-hidden"
+            initial={{ opacity: 0 }}
+          >
             <motion.div
-              className="inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-gradient-to-r from-violet-500/20 to-purple-500/20 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-violet-100 ring-2 ring-violet-400/30 backdrop-blur-xl shadow-lg shadow-violet-500/30"
-              initial={{ opacity: 0, scale: 0.8, rotateX: -90 }}
-              animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              className="absolute inset-0 bg-gradient-to-br from-violet-400/10 via-transparent to-purple-400/10"
+              animate={{
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          </motion.div>
+
+          <div className="relative z-10">
+            {/* Premium Alpha badge with glow */}
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-violet-300/50 bg-gradient-to-r from-violet-500/30 to-purple-500/30 px-5 py-2 text-xs font-bold uppercase tracking-widest text-violet-50 ring-2 ring-violet-400/40 backdrop-blur-xl shadow-xl shadow-violet-500/40"
+              initial={{ opacity: 0, scale: 0.8, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, type: "spring", stiffness: 200 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(168,85,247,0.6)" }}
             >
+              {/* Shimmer overlay */}
               <motion.div
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/40 to-transparent"
                 animate={{ x: ["-200%", "200%"] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
 
+              {/* Pulsing dot */}
               <motion.span
-                className="relative z-10 flex items-center gap-1.5"
-                animate={{ opacity: [1, 0.6, 1] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
+                className="relative z-10 flex items-center gap-2"
               >
-                <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
-                Alpha
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-violet-500"></span>
+                </span>
+                <span>Alpha</span>
               </motion.span>
-              <span className="text-zinc-300 relative z-10">live now</span>
+              <span className="text-violet-200 relative z-10">live now</span>
             </motion.div>
 
             {/* Title with ultra-premium gradient animation */}
@@ -285,19 +327,27 @@ export default function HeroSection() {
               <AnimatedTitle delay={0.7}>with a relentless AI tutor</AnimatedTitle>
             </h1>
 
-            {/* Description with glassmorphic background */}
+            {/* Enhanced description with floating effect */}
             <motion.div
-              className="mx-auto mt-8 max-w-2xl rounded-2xl border border-white/5 bg-white/5 p-6 backdrop-blur-xl"
+              className="mx-auto mt-8 max-w-2xl rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-white/10 p-6 sm:p-7 backdrop-blur-xl shadow-lg"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "0 8px 32px rgba(168,85,247,0.2)",
+                transition: { duration: 0.3 },
+              }}
             >
-              <p className="text-pretty text-base leading-relaxed text-zinc-300 sm:text-lg">
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/5 to-purple-500/5 pointer-events-none" />
+
+              <p className="relative text-pretty text-base leading-relaxed text-zinc-200 sm:text-lg">
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 1.1 }}
-                  className="font-bold bg-gradient-to-r from-violet-200 via-purple-200 to-fuchsia-200 bg-clip-text text-transparent"
+                  className="font-bold bg-gradient-to-r from-violet-100 via-purple-100 to-fuchsia-100 bg-clip-text text-transparent drop-shadow-sm"
                 >
                   Akkadian. Biblical Hebrew. Koine Greek. Latin. Old Church Slavonic.
                 </motion.span>

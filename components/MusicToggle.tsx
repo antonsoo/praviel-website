@@ -9,7 +9,10 @@ export default function MusicToggle() {
   const [showControls, setShowControls] = useState(false);
   const [playlist, setPlaylist] = useState<string[]>([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch playlist on mount
   useEffect(() => {
@@ -18,9 +21,17 @@ export default function MusicToggle() {
       .then(data => {
         if (data.playlist && data.playlist.length > 0) {
           setPlaylist(data.playlist);
+          setHasError(false);
+        } else {
+          setHasError(true);
+          setErrorMessage("No music files found");
         }
       })
-      .catch(err => console.error('Failed to fetch playlist:', err));
+      .catch(err => {
+        console.error('Failed to fetch playlist:', err);
+        setHasError(true);
+        setErrorMessage("Failed to load music");
+      });
   }, []);
 
   // Initialize audio element and setup track progression
@@ -34,16 +45,25 @@ export default function MusicToggle() {
       setCurrentTrackIndex(prev => (prev + 1) % playlist.length);
     };
 
+    const handleError = () => {
+      console.error('Audio error:', audioRef.current?.error);
+      setHasError(true);
+      setErrorMessage("Failed to load audio file");
+      setIsPlaying(false);
+    };
+
     audioRef.current.addEventListener('ended', handleTrackEnd);
+    audioRef.current.addEventListener('error', handleError);
 
     return () => {
       if (audioRef.current) {
         audioRef.current.removeEventListener('ended', handleTrackEnd);
+        audioRef.current.removeEventListener('error', handleError);
         audioRef.current.pause();
         audioRef.current = null;
       }
     };
-  }, [playlist, currentTrackIndex]);
+  }, [playlist, currentTrackIndex, volume]);
 
   // Update volume when changed
   useEffect(() => {
@@ -60,18 +80,55 @@ export default function MusicToggle() {
   }, [currentTrackIndex, isPlaying]);
 
   const togglePlay = () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || hasError) return;
 
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.play().catch((err) => {
-        console.warn("Audio playback failed:", err);
-      });
-    }
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+          setHasError(false);
+        })
+        .catch((err) => {
+          console.warn("Audio playback failed:", err);
+          setHasError(true);
+          setIsPlaying(false);
 
-    setIsPlaying(!isPlaying);
+          // Check for autoplay policy error
+          if (err.name === 'NotAllowedError') {
+            setErrorMessage("Click to enable audio");
+          } else {
+            setErrorMessage("Playback failed");
+          }
+        });
+    }
   };
+
+  const handleMouseEnter = () => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+    setShowControls(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Delay hiding controls for smoother UX
+    hideTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 300);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <motion.div
@@ -79,6 +136,8 @@ export default function MusicToggle() {
       initial={{ opacity: 0, scale: 0.8, y: 50 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 2 }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Volume control */}
       <AnimatePresence>
@@ -88,11 +147,11 @@ export default function MusicToggle() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
             transition={{ duration: 0.2 }}
-            className="flex items-center gap-3 rounded-full border border-violet-400/30 bg-black/80 px-4 py-2 backdrop-blur-xl"
+            className="flex items-center gap-3 rounded-full border border-violet-400/30 bg-black/90 px-5 py-3 backdrop-blur-xl shadow-lg shadow-violet-500/20"
           >
             <svg
               viewBox="0 0 24 24"
-              className="h-4 w-4 text-violet-300"
+              className="h-5 w-5 text-violet-300"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -102,25 +161,44 @@ export default function MusicToggle() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+              {volume > 0.5 && (
+                <>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                </>
+              )}
+              {volume > 0 && volume <= 0.5 && (
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              )}
             </svg>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="w-20 h-1 bg-violet-900/50 rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
-                [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-violet-400
-                [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.5)]
-                [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:rounded-full
-                [&::-moz-range-thumb]:bg-violet-400 [&::-moz-range-thumb]:border-0
-                [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.5)]"
-            />
+            <div className="relative w-32 h-2 bg-violet-900/30 rounded-full overflow-hidden">
+              {/* Volume level indicator */}
+              <motion.div
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
+                initial={false}
+                animate={{ width: `${volume * 100}%` }}
+                transition={{ duration: 0.1 }}
+              />
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              {/* Slider thumb */}
+              <motion.div
+                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-violet-300 shadow-lg shadow-violet-500/50 pointer-events-none z-20"
+                initial={false}
+                animate={{ left: `calc(${volume * 100}% - 8px)` }}
+                transition={{ duration: 0.1 }}
+              />
+            </div>
 
-            <span className="text-xs text-violet-300 font-medium min-w-[2rem]">
+            <span className="text-sm text-violet-300 font-semibold min-w-[2.5rem] tabular-nums">
               {Math.round(volume * 100)}%
             </span>
           </motion.div>
@@ -130,10 +208,13 @@ export default function MusicToggle() {
       {/* Main toggle button */}
       <motion.button
         onClick={togglePlay}
-        onMouseEnter={() => setShowControls(true)}
-        onMouseLeave={() => setShowControls(false)}
-        className="relative flex h-14 w-14 items-center justify-center rounded-full border border-violet-400/30 bg-black/80 backdrop-blur-xl transition-colors hover:border-violet-400/60 hover:bg-violet-500/10"
-        whileHover={{ scale: 1.1 }}
+        disabled={hasError && errorMessage !== "Click to enable audio"}
+        className={`relative flex h-14 w-14 items-center justify-center rounded-full border backdrop-blur-xl transition-colors ${
+          hasError
+            ? "border-red-400/30 bg-red-950/20 hover:border-red-400/60 hover:bg-red-500/10"
+            : "border-violet-400/30 bg-black/80 hover:border-violet-400/60 hover:bg-violet-500/10"
+        } disabled:opacity-50 disabled:cursor-not-allowed`}
+        whileHover={{ scale: hasError ? 1.05 : 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         {/* Glow effect */}
@@ -254,10 +335,16 @@ export default function MusicToggle() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
-            className="absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg border border-violet-400/30 bg-black/90 px-3 py-1.5 text-xs text-violet-200 backdrop-blur-xl pointer-events-none"
+            className={`absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg border px-3 py-1.5 text-xs backdrop-blur-xl pointer-events-none ${
+              hasError
+                ? "border-red-400/30 bg-red-950/90 text-red-200"
+                : "border-violet-400/30 bg-black/90 text-violet-200"
+            }`}
           >
-            {isPlaying ? "Music playing" : "Play music"}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 border-l-violet-400/30" />
+            {hasError ? errorMessage : (isPlaying ? "Music playing" : "Play music")}
+            <div className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 ${
+              hasError ? "border-l-red-400/30" : "border-l-violet-400/30"
+            }`} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,5 +1,8 @@
 "use client";
 
+import { motion, useInView } from "motion/react";
+import { useRef, useState } from "react";
+
 export default function ImpactSection() {
   const impacts = [
     {
@@ -124,90 +127,226 @@ export default function ImpactSection() {
     },
   ];
 
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
   return (
-    <section className="relative px-6 pb-24 pt-12 sm:pb-32 sm:pt-16">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-12 text-center">
-          <h2 className="text-2xl font-semibold text-zinc-100 sm:text-3xl">
+    <section ref={ref} className="relative px-6 pb-24 pt-12 sm:pb-32 sm:pt-16 overflow-hidden">
+      {/* Animated background gradient */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-950/10 to-transparent pointer-events-none"
+        animate={{
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <div className="mx-auto max-w-6xl relative z-10">
+        {/* Enhanced header */}
+        <motion.div
+          className="mb-16 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2
+            className="text-3xl font-bold text-zinc-100 sm:text-4xl bg-gradient-to-r from-violet-200 via-purple-200 to-fuchsia-200 bg-clip-text text-transparent"
+            whileHover={{ scale: 1.02 }}
+          >
             Where Your Support Goes
-          </h2>
-          <p className="mt-3 text-sm text-zinc-500">
+          </motion.h2>
+          <motion.p
+            className="mt-4 text-sm text-zinc-400"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.3 }}
+          >
             100% transparent allocation toward building the future of ancient
             language education
-          </p>
-        </div>
+          </motion.p>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {impacts.map((impact) => (
-            <div
-              key={impact.title}
-              className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-6 ring-1 ring-white/5 backdrop-blur transition-colors hover:border-violet-400/30 hover:bg-violet-500/5 hover:ring-violet-500/40"
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--color-accent-soft)] text-violet-300 ring-1 ring-[color:var(--color-accent)]/40">
-                {impact.icon}
-              </div>
+          {/* Decorative line */}
+          <motion.div
+            className="mx-auto mt-6 h-1 w-24 rounded-full bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500"
+            initial={{ width: 0 }}
+            animate={isInView ? { width: 96 } : {}}
+            transition={{ duration: 1, delay: 0.5 }}
+          />
+        </motion.div>
 
-              <h3 className="text-sm font-semibold text-zinc-100">
-                {impact.title}
-              </h3>
-
-              <p className="mt-2 text-xs leading-relaxed text-zinc-400">
-                {impact.description}
-              </p>
-            </div>
+        {/* Enhanced impact grid */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {impacts.map((impact, idx) => (
+            <ImpactCard key={impact.title} impact={impact} index={idx} isInView={isInView} />
           ))}
         </div>
 
-        <div className="mx-auto mt-16 max-w-3xl space-y-6 text-center">
-          <div className="rounded-2xl border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-8 ring-1 ring-white/5 backdrop-blur">
-            <blockquote className="text-sm italic leading-relaxed text-zinc-300">
+        {/* Enhanced quote section */}
+        <motion.div
+          className="mx-auto mt-20 max-w-3xl space-y-6 text-center"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, duration: 0.8 }}
+        >
+          <motion.div
+            className="relative rounded-2xl border-2 border-violet-400/30 bg-gradient-to-br from-violet-950/40 via-purple-950/30 to-violet-950/40 p-10 ring-2 ring-violet-500/20 backdrop-blur-xl shadow-2xl shadow-violet-500/20"
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0 0 40px rgba(168,85,247,0.3)",
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Quote decoration */}
+            <motion.div
+              className="absolute -top-4 left-8 text-6xl text-violet-400/30"
+              animate={{ opacity: [0.2, 0.4, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              "
+            </motion.div>
+
+            <blockquote className="relative text-base italic leading-relaxed text-zinc-200">
               "Every ancient text is a conversation across millennia. When we
               lose access to these languages, we lose entire conceptual
               frameworks, rhetorical traditions, and direct connections to our
               ancestors. Supporting PRAVIEL means preserving the full depth of
               human wisdom for future generations."
             </blockquote>
-            <div className="mt-4 text-xs text-zinc-500">
+            <div className="mt-6 text-sm font-semibold text-violet-300">
               — The PRAVIEL Mission
             </div>
-          </div>
+          </motion.div>
 
-          <div className="rounded-2xl border border-green-400/20 bg-green-500/5 p-6 ring-1 ring-green-500/30 backdrop-blur">
-            <div className="flex items-center justify-center gap-2 text-sm font-semibold text-green-200">
-              <svg
-                viewBox="0 0 24 24"
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span>Tax-Deductible (U.S. 501(c)(3) status pending)</span>
-            </div>
-            <p className="mt-2 text-xs text-zinc-400">
-              We're working toward non-profit status. Check back for updates on
-              tax-deductible contributions.
-            </p>
-          </div>
-
-          <p className="text-xs text-zinc-600">
+          <motion.p
+            className="text-xs text-zinc-600"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 1 }}
+          >
             Questions about funding or how your contribution is used?
             <br />
             Email{" "}
-            <a
+            <motion.a
               href="mailto:business@praviel.com"
-              className="text-violet-400 hover:text-violet-300"
+              className="text-violet-400 hover:text-violet-300 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               business@praviel.com
-            </a>
-          </p>
-        </div>
+            </motion.a>
+          </motion.p>
+        </motion.div>
       </div>
     </section>
+  );
+}
+
+function ImpactCard({
+  impact,
+  index,
+  isInView,
+}: {
+  impact: { title: string; description: string; icon: React.ReactNode };
+  index: number;
+  isInView: boolean;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50, rotateX: -20 }}
+      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.1,
+        type: "spring",
+        stiffness: 100,
+      }}
+      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 p-7 ring-1 ring-white/5 backdrop-blur-xl transition-all hover:border-violet-400/50 hover:bg-gradient-to-br hover:from-violet-950/40 hover:via-purple-950/30 hover:to-violet-950/40 hover:ring-violet-500/60 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-violet-500/20"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ scale: 1.05, y: -5 }}
+      style={{ transformStyle: "preserve-3d" }}
+    >
+      {/* Glow effect on hover */}
+      <motion.div
+        className="absolute -inset-[2px] rounded-2xl opacity-0 -z-10"
+        style={{
+          background: "linear-gradient(135deg, rgba(168,85,247,0.4), rgba(192,132,252,0.4))",
+          filter: "blur(10px)",
+        }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Icon with enhanced glow */}
+      <motion.div
+        className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/30 to-purple-500/30 text-violet-300 ring-2 ring-violet-500/50 shadow-lg shadow-violet-500/20"
+        whileHover={{ rotate: [0, -10, 10, 0], scale: 1.15 }}
+        transition={{ duration: 0.5 }}
+        style={{
+          transformStyle: "preserve-3d",
+          transform: "translateZ(20px)",
+        }}
+      >
+        {impact.icon}
+
+        {/* Icon glow on hover */}
+        <motion.div
+          className="absolute -inset-2 rounded-xl bg-violet-400/50 blur-xl opacity-0"
+          animate={{
+            opacity: isHovered ? 1 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+        />
+      </motion.div>
+
+      {/* Title */}
+      <h3 className="text-base font-bold text-zinc-100 mb-3">
+        <motion.span
+          className="bg-gradient-to-r from-violet-200 to-purple-200 bg-clip-text text-transparent opacity-0"
+          animate={{
+            opacity: isHovered ? 1 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          {impact.title}
+        </motion.span>
+        <span className={isHovered ? "opacity-0" : "opacity-100"}>{impact.title}</span>
+      </h3>
+
+      {/* Description */}
+      <motion.p
+        className="text-sm leading-relaxed text-zinc-400"
+        animate={{
+          color: isHovered ? "rgb(212, 212, 216)" : "rgb(161, 161, 170)",
+        }}
+      >
+        {impact.description}
+      </motion.p>
+
+      {/* Corner accents */}
+      {["right-2 top-2", "left-2 bottom-2"].map((pos, i) => (
+        <motion.div
+          key={i}
+          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50`}
+          animate={{
+            opacity: isHovered ? [0, 1, 0] : 0,
+            scale: isHovered ? [1, 1.5, 1] : 1,
+          }}
+          transition={{
+            duration: 1,
+            repeat: isHovered ? Infinity : 0,
+            delay: i * 0.5,
+          }}
+        />
+      ))}
+    </motion.div>
   );
 }

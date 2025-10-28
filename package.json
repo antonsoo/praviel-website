@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.19.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
-    "@opennextjs/cloudflare": "^1.11.0",
+    "@opennextjs/cloudflare": "https://pkg.pr.new/@opennextjs/cloudflare@main",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.4.0",
     "@react-three/postprocessing": "^3.0.4",
@@ -54,6 +54,6 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2",
-    "wrangler": "^4.45.0"
+    "wrangler": "^4.45.1"
   }
 }
