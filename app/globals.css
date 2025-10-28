@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg-page: #000000;
+  --color-card: rgb(24 24 27 / 0.6);
+  --color-card-border: rgb(255 255 255 / 0.08);
+  --color-accent: rgb(168 85 247);
+  --color-accent-soft: rgb(168 85 247 / 0.12);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif;
+}
+
+body {
+  background-color: var(--color-bg-page);
+  color: rgb(228 228 231);
+  font-family: var(--font-sans);
+}

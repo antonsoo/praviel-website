@@ -1,0 +1,91 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "Conda (praviel-website)": {
+      "path": "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
+      "args": [
+        "-NoExit",
+        "-ExecutionPolicy", "Bypass",
+        "-Command",
+        "& { & 'C:\\ProgramData\\anaconda3\\shell\\condabin\\conda-hook.ps1'; conda activate 'C:\\Users\\anton\\.conda\\envs\\praviel-website' }"
+      ],
+      "icon": "terminal-powershell"
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Conda (praviel-website)",
+  "terminal.integrated.automationProfile.windows": {
+    "path": "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
+    "args": [
+      "-NoExit",
+      "-ExecutionPolicy", "Bypass",
+      "-Command",
+      "& { & 'C:\\ProgramData\\anaconda3\\shell\\condabin\\conda-hook.ps1'; conda activate 'C:\\Users\\anton\\.conda\\envs\\praviel-website' }"
+    ]
+  },
+  "python.defaultInterpreterPath": "C:\\Users\\anton\\.conda\\envs\\praviel-website\\python.exe",
+  "python.terminal.activateEnvironment": true,
+  "chatgpt.runCodexInWindowsSubsystemForLinux": false,
+
+  // Package Manager
+  "npm.packageManager": "pnpm",
+
+  // TypeScript & ESLint
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Editor Settings
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // File Exclusions for better performance
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/.next": true,
+    "**/.open-next": true,
+    "**/.wrangler": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/.open-next": true,
+    "**/.wrangler": true,
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/.open-next/**": true,
+    "**/.wrangler/**": true,
+    "**/node_modules/**": true
+  },
+
+  // Next.js specific
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
