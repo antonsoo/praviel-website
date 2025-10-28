@@ -1,4 +1,225 @@
+"use client";
+
+import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useRef, useState, useEffect } from "react";
+
+// Individual feature card with advanced interactions
+function FeatureCard({
+  feature,
+  index,
+  isInView,
+}: {
+  feature: {
+    title: string;
+    body: string;
+    icon: React.ReactNode;
+  };
+  index: number;
+  isInView: boolean;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!cardRef.current || !isHovered) return;
+
+      const rect = cardRef.current.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const xPct = (mouseX / width - 0.5) * 2;
+      const yPct = (mouseY / height - 0.5) * 2;
+
+      x.set(xPct);
+      y.set(yPct);
+    };
+
+    const handleMouseLeave = () => {
+      x.set(0);
+      y.set(0);
+    };
+
+    if (isHovered) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [isHovered, x, y]);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.1,
+        ease: [0.23, 1, 0.32, 1],
+      }}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      whileHover={{
+        scale: 1.05,
+        transition: { duration: 0.2 },
+      }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-6 ring-1 ring-white/5 backdrop-blur transition-colors hover:border-violet-400/40 hover:bg-violet-500/10 hover:ring-violet-500/50 cursor-pointer"
+    >
+      {/* Animated gradient background */}
+      <motion.div
+        className="absolute -inset-[1px] rounded-2xl opacity-0"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(168,85,247,0.3), rgba(139,92,246,0.3), rgba(192,132,252,0.3))",
+          filter: "blur(10px)",
+        }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Shimmer effect on hover */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+      >
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-400/20 to-transparent"
+          animate={{
+            x: isHovered ? ["-100%", "200%"] : "0%",
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: isHovered ? Infinity : 0,
+            ease: "linear",
+          }}
+        />
+      </motion.div>
+
+      {/* Icon with 3D transform */}
+      <motion.div
+        className="relative mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 ring-1 ring-violet-500/40 backdrop-blur"
+        style={{
+          transformStyle: "preserve-3d",
+          transform: "translateZ(20px)",
+        }}
+        whileHover={{
+          rotate: [0, -5, 5, -5, 0],
+          scale: 1.15,
+        }}
+        transition={{ duration: 0.5 }}
+      >
+        {feature.icon}
+
+        {/* Icon glow */}
+        <motion.div
+          className="absolute inset-0 rounded-xl bg-violet-500/40 blur-md opacity-0"
+          animate={{
+            opacity: isHovered ? 0.8 : 0,
+            scale: isHovered ? 1.2 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+        />
+      </motion.div>
+
+      {/* Title with gradient on hover */}
+      <motion.h3
+        className="relative text-base font-semibold text-zinc-100 mb-2"
+        style={{
+          transformStyle: "preserve-3d",
+          transform: "translateZ(10px)",
+        }}
+      >
+        <span className="relative z-10">{feature.title}</span>
+        <motion.span
+          className="absolute inset-0 bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent opacity-0"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {feature.title}
+        </motion.span>
+      </motion.h3>
+
+      {/* Body text */}
+      <p
+        className="relative text-sm leading-relaxed text-zinc-400"
+        style={{
+          transformStyle: "preserve-3d",
+          transform: "translateZ(5px)",
+        }}
+      >
+        {feature.body}
+      </p>
+
+      {/* Floating particles around card */}
+      {isHovered && (
+        <>
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-violet-400"
+              style={{
+                left: `${20 + i * 30}%`,
+                top: "-5px",
+              }}
+              initial={{ opacity: 0, y: 0 }}
+              animate={{
+                opacity: [0, 1, 0],
+                y: [-10, -30],
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </>
+      )}
+
+      {/* Corner accent pulse */}
+      <motion.div
+        className="absolute right-3 top-3 h-2 w-2 rounded-full bg-violet-400"
+        animate={{
+          opacity: isHovered ? [0, 1, 0] : 0,
+          scale: isHovered ? [1, 1.5, 1] : 1,
+        }}
+        transition={{
+          duration: 1,
+          repeat: isHovered ? Infinity : 0,
+        }}
+      />
+    </motion.div>
+  );
+}
+
 export default function FeatureGrid() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
   const features = [
     {
       title: "Adaptive drills",
@@ -6,7 +227,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-5 w-5 text-violet-300"
+          className="h-6 w-6 text-violet-300"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -22,7 +243,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-5 w-5 text-violet-300"
+          className="h-6 w-6 text-violet-300"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -41,7 +262,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-5 w-5 text-violet-300"
+          className="h-6 w-6 text-violet-300"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -65,7 +286,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-5 w-5 text-violet-300"
+          className="h-6 w-6 text-violet-300"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -88,32 +309,28 @@ export default function FeatureGrid() {
   return (
     <section
       id="features"
+      ref={ref}
       className="relative z-10 px-6 pb-24 sm:pb-32 md:pb-40"
     >
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {features.map((f) => (
-          <div
-            key={f.title}
-            className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-[color:var(--color-card)] p-5 ring-1 ring-white/5 backdrop-blur transition-colors hover:border-violet-400/30 hover:bg-violet-500/5 hover:ring-violet-500/40"
-          >
-            <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-[color:var(--color-accent-soft)] ring-1 ring-[color:var(--color-accent)]/40">
-              {f.icon}
-            </div>
-            <h3 className="text-sm font-semibold text-zinc-100">
-              {f.title}
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-400">
-              {f.body}
-            </p>
-          </div>
+      <motion.div
+        className="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
+        style={{ perspective: "1000px" }}
+      >
+        {features.map((f, idx) => (
+          <FeatureCard key={f.title} feature={f} index={idx} isInView={isInView} />
         ))}
-      </div>
+      </motion.div>
 
-      <div className="mx-auto mt-16 max-w-xl text-center text-xs text-zinc-600">
+      <motion.div
+        className="mx-auto mt-16 max-w-xl text-center text-xs text-zinc-600"
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
         PRAVIEL will launch first on web and desktop, then iOS/Android.
         If you teach ancient languages and you want early classroom
-        access, contact anton@praviel.com.
-      </div>
+        access, contact contact@praviel.com.
+      </motion.div>
     </section>
   );
 }

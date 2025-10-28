@@ -1,6 +1,7 @@
 // app/page.tsx
 import HeroSection from "@/components/HeroSection";
 import FeatureGrid from "@/components/FeatureGrid";
+import SectionDivider from "@/components/SectionDivider";
 
 // We intentionally do NOT export `dynamic = "force-static"`.
 // With cacheComponents enabled in next.config.ts, Next.js 16
@@ -11,6 +12,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <SectionDivider />
       <FeatureGrid />
     </>
   );

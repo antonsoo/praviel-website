@@ -16,11 +16,20 @@ export async function joinWaitlist(formData: FormData) {
   });
 
   if (!parsed.success) {
-    return { ok: false, error: "invalid" } as const;
+    return { ok: false, error: "invalid_email" } as const;
   }
 
-  // If DB isn't configured locally, just pretend success so dev flow works.
+  // Check if database is configured
   if (!db) {
+    // In production, we must have a database configured
+    if (process.env.NODE_ENV === "production") {
+      console.error("DATABASE_URL not configured in production environment");
+      return { ok: false, error: "service_unavailable" } as const;
+    }
+    // In development without DB, allow testing but log warning
+    console.warn(
+      "[DEV] Waitlist signup attempted without DATABASE_URL - returning mock success"
+    );
     return { ok: true } as const;
   }
 
@@ -37,8 +46,13 @@ export async function joinWaitlist(formData: FormData) {
     revalidateTag("waitlist", "max");
 
     return { ok: true } as const;
-  } catch (_err) {
-    // swallow duplicate etc.
+  } catch (err) {
+    // Handle duplicate email or other DB errors gracefully
+    // Don't expose internal errors to client
+    console.error("Waitlist signup error:", err);
+
+    // Still return success for duplicate signups (user already registered)
+    // This prevents enumeration attacks and provides better UX
     return { ok: true } as const;
   }
 }
