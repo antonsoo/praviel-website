@@ -49,8 +49,12 @@ coverage/
 .DS_Store
 *.swp
 *.swo
+*.bak
 Thumbs.db
 NUL
+
+# Claude local settings
+.claude/settings.local.json
 
 # VS Code workspace (allow checked-in shared settings)
 .vscode/*
