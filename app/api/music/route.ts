@@ -1,25 +1,13 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const AUDIO_EXTENSIONS = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac'];
+// Static manifest for Cloudflare Workers compatibility
+// Update this list when adding/removing music files
+const STATIC_PLAYLIST = [
+  '/music/Coastal_Polis_Stroll.mp3',
+  '/music/Confessio_Noctis_2025-10-28T075015.mp3',
+  '/music/Memory_of_a_Fallen_Garden.mp3',
+  '/music/Sunrise_Over_Aegean.mp3',
+];
 
 export async function GET() {
-  try {
-    const musicDir = path.join(process.cwd(), 'public', 'music');
-
-    const files = await fs.readdir(musicDir);
-
-    const audioFiles = files
-      .filter(file => {
-        const ext = path.extname(file).toLowerCase();
-        return AUDIO_EXTENSIONS.includes(ext);
-      })
-      .sort((a, b) => a.localeCompare(b))
-      .map(file => `/music/${file}`);
-
-    return Response.json({ playlist: audioFiles });
-  } catch (error) {
-    console.error('Error reading music directory:', error);
-    return Response.json({ playlist: [] }, { status: 500 });
-  }
+  // Use static manifest (works in all environments including Cloudflare Workers)
+  return Response.json({ playlist: STATIC_PLAYLIST });
 }

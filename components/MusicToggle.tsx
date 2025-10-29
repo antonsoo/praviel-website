@@ -147,11 +147,11 @@ export default function MusicToggle() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
             transition={{ duration: 0.2 }}
-            className="flex items-center gap-3 rounded-full border border-violet-400/30 bg-black/90 px-5 py-3 backdrop-blur-xl shadow-lg shadow-violet-500/20"
+            className="flex items-center gap-3 rounded-full border border-amber-400/30 bg-black/90 px-5 py-3 backdrop-blur-xl shadow-lg shadow-amber-500/20"
           >
             <svg
               viewBox="0 0 24 24"
-              className="h-5 w-5 text-violet-300"
+              className="h-5 w-5 text-amber-300"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -172,10 +172,10 @@ export default function MusicToggle() {
               )}
             </svg>
 
-            <div className="relative w-32 h-2 bg-violet-900/30 rounded-full overflow-hidden">
+            <div className="relative w-32 h-2 bg-amber-900/30 rounded-full overflow-hidden">
               {/* Volume level indicator */}
               <motion.div
-                className="absolute left-0 top-0 h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full"
                 initial={false}
                 animate={{ width: `${volume * 100}%` }}
                 transition={{ duration: 0.1 }}
@@ -191,14 +191,14 @@ export default function MusicToggle() {
               />
               {/* Slider thumb */}
               <motion.div
-                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-violet-300 shadow-lg shadow-violet-500/50 pointer-events-none z-20"
+                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-amber-300 shadow-lg shadow-amber-500/50 pointer-events-none z-20"
                 initial={false}
                 animate={{ left: `calc(${volume * 100}% - 8px)` }}
                 transition={{ duration: 0.1 }}
               />
             </div>
 
-            <span className="text-sm text-violet-300 font-semibold min-w-[2.5rem] tabular-nums">
+            <span className="text-sm text-amber-300 font-semibold min-w-[2.5rem] tabular-nums">
               {Math.round(volume * 100)}%
             </span>
           </motion.div>
@@ -212,14 +212,14 @@ export default function MusicToggle() {
         className={`relative flex h-14 w-14 items-center justify-center rounded-full border backdrop-blur-xl transition-colors ${
           hasError
             ? "border-red-400/30 bg-red-950/20 hover:border-red-400/60 hover:bg-red-500/10"
-            : "border-violet-400/30 bg-black/80 hover:border-violet-400/60 hover:bg-violet-500/10"
+            : "border-amber-400/30 bg-black/80 hover:border-amber-400/60 hover:bg-amber-500/10"
         } disabled:opacity-50 disabled:cursor-not-allowed`}
         whileHover={{ scale: hasError ? 1.05 : 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         {/* Glow effect */}
         <motion.div
-          className="absolute -inset-1 rounded-full bg-gradient-to-br from-violet-500/30 to-purple-500/30 blur-md opacity-0"
+          className="absolute -inset-1 rounded-full bg-gradient-to-br from-amber-500/30 to-orange-500/30 blur-md opacity-0"
           animate={{
             opacity: isPlaying ? [0.3, 0.6, 0.3] : 0,
           }}
@@ -235,14 +235,14 @@ export default function MusicToggle() {
           {isPlaying && (
             <>
               <motion.div
-                className="absolute inset-0 rounded-full border-2 border-violet-400"
+                className="absolute inset-0 rounded-full border-2 border-amber-400"
                 initial={{ scale: 1, opacity: 0.6 }}
                 animate={{ scale: 1.5, opacity: 0 }}
                 exit={{ scale: 1, opacity: 0 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
               <motion.div
-                className="absolute inset-0 rounded-full border-2 border-violet-400"
+                className="absolute inset-0 rounded-full border-2 border-amber-400"
                 initial={{ scale: 1, opacity: 0.6 }}
                 animate={{ scale: 1.5, opacity: 0 }}
                 exit={{ scale: 1, opacity: 0 }}
@@ -267,7 +267,7 @@ export default function MusicToggle() {
           {isPlaying ? (
             <svg
               viewBox="0 0 24 24"
-              className="h-6 w-6 text-violet-300"
+              className="h-6 w-6 text-amber-300"
               fill="currentColor"
             >
               <path d="M9 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
@@ -286,7 +286,7 @@ export default function MusicToggle() {
           ) : (
             <svg
               viewBox="0 0 24 24"
-              className="h-6 w-6 text-violet-300"
+              className="h-6 w-6 text-amber-300"
               fill="currentColor"
             >
               <path d="M8 5v14l11-7z" />
@@ -301,7 +301,7 @@ export default function MusicToggle() {
               {[...Array(3)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute text-violet-400 text-xs"
+                  className="absolute text-amber-400 text-xs"
                   style={{
                     left: "50%",
                     top: "50%",
@@ -338,12 +338,12 @@ export default function MusicToggle() {
             className={`absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg border px-3 py-1.5 text-xs backdrop-blur-xl pointer-events-none ${
               hasError
                 ? "border-red-400/30 bg-red-950/90 text-red-200"
-                : "border-violet-400/30 bg-black/90 text-violet-200"
+                : "border-amber-400/30 bg-black/90 text-amber-200"
             }`}
           >
             {hasError ? errorMessage : (isPlaying ? "Music playing" : "Play music")}
             <div className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 ${
-              hasError ? "border-l-red-400/30" : "border-l-violet-400/30"
+              hasError ? "border-l-red-400/30" : "border-l-amber-400/30"
             }`} />
           </motion.div>
         )}

@@ -4,9 +4,10 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import MusicToggle from "@/components/MusicToggle";
 import SmoothScroll from "@/components/SmoothScroll";
-import TorchCursor from "@/components/TorchCursor";
+// Removed TorchCursor for clean, professional design
 import SandBackground from "@/components/SandBackground";
 import CookieConsent from "@/components/CookieConsent";
+// Removed expensive effects: FilmGrain, VolumetricLight, AtmosphericFog
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
@@ -53,10 +54,12 @@ export default function RootLayout({
       lang="en"
       className="bg-bg-page text-zinc-100 antialiased"
     >
-      <body className="min-h-dvh flex flex-col overflow-x-hidden" style={{ cursor: "none" }}>
+      <body className="min-h-dvh flex flex-col overflow-x-hidden">
+        {/* Optimized background */}
         <SandBackground />
+
+        {/* Content */}
         <SmoothScroll>
-          <TorchCursor />
           <SiteHeader />
           <main className="flex-1 pt-16">{children}</main>
           <Footer />

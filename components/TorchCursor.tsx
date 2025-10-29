@@ -57,36 +57,33 @@ export default function TorchCursor() {
       timeRef.current += 0.016;
       emberSpawnTimer.current += 0.016;
 
-      // Spawn new embers
-      if (emberSpawnTimer.current > 0.08) {
+      // Spawn new embers (REDUCED for performance)
+      if (emberSpawnTimer.current > 0.15) {
         emberSpawnTimer.current = 0;
         setEmbers((prev) => {
           const newEmbers = [...prev];
 
-          // Spawn 1-2 embers per cycle
-          const spawnCount = Math.random() > 0.5 ? 2 : 1;
-          for (let i = 0; i < spawnCount; i++) {
-            newEmbers.push({
-              x: (Math.random() - 0.5) * 15,
-              y: -20 + Math.random() * 10,
-              size: Math.random() * 3 + 1,
-              opacity: Math.random() * 0.8 + 0.2,
-              life: 1,
-              velocityX: (Math.random() - 0.5) * 0.5,
-              velocityY: -(Math.random() * 1.5 + 1),
-            });
-          }
+          // Spawn only 1 ember per cycle (reduced from 1-2)
+          newEmbers.push({
+            x: (Math.random() - 0.5) * 15,
+            y: -20 + Math.random() * 10,
+            size: Math.random() * 3 + 1,
+            opacity: Math.random() * 0.8 + 0.2,
+            life: 1,
+            velocityX: (Math.random() - 0.5) * 0.5,
+            velocityY: -(Math.random() * 1.5 + 1),
+          });
 
-          // Update and filter embers
+          // Update and filter embers (simplified Perlin noise)
           return newEmbers
             .map((ember) => ({
               ...ember,
-              x: ember.x + ember.velocityX + perlin.noise(ember.x * 0.1, ember.y * 0.1, timeRef.current) * 0.5,
+              x: ember.x + ember.velocityX + perlin.noise(ember.x * 0.1, ember.y * 0.1, timeRef.current) * 0.3,
               y: ember.y + ember.velocityY,
-              life: ember.life - 0.015,
-              opacity: ember.opacity * 0.98,
+              life: ember.life - 0.02,
+              opacity: ember.opacity * 0.97,
             }))
-            .filter((ember) => ember.life > 0);
+            .filter((ember) => ember.life > 0 && newEmbers.length < 15);
         });
       }
 
@@ -126,7 +123,7 @@ export default function TorchCursor() {
           height: "50px",
           background: "linear-gradient(135deg, #5d3a1a 0%, #3e2515 50%, #2d1810 100%)",
           borderRadius: "6px",
-          transform: "translate(-6px, -5px)",
+          transform: "translate(-6px, 10px)",
           boxShadow: "inset -2px 0 4px rgba(0,0,0,0.5), 2px 2px 8px rgba(0,0,0,0.6)",
         }}
       >
@@ -150,22 +147,22 @@ export default function TorchCursor() {
           height: "12px",
           background: "linear-gradient(to bottom, #4a4a3a, #2a2a1a)",
           borderRadius: "2px",
-          transform: "translate(-8px, -10px)",
+          transform: "translate(-8px, 8px)",
           boxShadow: "0 2px 4px rgba(0,0,0,0.5)",
         }}
       />
 
-      {/* Main light aura - expanded for better illumination */}
+      {/* Main light aura - OPTIMIZED */}
       <motion.div
         className="absolute"
         style={{
-          width: "500px",
-          height: "500px",
-          transform: "translate(-250px, -325px)",
+          width: "400px",
+          height: "400px",
+          transform: "translate(-200px, -200px)",
           pointerEvents: "none",
         }}
         animate={{
-          opacity: [0.4, 0.6, 0.4],
+          opacity: [0.3, 0.5, 0.3],
           scale: [0.95, 1.05, 0.95],
         }}
         transition={{
@@ -179,19 +176,19 @@ export default function TorchCursor() {
             width: "100%",
             height: "100%",
             background:
-              "radial-gradient(circle, rgba(255,165,0,0.5) 0%, rgba(255,140,0,0.3) 20%, rgba(255,100,0,0.15) 40%, transparent 70%)",
-            filter: "blur(40px)",
+              "radial-gradient(circle, rgba(255,165,0,0.4) 0%, rgba(255,140,0,0.2) 20%, rgba(255,100,0,0.1) 40%, transparent 70%)",
+            filter: "blur(30px)",
           }}
         />
       </motion.div>
 
-      {/* Outer flame layer - red/orange */}
+      {/* Outer flame layer - red/orange (FIXED positioning) */}
       <motion.div
         className="absolute"
         style={{
           width: "70px",
           height: "90px",
-          transform: `translate(${-35 + flameWave1}px, ${-95 + Math.abs(flameWave1) * 0.5}px)`,
+          transform: `translate(${-35 + flameWave1}px, ${-70 + Math.abs(flameWave1) * 0.5}px)`,
           filter: "blur(8px)",
         }}
         animate={{
@@ -215,13 +212,13 @@ export default function TorchCursor() {
         />
       </motion.div>
 
-      {/* Mid flame layer - orange */}
+      {/* Mid flame layer - orange (FIXED positioning) */}
       <motion.div
         className="absolute"
         style={{
           width: "55px",
           height: "75px",
-          transform: `translate(${-27.5 + flameWave2}px, ${-92 + Math.abs(flameWave2) * 0.5}px)`,
+          transform: `translate(${-27.5 + flameWave2}px, ${-67 + Math.abs(flameWave2) * 0.5}px)`,
           filter: "blur(4px)",
         }}
         animate={{
@@ -246,13 +243,13 @@ export default function TorchCursor() {
         />
       </motion.div>
 
-      {/* Inner flame layer - yellow/orange */}
+      {/* Inner flame layer - yellow/orange (FIXED positioning) */}
       <motion.div
         className="absolute"
         style={{
           width: "35px",
           height: "55px",
-          transform: `translate(${-17.5 + flameWave3}px, ${-87 + Math.abs(flameWave3) * 0.5}px)`,
+          transform: `translate(${-17.5 + flameWave3}px, ${-62 + Math.abs(flameWave3) * 0.5}px)`,
           filter: "blur(2px)",
         }}
         animate={{
@@ -276,13 +273,13 @@ export default function TorchCursor() {
         />
       </motion.div>
 
-      {/* Core flame - bright white/yellow */}
+      {/* Core flame - bright white/yellow (FIXED positioning) */}
       <motion.div
         className="absolute"
         style={{
           width: "18px",
           height: "35px",
-          transform: "translate(-9px, -82px)",
+          transform: "translate(-9px, -57px)",
         }}
         animate={{
           scale: [1, 1.3, 0.8, 1.2, 1],
@@ -307,13 +304,13 @@ export default function TorchCursor() {
         />
       </motion.div>
 
-      {/* Heat distortion effect */}
+      {/* Heat distortion effect (FIXED positioning) */}
       <motion.div
         className="absolute"
         style={{
           width: "80px",
           height: "100px",
-          transform: "translate(-40px, -95px)",
+          transform: "translate(-40px, -70px)",
           background:
             "linear-gradient(to top, transparent, rgba(255,200,150,0.05) 50%, transparent)",
           filter: "blur(20px)",
@@ -346,13 +343,13 @@ export default function TorchCursor() {
         />
       ))}
 
-      {/* Additional glow pulses */}
+      {/* Additional glow pulses (FIXED positioning) */}
       <motion.div
         className="absolute"
         style={{
           width: "100px",
           height: "100px",
-          transform: "translate(-50px, -100px)",
+          transform: "translate(-50px, -75px)",
         }}
         animate={{
           scale: [1, 1.5, 1],
