@@ -1,0 +1,68 @@
+# Node / package managers
+node_modules/
+/node_modules/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+*.log.*
+*.tgz
+*.tar.gz
+
+# Next.js build output
+.next/
+.out/
+out/
+dist/
+dist
+build/
+.turbo/
+.cache/
+.vercel/
+.netlify/
+
+# OpenNext / Cloudflare Workers
+.open-next/
+/.open-next/
+.wrangler/
+/.wrangler/
+/worker-configuration.d.ts
+.dev.vars
+cloudflare-env.d.ts
+wrangler.log
+
+# Env files (keep examples)
+.env
+.env.*
+.env*
+!.env.local.template
+!.env.example
+
+# Test / coverage
+coverage/
+*.tsbuildinfo
+.eslintcache
+
+# OS / editor junk
+.DS_Store
+*.swp
+*.swo
+*.bak
+Thumbs.db
+NUL
+
+# Claude local settings
+.claude/settings.local.json
+
+# VS Code workspace (allow checked-in shared settings)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Documentation archive (historical reports not needed in repo)
+docs/archive/
+docs/docs_from_the_other_repo

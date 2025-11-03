@@ -1,0 +1,134 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg-page: #000000;
+  --color-card: rgb(24 24 27 / 0.6);
+  --color-card-border: rgb(251 191 36 / 0.1);
+  --color-accent: rgb(251 191 36);
+  --color-accent-soft: rgb(251 191 36 / 0.12);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif;
+}
+
+/* Custom utility classes for premium effects */
+@layer utilities {
+  .bg-gradient-radial {
+    background: radial-gradient(var(--tw-gradient-stops));
+  }
+
+  .text-shadow-glow {
+    text-shadow: 0 0 40px rgba(251, 191, 36, 0.6),
+                 0 0 80px rgba(245, 158, 11, 0.4),
+                 0 0 120px rgba(251, 191, 36, 0.2);
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-effect-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Smooth font rendering */
+body {
+  background-color: var(--color-bg-page);
+  color: rgb(228 228 231);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Normal cursor for clean, professional design */
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #fbbf24, #f59e0b);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fcd34d, #fbbf24);
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(251, 191, 36, 0.3);
+  color: #fef3c7;
+}
+
+::-moz-selection {
+  background-color: rgba(251, 191, 36, 0.3);
+  color: #fef3c7;
+}
+
+/* Print styles for privacy policy */
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Hide interactive elements */
+  button,
+  nav,
+  [aria-label="Back to top"],
+  [class*="MobileTOC"],
+  [class*="BackToTop"] {
+    display: none !important;
+  }
+
+  /* Optimize tables */
+  table {
+    page-break-inside: avoid;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  /* Ensure links are visible */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  /* Better readability */
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+}

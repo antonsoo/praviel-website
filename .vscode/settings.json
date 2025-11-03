@@ -1,0 +1,86 @@
+{
+  "terminal.integrated.profiles.linux": {
+    "Bash (praviel-website-env)": {
+      "path": "/bin/bash",
+      "args": [
+        "-c",
+        "source ~/work/projects/praviel_files/praviel-website/praviel-website-env/bin/activate && exec bash"
+      ],
+      "icon": "terminal-bash"
+    }
+  },
+  "terminal.integrated.defaultProfile.linux": "Bash (praviel-website-env)",
+  "terminal.integrated.automationProfile.linux": {
+    "path": "/bin/bash",
+    "args": [
+      "-c",
+      "source ~/work/projects/praviel_files/praviel-website/praviel-website-env/bin/activate && exec bash"
+    ]
+  },
+  "python.defaultInterpreterPath": "${workspaceFolder}/praviel-website-env/bin/python",
+  "python.terminal.activateEnvironment": true,
+
+  // Package Manager
+  "npm.packageManager": "pnpm",
+
+  // TypeScript & ESLint
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Editor Settings
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // File Exclusions for better performance
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/.next": true,
+    "**/.open-next": true,
+    "**/.wrangler": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/.open-next": true,
+    "**/.wrangler": true,
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/.open-next/**": true,
+    "**/.wrangler/**": true,
+    "**/node_modules/**": true
+  },
+
+  // Next.js specific
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
