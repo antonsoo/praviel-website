@@ -1,7 +1,9 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useInView, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
+import * as m from "motion/react-m";
 import { useRef, useState, useEffect } from "react";
+import GreekKeyBorder from "./GreekKeyBorder";
 
 // Individual feature card with advanced interactions
 function FeatureCard({
@@ -19,6 +21,7 @@ function FeatureCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -26,10 +29,12 @@ function FeatureCard({
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], shouldReduceMotion ? ["0deg", "0deg"] : ["7deg", "-7deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], shouldReduceMotion ? ["0deg", "0deg"] : ["-7deg", "7deg"]);
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!cardRef.current || !isHovered) return;
 
@@ -61,16 +66,22 @@ function FeatureCard({
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [isHovered, x, y]);
+  }, [isHovered, x, y, shouldReduceMotion]);
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 50, scale: 0.9, rotateX: -15 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1, rotateX: 0 } : {}}
+      initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 50, scale: 0.9, rotateX: -15 }}
+      animate={
+        isInView
+          ? shouldReduceMotion
+            ? { opacity: 1 }
+            : { opacity: 1, y: 0, scale: 1, rotateX: 0 }
+          : {}
+      }
       transition={{
-        duration: 0.8,
-        delay: index * 0.15,
+        duration: shouldReduceMotion ? 0.3 : 0.8,
+        delay: shouldReduceMotion ? 0 : index * 0.15,
         ease: [0.23, 1, 0.32, 1],
         type: "spring",
         stiffness: 100,
@@ -80,134 +91,153 @@ function FeatureCard({
         rotateY,
         transformStyle: "preserve-3d",
       }}
-      whileHover={{
-        scale: 1.08,
-        y: -8,
-        transition: { duration: 0.3, type: "spring", stiffness: 300 },
-      }}
+      whileHover={
+        shouldReduceMotion
+          ? {}
+          : {
+              scale: 1.05,
+              y: -8,
+              transition: { duration: 0.3, type: "spring", stiffness: 300 },
+            }
+      }
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 p-6 ring-1 ring-white/5 backdrop-blur-xl transition-colors hover:border-violet-400/50 hover:bg-gradient-to-br hover:from-violet-950/40 hover:via-purple-950/30 hover:to-violet-950/40 hover:ring-violet-500/60 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-violet-500/30"
+      className="group relative flex flex-col rounded-2xl border border-[#D4AF37]/20 bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 stone-texture p-6 ring-1 ring-[#D4AF37]/10 backdrop-blur-xl transition-colors hover:border-[#D4AF37]/50 hover:bg-gradient-to-br hover:from-[#1e40af]/10 hover:via-zinc-900/80 hover:to-[#D4AF37]/10 hover:ring-[#D4AF37]/30 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-[#D4AF37]/20"
     >
-      {/* Enhanced animated gradient background */}
-      <motion.div
+      {/* Enhanced animated gradient background with Egyptian gold */}
+      <m.div
         className="absolute -inset-[2px] rounded-2xl opacity-0 -z-10"
         style={{
-          background:
-            "linear-gradient(135deg, rgba(168,85,247,0.5), rgba(139,92,246,0.4), rgba(192,132,252,0.5))",
+          background: "linear-gradient(135deg, rgba(212,175,55,0.4), rgba(59,130,246,0.3), rgba(232,197,91,0.4))",
           filter: "blur(12px)",
         }}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          scale: isHovered ? 1.05 : 1,
-        }}
+        animate={
+          shouldReduceMotion
+            ? { opacity: isHovered ? 0.7 : 0 }
+            : {
+                opacity: isHovered ? 1 : 0,
+                scale: isHovered ? 1.05 : 1,
+              }
+        }
         transition={{ duration: 0.4 }}
       />
 
-      {/* Pulsing outer glow */}
-      <motion.div
+      {/* Pulsing outer glow with ancient colors */}
+      <m.div
         className="absolute -inset-8 rounded-2xl opacity-0 -z-20"
         style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%)",
           filter: "blur(20px)",
         }}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          scale: isHovered ? [1, 1.1, 1] : 1,
-        }}
-        transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
+        animate={
+          shouldReduceMotion
+            ? { opacity: isHovered ? 0.5 : 0 }
+            : {
+                opacity: isHovered ? 1 : 0,
+                scale: isHovered ? [1, 1.1, 1] : 1,
+              }
+        }
+        transition={{ duration: 1.5, repeat: isHovered && !shouldReduceMotion ? Infinity : 0 }}
       />
 
-      {/* Shimmer effect on hover */}
-      <motion.div
+      {/* Shimmer effect on hover with Egyptian gold */}
+      <m.div
         className="absolute inset-0 rounded-2xl overflow-hidden"
         initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 1 : 0 }}
+        animate={{ opacity: isHovered && !shouldReduceMotion ? 1 : 0 }}
       >
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-400/20 to-transparent"
+        <m.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D4AF37]/20 to-transparent"
           animate={{
-            x: isHovered ? ["-100%", "200%"] : "0%",
+            x: isHovered && !shouldReduceMotion ? ["-100%", "200%"] : "0%",
           }}
           transition={{
             duration: 1.5,
-            repeat: isHovered ? Infinity : 0,
+            repeat: isHovered && !shouldReduceMotion ? Infinity : 0,
             ease: "linear",
           }}
         />
-      </motion.div>
+      </m.div>
 
-      {/* Enhanced icon with 3D transform and glow */}
-      <motion.div
-        className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/30 to-purple-500/30 ring-2 ring-violet-500/50 backdrop-blur shadow-lg shadow-violet-500/20"
+      {/* Enhanced icon with 3D transform and glow (ancient theme) */}
+      <m.div
+        className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37]/30 to-[#3b82f6]/30 ring-2 ring-[#D4AF37]/50 backdrop-blur shadow-lg shadow-[#D4AF37]/20"
         style={{
           transformStyle: "preserve-3d",
-          transform: "translateZ(20px)",
+          transform: shouldReduceMotion ? "none" : "translateZ(20px)",
         }}
-        whileHover={{
-          rotate: [0, -10, 10, -5, 0],
-          scale: 1.2,
-        }}
+        whileHover={
+          shouldReduceMotion
+            ? {}
+            : {
+                rotate: [0, -10, 10, -5, 0],
+                scale: 1.2,
+              }
+        }
         transition={{ duration: 0.6, type: "spring" }}
       >
         {feature.icon}
 
-        {/* Enhanced icon glow */}
-        <motion.div
-          className="absolute -inset-2 rounded-xl bg-violet-500/50 blur-xl opacity-0"
-          animate={{
-            opacity: isHovered ? 1 : 0,
-            scale: isHovered ? 1.5 : 1,
-          }}
+        {/* Enhanced icon glow with Egyptian gold */}
+        <m.div
+          className="absolute -inset-2 rounded-xl bg-[#D4AF37]/50 blur-xl opacity-0"
+          animate={
+            shouldReduceMotion
+              ? { opacity: isHovered ? 0.7 : 0 }
+              : {
+                  opacity: isHovered ? 1 : 0,
+                  scale: isHovered ? 1.5 : 1,
+                }
+          }
           transition={{ duration: 0.4 }}
         />
 
         {/* Inner shine effect */}
-        <motion.div
+        <m.div
           className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-0"
           animate={{
             opacity: isHovered ? 1 : 0,
           }}
           transition={{ duration: 0.3 }}
         />
-      </motion.div>
+      </m.div>
 
-      {/* Title with gradient on hover */}
-      <motion.h3
+      {/* Title with gradient on hover (ancient theme) */}
+      <m.h3
         className="relative text-base font-semibold text-zinc-100 mb-2"
         style={{
           transformStyle: "preserve-3d",
-          transform: "translateZ(10px)",
+          transform: shouldReduceMotion ? "none" : "translateZ(10px)",
         }}
       >
         <span className="relative z-10">{feature.title}</span>
-        <motion.span
-          className="absolute inset-0 bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent opacity-0"
+        <m.span
+          className="absolute inset-0 bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent opacity-0"
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         >
           {feature.title}
-        </motion.span>
-      </motion.h3>
+        </m.span>
+      </m.h3>
 
       {/* Body text */}
       <p
         className="relative text-sm leading-relaxed text-zinc-400"
         style={{
           transformStyle: "preserve-3d",
-          transform: "translateZ(5px)",
+          transform: shouldReduceMotion ? "none" : "translateZ(5px)",
         }}
       >
         {feature.body}
       </p>
 
-      {/* Enhanced floating particles around card */}
-      {isHovered && (
+      {/* Enhanced floating particles around card (Egyptian gold) */}
+      {isHovered && !shouldReduceMotion && (
         <>
           {[...Array(6)].map((_, i) => (
-            <motion.div
+            <m.div
               key={i}
-              className="absolute w-1.5 h-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50"
+              className="absolute w-1.5 h-1.5 rounded-full bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/50"
               style={{
                 left: `${15 + i * 15}%`,
                 top: i % 2 === 0 ? "-8px" : "calc(100% + 8px)",
@@ -229,23 +259,27 @@ function FeatureCard({
         </>
       )}
 
-      {/* Multiple corner accent pulses */}
+      {/* Multiple corner accent pulses (Egyptian gold) */}
       {["right-3 top-3", "left-3 bottom-3", "right-3 bottom-3", "left-3 top-3"].map((pos, i) => (
-        <motion.div
+        <m.div
           key={i}
-          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50`}
-          animate={{
-            opacity: isHovered ? [0, 1, 0] : 0,
-            scale: isHovered ? [1, 2, 1] : 1,
-          }}
+          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/50`}
+          animate={
+            shouldReduceMotion
+              ? { opacity: isHovered ? 0.8 : 0 }
+              : {
+                  opacity: isHovered ? [0, 1, 0] : 0,
+                  scale: isHovered ? [1, 2, 1] : 1,
+                }
+          }
           transition={{
             duration: 1.2,
-            repeat: isHovered ? Infinity : 0,
+            repeat: isHovered && !shouldReduceMotion ? Infinity : 0,
             delay: i * 0.3,
           }}
         />
       ))}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -260,7 +294,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-violet-300"
+          className="h-6 w-6 text-[#E8C55B]"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -276,7 +310,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-violet-300"
+          className="h-6 w-6 text-[#E8C55B]"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -295,7 +329,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-violet-300"
+          className="h-6 w-6 text-[#E8C55B]"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -319,7 +353,7 @@ export default function FeatureGrid() {
       icon: (
         <svg
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-violet-300"
+          className="h-6 w-6 text-[#E8C55B]"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -340,30 +374,35 @@ export default function FeatureGrid() {
   ];
 
   return (
-    <section
-      id="features"
-      ref={ref}
-      className="relative z-10 px-6 pb-24 sm:pb-32 md:pb-40"
-    >
-      <motion.div
+    <section id="features" ref={ref} className="relative z-10 px-6 pb-24 sm:pb-32 md:pb-40">
+      {/* Section header with Greek Key border */}
+      <div className="mx-auto max-w-5xl mb-12">
+        <GreekKeyBorder className="mb-4" />
+      </div>
+
+      <m.div
         className="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
         style={{ perspective: "1000px" }}
       >
         {features.map((f, idx) => (
           <FeatureCard key={f.title} feature={f} index={idx} isInView={isInView} />
         ))}
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         className="mx-auto mt-16 max-w-xl text-center text-xs text-zinc-600"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        PRAVIEL will launch first on web and desktop, then iOS/Android.
-        If you teach ancient languages and you want early classroom
-        access, contact contact@praviel.com.
-      </motion.div>
+        PRAVIEL will launch first on web and desktop, then iOS/Android. If you teach ancient languages and you want early
+        classroom access, contact contact@praviel.com.
+      </m.div>
+
+      {/* Closing Greek Key border */}
+      <div className="mx-auto max-w-5xl mt-12">
+        <GreekKeyBorder />
+      </div>
     </section>
   );
 }

@@ -4,10 +4,9 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import MusicToggle from "@/components/MusicToggle";
 import SmoothScroll from "@/components/SmoothScroll";
-// Removed TorchCursor for clean, professional design
-import SandBackground from "@/components/SandBackground";
+import AncientBackground from "@/components/AncientBackground";
 import CookieConsent from "@/components/CookieConsent";
-// Removed expensive effects: FilmGrain, VolumetricLight, AtmosphericFog
+import MotionProvider from "@/components/MotionProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
@@ -50,22 +49,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className="bg-bg-page text-zinc-100 antialiased"
-    >
+    <html lang="en" className="bg-bg-page text-zinc-100 antialiased">
       <body className="min-h-dvh flex flex-col overflow-x-hidden">
-        {/* Optimized background */}
-        <SandBackground />
+        {/* Ancient-themed background with ancient scripts, papyrus, and Greek patterns */}
+        <AncientBackground />
 
-        {/* Content */}
-        <SmoothScroll>
-          <SiteHeader />
-          <main className="flex-1 pt-16">{children}</main>
-          <Footer />
-          <MusicToggle />
-          <CookieConsent />
-        </SmoothScroll>
+        {/* LazyMotion provider for bundle size optimization (34kb -> 6kb) */}
+        <MotionProvider>
+          {/* Content */}
+          <SmoothScroll>
+            <SiteHeader />
+            <main className="flex-1 pt-16">{children}</main>
+            <Footer />
+            <MusicToggle />
+            <CookieConsent />
+          </SmoothScroll>
+        </MotionProvider>
       </body>
     </html>
   );
