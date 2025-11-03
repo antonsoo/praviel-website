@@ -24,9 +24,14 @@ export default function SectionDivider() {
       >
         <defs>
           <linearGradient id="dividerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#a855f7" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#c084fc" stopOpacity="0.3" />
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.3" />
+            <stop offset="50%" stopColor="#E8C55B" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#C5A572" stopOpacity="0.3" />
+          </linearGradient>
+          <linearGradient id="dividerGradientBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#1e40af" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.2" />
           </linearGradient>
         </defs>
 
@@ -70,33 +75,36 @@ export default function SectionDivider() {
         />
       </svg>
 
-      {/* Floating particles along the divider */}
+      {/* Floating ancient symbols along the divider */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(8)].map((_, i) => (
+        {["Α", "Ω", "Ψ", "Δ", "Λ", "Σ", "Φ", "Π"].map((symbol, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 rounded-full bg-violet-400/60"
+            className="absolute text-[#E8C55B]/50 font-serif text-lg"
             style={{
               left: `${(i / 8) * 100}%`,
               top: "50%",
             }}
             animate={{
               y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.5, 1],
+              opacity: [0.2, 0.6, 0.2],
+              scale: [0.8, 1.2, 0.8],
+              rotate: [0, 10, 0],
             }}
             transition={{
-              duration: 3 + i * 0.3,
+              duration: 4 + i * 0.3,
               repeat: Infinity,
-              delay: i * 0.2,
+              delay: i * 0.3,
             }}
-          />
+          >
+            {symbol}
+          </motion.div>
         ))}
       </div>
 
-      {/* Center glow line */}
+      {/* Center glow line with ancient gold */}
       <motion.div
-        className="absolute h-[2px] bg-gradient-to-r from-transparent via-violet-400 to-transparent"
+        className="absolute h-[2px] bg-gradient-to-r from-transparent via-[#E8C55B] to-transparent"
         style={{
           scaleX,
           opacity,

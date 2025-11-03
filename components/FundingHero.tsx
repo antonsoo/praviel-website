@@ -3,13 +3,13 @@
 export default function FundingHero() {
   return (
     <section className="relative isolate px-6 py-24 sm:py-32 md:py-40">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_10%,rgba(168,85,247,0.15)_0%,rgba(0,0,0,0)_60%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_10%,rgba(212,175,55,0.15)_0%,rgba(0,0,0,0)_60%)]" />
 
       <div className="mx-auto max-w-3xl text-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-violet-200/90 ring-1 ring-violet-500/40 backdrop-blur">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-[#E8C55B]/90 ring-1 ring-[#D4AF37]/40 backdrop-blur">
           <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-violet-500"></span>
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E8C55B] opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#D4AF37]"></span>
           </span>
           <span>Support Open Development</span>
         </div>
@@ -17,7 +17,7 @@ export default function FundingHero() {
         <h1 className="mt-8 text-balance text-4xl font-semibold leading-tight text-zinc-100 sm:text-5xl md:text-6xl">
           Help preserve
           <br />
-          <span className="bg-gradient-to-r from-violet-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent">
             5,000 years of human wisdom
           </span>
         </h1>
@@ -33,7 +33,7 @@ export default function FundingHero() {
           <div className="flex items-center justify-center gap-2">
             <svg
               viewBox="0 0 24 24"
-              className="h-4 w-4 text-violet-400"
+              className="h-4 w-4 text-[#E8C55B]"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -45,7 +45,7 @@ export default function FundingHero() {
           <div className="flex items-center justify-center gap-2">
             <svg
               viewBox="0 0 24 24"
-              className="h-4 w-4 text-violet-400"
+              className="h-4 w-4 text-[#E8C55B]"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -57,7 +57,7 @@ export default function FundingHero() {
           <div className="flex items-center justify-center gap-2">
             <svg
               viewBox="0 0 24 24"
-              className="h-4 w-4 text-violet-400"
+              className="h-4 w-4 text-[#E8C55B]"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}

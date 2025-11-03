@@ -87,23 +87,61 @@ export default function HeroSection() {
           Alpha — Live Now
         </m.div>
 
-        {/* Main Headline with enhanced gradient */}
+        {/* Main Headline with enhanced kinetic typography */}
         <m.h1
           variants={itemVariants}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1] px-4"
         >
-          <span className="inline-block">Master ancient languages</span>{" "}
-          <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent inline-block animate-gradient bg-[length:200%_auto]">
+          <m.span
+            className="inline-block"
+            style={{
+              willChange: shouldReduceMotion ? "auto" : "transform",
+            }}
+            whileHover={
+              shouldReduceMotion
+                ? {}
+                : {
+                    y: -5,
+                    transition: { duration: 0.3, type: "spring", stiffness: 300 },
+                  }
+            }
+          >
+            Master ancient languages
+          </m.span>{" "}
+          <m.span
+            className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent inline-block animate-gradient bg-[length:200%_auto]"
+            style={{
+              willChange: shouldReduceMotion ? "auto" : "transform",
+            }}
+            whileHover={
+              shouldReduceMotion
+                ? {}
+                : {
+                    scale: 1.05,
+                    transition: { duration: 0.3, type: "spring", stiffness: 300 },
+                  }
+            }
+          >
             with AI that never quits
-          </span>
+          </m.span>
         </m.h1>
 
-        {/* Subheadline with ancient script accents */}
+        {/* Subheadline with ancient script accents and enhanced animations */}
         <m.div variants={itemVariants} className="mx-auto max-w-2xl mb-12 px-4">
           <p className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed">
-            <span className="text-white font-semibold bg-gradient-to-r from-[#E8DCC4] to-[#F5F5F0] bg-clip-text text-transparent">
+            <m.span
+              className="text-white font-semibold bg-gradient-to-r from-[#E8DCC4] to-[#F5F5F0] bg-clip-text text-transparent inline-block"
+              whileHover={
+                shouldReduceMotion
+                  ? {}
+                  : {
+                      scale: 1.02,
+                      transition: { duration: 0.2 },
+                    }
+              }
+            >
               Akkadian. Biblical Hebrew. Koine Greek. Latin. Old Church Slavonic.
-            </span>
+            </m.span>
             {" "}
             Learn with instant pronunciation feedback, adaptive drills, and real primary texts — not baby phrases.
           </p>

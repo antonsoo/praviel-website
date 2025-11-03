@@ -4,6 +4,7 @@ import { useInView, useMotionValue, useSpring, useTransform, useReducedMotion } 
 import * as m from "motion/react-m";
 import { useRef, useState, useEffect } from "react";
 import GreekKeyBorder from "./GreekKeyBorder";
+import RomanMosaicBorder from "./RomanMosaicBorder";
 
 // Individual feature card with advanced interactions
 function FeatureCard({
@@ -375,6 +376,11 @@ export default function FeatureGrid() {
 
   return (
     <section id="features" ref={ref} className="relative z-10 px-6 pb-24 sm:pb-32 md:pb-40">
+      {/* Roman mosaic border at top */}
+      <div className="mx-auto max-w-6xl mb-8">
+        <RomanMosaicBorder height={50} animate={true} />
+      </div>
+
       {/* Section header with Greek Key border */}
       <div className="mx-auto max-w-5xl mb-12">
         <GreekKeyBorder className="mb-4" />
@@ -402,6 +408,11 @@ export default function FeatureGrid() {
       {/* Closing Greek Key border */}
       <div className="mx-auto max-w-5xl mt-12">
         <GreekKeyBorder />
+      </div>
+
+      {/* Roman mosaic border at bottom */}
+      <div className="mx-auto max-w-6xl mt-8">
+        <RomanMosaicBorder height={50} animate={true} />
       </div>
     </section>
   );

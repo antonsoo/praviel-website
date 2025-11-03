@@ -1,16 +1,30 @@
 "use client";
 
+import { useScroll, useTransform, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
+import { useRef } from "react";
 
 export default function DecorativeColumns() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Parallax scroll effect - GPU-accelerated with transform
+  const { scrollY } = useScroll();
+  const leftY = useTransform(scrollY, [0, 1000], [0, shouldReduceMotion ? 0 : -100]);
+  const rightY = useTransform(scrollY, [0, 1000], [0, shouldReduceMotion ? 0 : 100]);
+
   return (
-    <>
-      {/* Left Column - Increased opacity to 20% for actual visibility */}
+    <div ref={containerRef}>
+      {/* Left Column with parallax - Increased opacity to 20% for actual visibility */}
       <m.div
-        className="hidden lg:block absolute left-8 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none"
+        className="hidden lg:block fixed left-8 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 0.2, x: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
+        style={{
+          y: leftY,
+          willChange: shouldReduceMotion ? "auto" : "transform",
+        }}
         aria-hidden="true"
       >
         <svg
@@ -53,12 +67,16 @@ export default function DecorativeColumns() {
         </svg>
       </m.div>
 
-      {/* Right Column - Increased opacity to 20% for actual visibility */}
+      {/* Right Column with parallax - Increased opacity to 20% for actual visibility */}
       <m.div
-        className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none"
+        className="hidden lg:block fixed right-8 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 0.2, x: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
+        style={{
+          y: rightY,
+          willChange: shouldReduceMotion ? "auto" : "transform",
+        }}
         aria-hidden="true"
       >
         <svg
@@ -100,6 +118,6 @@ export default function DecorativeColumns() {
           </defs>
         </svg>
       </m.div>
-    </>
+    </div>
   );
 }

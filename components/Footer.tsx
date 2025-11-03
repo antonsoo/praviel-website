@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { motion } from "motion/react";
 import CurrentYear from "./CurrentYear";
+import OpenSourceBadge from "./OpenSourceBadge";
 
 export default function Footer() {
   const links = [
@@ -73,6 +74,16 @@ export default function Footer() {
                 {symbol}
               </motion.span>
             ))}
+          </motion.div>
+
+          {/* Open Source Badge - Real, verifiable */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <OpenSourceBadge />
           </motion.div>
         </motion.div>
 

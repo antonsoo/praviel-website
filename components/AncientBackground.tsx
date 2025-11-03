@@ -2,12 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Using standard Greek letters that render reliably across all devices
-// Removed problematic Unicode hieroglyphics/cuneiform that require special fonts
+// Diverse ancient civilization symbols that render reliably across all devices
+// Includes Greek, Hebrew, Latin, Roman numerals, and geometric patterns
 const ANCIENT_SYMBOLS = [
-  "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", // Greek
-  "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", // Hebrew
-  "◊", "◈", "◇", "⬡", "⬢", "⬣", // Geometric symbols (ancient patterns)
+  // Greek alphabet
+  "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω",
+  // Hebrew alphabet
+  "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ", "ק", "ר", "ש", "ת",
+  // Roman numerals
+  "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "Ⅺ", "Ⅻ",
+  // Geometric symbols (ancient mosaic patterns)
+  "◊", "◈", "◇", "⬡", "⬢", "⬣", "◆", "◉", "⬟", "⬠", "⬢", "⬣",
+  // Ancient decorative elements
+  "✦", "✧", "✶", "✷", "✸", "✹", "❂", "❃", "❉", "❊", "❋",
 ];
 
 interface Particle {
@@ -29,6 +36,10 @@ export default function AncientBackground() {
   const particlesRef = useRef<Particle[]>([]);
   const animationFrameRef = useRef<number | undefined>(undefined);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Performance optimization: Cache static pattern canvas
+  const staticPatternCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const needsStaticRedrawRef = useRef(true);
 
   useEffect(() => {
     // Check for reduced motion preference
@@ -53,7 +64,26 @@ export default function AncientBackground() {
     const updateSize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      needsStaticRedrawRef.current = true; // Mark static layer for redraw
       initializeParticles();
+    };
+
+    // Create static pattern canvas (drawn once, reused every frame)
+    const createStaticPatternCanvas = (): HTMLCanvasElement => {
+      const patternCanvas = document.createElement("canvas");
+      patternCanvas.width = canvas.width;
+      patternCanvas.height = canvas.height;
+      const pctx = patternCanvas.getContext("2d", { alpha: true });
+
+      if (pctx) {
+        // Draw all static patterns once
+        drawPapyrusTexture(pctx, patternCanvas.width, patternCanvas.height);
+        drawEgyptianLotusPattern(pctx, patternCanvas.width, patternCanvas.height);
+        drawGreekKeyPattern(pctx, patternCanvas.width, patternCanvas.height);
+        drawRomanMosaicPattern(pctx, patternCanvas.width, patternCanvas.height);
+      }
+
+      return patternCanvas;
     };
 
     // Pre-render sprites for performance (avoid expensive fillText on every frame)
@@ -102,35 +132,91 @@ export default function AncientBackground() {
     updateSize();
     window.addEventListener("resize", updateSize);
 
-    const drawPapyrusTexture = () => {
+    const drawPapyrusTexture = (context: CanvasRenderingContext2D, width: number, height: number) => {
       // Very subtle papyrus fiber texture
-      ctx.fillStyle = "#0a0a0a";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "#0a0a0a";
+      context.fillRect(0, 0, width, height);
 
       // Add subtle vertical fibers (less frequently for performance)
-      ctx.strokeStyle = "rgba(232, 220, 196, 0.012)";
-      ctx.lineWidth = 1;
-      for (let i = 0; i < canvas.width; i += 60) {
-        ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, canvas.height);
-        ctx.stroke();
+      context.strokeStyle = "rgba(232, 220, 196, 0.012)";
+      context.lineWidth = 1;
+      for (let i = 0; i < width; i += 60) {
+        context.beginPath();
+        context.moveTo(i, 0);
+        context.lineTo(i, height);
+        context.stroke();
       }
     };
 
-    const drawGreekKeyPattern = () => {
+    const drawGreekKeyPattern = (context: CanvasRenderingContext2D, width: number, _height: number) => {
       // Subtle Greek key pattern at edges
       const keySize = 20;
-      const pattern = ctx.createPattern(createGreekKeyPattern(keySize), "repeat");
+      const pattern = context.createPattern(createGreekKeyPattern(keySize), "repeat");
       if (pattern) {
-        ctx.fillStyle = pattern;
-        ctx.globalAlpha = 0.025;
+        context.fillStyle = pattern;
+        context.globalAlpha = 0.025;
 
         // Top border only (less visual noise)
-        ctx.fillRect(0, 0, canvas.width, keySize);
+        context.fillRect(0, 0, width, keySize);
 
-        ctx.globalAlpha = 1;
+        context.globalAlpha = 1;
       }
+    };
+
+    const drawRomanMosaicPattern = (context: CanvasRenderingContext2D, width: number, height: number) => {
+      // Subtle Roman mosaic 3D cube pattern in corners
+      const mosaicSize = 40;
+      const pattern = context.createPattern(createRomanMosaicPattern(mosaicSize), "repeat");
+      if (pattern) {
+        context.fillStyle = pattern;
+        context.globalAlpha = 0.015;
+
+        // Bottom corners for subtle ancient mosaic feel
+        const cornerSize = 200;
+        context.fillRect(0, height - cornerSize, cornerSize, cornerSize);
+        context.fillRect(width - cornerSize, height - cornerSize, cornerSize, cornerSize);
+
+        context.globalAlpha = 1;
+      }
+    };
+
+    const drawEgyptianLotusPattern = (context: CanvasRenderingContext2D, width: number, height: number) => {
+      // Subtle Egyptian lotus/papyrus motifs scattered
+      context.globalAlpha = 0.02;
+      context.fillStyle = "rgba(212, 175, 55, 0.6)";
+
+      // Draw simplified lotus shapes at strategic points
+      const drawLotus = (x: number, y: number, size: number) => {
+        context.save();
+        context.translate(x, y);
+
+        // Simplified lotus petal pattern
+        for (let i = 0; i < 5; i++) {
+          context.rotate((Math.PI * 2) / 5);
+          context.beginPath();
+          context.ellipse(0, -size / 2, size / 4, size / 2, 0, 0, Math.PI * 2);
+          context.fill();
+        }
+
+        context.restore();
+      };
+
+      // Pre-determined positions instead of random (for consistency when cached)
+      const spacing = 300;
+      const positions: Array<{ x: number; y: number }> = [];
+
+      for (let x = spacing; x < width; x += spacing) {
+        for (let y = spacing; y < height; y += spacing) {
+          // Use deterministic pattern instead of random
+          if (((x / spacing) + (y / spacing)) % 3 === 0) {
+            positions.push({ x, y });
+          }
+        }
+      }
+
+      positions.forEach(pos => drawLotus(pos.x, pos.y, 20));
+
+      context.globalAlpha = 1;
     };
 
     const createGreekKeyPattern = (size: number): HTMLCanvasElement => {
@@ -154,6 +240,49 @@ export default function AncientBackground() {
       return patternCanvas;
     };
 
+    const createRomanMosaicPattern = (size: number): HTMLCanvasElement => {
+      const patternCanvas = document.createElement("canvas");
+      patternCanvas.width = size;
+      patternCanvas.height = size;
+      const pctx = patternCanvas.getContext("2d");
+      if (!pctx) return patternCanvas;
+
+      // Roman 3D cube mosaic pattern
+      const halfSize = size / 2;
+
+      // Top face (lighter)
+      pctx.fillStyle = "rgba(212, 175, 55, 0.4)";
+      pctx.beginPath();
+      pctx.moveTo(halfSize, 0);
+      pctx.lineTo(size, halfSize / 2);
+      pctx.lineTo(halfSize, halfSize);
+      pctx.lineTo(0, halfSize / 2);
+      pctx.closePath();
+      pctx.fill();
+
+      // Left face (medium)
+      pctx.fillStyle = "rgba(212, 175, 55, 0.25)";
+      pctx.beginPath();
+      pctx.moveTo(0, halfSize / 2);
+      pctx.lineTo(halfSize, halfSize);
+      pctx.lineTo(halfSize, size);
+      pctx.lineTo(0, size * 0.75);
+      pctx.closePath();
+      pctx.fill();
+
+      // Right face (darker)
+      pctx.fillStyle = "rgba(212, 175, 55, 0.15)";
+      pctx.beginPath();
+      pctx.moveTo(halfSize, halfSize);
+      pctx.lineTo(size, halfSize / 2);
+      pctx.lineTo(size, size * 0.75);
+      pctx.lineTo(halfSize, size);
+      pctx.closePath();
+      pctx.fill();
+
+      return patternCanvas;
+    };
+
     const drawParticles = () => {
       particlesRef.current.forEach((particle) => {
         if (!particle.sprite) return;
@@ -169,18 +298,32 @@ export default function AncientBackground() {
     };
 
     const animate = () => {
+      // Regenerate static pattern canvas if needed (on resize or first render)
+      if (needsStaticRedrawRef.current) {
+        staticPatternCanvasRef.current = createStaticPatternCanvas();
+        needsStaticRedrawRef.current = false;
+      }
+
       if (prefersReducedMotion) {
         // Static render for reduced motion
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawPapyrusTexture();
-        drawGreekKeyPattern();
+
+        // Draw cached static patterns (single drawImage call instead of redrawing)
+        if (staticPatternCanvasRef.current) {
+          ctx.drawImage(staticPatternCanvasRef.current, 0, 0);
+        }
+
         drawParticles();
         return;
       }
 
+      // Performance: Only clear and redraw the canvas, use cached static layer
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPapyrusTexture();
-      drawGreekKeyPattern();
+
+      // Draw cached static background (massive performance improvement)
+      if (staticPatternCanvasRef.current) {
+        ctx.drawImage(staticPatternCanvasRef.current, 0, 0);
+      }
 
       // Update and draw particles
       particlesRef.current.forEach((particle) => {

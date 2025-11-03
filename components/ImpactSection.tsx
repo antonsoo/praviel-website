@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
+import PapyrusScroll from "./PapyrusScroll";
 
 export default function ImpactSection() {
   const impacts = [
@@ -154,7 +155,7 @@ export default function ImpactSection() {
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className="text-3xl font-bold text-zinc-100 sm:text-4xl bg-gradient-to-r from-violet-200 via-purple-200 to-fuchsia-200 bg-clip-text text-transparent"
+            className="text-3xl font-bold text-zinc-100 sm:text-4xl bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent"
             whileHover={{ scale: 1.02 }}
           >
             Where Your Support Goes
@@ -169,9 +170,9 @@ export default function ImpactSection() {
             language education
           </motion.p>
 
-          {/* Decorative line */}
+          {/* Decorative line with ancient gold */}
           <motion.div
-            className="mx-auto mt-6 h-1 w-24 rounded-full bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500"
+            className="mx-auto mt-6 h-1 w-24 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#C5A572]"
             initial={{ width: 0 }}
             animate={isInView ? { width: 96 } : {}}
             transition={{ duration: 1, delay: 0.5 }}
@@ -185,41 +186,36 @@ export default function ImpactSection() {
           ))}
         </div>
 
-        {/* Enhanced quote section */}
+        {/* Enhanced quote section wrapped in PapyrusScroll */}
         <motion.div
-          className="mx-auto mt-20 max-w-3xl space-y-6 text-center"
+          className="mx-auto mt-20 max-w-3xl space-y-6"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.8, duration: 0.8 }}
         >
-          <motion.div
-            className="relative rounded-2xl border-2 border-violet-400/30 bg-gradient-to-br from-violet-950/40 via-purple-950/30 to-violet-950/40 p-10 ring-2 ring-violet-500/20 backdrop-blur-xl shadow-2xl shadow-violet-500/20"
-            whileHover={{
-              scale: 1.02,
-              boxShadow: "0 0 40px rgba(168,85,247,0.3)",
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Quote decoration */}
-            <motion.div
-              className="absolute -top-4 left-8 text-6xl text-violet-400/30"
-              animate={{ opacity: [0.2, 0.4, 0.2] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              "
-            </motion.div>
+          <PapyrusScroll delay={0.9}>
+            <div className="text-center">
+              {/* Quote decoration with Egyptian gold */}
+              <motion.div
+                className="text-6xl text-[#E8C55B]/30 mb-4"
+                animate={{ opacity: [0.2, 0.4, 0.2] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                "
+              </motion.div>
 
-            <blockquote className="relative text-base italic leading-relaxed text-zinc-200">
-              "Every ancient text is a conversation across millennia. When we
-              lose access to these languages, we lose entire conceptual
-              frameworks, rhetorical traditions, and direct connections to our
-              ancestors. Supporting PRAVIEL means preserving the full depth of
-              human wisdom for future generations."
-            </blockquote>
-            <div className="mt-6 text-sm font-semibold text-violet-300">
-              — The PRAVIEL Mission
+              <blockquote className="relative text-base italic leading-relaxed text-zinc-200">
+                "Every ancient text is a conversation across millennia. When we
+                lose access to these languages, we lose entire conceptual
+                frameworks, rhetorical traditions, and direct connections to our
+                ancestors. Supporting PRAVIEL means preserving the full depth of
+                human wisdom for future generations."
+              </blockquote>
+              <div className="mt-6 text-sm font-semibold text-[#E8C55B]">
+                — The PRAVIEL Mission
+              </div>
             </div>
-          </motion.div>
+          </PapyrusScroll>
 
           <motion.p
             className="text-xs text-zinc-600"
@@ -232,7 +228,7 @@ export default function ImpactSection() {
             Email{" "}
             <motion.a
               href="mailto:business@praviel.com"
-              className="text-violet-400 hover:text-violet-300 transition-colors"
+              className="text-[#E8C55B] hover:text-[#D4AF37] transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -266,17 +262,17 @@ function ImpactCard({
         type: "spring",
         stiffness: 100,
       }}
-      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 p-7 ring-1 ring-white/5 backdrop-blur-xl transition-all hover:border-violet-400/50 hover:bg-gradient-to-br hover:from-violet-950/40 hover:via-purple-950/30 hover:to-violet-950/40 hover:ring-violet-500/60 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-violet-500/20"
+      className="group relative flex flex-col rounded-2xl border border-[color:var(--color-card-border)] bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 p-7 ring-1 ring-white/5 backdrop-blur-xl transition-all hover:border-[#D4AF37]/50 hover:bg-gradient-to-br hover:from-[#1e40af]/10 hover:via-zinc-900/80 hover:to-[#D4AF37]/10 hover:ring-[#D4AF37]/60 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-[#D4AF37]/20"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={{ scale: 1.05, y: -5 }}
       style={{ transformStyle: "preserve-3d" }}
     >
-      {/* Glow effect on hover */}
+      {/* Glow effect on hover with Egyptian gold */}
       <motion.div
         className="absolute -inset-[2px] rounded-2xl opacity-0 -z-10"
         style={{
-          background: "linear-gradient(135deg, rgba(168,85,247,0.4), rgba(192,132,252,0.4))",
+          background: "linear-gradient(135deg, rgba(212,175,55,0.4), rgba(59,130,246,0.3), rgba(232,197,91,0.4))",
           filter: "blur(10px)",
         }}
         animate={{
@@ -285,9 +281,9 @@ function ImpactCard({
         transition={{ duration: 0.3 }}
       />
 
-      {/* Icon with enhanced glow */}
+      {/* Icon with enhanced glow using ancient colors */}
       <motion.div
-        className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/30 to-purple-500/30 text-violet-300 ring-2 ring-violet-500/50 shadow-lg shadow-violet-500/20"
+        className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37]/30 to-[#3b82f6]/30 text-[#E8C55B] ring-2 ring-[#D4AF37]/50 shadow-lg shadow-[#D4AF37]/20"
         whileHover={{ rotate: [0, -10, 10, 0], scale: 1.15 }}
         transition={{ duration: 0.5 }}
         style={{
@@ -297,9 +293,9 @@ function ImpactCard({
       >
         {impact.icon}
 
-        {/* Icon glow on hover */}
+        {/* Icon glow on hover with Egyptian gold */}
         <motion.div
-          className="absolute -inset-2 rounded-xl bg-violet-400/50 blur-xl opacity-0"
+          className="absolute -inset-2 rounded-xl bg-[#E8C55B]/50 blur-xl opacity-0"
           animate={{
             opacity: isHovered ? 1 : 0,
           }}
@@ -307,10 +303,10 @@ function ImpactCard({
         />
       </motion.div>
 
-      {/* Title */}
+      {/* Title with ancient gradient */}
       <h3 className="text-base font-bold text-zinc-100 mb-3">
         <motion.span
-          className="bg-gradient-to-r from-violet-200 to-purple-200 bg-clip-text text-transparent opacity-0"
+          className="bg-gradient-to-r from-[#E8C55B] to-[#3b82f6] bg-clip-text text-transparent opacity-0"
           animate={{
             opacity: isHovered ? 1 : 0,
           }}
@@ -331,11 +327,11 @@ function ImpactCard({
         {impact.description}
       </motion.p>
 
-      {/* Corner accents */}
+      {/* Corner accents with Egyptian gold */}
       {["right-2 top-2", "left-2 bottom-2"].map((pos, i) => (
         <motion.div
           key={i}
-          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50`}
+          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-[#E8C55B] shadow-lg shadow-[#E8C55B]/50`}
           animate={{
             opacity: isHovered ? [0, 1, 0] : 0,
             scale: isHovered ? [1, 1.5, 1] : 1,
