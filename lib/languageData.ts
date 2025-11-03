@@ -22,7 +22,7 @@ export const languages: Language[] = [
   {
     name: "Classical Latin",
     nativeName: "LINGVA LATINA",
-    sample: "Arma virumque canō, Trōiae quī prīmus ab ōrīs",
+    sample: "ARMA·VIRVMQVE·CANO·TROIAE·QVI·PRIMVS·AB·ORIS",
     translation: "I sing of arms and the man, who first from the shores of Troy",
     script: "Latin Alphabet",
     color: "from-red-500 to-rose-600",
@@ -40,16 +40,16 @@ export const languages: Language[] = [
       "Satires by Juvenal",
       "Vulgate (Latin Bible) by Jerome"
     ],
-    writingInfo: "All capitals (no lowercase in classical period). Macrons mark long vowels in modern editions.",
+    writingInfo: "Roman capitals only (A-Z, no J/U/W). Interpunct (·) word dividers optional. Scriptio continua or epigraphic spacing.",
     fontClass: "font-serif",
     isRTL: false
   },
   {
     name: "Classical Greek",
     nativeName: "ΕΛΛΗΝΙΚΗ ΓΛΩΤΤΑ",
-    sample: "Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος",
+    sample: "ΜΗΝΙΝ ΑΕΙΔΕ ΘΕΑ ΠΗΛΗΙΑΔΕΩ ΑΧΙΛΗΟΣ",
     translation: "Sing, goddess, the wrath of Achilles, son of Peleus",
-    script: "Greek Alphabet (Polytonic)",
+    script: "Greek Alphabet (Unaccented Capitals)",
     color: "from-blue-500 to-indigo-600",
     emoji: "🏺",
     description: "Homer's language. Plato's dialogues. The foundation of Western philosophy and epic poetry.",
@@ -65,16 +65,16 @@ export const languages: Language[] = [
       "History of the Peloponnesian War by Thucydides",
       "Republic by Plato"
     ],
-    writingInfo: "Polytonic orthography with accents (acute, grave, circumflex) and breathing marks (rough, smooth).",
+    writingInfo: "24 Ionian/Euclidean letters (Α–Ω) in capitals. No accents, breathings, or iota subscript. Scriptio continua or epigraphic interpuncts.",
     fontClass: "font-serif",
     isRTL: false
   },
   {
     name: "Biblical Hebrew",
-    nativeName: "עִבְרִית מִקְרָאִית",
-    sample: "בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ",
+    nativeName: "עברית מקראית",
+    sample: "בראשית ברא אלהים את השמים ואת הארץ",
     translation: "In the beginning God created the heavens and the earth",
-    script: "Hebrew (Tiberian vocalization)",
+    script: "Hebrew (Unpointed Square Script)",
     color: "from-amber-500 to-yellow-600",
     emoji: "🕎",
     description: "The language of the Hebrew Bible. Torah, Prophets, and Writings in their original form.",
@@ -90,14 +90,14 @@ export const languages: Language[] = [
       "Ezekiel (Yehezkel)",
       "Job (Iyov)"
     ],
-    writingInfo: "Right-to-left. Tiberian vocalization with vowel points (niqqud) and cantillation marks (te'amim).",
+    writingInfo: "Unpointed square Hebrew (Ketav Ashuri), right-to-left. No niqqud or te'amim. Simple word spacing.",
     fontClass: "font-hebrew",
     isRTL: true
   },
   {
     name: "Classical Sanskrit",
     nativeName: "संस्कृतम्",
-    sample: "धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः",
+    sample: "धर्मक्षेत्रेकुरुक्षेत्रेसमवेतायुयुत्सवः",
     translation: "On the field of dharma, the field of Kuru, assembled for battle",
     script: "Devanagari",
     color: "from-orange-500 to-red-600",
@@ -115,14 +115,14 @@ export const languages: Language[] = [
       "Pañcatantra",
       "Yoga Sūtras of Patañjali"
     ],
-    writingInfo: "Devanagari script. IAST transliteration uses macrons for long vowels and underdots for retroflexes.",
+    writingInfo: "Devanagari script with full conjunct ligatures. Scriptio continua. Ends with danda/double danda only.",
     fontClass: "font-devanagari",
     isRTL: false
   },
   {
     name: "Middle Egyptian",
-    nativeName: "𓂋𓈖 𓎡𓅓𓏏",
-    sample: "𓇋𓈖𓂓𓅱 𓈙𓅱𓏏𓈖𓇋",
+    nativeName: "𓂋𓈖𓎡𓅓𓏏",
+    sample: "𓇋𓈖𓂓𓅱𓈙𓅱𓏏𓈖𓇋",
     translation: "I was Sinuhe",
     script: "Egyptian Hieroglyphics",
     color: "from-yellow-600 to-amber-700",
@@ -140,7 +140,7 @@ export const languages: Language[] = [
       "Merneptah Stele (Israel Stele)",
       "Shabaka Stone (Memphite Theology)"
     ],
-    writingInfo: "Hieroglyphics read right-to-left or left-to-right. Manuel de Codage (MdC) for computer encoding.",
+    writingInfo: "Hieroglyphs with canonical grouping. No vowels, spaces, or punctuation. Monumental forms with determinatives/logograms.",
     fontClass: "font-serif", // Fallback - hieroglyphics are complex
     isRTL: false
   },
