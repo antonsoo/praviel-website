@@ -109,7 +109,7 @@ export default function SiteHeader() {
 
         {/* Mobile menu button */}
         <m.button
-          className="text-zinc-400 hover:text-white sm:hidden relative"
+          className="text-zinc-400 hover:text-white sm:hidden relative flex items-center justify-center min-w-[44px] min-h-[44px] text-2xl"
           onClick={() => setOpen((o) => !o)}
           aria-label="Menu"
           whileTap={{ scale: 0.9 }}
@@ -149,7 +149,7 @@ export default function SiteHeader() {
                 >
                   <Link
                     href={link.href}
-                    className="block px-3 py-2 rounded-lg hover:bg-[#D4AF37]/10 hover:text-white transition-colors"
+                    className="block px-4 py-3 rounded-lg hover:bg-[#D4AF37]/10 hover:text-white transition-colors min-h-[44px] flex items-center"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -164,7 +164,7 @@ export default function SiteHeader() {
               >
                 <Link
                   href="#waitlist"
-                  className="block px-3 py-2 font-medium text-[#E8C55B] hover:text-[#D4AF37] transition-colors"
+                  className="block px-4 py-3 font-medium text-[#E8C55B] hover:text-[#D4AF37] transition-colors min-h-[44px] flex items-center"
                   onClick={() => setOpen(false)}
                 >
                   Get early access

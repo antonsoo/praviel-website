@@ -90,45 +90,35 @@ export default function HeroSection() {
         {/* Main Headline with enhanced kinetic typography */}
         <m.h1
           variants={itemVariants}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1] px-4"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.05] px-4"
         >
           <m.span
-            className="inline-block"
+            className="inline-block text-shadow-glow"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
-            whileHover={
-              shouldReduceMotion
-                ? {}
-                : {
-                    y: -5,
-                    transition: { duration: 0.3, type: "spring", stiffness: 300 },
-                  }
-            }
           >
-            Master ancient languages
-          </m.span>{" "}
+            Read the originals,
+          </m.span>
+          <br />
           <m.span
-            className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent inline-block animate-gradient bg-[length:200%_auto]"
+            className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent inline-block animate-gradient bg-[length:200%_auto] drop-shadow-2xl"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
-            whileHover={
-              shouldReduceMotion
-                ? {}
-                : {
-                    scale: 1.05,
-                    transition: { duration: 0.3, type: "spring", stiffness: 300 },
-                  }
-            }
           >
-            with AI that never quits
+            not the translations
           </m.span>
         </m.h1>
 
         {/* Subheadline with ancient script accents and enhanced animations */}
-        <m.div variants={itemVariants} className="mx-auto max-w-2xl mb-12 px-4">
+        <m.div variants={itemVariants} className="mx-auto max-w-3xl mb-12 px-4 space-y-4">
           <p className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed">
+            When you read Homer in English, you're reading <span className="text-white font-medium">the translator</span>—not Homer.
+            Ancient Greek has four words for "love." English collapses them to one.{" "}
+            <span className="text-white font-medium">The nuance disappears.</span>
+          </p>
+          <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
             <m.span
               className="text-white font-semibold bg-gradient-to-r from-[#E8DCC4] to-[#F5F5F0] bg-clip-text text-transparent inline-block"
               whileHover={
@@ -140,10 +130,10 @@ export default function HeroSection() {
                     }
               }
             >
-              Akkadian. Biblical Hebrew. Koine Greek. Latin. Old Church Slavonic.
+              Latin. Classical Greek. Biblical Hebrew. Classical Sanskrit. Middle Egyptian.
             </m.span>
             {" "}
-            Learn with instant pronunciation feedback, adaptive drills, and real primary texts — not baby phrases.
+            Learn to read authentic ancient texts as the authors wrote them—with research-grade accuracy and AI-powered guidance.
           </p>
         </m.div>
 
@@ -160,11 +150,25 @@ export default function HeroSection() {
 
         {/* Trust indicator */}
         <m.div variants={itemVariants} className="mt-8 pt-8">
-          <div className="flex items-center justify-center gap-2 text-zinc-600">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span className="text-sm">Instant AI-powered feedback</span>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-zinc-500">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-[#E8C55B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-sm">46 ancient languages</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-[#E8C55B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              <span className="text-sm">Authentic primary texts</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-[#E8C55B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+              <span className="text-sm">Zero AI hallucinations</span>
+            </div>
           </div>
         </m.div>
       </m.div>

@@ -18,7 +18,7 @@ export default function Footer() {
     <footer className="relative border-t border-white/5 bg-black/60 px-6 py-12 text-xs text-zinc-600 ring-1 ring-white/10 backdrop-blur-xl overflow-hidden">
       {/* Animated top border */}
       <motion.div
-        className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-violet-500/30 to-transparent"
+        className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"
         animate={{
           opacity: [0.3, 0.6, 0.3],
         }}
@@ -30,7 +30,7 @@ export default function Footer() {
       />
 
       {/* Background glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-t from-violet-950/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1e40af]/10 to-transparent pointer-events-none" />
 
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-start sm:justify-between relative z-10">
         <motion.div
@@ -41,7 +41,7 @@ export default function Footer() {
           transition={{ duration: 0.5 }}
         >
           <motion.div
-            className="text-lg font-bold bg-gradient-to-r from-violet-300 to-purple-300 bg-clip-text text-transparent"
+            className="text-lg font-bold bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent"
             whileHover={{ scale: 1.05 }}
           >
             PRAVIEL
@@ -52,7 +52,7 @@ export default function Footer() {
 
           {/* Ancient script decoration */}
           <motion.div
-            className="flex gap-2 text-violet-500/30 text-base"
+            className="flex gap-2 text-[#D4AF37]/30 text-base"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -98,7 +98,7 @@ export default function Footer() {
             <motion.a
               key={link.href}
               href={link.href}
-              className="relative text-zinc-500 hover:text-violet-300 transition-colors group w-fit"
+              className="relative text-zinc-500 hover:text-[#E8C55B] transition-colors group w-fit min-h-[44px] flex items-center"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -109,7 +109,7 @@ export default function Footer() {
 
               {/* Hover underline */}
               <motion.div
-                className="absolute -bottom-0.5 left-0 h-[1px] bg-violet-400"
+                className="absolute -bottom-0.5 left-0 h-[1px] bg-[#D4AF37]"
                 initial={{ width: 0 }}
                 whileHover={{ width: "100%" }}
                 transition={{ duration: 0.3 }}
@@ -117,7 +117,7 @@ export default function Footer() {
 
               {/* Arrow on hover */}
               <motion.span
-                className="absolute -right-3 top-0 text-violet-400 opacity-0 group-hover:opacity-100"
+                className="absolute -right-3 top-0 text-[#E8C55B] opacity-0 group-hover:opacity-100"
                 initial={{ x: -5 }}
                 whileHover={{ x: 0 }}
               >

@@ -13,7 +13,7 @@ export default function SecondaryCTAs() {
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
         <motion.button
           onClick={() => setShowWaitlist(!showWaitlist)}
-          className="group relative flex items-center gap-2 rounded-xl border border-violet-400/30 bg-violet-500/10 px-5 py-2.5 text-sm font-medium text-violet-200 ring-1 ring-violet-500/40 backdrop-blur transition-all hover:border-violet-400/50 hover:bg-violet-500/20 hover:ring-violet-500/60"
+          className="group relative flex items-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-6 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 backdrop-blur transition-all hover:border-[#E8C55B]/50 hover:bg-[#D4AF37]/20 hover:ring-[#E8C55B]/60 min-h-[44px]"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           initial={{ opacity: 0, y: 10 }}
@@ -22,7 +22,7 @@ export default function SecondaryCTAs() {
         >
           <svg
             viewBox="0 0 24 24"
-            className="h-4 w-4 text-violet-300"
+            className="h-5 w-5 text-[#E8C55B]"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -36,7 +36,7 @@ export default function SecondaryCTAs() {
           <span>Get Mobile Updates</span>
           <motion.svg
             viewBox="0 0 24 24"
-            className="h-3 w-3"
+            className="h-4 w-4"
             fill="none"
             stroke="currentColor"
             strokeWidth={2.5}
@@ -53,7 +53,7 @@ export default function SecondaryCTAs() {
 
         <motion.a
           href="mailto:contact@praviel.com?subject=Early Classroom Access Request"
-          className="group relative flex items-center gap-2 rounded-xl border border-violet-400/30 bg-violet-500/10 px-5 py-2.5 text-sm font-medium text-violet-200 ring-1 ring-violet-500/40 backdrop-blur transition-all hover:border-violet-400/50 hover:bg-violet-500/20 hover:ring-violet-500/60"
+          className="group relative flex items-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-6 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 backdrop-blur transition-all hover:border-[#E8C55B]/50 hover:bg-[#D4AF37]/20 hover:ring-[#E8C55B]/60 min-h-[44px]"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           initial={{ opacity: 0, y: 10 }}
@@ -62,7 +62,7 @@ export default function SecondaryCTAs() {
         >
           <svg
             viewBox="0 0 24 24"
-            className="h-4 w-4 text-violet-300"
+            className="h-5 w-5 text-[#E8C55B]"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -102,7 +102,7 @@ export default function SecondaryCTAs() {
               animate={{ y: 0 }}
               exit={{ y: -20 }}
               transition={{ duration: 0.3 }}
-              className="rounded-2xl border border-violet-400/20 bg-violet-500/5 p-6 backdrop-blur"
+              className="rounded-2xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-6 backdrop-blur stone-texture"
             >
               <p className="mb-4 text-center text-sm text-zinc-300">
                 Sign up to get notified when iOS & Android apps launch

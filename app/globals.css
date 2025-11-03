@@ -31,9 +31,27 @@
   --color-bronze: #8C6D3D;
   --color-bronze-light: #A68A5A;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-    sans-serif;
+  /* Font families - optimized with next/font/google */
+  --font-sans: var(--font-noto-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-noto-serif), ui-serif, Georgia, serif;
+  --font-devanagari: var(--font-devanagari), 'Noto Sans Devanagari', sans-serif;
+  --font-hebrew: var(--font-hebrew), 'Noto Sans Hebrew', sans-serif;
+}
+
+/* Font utility classes for special scripts */
+@layer utilities {
+  .font-devanagari {
+    font-family: var(--font-devanagari);
+  }
+
+  .font-hebrew {
+    font-family: var(--font-hebrew);
+    direction: rtl;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
 }
 
 /* Custom utility classes for premium effects */

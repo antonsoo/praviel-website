@@ -13,12 +13,12 @@ export default function PrimaryCTA() {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, delay: 1.3, type: "spring", stiffness: 100 }}
     >
-      {/* Multi-layer animated glow effect */}
+      {/* Multi-layer animated glow effect - Egyptian gold theme */}
       <motion.div
-        className="pointer-events-none absolute -inset-6 rounded-3xl bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 opacity-40 blur-3xl"
+        className="pointer-events-none absolute -inset-6 rounded-3xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#C5A572] opacity-50 blur-3xl"
         animate={{
-          opacity: isHovered ? 0.6 : 0.4,
-          scale: isHovered ? 1.1 : 1,
+          opacity: isHovered ? 0.7 : 0.5,
+          scale: isHovered ? 1.15 : 1,
         }}
         transition={{
           opacity: { duration: 0.4 },
@@ -26,12 +26,12 @@ export default function PrimaryCTA() {
         }}
       />
 
-      {/* Pulsing outer ring */}
+      {/* Pulsing outer ring - ancient gold */}
       <motion.div
-        className="pointer-events-none absolute -inset-4 rounded-3xl border border-violet-400/20"
+        className="pointer-events-none absolute -inset-4 rounded-3xl border-2 border-[#D4AF37]/30"
         animate={{
           scale: isHovered ? 1.05 : 1,
-          opacity: isHovered ? 0.5 : 0.3,
+          opacity: isHovered ? 0.6 : 0.4,
         }}
         transition={{
           duration: 0.3,
@@ -43,11 +43,11 @@ export default function PrimaryCTA() {
         href="https://app.praviel.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="relative z-10 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 px-10 py-5 text-lg font-bold text-white shadow-[0_0_50px_rgba(139,92,246,0.6)] transition-all hover:shadow-[0_0_70px_rgba(139,92,246,0.8)] ring-2 ring-violet-400/50 cursor-pointer"
+        className="relative z-10 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#D4AF37] px-12 py-6 text-xl font-bold text-black shadow-[0_0_60px_rgba(212,175,55,0.7)] transition-all hover:shadow-[0_0_90px_rgba(212,175,55,0.9)] ring-2 ring-[#E8C55B]/60 cursor-pointer backdrop-blur-sm"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        whileHover={{ scale: 1.05, y: -2 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: 1.06, y: -3 }}
+        whileTap={{ scale: 0.97 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <motion.span
@@ -95,25 +95,25 @@ export default function PrimaryCTA() {
         />
       </motion.a>
 
-      {/* Simplified floating particles */}
-      {[...Array(4)].map((_, i) => (
+      {/* Floating particles - golden dust effect */}
+      {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="pointer-events-none absolute h-1.5 w-1.5 rounded-full bg-violet-400 shadow-sm shadow-violet-400/50"
+          className="pointer-events-none absolute h-2 w-2 rounded-full bg-[#E8C55B] shadow-lg shadow-[#E8C55B]/60"
           style={{
-            left: `${(i % 2) * 50 + 25}%`,
-            top: i < 2 ? "-8px" : "calc(100% + 8px)",
+            left: `${(i % 3) * 33 + 16}%`,
+            top: i < 3 ? "-12px" : "calc(100% + 12px)",
           }}
           animate={{
-            y: i < 2 ? [-5, -20, -5] : [5, 20, 5],
-            opacity: [0.3, 0.8, 0.3],
-            scale: [0.8, 1.1, 0.8],
+            y: i < 3 ? [-8, -28, -8] : [8, 28, 8],
+            opacity: [0.4, 1, 0.4],
+            scale: [0.6, 1.2, 0.6],
           }}
           transition={{
-            duration: 2 + i * 0.3,
+            duration: 2.5 + i * 0.4,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: i * 0.2,
+            delay: i * 0.3,
           }}
         />
       ))}

@@ -9,16 +9,32 @@ import AncientBackground from "@/components/AncientBackground";
 import CookieConsent from "@/components/CookieConsent";
 import MotionProvider from "@/components/MotionProvider";
 import SkipToContent from "@/components/SkipToContent";
+import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
-  title: "PRAVIEL — Master Ancient Languages with AI",
+  title: "PRAVIEL — Read Ancient Texts in Their Original Languages",
   description:
-    "PRAVIEL is the AI tutor for ancient languages. Immersive drills, instant feedback, authentic texts.",
+    "Learn Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Egyptian. Read the Iliad, Aeneid, and Torah as the authors wrote them. Research-grade accuracy. 46 ancient languages. Zero AI hallucinations.",
+  keywords: [
+    "ancient languages",
+    "Classical Latin",
+    "Biblical Hebrew",
+    "Classical Greek",
+    "Sanskrit",
+    "Egyptian hieroglyphics",
+    "learn ancient languages",
+    "Homer Iliad original",
+    "Virgil Aeneid Latin",
+    "Torah Hebrew",
+    "primary texts",
+    "scholarly accuracy",
+    "ancient language learning"
+  ],
   openGraph: {
-    title: "PRAVIEL — Master Ancient Languages with AI",
+    title: "PRAVIEL — Read the Originals, Not the Translations",
     description:
-      "Immersive drills, instant feedback, authentic texts. Akkadian, Biblical Hebrew, Koine Greek, Latin, more.",
+      "When you read Homer in English, you're reading the translator—not Homer. Learn to read authentic ancient texts in Latin, Greek, Hebrew, Sanskrit, and 42 more languages.",
     url: "https://praviel.com",
     siteName: "PRAVIEL",
     images: [
@@ -26,7 +42,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "PRAVIEL preview",
+        alt: "PRAVIEL - Learn Ancient Languages with Research-Grade Accuracy",
       },
     ],
     locale: "en_US",
@@ -34,9 +50,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PRAVIEL — Master Ancient Languages with AI",
+    title: "Read Ancient Texts in Their Original Languages | PRAVIEL",
     description:
-      "Immersive drills, instant feedback, authentic texts. Akkadian, Biblical Hebrew, Koine Greek, Latin, more.",
+      "Learn Latin, Greek, Hebrew, Sanskrit, Egyptian. Read the Iliad, Aeneid, Torah as the authors wrote them. 46 languages. Zero AI hallucinations.",
     images: ["/og.png"],
   },
 };
@@ -87,8 +103,8 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="bg-bg-page text-zinc-100 antialiased">
-      <body className="min-h-dvh flex flex-col overflow-x-hidden">
+    <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
+      <body className="min-h-dvh flex flex-col overflow-x-hidden font-sans">
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
 

@@ -290,8 +290,8 @@ export default function FeatureGrid() {
 
   const features = [
     {
-      title: "Adaptive drills",
-      body: "The system tracks your morphology, vocab, and phonology weaknesses and hammers them until they stick.",
+      title: "Research-grade accuracy",
+      body: "Every definition and grammar explanation is grounded in authoritative sources: Perseus Digital Library, LSJ Lexicon, TLA Berlin. Zero AI hallucinations on linguistic data.",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -300,14 +300,13 @@ export default function FeatureGrid() {
           stroke="currentColor"
           strokeWidth={1.5}
         >
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 7v5l3 3" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
     {
-      title: "Primary texts",
-      body: "You read tablets, manuscripts, inscriptions — line by line — with inline glossing and grammar help.",
+      title: "Authentic primary texts",
+      body: "Read the Iliad, the Aeneid, the Book of the Dead, the Bhagavad-Gītā—authentic ancient literature, not \"The apple is red.\" Learn from tablets, manuscripts, and inscriptions.",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -317,31 +316,7 @@ export default function FeatureGrid() {
           strokeWidth={1.5}
         >
           <path
-            d="M4 6h16M4 10h16M4 14h10M4 18h6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "Pronunciation coach",
-      body: "You speak into the mic. We align your audio to target phonemes and tell you exactly what slipped.",
-      icon: (
-        <svg
-          viewBox="0 0 24 24"
-          className="h-6 w-6 text-[#E8C55B]"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.5}
-        >
-          <path
-            d="M9 9a3 3 0 1 1 6 0v3a3 3 0 1 1-6 0V9Z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M5 11v1a7 7 0 0 0 14 0v-1M12 22v-2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -349,8 +324,23 @@ export default function FeatureGrid() {
       ),
     },
     {
-      title: "Coach mode",
-      body: "Ask anything — declension, etymology, paleography. Your AI coach answers using the actual corpus, not generic trivia.",
+      title: "46 ancient languages",
+      body: "From Sumerian cuneiform (3100 BCE) to medieval manuscripts. Classical Latin, Greek, Hebrew, Sanskrit, Egyptian hieroglyphics, and 41 more. Comprehensive coverage of humanity's linguistic heritage.",
+      icon: (
+        <svg
+          viewBox="0 0 24 24"
+          className="h-6 w-6 text-[#E8C55B]"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+        >
+          <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      title: "Privacy-first design",
+      body: "BYOK (Bring Your Own Key) architecture. Your API keys, your data. Works offline with Echo provider. Zero telemetry, zero tracking. Self-hostable with full Docker deployment.",
       icon: (
         <svg
           viewBox="0 0 24 24"
@@ -360,12 +350,7 @@ export default function FeatureGrid() {
           strokeWidth={1.5}
         >
           <path
-            d="M12 3 3 9l9 6 9-6-9-6Z"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3 15l9 6 9-6M12 9v12"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -396,13 +381,17 @@ export default function FeatureGrid() {
       </m.div>
 
       <m.div
-        className="mx-auto mt-16 max-w-xl text-center text-xs text-zinc-600"
+        className="mx-auto mt-16 max-w-2xl text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        PRAVIEL will launch first on web and desktop, then iOS/Android. If you teach ancient languages and you want early
-        classroom access, contact contact@praviel.com.
+        <p className="text-sm text-zinc-400 mb-3">
+          Built on authoritative sources: Perseus Digital Library (Tufts), LSJ Lexicon (Oxford), TLA Berlin, ORACC UPenn, CDLI UCLA
+        </p>
+        <p className="text-xs text-zinc-600">
+          For educators seeking institutional access or partnership opportunities: <a href="mailto:contact@praviel.com" className="text-[#E8C55B] hover:text-[#D4AF37] transition-colors">contact@praviel.com</a>
+        </p>
       </m.div>
 
       {/* Closing Greek Key border */}
