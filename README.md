@@ -30,14 +30,15 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 
 ## What's Inside
 
-- 🏛️ **Ancient civilization theme** with Egyptian Gold, Lapis Lazuli Blue, and papyrus textures
-- 🌍 **Interactive language showcase** featuring Akkadian, Biblical Hebrew, Koine Greek, Latin, and Old Church Slavonic
+- 🏛️ **Ancient civilization theme** with Egyptian Gold (#D4AF37), Lapis Lazuli Blue, and papyrus textures
+- 🌍 **Interactive language showcase** featuring Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Middle Egyptian
 - 🎨 **Three.js hero scene** with shader animations and GPU-accelerated canvas backgrounds
 - ⚡ **Buttery smooth scrolling** (Lenis) with 60fps on all devices
 - 🎭 **Motion animations** following 2025 best practices (GPU-only transforms, Intersection Observer)
-- ♿ **WCAG 2.1 AA accessible** with skip links, ARIA labels, and reduced motion support
+- ♿ **WCAG 2.1 AA accessible** with 44x44px touch targets, skip links, ARIA labels, and reduced motion support
+- 🔤 **Optimized font loading** with next/font/google (self-hosted, subsetting for Latin, Greek, Devanagari, Hebrew)
 - 🔍 **SEO optimized** with JSON-LD structured data for educational content
-- 📱 **Actually responsive** (tested on real devices, not just DevTools)
+- 📱 **Actually responsive** with mobile-first design (tested on real devices, not just DevTools)
 - 🌐 **Edge-deployed** on Cloudflare Workers for global low-latency
 
 ---
@@ -46,10 +47,10 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 
 Built with cutting-edge 2025 tech (yes, this stuff exists now):
 
-**Frontend:** Next.js 16 • React 19.2 • TypeScript 5.9 • Tailwind v4
-**Animation:** Motion (Framer successor) • Three.js • React Three Fiber
+**Frontend:** Next.js 16.0.1 • React 19.2.0 • TypeScript 5.9.3 • Tailwind v4.1.16
+**Animation:** Motion 12.23.24 (React 19 compatible) • Three.js 0.181.0 • React Three Fiber
 **Deploy:** Cloudflare Workers • OpenNext • Node.js 25+
-**Tooling:** Turbopack • React Compiler • ESLint 9 flat config
+**Tooling:** Turbopack • React Compiler 1.0 • ESLint 9.39.1 flat config • pnpm 10.20.0
 
 > **Note:** This isn't "let's use the latest alpha versions." These are stable releases from late 2025. If your Node version is lower than 25, you need to upgrade—it's not a typo.
 
@@ -92,6 +93,26 @@ pnpm upload   # Gradual rollout
 
 You'll need Cloudflare credentials configured in `wrangler.jsonc`. Secrets go via `pnpm wrangler secret put <KEY_NAME>`.
 
+### Cache Invalidation
+
+**Important:** After deployment, Cloudflare may serve cached content. If you see old content after a successful deployment:
+
+**Option 1 - Cloudflare Dashboard:**
+1. Go to Cloudflare Dashboard → Caching
+2. Click "Purge Everything"
+
+**Option 2 - API (Automated):**
+```bash
+# Set environment variables (get Zone ID from Cloudflare dashboard)
+export CLOUDFLARE_API_TOKEN="your_token"
+export CLOUDFLARE_ZONE_ID="your_zone_id"
+
+# Run purge script
+./scripts/purge-cloudflare-cache.sh
+```
+
+Cache typically updates within 1-2 minutes globally after purging.
+
 ---
 
 ## Project Structure
@@ -99,16 +120,18 @@ You'll need Cloudflare credentials configured in `wrangler.jsonc`. Secrets go vi
 ```
 app/            # Next.js App Router pages & layouts
 ├── api/        # API routes (health checks, music playlist)
-components/     # React components (35+ components)
-├── Ancient theme components (LanguageShowcase, PapyrusScroll, etc.)
+components/     # React components (37+ components)
+├── Ancient theme components (LanguageShowcase, TractionBar, WhyPRAVIEL, etc.)
 ├── Three.js scenes (HeroScene, AncientBackground)
-├── UI components (SiteHeader, Footer, OpenSourceBadge)
+├── UI components (SiteHeader, Footer, PrimaryCTA, SecondaryCTAs)
 lib/            # Utilities & database client (Drizzle ORM + Neon)
+├── fonts.ts    # next/font/google configuration (optimized loading)
+├── languageData.ts  # TypeScript language data structures
 ├── hooks/      # Custom React hooks (useScrollReveal, etc.)
 public/         # Static assets (images, music)
 docs/           # Documentation
 ├── archive/    # Archived/outdated files (gitignored)
-.github/        # GitHub Actions workflows (auto-deploy)
+.github/        # GitHub Actions workflows (auto-deploy to Cloudflare)
 ```
 
 Standard Next.js 16 App Router structure with Cloudflare Workers optimizations.
