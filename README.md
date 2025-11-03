@@ -30,11 +30,15 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 
 ## What's Inside
 
-- 🎨 **Three.js hero scene** with shader animations
-- ⚡ **Buttery smooth scrolling** (Lenis)
-- 🎭 **Motion animations** that don't suck
-- 📱 **Actually responsive** (we tested on real devices)
-- 🌍 **Edge-deployed** on Cloudflare Workers
+- 🏛️ **Ancient civilization theme** with Egyptian Gold, Lapis Lazuli Blue, and papyrus textures
+- 🌍 **Interactive language showcase** featuring Akkadian, Biblical Hebrew, Koine Greek, Latin, and Old Church Slavonic
+- 🎨 **Three.js hero scene** with shader animations and GPU-accelerated canvas backgrounds
+- ⚡ **Buttery smooth scrolling** (Lenis) with 60fps on all devices
+- 🎭 **Motion animations** following 2025 best practices (GPU-only transforms, Intersection Observer)
+- ♿ **WCAG 2.1 AA accessible** with skip links, ARIA labels, and reduced motion support
+- 🔍 **SEO optimized** with JSON-LD structured data for educational content
+- 📱 **Actually responsive** (tested on real devices, not just DevTools)
+- 🌐 **Edge-deployed** on Cloudflare Workers for global low-latency
 
 ---
 
@@ -93,15 +97,21 @@ You'll need Cloudflare credentials configured in `wrangler.jsonc`. Secrets go vi
 ## Project Structure
 
 ```
-app/            # Next.js App Router pages
-components/     # React components
-lib/            # Utilities
-public/         # Static assets
+app/            # Next.js App Router pages & layouts
+├── api/        # API routes (health checks, music playlist)
+components/     # React components (35+ components)
+├── Ancient theme components (LanguageShowcase, PapyrusScroll, etc.)
+├── Three.js scenes (HeroScene, AncientBackground)
+├── UI components (SiteHeader, Footer, OpenSourceBadge)
+lib/            # Utilities & database client (Drizzle ORM + Neon)
+├── hooks/      # Custom React hooks (useScrollReveal, etc.)
+public/         # Static assets (images, music)
 docs/           # Documentation
-.github/        # GitHub config (funding, etc.)
+├── archive/    # Archived/outdated files (gitignored)
+.github/        # GitHub Actions workflows (auto-deploy)
 ```
 
-Standard Next.js 16 structure. If you've used Next before, you know where everything is.
+Standard Next.js 16 App Router structure with Cloudflare Workers optimizations.
 
 ---
 
