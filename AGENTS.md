@@ -662,14 +662,10 @@ node --version  # Must be 25.0.0 or higher
 - PostCSS for processing
 - CSS-first configuration (currently using legacy format in tailwind.config.ts)
 
-**3D Graphics**:
-- React Three Fiber 9.4.0
-- Drei 10.7.6 (helpers and abstractions)
-- Three.js 0.180.0
-
-**Animation**:
+**Animation & Graphics**:
 - Motion 12.23.24 (next-gen, successor to Framer Motion)
-- GSAP 3.13.0
+- Canvas API for GPU-accelerated background animations
+- Lenis 1.3.13 for smooth scrolling
 
 **Database**:
 - Drizzle ORM 0.44.7
@@ -969,8 +965,8 @@ As the project grows, consider adding:
 1. **Bleeding-edge tech stack**: Next.js 16, React 19.2, Node.js 25, Tailwind v4 (all October 2025 releases)
 2. **React Compiler enabled**: Automatic optimization, no manual memoization
 3. **Cloudflare Workers deployment**: Edge runtime with OpenNext adapter
-4. **3D graphics**: React Three Fiber for WebGL content
-5. **Modern animation**: Motion (Framer Motion successor) + GSAP
+4. **GPU-accelerated graphics**: Canvas API for performant background animations
+5. **Modern animation**: Motion (Framer Motion successor) with GPU-only transforms
 6. **Serverless database**: Neon Postgres with Drizzle ORM
 
 **Agent mindset**: Trust the package versions. If you think something "doesn't exist yet", your knowledge is outdated. When in doubt, search the web or ask the user.

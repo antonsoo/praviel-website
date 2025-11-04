@@ -32,7 +32,7 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 
 - 🏛️ **Ancient civilization theme** with Egyptian Gold (#D4AF37), Lapis Lazuli Blue, and papyrus textures
 - 🌍 **Interactive language showcase** featuring Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Middle Egyptian
-- 🎨 **Three.js hero scene** with shader animations and GPU-accelerated canvas backgrounds
+- 🎨 **GPU-accelerated canvas background** with ancient scripts and papyrus textures
 - 📚 **Interactive demo** showing morphological analysis on authentic Greek text (Iliad 1.1)
 - 🗺️ **How It Works** 4-step learning journey visualization
 - 📊 **Comparison table** showing PRAVIEL vs traditional methods and language apps
@@ -53,7 +53,7 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 Built with cutting-edge 2025 tech (yes, this stuff exists now):
 
 **Frontend:** Next.js 16.0.1 • React 19.2.0 • TypeScript 5.9.3 • Tailwind v4.1.16
-**Animation:** Motion 12.23.24 (React 19 compatible) • Three.js 0.181.0 • React Three Fiber
+**Animation:** Motion 12.23.24 (React 19 compatible) • Canvas API • Lenis smooth scroll
 **Deploy:** Cloudflare Workers • OpenNext • Node.js 25+
 **Tooling:** Turbopack • React Compiler 1.0 • ESLint 9.39.1 flat config • pnpm 10.20.0
 
