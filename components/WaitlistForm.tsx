@@ -45,7 +45,7 @@ export default function WaitlistForm() {
     <form
       id="waitlist"
       onSubmit={onSubmit}
-      className="mt-6 flex w-full max-w-md flex-col gap-3 text-sm sm:flex-row"
+      className="mt-4 sm:mt-6 flex w-full max-w-md flex-col gap-2 sm:gap-3 text-sm sm:flex-row"
     >
       <div className="flex-1">
         <label htmlFor="waitlist-email" className="sr-only">
@@ -56,7 +56,7 @@ export default function WaitlistForm() {
           type="email"
           required
           placeholder="you@domain.com"
-          className="w-full rounded-xl border border-zinc-700/60 bg-zinc-900/60 px-4 py-3 text-zinc-100 placeholder-zinc-500 outline-none ring-0 focus:border-violet-400/60 focus:bg-zinc-900/80 transition-colors"
+          className="w-full rounded-xl border border-zinc-700/60 bg-zinc-900/60 px-3 sm:px-4 py-3 text-sm sm:text-base text-zinc-100 placeholder-zinc-500 outline-none ring-0 focus:border-violet-400/60 focus:bg-zinc-900/80 transition-colors min-h-[44px]"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={pending}
@@ -67,7 +67,7 @@ export default function WaitlistForm() {
       <button
         type="submit"
         disabled={pending || status === "ok"}
-        className="rounded-xl bg-violet-600 px-4 py-3 font-medium text-white shadow-[0_0_30px_rgba(139,92,246,0.6)] hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="rounded-xl bg-violet-600 px-4 py-3 font-medium text-white shadow-[0_0_30px_rgba(139,92,246,0.6)] hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all min-h-[44px] text-sm sm:text-base whitespace-nowrap"
         aria-label="Join waitlist"
       >
         {pending ? "…" : "Join waitlist"}

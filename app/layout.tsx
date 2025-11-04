@@ -9,6 +9,8 @@ import AncientBackground from "@/components/AncientBackground";
 import CookieConsent from "@/components/CookieConsent";
 import MotionProvider from "@/components/MotionProvider";
 import SkipToContent from "@/components/SkipToContent";
+import ScrollProgress from "@/components/ScrollProgress";
+import StickyCTA from "@/components/StickyCTA";
 import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
@@ -59,6 +61,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover", // Ensures content extends into safe areas on notched devices
 };
 
 export default function RootLayout({
@@ -104,7 +111,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
-      <body className="min-h-dvh flex flex-col overflow-x-hidden font-sans">
+      <body className="min-h-dvh flex flex-col overflow-x-hidden font-sans" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
 
@@ -113,6 +120,9 @@ export default function RootLayout({
 
         {/* LazyMotion provider for bundle size optimization (34kb -> 6kb) */}
         <MotionProvider>
+          {/* Scroll progress indicator */}
+          <ScrollProgress />
+
           {/* Content */}
           <SmoothScroll>
             <SiteHeader />
@@ -120,6 +130,7 @@ export default function RootLayout({
             <Footer />
             <MusicToggle />
             <CookieConsent />
+            <StickyCTA />
           </SmoothScroll>
         </MotionProvider>
 

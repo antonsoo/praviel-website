@@ -43,7 +43,7 @@ export default function PrimaryCTA() {
         href="https://app.praviel.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="relative z-10 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#D4AF37] px-12 py-6 text-xl font-bold text-black shadow-[0_0_60px_rgba(212,175,55,0.7)] transition-all hover:shadow-[0_0_90px_rgba(212,175,55,0.9)] ring-2 ring-[#E8C55B]/60 cursor-pointer backdrop-blur-sm"
+        className="relative z-10 flex items-center gap-2 sm:gap-3 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#D4AF37] px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 text-lg sm:text-xl font-bold text-black shadow-[0_0_60px_rgba(212,175,55,0.7)] transition-all hover:shadow-[0_0_90px_rgba(212,175,55,0.9)] ring-2 ring-[#E8C55B]/60 cursor-pointer backdrop-blur-sm min-h-[48px]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{ scale: 1.06, y: -3 }}

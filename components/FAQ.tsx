@@ -102,11 +102,11 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="w-full text-left p-6 flex items-start justify-between gap-4 hover:bg-white/[0.02] transition-colors"
+                  className="w-full text-left p-4 sm:p-6 flex items-start justify-between gap-3 sm:gap-4 hover:bg-white/[0.02] transition-colors min-h-[44px]"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${idx}`}
                 >
-                  <span className="text-lg font-semibold text-white pr-8">
+                  <span className="text-base sm:text-lg font-semibold text-white pr-4 sm:pr-8">
                     {faq.question}
                   </span>
                   <m.div
@@ -140,7 +140,7 @@ export default function FAQ() {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="px-6 pb-6 text-zinc-400 leading-relaxed">
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-sm sm:text-base text-zinc-400 leading-relaxed">
                     {faq.answer}
                   </div>
                 </m.div>

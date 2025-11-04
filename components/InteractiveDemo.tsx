@@ -77,13 +77,13 @@ export default function InteractiveDemo() {
           <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-[#D4AF37]/40 rounded-br-lg" />
 
           {/* Text label */}
-          <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-4">
             <div className="text-xs text-zinc-500 uppercase tracking-wider">
               Homer, Iliad 1.1
             </div>
             <button
               onClick={() => setShowScriptioContinua(!showScriptioContinua)}
-              className="text-xs px-3 py-1 bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-700 rounded-full text-zinc-400 hover:text-zinc-200 transition-colors"
+              className="text-xs px-3 py-1.5 bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-700 rounded-full text-zinc-400 hover:text-zinc-200 transition-colors min-h-[36px]"
             >
               {showScriptioContinua ? "Show Word Dividers" : "Show Scriptio Continua"}
             </button>
@@ -106,7 +106,7 @@ export default function InteractiveDemo() {
             {showScriptioContinua ? (
               /* Scriptio continua display */
               <div className="mb-6">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-serif text-[#E8DCC4] leading-relaxed tracking-wider">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-[#E8DCC4] leading-relaxed tracking-wider break-all">
                   {scriptioContinuaText}
                 </div>
                 <div className="mt-3 text-xs text-zinc-500 italic">
@@ -115,12 +115,12 @@ export default function InteractiveDemo() {
               </div>
             ) : (
               /* Interactive word-by-word display */
-              <div className="flex flex-wrap items-center justify-center gap-3 text-2xl sm:text-3xl md:text-4xl font-serif">
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-serif">
                 {words.map((word, idx) => (
                   <m.button
                     key={idx}
                     onClick={() => setSelectedWord(idx === selectedWord ? null : idx)}
-                    className={`relative px-2 py-1 rounded-lg transition-all cursor-pointer ${
+                    className={`relative px-2 py-1 rounded-lg transition-all cursor-pointer min-h-[44px] flex items-center ${
                       selectedWord === idx
                         ? "bg-white/10 shadow-lg"
                         : "hover:bg-white/5"
@@ -169,14 +169,14 @@ export default function InteractiveDemo() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="grid sm:grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                   {/* Left side */}
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
                       <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
                         Selected Word
                       </div>
-                      <div className="text-3xl font-serif" style={{ color: words[selectedWord].color }}>
+                      <div className="text-2xl sm:text-3xl font-serif" style={{ color: words[selectedWord].color }}>
                         {words[selectedWord].text}
                       </div>
                     </div>
@@ -185,10 +185,10 @@ export default function InteractiveDemo() {
                       <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
                         Lemma (Dictionary Form)
                       </div>
-                      <div className="text-xl text-zinc-200 font-serif">
+                      <div className="text-lg sm:text-xl text-zinc-200 font-serif">
                         {words[selectedWord].lemma}
                       </div>
-                      <div className="text-xs text-zinc-600 mt-1">
+                      <div className="text-xs text-zinc-600 mt-1 break-words">
                         Standard edition: {words[selectedWord].standardEdition}
                       </div>
                     </div>
@@ -204,12 +204,12 @@ export default function InteractiveDemo() {
                   </div>
 
                   {/* Right side */}
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
                       <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
                         Morphology
                       </div>
-                      <div className="text-sm text-zinc-300">
+                      <div className="text-xs sm:text-sm text-zinc-300">
                         {words[selectedWord].morph}
                       </div>
                     </div>
@@ -218,7 +218,7 @@ export default function InteractiveDemo() {
                       <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
                         Definition (LSJ)
                       </div>
-                      <div className="text-sm text-zinc-300 leading-relaxed">
+                      <div className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
                         {words[selectedWord].definition}
                       </div>
                     </div>

@@ -61,7 +61,7 @@ export default function WhyPRAVIEL() {
 
         {/* Problem examples */}
         <m.div
-          className="grid md:grid-cols-3 gap-6 mb-16"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -69,7 +69,7 @@ export default function WhyPRAVIEL() {
           {problems.map((problem, idx) => (
             <m.div
               key={idx}
-              className="relative p-6 rounded-xl bg-gradient-to-br from-zinc-900/80 to-zinc-900/40 border border-zinc-800/50 backdrop-blur-sm"
+              className="relative p-4 sm:p-6 rounded-xl bg-gradient-to-br from-zinc-900/80 to-zinc-900/40 border border-zinc-800/50 backdrop-blur-sm"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.3 + idx * 0.1 }}
@@ -82,26 +82,27 @@ export default function WhyPRAVIEL() {
                       transition: { duration: 0.2 },
                     }
               }
+              whileTap={{ scale: 0.98 }}
             >
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <div>
                   <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Original:</div>
-                  <div className="text-sm font-medium text-zinc-200">{problem.original}</div>
+                  <div className="text-xs sm:text-sm font-medium text-zinc-200 break-words">{problem.original}</div>
                   {problem.originalNote && (
-                    <div className="text-xs text-zinc-600 mt-1 italic">{problem.originalNote}</div>
+                    <div className="text-[10px] sm:text-xs text-zinc-600 mt-1 italic break-words">{problem.originalNote}</div>
                   )}
                 </div>
                 <div className="h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
                 <div>
                   <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Translation:</div>
-                  <div className="text-sm text-zinc-400">{problem.translation}</div>
+                  <div className="text-xs sm:text-sm text-zinc-400 break-words">{problem.translation}</div>
                 </div>
                 <div className="pt-2 border-t border-zinc-800">
                   <div className="flex items-start gap-2">
                     <svg className="w-4 h-4 text-[#CD5C5C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    <div className="text-xs text-zinc-500 italic">{problem.lost}</div>
+                    <div className="text-[10px] sm:text-xs text-zinc-500 italic">{problem.lost}</div>
                   </div>
                 </div>
               </div>

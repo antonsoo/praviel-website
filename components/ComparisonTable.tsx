@@ -56,20 +56,20 @@ export default function ComparisonTable() {
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <table className="w-full">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr className="border-b border-zinc-800">
-                <th className="text-left p-6 text-sm font-semibold text-zinc-400 uppercase tracking-wider">
+                <th className="text-left p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-wider">
                   Feature
                 </th>
-                <th className="text-center p-6 text-sm font-semibold text-zinc-400 uppercase tracking-wider">
-                  Traditional<br/><span className="text-xs font-normal normal-case">(Textbooks)</span>
+                <th className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-wider">
+                  Traditional<br/><span className="text-[10px] sm:text-xs font-normal normal-case">(Textbooks)</span>
                 </th>
-                <th className="text-center p-6 text-sm font-semibold text-zinc-400 uppercase tracking-wider">
-                  Language Apps<br/><span className="text-xs font-normal normal-case">(Popular Apps)</span>
+                <th className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-wider">
+                  Language Apps<br/><span className="text-[10px] sm:text-xs font-normal normal-case">(Popular Apps)</span>
                 </th>
-                <th className="text-center p-6 text-sm font-semibold bg-gradient-to-r from-[#D4AF37]/10 to-[#3b82f6]/10 border-l-2 border-[#D4AF37]">
-                  <span className="text-[#E8C55B] text-base">PRAVIEL</span>
+                <th className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold bg-gradient-to-r from-[#D4AF37]/10 to-[#3b82f6]/10 border-l-2 border-[#D4AF37]">
+                  <span className="text-[#E8C55B] text-sm sm:text-base">PRAVIEL</span>
                 </th>
               </tr>
             </thead>
@@ -82,17 +82,17 @@ export default function ComparisonTable() {
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + (idx * 0.05) }}
                 >
-                  <td className="p-6 text-sm font-medium text-zinc-300">
+                  <td className="p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-medium text-zinc-300">
                     {feature.name}
                   </td>
-                  <td className="text-center p-6 text-sm text-zinc-400">
+                  <td className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm text-zinc-400">
                     {feature.traditional}
                   </td>
-                  <td className="text-center p-6 text-sm text-zinc-400">
+                  <td className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm text-zinc-400">
                     {feature.apps}
                   </td>
-                  <td className="text-center p-6 bg-gradient-to-r from-[#D4AF37]/5 to-[#3b82f6]/5 border-l-2 border-[#D4AF37]">
-                    <span className="text-sm font-semibold text-[#E8C55B]">
+                  <td className="text-center p-3 sm:p-4 md:p-6 bg-gradient-to-r from-[#D4AF37]/5 to-[#3b82f6]/5 border-l-2 border-[#D4AF37]">
+                    <span className="text-xs sm:text-sm font-semibold text-[#E8C55B]">
                       {feature.praviel}
                     </span>
                   </td>

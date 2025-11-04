@@ -80,7 +80,7 @@ export default function HowItWorks() {
         </m.div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {steps.map((step, idx) => (
             <m.div
               key={step.number}
@@ -102,15 +102,15 @@ export default function HowItWorks() {
                 </div>
               )}
 
-              <div className="relative rounded-2xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 p-6 backdrop-blur-sm hover:border-[#D4AF37]/40 transition-colors">
+              <div className="relative rounded-2xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 p-5 sm:p-6 backdrop-blur-sm hover:border-[#D4AF37]/40 transition-colors">
                 {/* Step number badge */}
-                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#C5A572] flex items-center justify-center shadow-lg shadow-[#D4AF37]/30">
-                  <span className="text-xl font-bold text-black">{step.number}</span>
+                <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#C5A572] flex items-center justify-center shadow-lg shadow-[#D4AF37]/30">
+                  <span className="text-lg sm:text-xl font-bold text-black">{step.number}</span>
                 </div>
 
                 {/* Icon */}
                 <m.div
-                  className="mb-6 mt-2 text-[#E8C55B]"
+                  className="mb-4 sm:mb-6 mt-2 text-[#E8C55B]"
                   whileHover={shouldReduceMotion ? {} : { scale: 1.1, rotate: 5 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -118,10 +118,10 @@ export default function HowItWorks() {
                 </m.div>
 
                 {/* Content */}
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">
                   {step.title}
                 </h3>
-                <p className="text-sm text-zinc-400 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
                   {step.description}
                 </p>
               </div>

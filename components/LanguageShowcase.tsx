@@ -94,25 +94,25 @@ export default function LanguageShowcase() {
           <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-[#D4AF37]/40 rounded-bl-lg" />
           <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-[#D4AF37]/40 rounded-br-lg" />
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {/* Left side - Language info */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <m.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                <div className="text-sm text-[#E8C55B] font-semibold mb-2 uppercase tracking-wider">
+                <div className="text-xs sm:text-sm text-[#E8C55B] font-semibold mb-2 uppercase tracking-wider">
                   {languages[selectedLang].script}
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-bold text-white mb-3 flex items-center gap-3">
-                  <span className="text-4xl sm:text-5xl">{languages[selectedLang].emoji}</span>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 flex items-center gap-2 sm:gap-3">
+                  <span className="text-3xl sm:text-4xl md:text-5xl">{languages[selectedLang].emoji}</span>
                   {languages[selectedLang].name}
                 </h3>
-                <div className={`text-2xl sm:text-3xl text-zinc-400 mb-4 ${languages[selectedLang].fontClass || 'font-serif'}`}>
+                <div className={`text-xl sm:text-2xl md:text-3xl text-zinc-400 mb-3 sm:mb-4 ${languages[selectedLang].fontClass || 'font-serif'} break-words`}>
                   {languages[selectedLang].nativeName}
                 </div>
-                <p className="text-zinc-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
                   {languages[selectedLang].description}
                 </p>
               </m.div>
@@ -125,27 +125,27 @@ export default function LanguageShowcase() {
               />
 
               <m.div
-                className="space-y-4"
+                className="space-y-3 sm:space-y-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <div>
-                  <div className="text-sm text-zinc-500 mb-2">Sample Text:</div>
+                  <div className="text-xs sm:text-sm text-zinc-500 mb-2">Sample Text:</div>
                   <div
-                    className={`text-xl sm:text-2xl text-zinc-200 leading-relaxed mb-2 ${languages[selectedLang].fontClass || 'font-serif'}`}
+                    className={`text-lg sm:text-xl md:text-2xl text-zinc-200 leading-relaxed mb-2 ${languages[selectedLang].fontClass || 'font-serif'} break-words`}
                     dir={languages[selectedLang].isRTL ? "rtl" : "ltr"}
                   >
                     {languages[selectedLang].sample}
                   </div>
-                  <div className="text-base text-zinc-400 italic">
+                  <div className="text-sm sm:text-base text-zinc-400 italic break-words">
                     "{languages[selectedLang].translation}"
                   </div>
                 </div>
 
-                <div className="bg-zinc-800/40 border border-zinc-700/50 rounded-lg p-4">
-                  <div className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Writing System:</div>
-                  <div className="text-sm text-zinc-300">
+                <div className="bg-zinc-800/40 border border-zinc-700/50 rounded-lg p-3 sm:p-4">
+                  <div className="text-[10px] sm:text-xs text-zinc-500 uppercase tracking-wider mb-1">Writing System:</div>
+                  <div className="text-xs sm:text-sm text-zinc-300">
                     {languages[selectedLang].writingInfo}
                   </div>
                 </div>

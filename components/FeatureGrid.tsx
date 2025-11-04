@@ -102,7 +102,9 @@ function FeatureCard({
       }
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group relative flex flex-col rounded-2xl border border-[#D4AF37]/20 bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 stone-texture p-6 ring-1 ring-[#D4AF37]/10 backdrop-blur-xl transition-colors hover:border-[#D4AF37]/50 hover:bg-gradient-to-br hover:from-[#1e40af]/10 hover:via-zinc-900/80 hover:to-[#D4AF37]/10 hover:ring-[#D4AF37]/30 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-[#D4AF37]/20"
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
+      className="group relative flex flex-col rounded-2xl border border-[#D4AF37]/20 bg-gradient-to-br from-zinc-900/90 via-zinc-900/70 to-zinc-900/90 stone-texture p-5 sm:p-6 ring-1 ring-[#D4AF37]/10 backdrop-blur-xl transition-colors hover:border-[#D4AF37]/50 hover:bg-gradient-to-br hover:from-[#1e40af]/10 hover:via-zinc-900/80 hover:to-[#D4AF37]/10 hover:ring-[#D4AF37]/30 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-[#D4AF37]/20 min-h-[160px]"
     >
       {/* Enhanced animated gradient background with Egyptian gold */}
       <m.div
@@ -161,7 +163,7 @@ function FeatureCard({
 
       {/* Enhanced icon with 3D transform and glow (ancient theme) */}
       <m.div
-        className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37]/30 to-[#3b82f6]/30 ring-2 ring-[#D4AF37]/50 backdrop-blur shadow-lg shadow-[#D4AF37]/20"
+        className="relative mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37]/30 to-[#3b82f6]/30 ring-2 ring-[#D4AF37]/50 backdrop-blur shadow-lg shadow-[#D4AF37]/20"
         style={{
           transformStyle: "preserve-3d",
           transform: shouldReduceMotion ? "none" : "translateZ(20px)",
@@ -204,7 +206,7 @@ function FeatureCard({
 
       {/* Title with gradient on hover (ancient theme) */}
       <m.h3
-        className="relative text-base font-semibold text-zinc-100 mb-2"
+        className="relative text-sm sm:text-base font-semibold text-zinc-100 mb-2"
         style={{
           transformStyle: "preserve-3d",
           transform: shouldReduceMotion ? "none" : "translateZ(10px)",
@@ -222,7 +224,7 @@ function FeatureCard({
 
       {/* Body text */}
       <p
-        className="relative text-sm leading-relaxed text-zinc-400"
+        className="relative text-xs sm:text-sm leading-relaxed text-zinc-400"
         style={{
           transformStyle: "preserve-3d",
           transform: shouldReduceMotion ? "none" : "translateZ(5px)",
@@ -334,7 +336,7 @@ export default function FeatureGrid() {
       </div>
 
       <m.div
-        className="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
+        className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 sm:gap-8"
         style={{ perspective: "1000px" }}
       >
         {features.map((f, idx) => (
@@ -343,16 +345,16 @@ export default function FeatureGrid() {
       </m.div>
 
       <m.div
-        className="mx-auto mt-16 max-w-2xl text-center"
+        className="mx-auto mt-12 sm:mt-16 max-w-2xl text-center px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        <p className="text-sm text-zinc-400 mb-3">
+        <p className="text-xs sm:text-sm text-zinc-400 mb-2 sm:mb-3 leading-relaxed">
           Built on authoritative sources: Perseus Digital Library (Tufts), LSJ Lexicon (Oxford), TLA Berlin, ORACC UPenn, CDLI UCLA
         </p>
-        <p className="text-xs text-zinc-600">
-          For educators seeking institutional access or partnership opportunities: <a href="mailto:contact@praviel.com" className="text-[#E8C55B] hover:text-[#D4AF37] transition-colors">contact@praviel.com</a>
+        <p className="text-[10px] sm:text-xs text-zinc-600 leading-relaxed">
+          For educators seeking institutional access or partnership opportunities: <a href="mailto:contact@praviel.com" className="text-[#E8C55B] hover:text-[#D4AF37] transition-colors underline">contact@praviel.com</a>
         </p>
       </m.div>
 

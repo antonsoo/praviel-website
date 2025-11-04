@@ -84,7 +84,7 @@ export default function TractionBar() {
 
       <div className="mx-auto max-w-7xl relative z-10">
         <m.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -92,7 +92,7 @@ export default function TractionBar() {
           {metrics.map((metric, idx) => (
             <m.div
               key={metric.label}
-              className="relative flex flex-col items-center text-center p-6 rounded-xl bg-gradient-to-br from-zinc-900/50 to-zinc-900/30 border border-zinc-800/50 backdrop-blur-sm"
+              className="relative flex flex-col items-center text-center p-5 sm:p-6 rounded-xl bg-gradient-to-br from-zinc-900/50 to-zinc-900/30 border border-zinc-800/50 backdrop-blur-sm min-h-[140px] justify-center"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
@@ -105,6 +105,7 @@ export default function TractionBar() {
                       transition: { duration: 0.2 },
                     }
               }
+              whileTap={{ scale: 0.98 }}
             >
               {/* Icon */}
               <m.div
@@ -126,12 +127,12 @@ export default function TractionBar() {
               </m.div>
 
               {/* Value */}
-              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#E8C55B] via-white to-[#E8C55B] bg-clip-text text-transparent mb-2">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#E8C55B] via-white to-[#E8C55B] bg-clip-text text-transparent mb-2">
                 {metric.value}
               </div>
 
               {/* Label */}
-              <div className="text-xs sm:text-sm text-zinc-400 font-medium">
+              <div className="text-xs sm:text-sm text-zinc-400 font-medium leading-tight">
                 {metric.label}
               </div>
 

@@ -109,9 +109,24 @@
                       radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.05) 0%, transparent 50%),
                       radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
   }
+
+  /* GPU-accelerated utilities for smooth animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+  }
+
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
-/* Smooth font rendering */
+/* Smooth font rendering and performance optimizations */
 body {
   background-color: var(--color-bg-page);
   color: rgb(228 228 231);
@@ -119,6 +134,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* GPU acceleration for smoother scrolling and animations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize button and link interactions */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Ensure smooth transforms for all interactive elements */
+@media (prefers-reduced-motion: no-preference) {
+  button, a, [role="button"] {
+    transition-property: transform, opacity, background-color, border-color, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
 }
 
 /* Animations */

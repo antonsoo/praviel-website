@@ -91,10 +91,10 @@ export default function HeroSection() {
         {/* Main Headline with enhanced kinetic typography and morphing text */}
         <m.h1
           variants={itemVariants}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.05] px-4"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.05] px-4"
         >
           <m.span
-            className="inline-block whitespace-nowrap text-shadow-glow"
+            className="inline-block text-shadow-glow"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
@@ -107,7 +107,7 @@ export default function HeroSection() {
           </m.span>
           <br />
           <m.span
-            className="inline-block whitespace-nowrap"
+            className="inline-block"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
@@ -128,7 +128,7 @@ export default function HeroSection() {
 
         {/* Subheadline with ancient script accents and enhanced animations */}
         <m.div variants={itemVariants} className="mx-auto max-w-3xl mb-12 px-4 space-y-4">
-          <p className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-zinc-300 leading-relaxed">
             Learn{" "}
             <m.span
               className="text-white font-semibold bg-gradient-to-r from-[#E8DCC4] to-[#F5F5F0] bg-clip-text text-transparent inline-block"
@@ -146,7 +146,7 @@ export default function HeroSection() {
             {" "}
             Read Homer, Virgil, and the Torah <span className="text-white font-medium">as the ancients wrote them</span>—no translations, no filters.
           </p>
-          <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed">
             AI-generated lessons from authentic texts · Interactive reader with scholarly analysis · Conversational practice with historical personas · And much more.
           </p>
         </m.div>

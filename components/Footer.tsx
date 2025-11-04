@@ -15,7 +15,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-white/5 bg-black/60 px-6 py-12 text-xs text-zinc-600 ring-1 ring-white/10 backdrop-blur-xl overflow-hidden">
+    <footer className="relative border-t border-white/5 bg-black/60 px-4 sm:px-6 py-8 sm:py-12 pb-[calc(2rem+env(safe-area-inset-bottom))] text-xs text-zinc-600 ring-1 ring-white/10 backdrop-blur-xl overflow-hidden">
       {/* Animated top border */}
       <motion.div
         className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"
@@ -32,21 +32,21 @@ export default function Footer() {
       {/* Background glow effect */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#1e40af]/10 to-transparent pointer-events-none" />
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-start sm:justify-between relative z-10">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:gap-8 sm:flex-row sm:items-start sm:justify-between relative z-10">
         <motion.div
-          className="space-y-3"
+          className="space-y-2 sm:space-y-3"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
           <motion.div
-            className="text-lg font-bold bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent"
+            className="text-base sm:text-lg font-bold bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent"
             whileHover={{ scale: 1.05 }}
           >
             PRAVIEL
           </motion.div>
-          <div className="max-w-xs text-zinc-500 leading-relaxed">
+          <div className="max-w-xs text-xs sm:text-sm text-zinc-500 leading-relaxed">
             Through ancient tongues, wisdom echoes across millennia.
           </div>
 
@@ -88,7 +88,7 @@ export default function Footer() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col gap-3"
+          className="flex flex-col gap-2 sm:gap-3"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -98,7 +98,7 @@ export default function Footer() {
             <motion.a
               key={link.href}
               href={link.href}
-              className="relative text-zinc-500 hover:text-[#E8C55B] transition-colors group w-fit min-h-[44px] flex items-center"
+              className="relative text-xs sm:text-sm text-zinc-500 hover:text-[#E8C55B] transition-colors group w-fit min-h-[44px] flex items-center"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -129,7 +129,7 @@ export default function Footer() {
       </div>
 
       <motion.div
-        className="mx-auto mt-12 max-w-6xl text-zinc-700 relative z-10 text-center sm:text-left"
+        className="mx-auto mt-8 sm:mt-12 max-w-6xl text-[10px] sm:text-xs text-zinc-700 relative z-10 text-center sm:text-left"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}

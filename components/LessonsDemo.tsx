@@ -28,11 +28,24 @@ export default function LessonsDemo() {
   const [selectedEnglish, setSelectedEnglish] = useState<number | null>(null);
   const [matches, setMatches] = useState<Set<number>>(new Set());
   const [wrongAttempt, setWrongAttempt] = useState(false);
-  const [shuffledEnglish, setShuffledEnglish] = useState<VocabWord[]>(words);
 
-  // Shuffle English words for display (client-side only to avoid prerender issues)
+  // Shuffle English words using Fisher-Yates algorithm (client-side only)
+  const [shuffledEnglish, setShuffledEnglish] = useState<VocabWord[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
   React.useEffect(() => {
-    setShuffledEnglish([...words].sort(() => Math.random() - 0.5));
+    // Fisher-Yates shuffle algorithm - deterministic and more efficient
+    const shuffleArray = <T,>(array: T[]): T[] => {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+
+    setShuffledEnglish(shuffleArray(words));
+    setIsClient(true);
   }, []);
 
   const handleGreekClick = (id: number) => {
@@ -148,17 +161,34 @@ export default function LessonsDemo() {
           </div>
 
           {/* Instruction */}
-          <div className="mb-8 text-center">
-            <p className="text-zinc-400 text-sm">
+          <div className="mb-6 sm:mb-8 text-center px-2">
+            <p className="text-zinc-400 text-xs sm:text-sm">
               Click on a Greek word, then click on its English meaning to match
             </p>
           </div>
 
           {/* Matching Game */}
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {!isClient ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
+              {/* Skeleton loader */}
+              <div className="space-y-3">
+                <div className="h-6 bg-zinc-800/50 rounded animate-pulse w-32 mx-auto mb-4" />
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-16 bg-zinc-800/50 rounded-xl animate-pulse" />
+                ))}
+              </div>
+              <div className="space-y-3">
+                <div className="h-6 bg-zinc-800/50 rounded animate-pulse w-32 mx-auto mb-4" />
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-16 bg-zinc-800/50 rounded-xl animate-pulse" />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
             {/* Greek words column */}
-            <div className="space-y-3">
-              <h3 className="text-xs text-zinc-500 uppercase tracking-wider mb-4 text-center">
+            <div className="space-y-2 sm:space-y-3">
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider mb-3 sm:mb-4 text-center">
                 Classical Greek
               </h3>
               {words.map((word) => (
@@ -166,7 +196,7 @@ export default function LessonsDemo() {
                   key={`greek-${word.id}`}
                   onClick={() => handleGreekClick(word.id)}
                   disabled={matches.has(word.id)}
-                  className={`w-full p-4 rounded-xl border-2 transition-all ${
+                  className={`w-full p-3 sm:p-4 rounded-xl border-2 transition-all min-h-[56px] ${
                     matches.has(word.id)
                       ? "bg-green-500/20 border-green-500/50 text-green-300 cursor-default"
                       : selectedGreek === word.id
@@ -185,7 +215,7 @@ export default function LessonsDemo() {
                   whileTap={!matches.has(word.id) ? { scale: 0.98 } : {}}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-serif">{word.greek}</span>
+                    <span className="text-lg sm:text-xl font-serif">{word.greek}</span>
                     {matches.has(word.id) && (
                       <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -197,8 +227,8 @@ export default function LessonsDemo() {
             </div>
 
             {/* English meanings column */}
-            <div className="space-y-3">
-              <h3 className="text-xs text-zinc-500 uppercase tracking-wider mb-4 text-center">
+            <div className="space-y-2 sm:space-y-3">
+              <h3 className="text-xs text-zinc-500 uppercase tracking-wider mb-3 sm:mb-4 text-center">
                 English Meaning
               </h3>
               {shuffledEnglish.map((word) => (
@@ -206,7 +236,7 @@ export default function LessonsDemo() {
                   key={`english-${word.id}`}
                   onClick={() => handleEnglishClick(word.id)}
                   disabled={matches.has(word.id)}
-                  className={`w-full p-4 rounded-xl border-2 transition-all ${
+                  className={`w-full p-3 sm:p-4 rounded-xl border-2 transition-all min-h-[56px] ${
                     matches.has(word.id)
                       ? "bg-green-500/20 border-green-500/50 text-green-300 cursor-default"
                       : selectedEnglish === word.id
@@ -226,8 +256,8 @@ export default function LessonsDemo() {
                 >
                   <div className="flex items-center justify-between">
                     <div className="text-left">
-                      <div className="text-base font-medium">{word.english}</div>
-                      <div className="text-xs text-zinc-500 mt-1">{word.context}</div>
+                      <div className="text-sm sm:text-base font-medium">{word.english}</div>
+                      <div className="text-[10px] sm:text-xs text-zinc-500 mt-0.5 sm:mt-1">{word.context}</div>
                     </div>
                     {matches.has(word.id) && (
                       <svg className="w-5 h-5 text-green-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -239,6 +269,7 @@ export default function LessonsDemo() {
               ))}
             </div>
           </div>
+          )}
 
           {/* Completion message */}
           {allMatched && (
