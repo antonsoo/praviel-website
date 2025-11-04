@@ -26,8 +26,8 @@ const metrics: Metric[] = [
     ),
   },
   {
-    value: "5,000",
-    label: "Years of History",
+    value: "5,000+",
+    label: "Years Covered",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -40,8 +40,8 @@ const metrics: Metric[] = [
     ),
   },
   {
-    value: "460+",
-    label: "Primary Texts",
+    value: "116K+",
+    label: "LSJ Dictionary Entries",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -54,8 +54,8 @@ const metrics: Metric[] = [
     ),
   },
   {
-    value: "Zero",
-    label: "AI Hallucinations",
+    value: "100%",
+    label: "Research-Grade Accuracy",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path

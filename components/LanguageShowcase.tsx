@@ -254,7 +254,9 @@ export default function LanguageShowcase() {
               </div>
               <div className="text-center sm:text-right">
                 <m.a
-                  href="https://praviel.com/fund"
+                  href="https://app.praviel.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#C5A572] text-black font-semibold rounded-full hover:shadow-lg hover:shadow-[#D4AF37]/30 transition-all"
                   whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}

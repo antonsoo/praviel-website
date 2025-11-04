@@ -58,7 +58,7 @@ export default function PrimaryCTA() {
             ease: "easeInOut",
           }}
         >
-          Launch Alpha App
+          Start Learning Free
         </motion.span>
         <motion.svg
           viewBox="0 0 24 24"

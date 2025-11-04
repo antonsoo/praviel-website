@@ -122,7 +122,7 @@ export default function SecondaryCTAs() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.8 }}
       >
-        Web & desktop available now • Mobile coming soon
+        100% free • No signup required • Donations appreciated
       </motion.p>
     </div>
   );

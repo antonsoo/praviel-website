@@ -12,8 +12,8 @@ export default function SiteHeader() {
   const navLinks = [
     { href: "https://app.praviel.com", label: "Launch app" },
     { href: "#features", label: "Features" },
+    { href: "/fund", label: "Support us" },
     { href: "https://api.praviel.com/docs", label: "API" },
-    { href: "/fund", label: "Fund" },
   ];
 
   return (
@@ -86,10 +86,10 @@ export default function SiteHeader() {
           {/* CTA button with enhanced effects (ancient theme) */}
           <m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
-              href="#waitlist"
+              href="https://app.praviel.com"
               className="relative overflow-hidden rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#3b82f6] px-4 py-2 font-medium text-white shadow-[0_0_20px_rgba(212,175,55,0.6)] transition-shadow hover:shadow-[0_0_30px_rgba(212,175,55,0.8)]"
             >
-              <span className="relative z-10">Get early access</span>
+              <span className="relative z-10">Try free now</span>
 
               {/* Shimmer effect */}
               <m.div

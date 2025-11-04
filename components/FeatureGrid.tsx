@@ -4,7 +4,6 @@ import { useInView, useMotionValue, useSpring, useTransform, useReducedMotion } 
 import * as m from "motion/react-m";
 import { useRef, useState, useEffect } from "react";
 import GreekKeyBorder from "./GreekKeyBorder";
-import RomanMosaicBorder from "./RomanMosaicBorder";
 
 // Individual feature card with advanced interactions
 function FeatureCard({
@@ -232,54 +231,22 @@ function FeatureCard({
         {feature.body}
       </p>
 
-      {/* Enhanced floating particles around card (Egyptian gold) */}
-      {isHovered && !shouldReduceMotion && (
-        <>
-          {[...Array(6)].map((_, i) => (
-            <m.div
-              key={i}
-              className="absolute w-1.5 h-1.5 rounded-full bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/50"
-              style={{
-                left: `${15 + i * 15}%`,
-                top: i % 2 === 0 ? "-8px" : "calc(100% + 8px)",
-              }}
-              initial={{ opacity: 0, y: 0, scale: 0 }}
-              animate={{
-                opacity: [0, 1, 0],
-                y: i % 2 === 0 ? [-10, -40] : [10, 40],
-                scale: [0, 1, 0],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: i * 0.15,
-                ease: "easeOut",
-              }}
-            />
-          ))}
-        </>
-      )}
-
-      {/* Multiple corner accent pulses (Egyptian gold) */}
-      {["right-3 top-3", "left-3 bottom-3", "right-3 bottom-3", "left-3 top-3"].map((pos, i) => (
-        <m.div
-          key={i}
-          className={`absolute ${pos} h-1.5 w-1.5 rounded-full bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/50`}
-          animate={
-            shouldReduceMotion
-              ? { opacity: isHovered ? 0.8 : 0 }
-              : {
-                  opacity: isHovered ? [0, 1, 0] : 0,
-                  scale: isHovered ? [1, 2, 1] : 1,
-                }
-          }
-          transition={{
-            duration: 1.2,
-            repeat: isHovered && !shouldReduceMotion ? Infinity : 0,
-            delay: i * 0.3,
-          }}
-        />
-      ))}
+      {/* Single corner accent (top-right) */}
+      <m.div
+        className="absolute right-3 top-3 h-1.5 w-1.5 rounded-full bg-[#D4AF37] shadow-lg shadow-[#D4AF37]/50"
+        animate={
+          shouldReduceMotion
+            ? { opacity: isHovered ? 0.8 : 0 }
+            : {
+                opacity: isHovered ? [0, 1, 0] : 0,
+                scale: isHovered ? [1, 1.5, 1] : 1,
+              }
+        }
+        transition={{
+          duration: 1.5,
+          repeat: isHovered && !shouldReduceMotion ? Infinity : 0,
+        }}
+      />
     </m.div>
   );
 }
@@ -361,12 +328,7 @@ export default function FeatureGrid() {
 
   return (
     <section id="features" ref={ref} className="relative z-10 px-6 pb-24 sm:pb-32 md:pb-40">
-      {/* Roman mosaic border at top */}
-      <div className="mx-auto max-w-6xl mb-8">
-        <RomanMosaicBorder height={50} animate={true} />
-      </div>
-
-      {/* Section header with Greek Key border */}
+      {/* Section header with single decorative element */}
       <div className="mx-auto max-w-5xl mb-12">
         <GreekKeyBorder className="mb-4" />
       </div>
@@ -394,15 +356,6 @@ export default function FeatureGrid() {
         </p>
       </m.div>
 
-      {/* Closing Greek Key border */}
-      <div className="mx-auto max-w-5xl mt-12">
-        <GreekKeyBorder />
-      </div>
-
-      {/* Roman mosaic border at bottom */}
-      <div className="mx-auto max-w-6xl mt-8">
-        <RomanMosaicBorder height={50} animate={true} />
-      </div>
     </section>
   );
 }
