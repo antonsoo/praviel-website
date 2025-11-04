@@ -107,15 +107,21 @@ export default function HeroSection() {
           </m.span>
           <br />
           <m.span
-            className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent inline-block animate-gradient bg-[length:200%_auto] drop-shadow-2xl"
+            className="inline-block"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
           >
             {shouldReduceMotion ? (
-              "not the translations"
+              <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                not the translations
+              </span>
             ) : (
-              <MorphingText text="not the translations" delay={1500} />
+              <MorphingText
+                text="not the translations"
+                delay={1500}
+                charClassName="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text animate-gradient bg-[length:200%_auto]"
+              />
             )}
           </m.span>
         </m.h1>

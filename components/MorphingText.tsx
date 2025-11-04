@@ -7,6 +7,7 @@ interface MorphingTextProps {
   text: string;
   className?: string;
   delay?: number;
+  charClassName?: string; // Optional className to apply to each character
 }
 
 /**
@@ -23,7 +24,7 @@ interface MorphingTextProps {
  * - No manual state updates during animation
  * - Respects prefers-reduced-motion
  */
-export default function MorphingText({ text, className = "", delay = 0 }: MorphingTextProps) {
+export default function MorphingText({ text, className = "", delay = 0, charClassName = "" }: MorphingTextProps) {
   const shouldReduceMotion = useReducedMotion();
 
   // Variant for container - orchestrates staggered children
@@ -67,9 +68,11 @@ export default function MorphingText({ text, className = "", delay = 0 }: Morphi
         <m.span
           key={index}
           variants={charVariants}
+          className={charClassName}
           style={{
             display: "inline-block",
             willChange: shouldReduceMotion ? "auto" : "transform, opacity",
+            color: charClassName ? "transparent" : "inherit",
           }}
         >
           {char === " " ? "\u00A0" : char}
