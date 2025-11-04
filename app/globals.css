@@ -127,6 +127,16 @@
 }
 
 /* Smooth font rendering and performance optimizations */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background-color: var(--color-bg-page);
   color: rgb(228 228 231);
@@ -208,6 +218,242 @@ button, a {
 ::-moz-selection {
   background-color: rgba(251, 191, 36, 0.3);
   color: #fef3c7;
+}
+
+/* Enhanced focus states for accessibility (WCAG 2.2 compliance) */
+*:focus-visible {
+  outline: 2px solid rgb(139 92 246);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid rgb(139 92 246);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+}
+
+/* Improved keyboard navigation indicators */
+@media (prefers-reduced-motion: no-preference) {
+  *:focus-visible {
+    transition: outline-offset 0.15s ease, box-shadow 0.15s ease;
+  }
+}
+
+/* CSS Scroll-Driven Animations (2025 standard) */
+@supports (animation-timeline: scroll()) {
+  /* Fade in elements as they enter viewport */
+  .scroll-fade-in {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  /* Scale elements on scroll */
+  .scroll-scale {
+    animation: scale-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  /* Slide from left */
+  .scroll-slide-left {
+    animation: slide-from-left linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  /* Slide from right */
+  .scroll-slide-right {
+    animation: slide-from-right linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Micro-interactions for buttons (2025 best practices) */
+@media (prefers-reduced-motion: no-preference) {
+  button:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+
+  button:not(:disabled):active {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+  }
+
+  /* Ripple effect base */
+  button, a {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Haptic-style feedback */
+  .haptic-feedback:active {
+    animation: haptic-pulse 0.3s ease;
+  }
+}
+
+@keyframes haptic-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+}
+
+/* Loading states and skeleton loaders */
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .skeleton {
+    animation: skeleton-shimmer 2s ease-in-out infinite;
+  }
+}
+
+/* Smooth transitions for theme-aware components */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+}
+
+/* Animated Gradient Text (2025 Kinetic Typography) */
+.gradient-text-animated {
+  background: linear-gradient(
+    90deg,
+    #D4AF37 0%,
+    #E8C55B 25%,
+    #3b82f6 50%,
+    #E8C55B 75%,
+    #D4AF37 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Shimmer effect for premium elements */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer-slide 3s infinite;
+}
+
+@keyframes shimmer-slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text-animated {
+    animation: none;
+    background: linear-gradient(90deg, #D4AF37 0%, #E8C55B 50%, #3b82f6 100%);
+  }
+
+  .shimmer::after {
+    animation: none;
+  }
 }
 
 /* Print styles for privacy policy */

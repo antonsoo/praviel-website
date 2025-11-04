@@ -51,7 +51,7 @@ export default function ComparisonTable() {
 
         {/* Comparison Table */}
         <m.div
-          className="overflow-x-auto rounded-2xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 backdrop-blur-sm"
+          className="overflow-x-auto rounded-2xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 backdrop-blur-sm shadow-2xl shadow-black/30 scroll-scale"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}

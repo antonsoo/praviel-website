@@ -1,4 +1,5 @@
 // app/page.tsx
+import { Suspense } from "react";
 import HeroSection from "@/components/HeroSection";
 import FeatureGrid from "@/components/FeatureGrid";
 import SectionDivider from "@/components/SectionDivider";
@@ -10,6 +11,7 @@ import ComparisonTable from "@/components/ComparisonTable";
 import FAQ from "@/components/FAQ";
 import InteractiveDemo from "@/components/InteractiveDemo";
 import LessonsDemo from "@/components/LessonsDemo";
+import { DemoSkeleton } from "@/components/Skeleton";
 
 // We intentionally do NOT export `dynamic = "force-static"`.
 // With cacheComponents enabled in next.config.ts, Next.js 16
@@ -24,9 +26,13 @@ export default function HomePage() {
       <SectionDivider />
       <WhyPRAVIEL />
       <SectionDivider />
-      <LessonsDemo />
+      <Suspense fallback={<DemoSkeleton />}>
+        <LessonsDemo />
+      </Suspense>
       <SectionDivider />
-      <InteractiveDemo />
+      <Suspense fallback={<DemoSkeleton />}>
+        <InteractiveDemo />
+      </Suspense>
       <SectionDivider />
       <HowItWorks />
       <SectionDivider />

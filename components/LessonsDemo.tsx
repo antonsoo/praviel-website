@@ -132,7 +132,7 @@ export default function LessonsDemo() {
 
         {/* Lesson Demo Card */}
         <m.div
-          className="relative rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-zinc-900/90 p-8 sm:p-12 backdrop-blur-xl shadow-2xl"
+          className="relative rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-br from-zinc-900/90 via-zinc-900/80 to-zinc-900/90 p-6 sm:p-8 md:p-12 backdrop-blur-xl shadow-2xl shadow-[#D4AF37]/20 scroll-scale"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}

@@ -33,7 +33,7 @@ export default function StickyCTA() {
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="fixed left-1/2 -translate-x-1/2 z-40 md:hidden"
-          style={{ bottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
+          style={{ bottom: 'calc(1.25rem + env(safe-area-inset-bottom))' }}
         >
           <motion.a
             href="https://app.praviel.com"

@@ -94,11 +94,15 @@ export default function FAQ() {
             return (
               <m.div
                 key={idx}
-                className="relative rounded-xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 backdrop-blur-sm overflow-hidden"
+                className="relative rounded-xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 backdrop-blur-sm overflow-hidden shadow-lg shadow-black/20 hover:shadow-[#D4AF37]/10 hover:shadow-2xl transition-shadow duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                whileHover={shouldReduceMotion ? {} : { borderColor: "rgba(212, 175, 55, 0.3)" }}
+                whileHover={shouldReduceMotion ? {} : {
+                  borderColor: "rgba(212, 175, 55, 0.3)",
+                  scale: 1.01,
+                  y: -2
+                }}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}

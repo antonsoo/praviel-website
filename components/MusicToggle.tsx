@@ -132,7 +132,11 @@ export default function MusicToggle() {
 
   return (
     <motion.div
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
+      className="fixed z-50 flex flex-col items-end gap-2"
+      style={{
+        bottom: 'calc(5rem + env(safe-area-inset-bottom))',
+        right: 'calc(1rem + env(safe-area-inset-right))',
+      }}
       initial={{ opacity: 0, scale: 0.8, y: 50 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 2 }}

@@ -13,8 +13,8 @@ export default function SecondaryCTAs() {
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
         <motion.button
           onClick={() => setShowWaitlist(!showWaitlist)}
-          className="group relative flex items-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-6 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 backdrop-blur transition-all hover:border-[#E8C55B]/50 hover:bg-[#D4AF37]/20 hover:ring-[#E8C55B]/60 min-h-[44px]"
-          whileHover={{ scale: 1.03 }}
+          className="group relative flex items-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/5 px-5 sm:px-6 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 backdrop-blur transition-all hover:border-[#E8C55B]/50 hover:from-[#D4AF37]/20 hover:to-[#D4AF37]/15 hover:ring-[#E8C55B]/60 hover:shadow-lg hover:shadow-[#D4AF37]/20 min-h-[44px] overflow-hidden"
+          whileHover={{ scale: 1.03, y: -1 }}
           whileTap={{ scale: 0.97 }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,8 +53,8 @@ export default function SecondaryCTAs() {
 
         <motion.a
           href="mailto:contact@praviel.com?subject=Early Classroom Access Request"
-          className="group relative flex items-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-6 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 backdrop-blur transition-all hover:border-[#E8C55B]/50 hover:bg-[#D4AF37]/20 hover:ring-[#E8C55B]/60 min-h-[44px]"
-          whileHover={{ scale: 1.03 }}
+          className="group relative flex items-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/5 px-5 sm:px-6 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 backdrop-blur transition-all hover:border-[#E8C55B]/50 hover:from-[#D4AF37]/20 hover:to-[#D4AF37]/15 hover:ring-[#E8C55B]/60 hover:shadow-lg hover:shadow-[#D4AF37]/20 min-h-[44px] overflow-hidden"
+          whileHover={{ scale: 1.03, y: -1 }}
           whileTap={{ scale: 0.97 }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
