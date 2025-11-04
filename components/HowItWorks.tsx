@@ -21,18 +21,18 @@ export default function HowItWorks() {
     },
     {
       number: "2",
-      title: "Read Authentic Texts",
-      description: "Dive into the Iliad, Aeneid, Torah, Bhagavad-Gītā, Book of the Dead—real literature from history.",
+      title: "Learn with AI Lessons",
+      description: "AI-generated vocabulary, grammar, translation, and word order exercises from authentic texts—the Iliad, Torah, Bhagavad-Gītā.",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
       ),
     },
     {
       number: "3",
-      title: "Tap Any Word",
-      description: "Get instant scholarly analysis—lemma, morphology, definitions from LSJ, Smyth's Grammar, and more.",
+      title: "Read with Interactive Analysis",
+      description: "Tap any word for instant scholarly analysis—lemma, morphology, definitions from LSJ, Smyth's Grammar, and more.",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
@@ -41,11 +41,11 @@ export default function HowItWorks() {
     },
     {
       number: "4",
-      title: "Practice with AI",
-      description: "Generate personalized lessons, chat with historical personas, and master grammar with adaptive drills.",
+      title: "Practice with Coach",
+      description: "Chat with historical personas in their native language—Athenian philosophers, Roman senators, Egyptian scribes.",
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
       ),
     },
@@ -75,7 +75,7 @@ export default function HowItWorks() {
             How <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent">PRAVIEL</span> Works
           </h2>
           <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto">
-            From first lesson to reading Homer in the original Greek—here's your journey
+            From beginner to reading Homer in the original Greek—here's your learning journey
           </p>
         </m.div>
 

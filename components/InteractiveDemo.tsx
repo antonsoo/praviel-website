@@ -5,19 +5,32 @@ import { useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 import { useScrollReveal } from "@/lib/hooks/useScrollReveal";
 
+interface GreekWord {
+  text: string;
+  lemma: string;
+  standardEdition: string;
+  pos: string;
+  morph: string;
+  definition: string;
+  color: string;
+}
+
 export default function InteractiveDemo() {
   const [selectedWord, setSelectedWord] = useState<number | null>(null);
+  const [showScriptioContinua, setShowScriptioContinua] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2, triggerOnce: true });
 
-  // Demo text: First line of the Iliad
-  const words = [
-    { text: "Μῆνιν", lemma: "μῆνις", pos: "Noun", morph: "Accusative Singular Feminine", definition: "wrath, anger, especially of the gods", color: "#E8C55B" },
-    { text: "ἄειδε", lemma: "ἀείδω", pos: "Verb", morph: "Present Active Imperative 2nd Singular", definition: "to sing, celebrate in song", color: "#3b82f6" },
-    { text: "θεὰ", lemma: "θεά", pos: "Noun", morph: "Vocative Singular Feminine", definition: "goddess", color: "#E8C55B" },
-    { text: "Πηληϊάδεω", lemma: "Πηληϊάδης", pos: "Adjective", morph: "Genitive Singular Masculine", definition: "son of Peleus (referring to Achilles)", color: "#CD5C5C" },
-    { text: "Ἀχιλῆος", lemma: "Ἀχιλλεύς", pos: "Proper Noun", morph: "Genitive Singular Masculine", definition: "Achilles", color: "#CD5C5C" },
+  // Demo text: First line of the Iliad (Classical Greek: capitals, no polytonic marks per LANGUAGE_WRITING_RULES.md)
+  const words: GreekWord[] = [
+    { text: "ΜΗΝΙΝ", lemma: "ΜΗΝΙΣ", standardEdition: "Μῆνιν / μῆνις", pos: "Noun", morph: "Accusative Singular Feminine", definition: "wrath, anger, especially of the gods", color: "#E8C55B" },
+    { text: "ΑΕΙΔΕ", lemma: "ΑΕΙΔΩ", standardEdition: "ἄειδε / ἀείδω", pos: "Verb", morph: "Present Active Imperative 2nd Singular", definition: "to sing, celebrate in song", color: "#3b82f6" },
+    { text: "ΘΕΑ", lemma: "ΘΕΑ", standardEdition: "θεὰ / θεά", pos: "Noun", morph: "Vocative Singular Feminine", definition: "goddess", color: "#E8C55B" },
+    { text: "ΠΗΛΗΙΑΔΕΩ", lemma: "ΠΗΛΗΙΑΔΗΣ", standardEdition: "Πηληϊάδεω / Πηληϊάδης", pos: "Adjective", morph: "Genitive Singular Masculine", definition: "son of Peleus (referring to Achilles)", color: "#CD5C5C" },
+    { text: "ΑΧΙΛΗΟΣ", lemma: "ΑΧΙΛΛΕΥΣ", standardEdition: "Ἀχιλῆος / Ἀχιλλεύς", pos: "Proper Noun", morph: "Genitive Singular Masculine", definition: "Achilles", color: "#CD5C5C" },
   ];
+
+  const scriptioContinuaText = words.map(w => w.text).join("");
 
   return (
     <section
@@ -40,13 +53,13 @@ export default function InteractiveDemo() {
             id="demo-title"
             className="text-4xl sm:text-5xl font-bold text-white mb-6"
           >
-            See It <span className="bg-gradient-to-r from-[#E8C55B] to-[#D4AF37] bg-clip-text text-transparent">In Action</span>
+            The Interactive <span className="bg-gradient-to-r from-[#E8C55B] to-[#D4AF37] bg-clip-text text-transparent">Reader</span>
           </h2>
           <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto mb-4">
             Tap any word below to see instant morphological analysis
           </p>
           <p className="text-sm text-zinc-500">
-            This is the interactive reader—available now in the PRAVIEL app
+            One of many learning tools in the PRAVIEL platform (Lessons, Coach, Text Analysis, and more)
           </p>
         </m.div>
 
@@ -64,38 +77,71 @@ export default function InteractiveDemo() {
           <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-[#D4AF37]/40 rounded-br-lg" />
 
           {/* Text label */}
-          <div className="text-xs text-zinc-500 uppercase tracking-wider mb-4 text-center">
-            Homer, Iliad 1.1
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="text-xs text-zinc-500 uppercase tracking-wider">
+              Homer, Iliad 1.1
+            </div>
+            <button
+              onClick={() => setShowScriptioContinua(!showScriptioContinua)}
+              className="text-xs px-3 py-1 bg-zinc-800/50 hover:bg-zinc-700/50 border border-zinc-700 rounded-full text-zinc-400 hover:text-zinc-200 transition-colors"
+            >
+              {showScriptioContinua ? "Show Word Dividers" : "Show Scriptio Continua"}
+            </button>
+          </div>
+
+          {/* Educational note about Classical Greek */}
+          <div className="mb-6 px-4 py-3 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-lg">
+            <div className="flex items-start gap-2">
+              <svg className="w-4 h-4 text-[#E8C55B] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div className="text-xs text-zinc-300 leading-relaxed">
+                <strong className="text-[#E8C55B]">Classical Greek Authenticity:</strong> Ancient texts used capitals (Α–Ω) without accents, breathings, or spaces (<em>scriptio continua</em>). We display word dividers here for interactive learning, matching how ancient readers would mentally parse continuous text.
+              </div>
+            </div>
           </div>
 
           {/* Interactive text */}
           <div className="mb-8 text-center">
-            <div className="flex flex-wrap items-center justify-center gap-3 text-2xl sm:text-3xl md:text-4xl font-serif">
-              {words.map((word, idx) => (
-                <m.button
-                  key={idx}
-                  onClick={() => setSelectedWord(idx === selectedWord ? null : idx)}
-                  className={`relative px-2 py-1 rounded-lg transition-all cursor-pointer ${
-                    selectedWord === idx
-                      ? "bg-white/10 shadow-lg"
-                      : "hover:bg-white/5"
-                  }`}
-                  style={{ color: selectedWord === idx ? word.color : "#E8DCC4" }}
-                  whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {word.text}
-                  {selectedWord === idx && (
-                    <m.div
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-current to-transparent"
-                      layoutId="underline"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                    />
-                  )}
-                </m.button>
-              ))}
-            </div>
+            {showScriptioContinua ? (
+              /* Scriptio continua display */
+              <div className="mb-6">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-serif text-[#E8DCC4] leading-relaxed tracking-wider">
+                  {scriptioContinuaText}
+                </div>
+                <div className="mt-3 text-xs text-zinc-500 italic">
+                  (Authentic ancient format: continuous text, no spaces)
+                </div>
+              </div>
+            ) : (
+              /* Interactive word-by-word display */
+              <div className="flex flex-wrap items-center justify-center gap-3 text-2xl sm:text-3xl md:text-4xl font-serif">
+                {words.map((word, idx) => (
+                  <m.button
+                    key={idx}
+                    onClick={() => setSelectedWord(idx === selectedWord ? null : idx)}
+                    className={`relative px-2 py-1 rounded-lg transition-all cursor-pointer ${
+                      selectedWord === idx
+                        ? "bg-white/10 shadow-lg"
+                        : "hover:bg-white/5"
+                    }`}
+                    style={{ color: selectedWord === idx ? word.color : "#E8DCC4" }}
+                    whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {word.text}
+                    {selectedWord === idx && (
+                      <m.div
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-current to-transparent"
+                        layoutId="underline"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      />
+                    )}
+                  </m.button>
+                ))}
+              </div>
+            )}
 
             {/* Translation */}
             <m.div
@@ -141,6 +187,9 @@ export default function InteractiveDemo() {
                       </div>
                       <div className="text-xl text-zinc-200 font-serif">
                         {words[selectedWord].lemma}
+                      </div>
+                      <div className="text-xs text-zinc-600 mt-1">
+                        Standard edition: {words[selectedWord].standardEdition}
                       </div>
                     </div>
 
@@ -249,13 +298,13 @@ export default function InteractiveDemo() {
             whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            Try the Full Reader Free
+            Try PRAVIEL Free
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </m.a>
           <p className="text-xs text-zinc-600 mt-4">
-            No signup • No credit card • Start reading in 10 seconds
+            No signup • No credit card • Access Reader, Lessons, and more in 10 seconds
           </p>
         </m.div>
       </div>

@@ -9,6 +9,7 @@ import HowItWorks from "@/components/HowItWorks";
 import ComparisonTable from "@/components/ComparisonTable";
 import FAQ from "@/components/FAQ";
 import InteractiveDemo from "@/components/InteractiveDemo";
+import LessonsDemo from "@/components/LessonsDemo";
 
 // We intentionally do NOT export `dynamic = "force-static"`.
 // With cacheComponents enabled in next.config.ts, Next.js 16
@@ -22,6 +23,8 @@ export default function HomePage() {
       <TractionBar />
       <SectionDivider />
       <WhyPRAVIEL />
+      <SectionDivider />
+      <LessonsDemo />
       <SectionDivider />
       <InteractiveDemo />
       <SectionDivider />

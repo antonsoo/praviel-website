@@ -33,13 +33,13 @@ export default function LanguageShowcase() {
             id="language-showcase-title"
             className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent mb-4"
           >
-            Read the Originals, Not the Translations
+            46 Ancient Languages to Master
           </h2>
           <p className="text-zinc-300 text-lg max-w-3xl mx-auto mb-4">
-            Every translation is an interpretation. When you read Homer in English, you're reading the translator—not Homer.
+            From Sumerian cuneiform (3100 BCE) to medieval manuscripts—comprehensive coverage of humanity's linguistic heritage.
           </p>
           <p className="text-zinc-400 text-base max-w-2xl mx-auto">
-            Learn to read these languages in their original form, as the authors wrote them
+            Learn these languages through AI-powered lessons, interactive reading, and conversational practice
           </p>
         </m.div>
 

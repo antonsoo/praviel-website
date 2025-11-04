@@ -100,9 +100,9 @@ export default function HeroSection() {
             }}
           >
             {shouldReduceMotion ? (
-              "Read the originals,"
+              "Master ancient languages"
             ) : (
-              <MorphingText text="Read the originals," delay={800} />
+              <MorphingText text="Master ancient languages" delay={800} />
             )}
           </m.span>
           <br />
@@ -114,11 +114,11 @@ export default function HeroSection() {
           >
             {shouldReduceMotion ? (
               <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-                not the translations
+                through real texts
               </span>
             ) : (
               <MorphingText
-                text="not the translations"
+                text="through real texts"
                 delay={1500}
                 charClassName="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text animate-gradient bg-[length:200%_auto]"
               />
@@ -129,11 +129,7 @@ export default function HeroSection() {
         {/* Subheadline with ancient script accents and enhanced animations */}
         <m.div variants={itemVariants} className="mx-auto max-w-3xl mb-12 px-4 space-y-4">
           <p className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed">
-            When you read Homer in English, you're reading <span className="text-white font-medium">the translator</span>—not Homer.
-            Classical Greek has four words for "love." English collapses them to one.{" "}
-            <span className="text-white font-medium">The nuance disappears.</span>
-          </p>
-          <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
+            Learn{" "}
             <m.span
               className="text-white font-semibold bg-gradient-to-r from-[#E8DCC4] to-[#F5F5F0] bg-clip-text text-transparent inline-block"
               whileHover={
@@ -145,10 +141,13 @@ export default function HeroSection() {
                     }
               }
             >
-              Latin. Classical Greek. Biblical Hebrew. Classical Sanskrit. Middle Egyptian.
+              Latin. Classical Greek. Biblical Hebrew. Sanskrit. Egyptian.
             </m.span>
             {" "}
-            Learn to read authentic ancient texts as the authors wrote them—with research-grade accuracy and AI-powered guidance.
+            Read Homer, Virgil, and the Torah <span className="text-white font-medium">as the ancients wrote them</span>—no translations, no filters.
+          </p>
+          <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
+            AI-generated lessons from authentic texts · Interactive reader with scholarly analysis · Conversational practice with historical personas · And much more.
           </p>
         </m.div>
 

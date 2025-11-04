@@ -10,17 +10,20 @@ export default function WhyPRAVIEL() {
 
   const problems = [
     {
-      original: "Greek: ἔρως, φιλία, ἀγάπη, στοργή",
+      original: "Greek: ΕΡΩΣ, ΦΙΛΙΑ, ΑΓΑΠΗ, ΣΤΟΡΓΗ",
+      originalNote: "(ἔρως, φιλία, ἀγάπη, στοργή in standard editions)",
       translation: "English: love, love, love, love",
       lost: "Four distinct concepts collapsed to one word"
     },
     {
       original: "Homer's dactylic hexameter",
+      originalNote: null,
       translation: "Prose paragraphs",
       lost: "Rhythm and musicality completely gone"
     },
     {
       original: "Hebrew wordplay in Genesis",
+      originalNote: null,
       translation: "Footnotes explaining the pun",
       lost: "Instant understanding becomes academic exercise"
     }
@@ -84,6 +87,9 @@ export default function WhyPRAVIEL() {
                 <div>
                   <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Original:</div>
                   <div className="text-sm font-medium text-zinc-200">{problem.original}</div>
+                  {problem.originalNote && (
+                    <div className="text-xs text-zinc-600 mt-1 italic">{problem.originalNote}</div>
+                  )}
                 </div>
                 <div className="h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
                 <div>
@@ -130,9 +136,9 @@ export default function WhyPRAVIEL() {
                 Learn the Original Language
               </h3>
               <p className="text-zinc-300 leading-relaxed mb-6">
-                PRAVIEL teaches you to read Latin, Greek, Hebrew, Sanskrit, and Egyptian
-                texts <span className="text-white font-medium">exactly as the authors wrote them</span>.
-                No intermediary. No bias. No lost meaning.
+                PRAVIEL teaches you ancient languages through <span className="text-white font-medium">AI-generated lessons from real texts</span>,
+                interactive reading with scholarly analysis, and conversational practice—so you can read Latin, Greek, Hebrew, Sanskrit, and Egyptian
+                <span className="text-white font-medium"> exactly as the authors wrote them</span>.
               </p>
 
               <div className="space-y-3">
