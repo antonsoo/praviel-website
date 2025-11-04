@@ -33,6 +33,10 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 - 🏛️ **Ancient civilization theme** with Egyptian Gold (#D4AF37), Lapis Lazuli Blue, and papyrus textures
 - 🌍 **Interactive language showcase** featuring Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Middle Egyptian
 - 🎨 **Three.js hero scene** with shader animations and GPU-accelerated canvas backgrounds
+- 📚 **Interactive demo** showing morphological analysis on authentic Greek text (Iliad 1.1)
+- 🗺️ **How It Works** 4-step learning journey visualization
+- 📊 **Comparison table** showing PRAVIEL vs traditional methods and language apps
+- ❓ **Comprehensive FAQ** with 10 Q&As addressing common questions
 - ⚡ **Buttery smooth scrolling** (Lenis) with 60fps on all devices
 - 🎭 **Motion animations** following 2025 best practices (GPU-only transforms, Intersection Observer)
 - ♿ **WCAG 2.1 AA accessible** with 44x44px touch targets, skip links, ARIA labels, and reduced motion support
@@ -40,6 +44,7 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 - 🔍 **SEO optimized** with JSON-LD structured data for educational content
 - 📱 **Actually responsive** with mobile-first design (tested on real devices, not just DevTools)
 - 🌐 **Edge-deployed** on Cloudflare Workers for global low-latency
+- 💝 **Free-first messaging** emphasizing donor-supported business model and zero barriers
 
 ---
 
@@ -120,7 +125,8 @@ Cache typically updates within 1-2 minutes globally after purging.
 ```
 app/            # Next.js App Router pages & layouts
 ├── api/        # API routes (health checks, music playlist)
-components/     # React components (37+ components)
+components/     # React components (41+ components)
+├── Informational sections (HowItWorks, FAQ, ComparisonTable, InteractiveDemo)
 ├── Ancient theme components (LanguageShowcase, TractionBar, WhyPRAVIEL, etc.)
 ├── Three.js scenes (HeroScene, AncientBackground)
 ├── UI components (SiteHeader, Footer, PrimaryCTA, SecondaryCTAs)
