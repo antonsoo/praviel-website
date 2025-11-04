@@ -10,16 +10,49 @@
 
 ---
 
-## Active Tasks
+## 🔴 High Priority (Production Issues)
 
-- [ ] **[Testing/Mobile]** Verify mobile UI/UX improvements on actual devices (iPhone SE/12-14, Pixel 5, various Android devices). All components optimized for 320px-414px+ widths with WCAG AAA touch targets (44px min), responsive typography, and mobile-first layouts. New: ScrollProgress indicator, StickyCTA (appears at 100vh). Test: scrolling performance, tap targets, safe area insets on notched devices. (2025-11-04)
-- [ ] **[Testing/Browser]** Cross-browser verification on Safari 16.x/17.x, Chrome 111+, Firefox 128+ - Verify GPU-accelerated animations, responsive layouts, and glassmorphism effects. (2025-11-04)
-- [ ] **[Performance]** Run Lighthouse audit post-deployment. Targets: LCP <2.5s, INP <200ms, CLS <0.1. Current deployment: Worker startup 21ms (excellent), gzip 1614.69 KiB. (2025-11-04)
-- [ ] **[Migration]** Migrate middleware.ts → proxy.ts - Next.js 16 deprecation warning. Not blocking but should migrate before Next.js 17. OpenNext Cloudflare doesn't support proxy.ts yet (tracked in opennextjs/cloudflare#962). Wait for upstream support. (2025-11-04)
+- [ ] **[SEO/Critical]** Add sitemap.ts and robots.ts - Next.js has built-in support since 13.3.0. Create `app/sitemap.ts` and `app/robots.ts` using MetadataRoute API. Critical for search engine discovery. (2025-11-04)
+- [ ] **[Security/Critical]** Implement CSP headers in middleware.ts - Currently no Content-Security-Policy headers. Add security headers: CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Strict-Transport-Security. Use Cloudflare Workers pattern. (2025-11-04)
+- [ ] **[Mobile/Spacing]** Verify bottom component spacing on small screens (320px-375px) - Three fixed-position components: BackToTop (bottom-6 left-6), StickyCTA (bottom-4 center, mobile only), MusicToggle (bottom-6 right-6). Potential overlap on iPhone SE/small Android. (2025-11-04)
+
+## 🟡 Medium Priority (Quality & Testing)
+
+- [ ] **[Testing/Mobile]** Verify mobile UI/UX on actual devices - Primary components optimized (15+ components). Unaudited components: BackToTop, MobileTOC, FundingOptions, FundingHero, ImpactSection, SecondaryCTAs. Test: iPhone SE/12-14, Pixel 5, various Android. Focus: scrolling performance, tap targets (44px min), safe area insets on notched devices, bottom component spacing. (2025-11-04)
+- [ ] **[Testing/Browser]** Cross-browser verification - Safari 16.x/17.x, Chrome 111+, Firefox 128+. Verify: GPU-accelerated animations, responsive layouts, glassmorphism effects, Motion 12 compatibility. (2025-11-04)
+- [ ] **[Performance]** Lighthouse audit - Targets: LCP <2.5s, INP <200ms, CLS <0.1. Current deployment: Worker startup 21ms (✅), gzip 1614.69 KiB. Run on actual deployment URL. (2025-11-04)
+- [ ] **[Accessibility]** Full accessibility audit - Screen reader testing (NVDA/JAWS/VoiceOver), keyboard navigation (tab order, focus indicators), color contrast verification (WCAG AA minimum), focus visible states on all interactive elements. (2025-11-04)
+
+## 🟢 Low Priority (Nice to Have)
+
+- [ ] **[Monitoring/Production]** Set up error tracking - Sentry or LogRocket for production error monitoring. Integrate with Next.js instrumentation.ts. Add session replay for debugging user issues. (2025-11-04)
+- [ ] **[Analytics/Growth]** Implement privacy-friendly analytics - Track Core Web Vitals, conversion funnels (waitlist signups), page views. Consider: Vercel Analytics, Cloudflare Web Analytics, or self-hosted Plausible. (2025-11-04)
+- [ ] **[Modernization/React19]** Migrate to React 19 hooks - Replace useTransition in WaitlistForm with useActionState. Consider useOptimistic for optimistic UI updates. Current pattern works but new hooks provide better DX. (2025-11-04)
+- [ ] **[Migration/Next16]** Migrate middleware.ts → proxy.ts - Next.js 16 deprecation warning (not blocking). OpenNext Cloudflare doesn't support proxy.ts yet (tracked: opennextjs/cloudflare#962). Wait for upstream support. (2025-11-04)
+- [ ] **[Database]** Verify Drizzle migrations - Current: waitlist_signups table. Verify migration status with `pnpm db:push`. Consider adding indexes for email lookups. (2025-11-04)
+
+---
+
+## 📋 Deployment Info (Reference)
+
+**Latest Deployment**: 2025-11-04
+- Commit: 7566381 (feat: comprehensive mobile optimization)
+- URL: https://praviel-site.antonnsoloviev.workers.dev
+- Worker startup: 21ms (excellent)
+- Bundle size: 1614.69 KiB gzipped
+- Status: ✅ All builds passing
+
+**Tech Stack (Late 2025)**:
+- Next.js 16.0.1 + React 19.2.0 + Motion 12.23.24
+- Node.js 25+, pnpm 10.20.0
+- Cloudflare Workers (experimental-edge runtime)
+- Drizzle ORM + Neon PostgreSQL
 
 ---
 
 ## Notes
 
-- This file is monitored by AI agents and should not exceed 100 lines to avoid context bloat
-- For archived/completed work history, see git commit messages—not this file
+- This file is monitored by AI agents and should not exceed 150 lines
+- For completed work history, see git commit messages
+- For tech stack details and operating principles, see CLAUDE.md and AGENTS.md
+- Priority levels: 🔴 Fix ASAP (production impact), 🟡 Important (quality), 🟢 Nice to have (enhancement)
