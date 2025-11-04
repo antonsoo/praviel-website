@@ -6,6 +6,7 @@ import PrimaryCTA from "./PrimaryCTA";
 import SecondaryCTAs from "./SecondaryCTAs";
 import DecorativeColumns from "./DecorativeColumns";
 import GreekKeyBorder from "./GreekKeyBorder";
+import MorphingText from "./MorphingText";
 
 export default function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
@@ -87,7 +88,7 @@ export default function HeroSection() {
           Alpha — Live Now
         </m.div>
 
-        {/* Main Headline with enhanced kinetic typography */}
+        {/* Main Headline with enhanced kinetic typography and morphing text */}
         <m.h1
           variants={itemVariants}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.05] px-4"
@@ -98,7 +99,11 @@ export default function HeroSection() {
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
           >
-            Read the originals,
+            {shouldReduceMotion ? (
+              "Read the originals,"
+            ) : (
+              <MorphingText text="Read the originals," delay={800} />
+            )}
           </m.span>
           <br />
           <m.span
@@ -107,7 +112,11 @@ export default function HeroSection() {
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
           >
-            not the translations
+            {shouldReduceMotion ? (
+              "not the translations"
+            ) : (
+              <MorphingText text="not the translations" delay={1500} />
+            )}
           </m.span>
         </m.h1>
 
