@@ -125,7 +125,7 @@ Cache typically updates within 1-2 minutes globally after purging.
 ```
 app/            # Next.js App Router pages & layouts
 ├── api/        # API routes (health checks, music playlist)
-components/     # React components (41+ components)
+components/     # React components (39 components)
 ├── Informational sections (HowItWorks, FAQ, ComparisonTable, InteractiveDemo)
 ├── Ancient theme components (LanguageShowcase, TractionBar, WhyPRAVIEL, etc.)
 ├── Three.js scenes (HeroScene, AncientBackground)
