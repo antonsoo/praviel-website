@@ -94,7 +94,7 @@ export default function HeroSection() {
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.05] px-4"
         >
           <m.span
-            className="inline-block text-shadow-glow"
+            className="inline-block whitespace-nowrap text-shadow-glow"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
