@@ -12,9 +12,10 @@
 
 ## Active Tasks
 
-<!-- Add critical to-dos here in this format:
-- [ ] **[Category]** Brief description - Context/reason (YYYY-MM-DD)
--->
+- [ ] **[Testing/Mobile]** Verify hero headline text wrapping on mobile devices (320px-414px widths) - `whitespace-nowrap` applied, need visual confirmation on actual devices. Test: iPhone SE (375px), iPhone 12/13/14 (390px), Pixel 5 (393px). (2025-11-04)
+- [ ] **[Testing/Browser]** Cross-browser verification of hero text on Safari 16.x/17.x - `whitespace-nowrap` has excellent support but need visual confirmation, especially Safari 16.4-17.3 before text-wrap support was added. (2025-11-04)
+- [ ] **[DevOps]** Restart dev server to clear stale cache - Math.random() error persists in dev server logs despite fix being committed (useEffect vs useState). Production build succeeds, error is stale. Kill processes 64e993 and 30bce5. (2025-11-04)
+- [ ] **[Migration]** Migrate middleware.ts → proxy.ts - Next.js 16 deprecation warning. Not blocking but should migrate before Next.js 17. OpenNext Cloudflare doesn't support proxy.ts yet (tracked in opennextjs/cloudflare#962). Wait for upstream support. (2025-11-04)
 
 ---
 
