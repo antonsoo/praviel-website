@@ -7,6 +7,8 @@ import SecondaryCTAs from "./SecondaryCTAs";
 import DecorativeColumns from "./DecorativeColumns";
 import GreekKeyBorder from "./GreekKeyBorder";
 import MorphingText from "./MorphingText";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import VideoBackground from "./VideoBackground";
 
 export default function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
@@ -40,7 +42,28 @@ export default function HeroSection() {
 
       {/* Enhanced decorative elements */}
       <div className="absolute inset-0 -z-10">
-        {/* Multi-layered gradient background with ancient colors */}
+        {/*
+          VIDEO BACKGROUND (Optional - uncomment and add your video files)
+
+          To use: Generate a video with your AI software and place in /public/videos/
+          Recommended specs:
+          - Resolution: 1920x1080 (720p after compression)
+          - Duration: 15-30 seconds (seamless loop)
+          - Content: Ancient civilizations, scrolls, papyrus, subtle golden tones
+          - Motion: Slow, calming (not distracting)
+          - Format: Export as both WebM (primary) and MP4 (fallback)
+          - Compression: Heavily compress (aim for <5MB)
+
+          Example:
+          <VideoBackground
+            webmSrc="/videos/ancient-scrolls.webm"
+            mp4Src="/videos/ancient-scrolls.mp4"
+            posterSrc="/images/ancient-scrolls-poster.jpg"
+            overlayOpacity={0.7}
+          />
+        */}
+
+        {/* Current gradient background (fallback if no video) */}
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-black" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#1e40af]/5 via-transparent to-[#D4AF37]/5" />
 
