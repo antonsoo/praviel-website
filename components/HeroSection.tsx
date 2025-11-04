@@ -107,7 +107,7 @@ export default function HeroSection() {
           </m.span>
           <br />
           <m.span
-            className="inline-block"
+            className="inline-block whitespace-nowrap"
             style={{
               willChange: shouldReduceMotion ? "auto" : "transform",
             }}
@@ -130,7 +130,7 @@ export default function HeroSection() {
         <m.div variants={itemVariants} className="mx-auto max-w-3xl mb-12 px-4 space-y-4">
           <p className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed">
             When you read Homer in English, you're reading <span className="text-white font-medium">the translator</span>—not Homer.
-            Ancient Greek has four words for "love." English collapses them to one.{" "}
+            Classical Greek has four words for "love." English collapses them to one.{" "}
             <span className="text-white font-medium">The nuance disappears.</span>
           </p>
           <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">

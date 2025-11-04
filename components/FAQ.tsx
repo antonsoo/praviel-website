@@ -45,8 +45,8 @@ export default function FAQ() {
       answer: "Most popular: Classical Latin (foundation for Romance languages and English grammar), Koine Greek (New Testament), Classical Greek (Homer, Plato), and Biblical Hebrew (Torah). Choose based on your interests—whether that's theology, classics, philosophy, or linguistics."
     },
     {
-      question: "How is this different from Duolingo or Rosetta Stone?",
-      answer: "Duolingo/Rosetta Stone focus on modern travel languages with gamified baby phrases. PRAVIEL focuses on ancient languages with authentic primary texts (Iliad, Aeneid, Dead Sea Scrolls) and research-grade accuracy. We're built for scholars, theologians, and serious language enthusiasts—not tourists."
+      question: "How is this different from popular language apps?",
+      answer: "Popular language apps focus on modern travel languages with gamified baby phrases. PRAVIEL focuses on ancient languages with authentic primary texts (Iliad, Aeneid, Dead Sea Scrolls) and research-grade accuracy. We're built for scholars, theologians, and serious language enthusiasts—not tourists."
     },
     {
       question: "Can I contribute to PRAVIEL?",

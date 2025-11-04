@@ -66,7 +66,7 @@ export default function ComparisonTable() {
                   Traditional<br/><span className="text-xs font-normal normal-case">(Textbooks)</span>
                 </th>
                 <th className="text-center p-6 text-sm font-semibold text-zinc-400 uppercase tracking-wider">
-                  Language Apps<br/><span className="text-xs font-normal normal-case">(Duolingo, etc.)</span>
+                  Language Apps<br/><span className="text-xs font-normal normal-case">(Popular Apps)</span>
                 </th>
                 <th className="text-center p-6 text-sm font-semibold bg-gradient-to-r from-[#D4AF37]/10 to-[#3b82f6]/10 border-l-2 border-[#D4AF37]">
                   <span className="text-[#E8C55B] text-base">PRAVIEL</span>
