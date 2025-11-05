@@ -38,7 +38,7 @@ export default function NotFound() {
           </Link>
 
           <Link
-            href="/support"
+            href="/fund"
             className="px-6 py-3 rounded-xl border border-violet-500/30 text-violet-300 font-medium hover:bg-violet-500/10 transition-all duration-300"
           >
             Support the Project
