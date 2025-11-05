@@ -218,6 +218,8 @@ export default function MusicToggle() {
             ? "border-red-400/30 bg-red-950/20 hover:border-red-400/60 hover:bg-red-500/10"
             : "border-amber-400/30 bg-black/80 hover:border-amber-400/60 hover:bg-amber-500/10"
         } disabled:opacity-50 disabled:cursor-not-allowed`}
+        aria-label={isPlaying ? "Pause background music" : "Play background music"}
+        aria-pressed={isPlaying}
         whileHover={{ scale: hasError ? 1.05 : 1.1 }}
         whileTap={{ scale: 0.95 }}
       >

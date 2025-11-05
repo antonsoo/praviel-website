@@ -7,7 +7,6 @@ import SecondaryCTAs from "./SecondaryCTAs";
 import DecorativeColumns from "./DecorativeColumns";
 import GreekKeyBorder from "./GreekKeyBorder";
 import MorphingText from "./MorphingText";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import VideoBackground from "./VideoBackground";
 
 export default function HeroSection() {
@@ -40,39 +39,34 @@ export default function HeroSection() {
       {/* Decorative Columns */}
       <DecorativeColumns />
 
-      {/* Enhanced decorative elements */}
+      {/* Enhanced decorative elements with optional video background */}
       <div className="absolute inset-0 -z-10">
         {/*
-          VIDEO BACKGROUND (Optional - uncomment and add your video files)
+          VIDEO BACKGROUND
+          Place your AI-generated videos in:
+          - /public/videos/desktop/background.mp4 (landscape orientation)
+          - /public/videos/mobile/background.mp4 (portrait orientation)
 
-          To use: Generate a video with your AI software and place in /public/videos/
-          Recommended specs:
-          - Resolution: 1920x1080 (720p after compression)
-          - Duration: 15-30 seconds (seamless loop)
-          - Content: Ancient civilizations, scrolls, papyrus, subtle golden tones
-          - Motion: Slow, calming (not distracting)
-          - Format: Export as both WebM (primary) and MP4 (fallback)
-          - Compression: Heavily compress (aim for <5MB)
-
-          Example:
-          <VideoBackground
-            webmSrc="/videos/ancient-scrolls.webm"
-            mp4Src="/videos/ancient-scrolls.mp4"
-            posterSrc="/images/ancient-scrolls-poster.jpg"
-            overlayOpacity={0.7}
-          />
+          The component will automatically serve the appropriate video based on device.
+          See /public/videos/README.md for detailed specifications.
         */}
+        <VideoBackground
+          desktopVideoSrc="/videos/desktop/background.mp4"
+          mobileVideoSrc="/videos/mobile/background.mp4"
+          posterSrc="/og.png"
+          overlayOpacity={0.7}
+        />
 
-        {/* Current gradient background (fallback if no video) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-black" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1e40af]/5 via-transparent to-[#D4AF37]/5" />
+        {/* Gradient background layers (visible through video overlay) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-black -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1e40af]/5 via-transparent to-[#D4AF37]/5 -z-10" />
 
         {/* Papyrus texture overlay */}
-        <div className="absolute inset-0 papyrus-texture opacity-30" />
+        <div className="absolute inset-0 papyrus-texture opacity-20 -z-10" />
 
         {/* Subtle grid pattern with Egyptian gold */}
         <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute inset-0 opacity-[0.02] -z-10"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgb(212 175 55 / 0.5) 1px, transparent 1px),
@@ -83,9 +77,9 @@ export default function HeroSection() {
         />
 
         {/* Multi-color radial glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/8 rounded-full blur-[120px]" />
-        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[#3b82f6]/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#CD5C5C]/5 rounded-full blur-[90px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/8 rounded-full blur-[120px] -z-10" />
+        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[#3b82f6]/5 rounded-full blur-[100px] -z-10" />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#CD5C5C]/5 rounded-full blur-[90px] -z-10" />
       </div>
 
       {/* Content */}

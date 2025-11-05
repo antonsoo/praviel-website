@@ -76,7 +76,7 @@ export default function CookieConsent() {
       >
         {/* Backdrop */}
         <motion.div
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm pointer-events-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -85,14 +85,14 @@ export default function CookieConsent() {
 
         {/* Banner */}
         <motion.div
-          className="relative w-full max-w-2xl bg-gradient-to-br from-zinc-900 to-black border border-violet-500/30 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
+          className="relative w-full max-w-2xl bg-gradient-to-br from-zinc-800 via-zinc-900 to-zinc-950 border-2 border-violet-500/50 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
           initial={{ y: 100, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 100, opacity: 0, scale: 0.9 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
         >
           {/* Glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-violet-500/20 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-r from-violet-500/30 via-purple-500/30 to-violet-500/30 animate-pulse" />
 
           {/* Content */}
           <div className="relative p-6 sm:p-8">

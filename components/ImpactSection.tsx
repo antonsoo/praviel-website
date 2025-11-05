@@ -228,7 +228,7 @@ export default function ImpactSection() {
             Email{" "}
             <motion.a
               href="mailto:business@praviel.com"
-              className="text-[#E8C55B] hover:text-[#D4AF37] transition-colors"
+              className="inline-flex items-center text-[#E8C55B] hover:text-[#D4AF37] transition-colors min-h-[44px]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

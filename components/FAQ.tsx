@@ -54,7 +54,7 @@ export default function FAQ() {
     },
     {
       question: "Will my progress sync across devices?",
-      answer: "Not yet, but it's coming. Currently, progress is stored locally on your device. Cloud sync with encrypted backups is planned for a future release."
+      answer: "Yes! Cloud sync with encrypted backups is being implemented now. Your progress, vocabulary, and preferences will sync seamlessly across all your devices. This feature is actively in development and will be available very soon."
     }
   ];
 

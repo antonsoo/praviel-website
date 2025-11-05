@@ -33,6 +33,11 @@ export const metadata: Metadata = {
     "scholarly accuracy",
     "ancient language learning"
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ],
+  },
   openGraph: {
     title: "PRAVIEL — Read the Originals, Not the Translations",
     description:

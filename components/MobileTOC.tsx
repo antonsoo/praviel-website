@@ -31,12 +31,17 @@ export default function MobileTOC({
       {/* Floating Menu Button - Only visible on mobile */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-violet-600 to-purple-600 rounded-full shadow-lg flex items-center justify-center text-white"
+        className="lg:hidden fixed z-40 w-14 h-14 bg-gradient-to-br from-violet-600 to-purple-600 rounded-full shadow-lg flex items-center justify-center text-white"
+        style={{
+          bottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
+          right: 'calc(1.5rem + env(safe-area-inset-right))',
+        }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.5 }}
+        aria-label="Open table of contents"
       >
         <svg
           className="w-6 h-6"
@@ -82,7 +87,8 @@ export default function MobileTOC({
                   </h2>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                    className="w-11 h-11 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                    aria-label="Close table of contents"
                   >
                     <svg
                       className="w-5 h-5 text-zinc-400"
