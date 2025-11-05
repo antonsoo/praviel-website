@@ -47,12 +47,21 @@ export async function joinWaitlist(formData: FormData) {
 
     return { ok: true } as const;
   } catch (err) {
-    // Handle duplicate email or other DB errors gracefully
-    // Don't expose internal errors to client
-    console.error("Waitlist signup error:", err);
+    // Check if this is a duplicate email error (PostgreSQL unique constraint violation)
+    const isDuplicateEmail =
+      err && typeof err === "object" && "code" in err && err.code === "23505";
 
-    // Still return success for duplicate signups (user already registered)
-    // This prevents enumeration attacks and provides better UX
+    if (isDuplicateEmail) {
+      // Expected: user already on waitlist
+      console.log("Duplicate email signup (expected):", email);
+    } else {
+      // Unexpected database error - log for investigation
+      console.error("Waitlist signup error:", err);
+    }
+
+    // Still return success for both cases:
+    // - Duplicate: user already registered (prevents enumeration)
+    // - Other errors: avoid exposing internal errors to client
     return { ok: true } as const;
   }
 }

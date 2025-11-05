@@ -1,0 +1,28 @@
+# Cache static assets (Next.js build outputs)
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache video files (1 week)
+/videos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# Cache music files (1 week)
+/music/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# Cache images (1 week)
+/*.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/*.webp
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/*.jpg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/*.jpeg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# Cache SVG files
+/*.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
