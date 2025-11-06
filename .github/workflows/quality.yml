@@ -1,0 +1,113 @@
+name: Quality Checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      BASE_URL: http://127.0.0.1:3000
+      ENABLE_TEST_ROUTES: "true"
+      SKIP_WEBKIT: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.20.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Restore Chrome cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/chromium
+          key: chrome-${{ runner.os }}-${{ hashFiles('scripts/lighthouse.ts') }}
+          restore-keys: |
+            chrome-${{ runner.os }}-
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Start Next.js server
+        run: |
+          pnpm start --hostname 127.0.0.1 --port 3000 > /tmp/next.log 2>&1 &
+          echo $! > /tmp/next.pid
+
+      - name: Wait for server
+        run: pnpm wait-on ${BASE_URL} --timeout 120000
+
+      - name: Verify test harness routes
+        run: |
+          set -euo pipefail
+          curl -sf -H "x-enable-test-routes: 1" "${BASE_URL}/test/waitlist?enable-test-routes=1" >/dev/null
+          curl -sf -H "x-enable-test-routes: 1" "${BASE_URL}/test/scripts?enable-test-routes=1" >/dev/null
+
+      - name: Run Playwright tests
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Stop Next.js server
+        if: always()
+        run: |
+          if [ -f /tmp/next.pid ]; then
+            kill "$(cat /tmp/next.pid)" || true
+          fi
+
+      - name: Upload Next.js log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-log
+          path: /tmp/next.log
+          if-no-files-found: ignore
+
+      - name: Lighthouse performance audit
+        env:
+          AUDIT_URL: ${{ vars.LIGHTHOUSE_AUDIT_URL }}
+        run: |
+          TARGET_URL="${AUDIT_URL:-https://praviel-site.antonnsoloviev.workers.dev}"
+          AUDIT_URL="$TARGET_URL" pnpm perf:audit
+
+      - name: Upload Lighthouse artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ github.run_id }}
+          path: |
+            test-results/lighthouse-*.json
+            test-results/lighthouse-*.html
+          if-no-files-found: ignore
+          retention-days: 10

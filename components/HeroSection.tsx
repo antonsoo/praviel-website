@@ -1,227 +1,124 @@
-"use client";
+import Link from "next/link";
 
-import { useReducedMotion } from "motion/react";
-import * as m from "motion/react-m";
-import PrimaryCTA from "./PrimaryCTA";
-import SecondaryCTAs from "./SecondaryCTAs";
-import DecorativeColumns from "./DecorativeColumns";
-import GreekKeyBorder from "./GreekKeyBorder";
-import MorphingText from "./MorphingText";
-import VideoBackground from "./VideoBackground";
+import DecorativeColumns from "@/components/DecorativeColumns";
+import GreekKeyBorder from "@/components/GreekKeyBorder";
+import HeroHighlights from "@/components/HeroHighlights";
+import HeroMetrics from "@/components/HeroMetrics";
+import PrimaryCTA from "@/components/PrimaryCTA";
+import HeroWaitlistDesktopGate from "@/components/HeroWaitlistDesktopGate";
+import { heroCopy } from "@/lib/canonicalCopy";
+
+const heroMetrics = [
+  { value: "46", label: "ancient languages", detail: "full corpora" },
+  { value: "5,000", label: "years of sources", detail: "canon + commentaries" },
+  { value: "0", label: "hallucinations", detail: "scholar citations" },
+];
+
+const heroHighlights = [
+  "Every translation is an interpretation. We teach you to read the originals—no filters.",
+  "Infrastructure for preserving linguistic heritage from Sumerian cuneiform to medieval manuscripts.",
+];
 
 export default function HeroSection() {
-  const shouldReduceMotion = useReducedMotion();
-
-  // Animation variants with accessibility
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.15,
-        delayChildren: shouldReduceMotion ? 0 : 0.2,
-      },
-    },
-  };
-
-  const itemVariants = shouldReduceMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.3 } },
-      }
-    : {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-      };
-
   return (
-    <section className="relative isolate px-6 py-24 sm:py-32 md:py-40 lg:py-48 min-h-screen flex items-center overflow-hidden">
-      {/* Decorative Columns */}
+    <section className="relative isolate overflow-hidden px-6 pb-20 pt-28 sm:pb-24 sm:pt-32 md:pt-40 lg:pb-28 lg:pt-44">
+      <div className="hero-backdrop" aria-hidden />
       <DecorativeColumns />
+      <div className="absolute inset-x-0 top-0 -z-10 h-64 bg-gradient-to-b from-black via-transparent to-transparent" aria-hidden />
 
-      {/* Enhanced decorative elements with optional video background */}
-      <div className="absolute inset-0 -z-10">
-        {/*
-          VIDEO BACKGROUND
-          Place your AI-generated videos in:
-          - /public/videos/desktop/background.mp4 (landscape orientation)
-          - /public/videos/mobile/background.mp4 (portrait orientation)
-
-          The component will automatically serve the appropriate video based on device.
-          See /public/videos/README.md for detailed specifications.
-        */}
-        <VideoBackground
-          desktopVideoSrc="/videos/desktop/background.mp4"
-          mobileVideoSrc="/videos/mobile/background.mp4"
-          posterSrc="/og.png"
-          overlayOpacity={0.7}
-        />
-
-        {/* Gradient background layers (visible through video overlay) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-black -z-10" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1e40af]/5 via-transparent to-[#D4AF37]/5 -z-10" />
-
-        {/* Papyrus texture overlay */}
-        <div className="absolute inset-0 papyrus-texture opacity-20 -z-10" />
-
-        {/* Subtle grid pattern with Egyptian gold */}
-        <div
-          className="absolute inset-0 opacity-[0.02] -z-10"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, rgb(212 175 55 / 0.5) 1px, transparent 1px),
-              linear-gradient(to bottom, rgb(212 175 55 / 0.5) 1px, transparent 1px)
-            `,
-            backgroundSize: "80px 80px",
-          }}
-        />
-
-        {/* Multi-color radial glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/8 rounded-full blur-[120px] -z-10" />
-        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[#3b82f6]/5 rounded-full blur-[100px] -z-10" />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#CD5C5C]/5 rounded-full blur-[90px] -z-10" />
-      </div>
-
-      {/* Content */}
-      <m.div
-        className="mx-auto max-w-4xl text-center relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-
-        {/* Badge */}
-        <m.div
-          variants={itemVariants}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#D4AF37]/10 via-[#3b82f6]/10 to-[#D4AF37]/10 border border-[#D4AF37]/20 text-sm font-medium text-[#E8C55B]/90 mb-8 backdrop-blur-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span
-              className="absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"
-              style={shouldReduceMotion ? {} : { animation: "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite" }}
-            ></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E8C55B]"></span>
-          </span>
-          Alpha — Live Now
-        </m.div>
-
-        {/* Main Headline with enhanced kinetic typography and morphing text */}
-        <m.h1
-          variants={itemVariants}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-white mb-6 leading-[1.05] px-4"
-        >
-          <m.span
-            className="inline-block text-shadow-glow"
-            style={{
-              willChange: shouldReduceMotion ? "auto" : "transform",
-            }}
-          >
-            {shouldReduceMotion ? (
-              "Master ancient languages"
-            ) : (
-              <MorphingText text="Master ancient languages" delay={800} />
-            )}
-          </m.span>
-          <br />
-          <m.span
-            className="inline-block"
-            style={{
-              willChange: shouldReduceMotion ? "auto" : "transform",
-            }}
-          >
-            {shouldReduceMotion ? (
-              <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-                through real texts
-              </span>
-            ) : (
-              <MorphingText
-                text="through real texts"
-                delay={1500}
-                charClassName="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text animate-gradient bg-[length:200%_auto]"
-              />
-            )}
-          </m.span>
-        </m.h1>
-
-        {/* Subheadline with ancient script accents and enhanced animations */}
-        <m.div variants={itemVariants} className="mx-auto max-w-3xl mb-12 px-4 space-y-4">
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-zinc-300 leading-relaxed">
-            Learn{" "}
-            <m.span
-              className="text-white font-semibold bg-gradient-to-r from-[#E8DCC4] to-[#F5F5F0] bg-clip-text text-transparent inline-block"
-              whileHover={
-                shouldReduceMotion
-                  ? {}
-                  : {
-                      scale: 1.02,
-                      transition: { duration: 0.2 },
-                    }
-              }
-            >
-              Latin. Classical Greek. Biblical Hebrew. Sanskrit. Egyptian.
-            </m.span>
-            {" "}
-            Read Homer, Virgil, and the Torah <span className="text-white font-medium">as the ancients wrote them</span>—no translations, no filters.
-          </p>
-          <p className="text-sm sm:text-base md:text-lg text-zinc-400 leading-relaxed">
-            AI-generated lessons from authentic texts · Interactive reader with scholarly analysis · Conversational practice with historical personas · And much more.
-          </p>
-        </m.div>
-
-        {/* CTAs */}
-        <m.div variants={itemVariants}>
-          <PrimaryCTA />
-          <SecondaryCTAs />
-        </m.div>
-
-        {/* Greek Key Border */}
-        <m.div variants={itemVariants} className="mt-12">
-          <GreekKeyBorder className="max-w-md mx-auto" />
-        </m.div>
-
-        {/* Trust indicator */}
-        <m.div variants={itemVariants} className="mt-8 pt-8">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-zinc-500">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-[#E8C55B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-sm">100% Free</span>
+      <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start">
+        <div className="space-y-10 text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold tracking-[0.3em] uppercase text-white/70">
+            {heroCopy.eyebrow}
+          </div>
+          <div className="space-y-4 text-balance">
+            <h1 className="text-5xl font-semibold leading-tight text-white sm:text-6xl md:text-7xl lg:text-7xl">
+              {heroCopy.title}
+            </h1>
+            <p className="text-lg text-white/75 sm:text-xl">{heroCopy.subtitle}</p>
+            <p className="mx-auto max-w-[60ch] text-sm text-white/70 sm:text-base lg:mx-0">
+              {heroCopy.mission}
+            </p>
+          </div>
+          <div className="flex flex-col items-center gap-6 lg:items-start lg:gap-8">
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:items-center">
+              <PrimaryCTA />
+              <div className="text-xs uppercase tracking-[0.3em] text-white/50">
+                Built by philologists · Powered by GPT-5, Claude 4.5, Gemini 2.5
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-[#E8C55B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span className="text-sm">No signup required</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-[#E8C55B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-sm">Donor-supported</span>
+            <HeroMetrics metrics={heroMetrics} />
+            <HeroHighlights highlights={heroHighlights} />
+            <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5/80 px-5 py-6 text-left shadow-lg shadow-black/30 lg:hidden">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Get early access</h2>
+              <p className="mt-2 text-sm text-white/70">
+                Join the scholar waitlist or reach out for classroom deployments. The full waitlist panel unlocks once the page settles.
+              </p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-4">
+                <Link
+                  href="#waitlist"
+                className="group flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/5 px-5 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 lg:backdrop-blur transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[#E8C55B]/50 hover:from-[#D4AF37]/20 hover:to-[#D4AF37]/15 hover:ring-[#E8C55B]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/70"
+                >
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path
+                      d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>Join Scholar Waitlist</span>
+                </Link>
+                <a
+                  href="mailto:contact@praviel.com?subject=Early Classroom Access Request"
+                className="group flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/5 px-5 py-3 text-sm font-medium text-[#E8DCC4] ring-1 ring-[#D4AF37]/40 lg:backdrop-blur transition duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[#E8C55B]/50 hover:from-[#D4AF37]/20 hover:to-[#D4AF37]/15 hover:ring-[#E8C55B]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/70"
+                >
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path d="M12 14l9-5-9-5-9 5 9 5z" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                      d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>Bring PRAVIEL to Class</span>
+                </a>
+              </div>
+              <p className="mt-3 text-[11px] text-white/50">
+                Full waitlist panel loads after the page settles.
+              </p>
             </div>
           </div>
-        </m.div>
-      </m.div>
-
-      {/* Scroll indicator with accessibility */}
-      <m.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
-      >
-        <m.div
-          animate={shouldReduceMotion ? {} : { y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2 text-zinc-600 hover:text-[#D4AF37] transition-colors cursor-pointer"
-        >
-          <span className="text-xs uppercase tracking-wider">Scroll</span>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </m.div>
-      </m.div>
+        </div>
+        <aside className="relative hidden lg:block">
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/45 p-6 shadow-2xl shadow-black/40 backdrop-blur">
+            <h2 className="text-lg font-semibold text-white">Authentic-text workflow</h2>
+            <p className="mt-3 text-sm text-white/70 leading-relaxed">
+              Select a canonical witness, ground it in Perseus, LSJ, TLA, ORACC, and CDLI data, then rehearse with historically accurate mentors. Citations and morphology are embedded at every step.
+            </p>
+            <ul className="mt-4 space-y-2 text-sm text-white/65">
+              <li className="flex items-start gap-2">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#E8C55B]" aria-hidden />
+                Latin, Koine, Classical Greek, Biblical Hebrew prioritized for full reader + coach stack.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#E8C55B]" aria-hidden />
+                Sanskrit, Classical Chinese, Pali, Old Church Slavonic, Ancient Aramaic, and Classical Arabic unlock next.
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[#E8C55B]" aria-hidden />
+                Privacy-first BYOK architecture with offline Echo provider for schools.
+              </li>
+            </ul>
+            <GreekKeyBorder className="mt-6" />
+            <HeroWaitlistDesktopGate />
+          </div>
+        </aside>
+      </div>
     </section>
   );
 }

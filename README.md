@@ -30,21 +30,17 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 
 ## What's Inside
 
-- 🏛️ **Ancient civilization theme** with Egyptian Gold (#D4AF37), Lapis Lazuli Blue, and papyrus textures
-- 🌍 **Interactive language showcase** featuring Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Middle Egyptian
-- 🎨 **GPU-accelerated canvas background** with ancient scripts and papyrus textures
-- 📚 **Interactive demo** showing morphological analysis on authentic Greek text (Iliad 1.1)
-- 🗺️ **How It Works** 4-step learning journey visualization
-- 📊 **Comparison table** showing PRAVIEL vs traditional methods and language apps
-- ❓ **Comprehensive FAQ** with 10 Q&As addressing common questions
-- ⚡ **Buttery smooth scrolling** (Lenis) with 60fps on all devices
-- 🎭 **Motion animations** following 2025 best practices (GPU-only transforms, Intersection Observer)
-- ♿ **WCAG 2.1 AA accessible** with 44x44px touch targets, skip links, ARIA labels, and reduced motion support
-- 🔤 **Optimized font loading** with next/font/google (self-hosted, subsetting for Latin, Greek, Devanagari, Hebrew)
-- 🔍 **SEO optimized** with JSON-LD structured data for educational content
-- 📱 **Actually responsive** with mobile-first design (tested on real devices, not just DevTools)
-- 🌐 **Edge-deployed** on Cloudflare Workers for global low-latency
-- 💝 **Free-first messaging** emphasizing donor-supported business model and zero barriers
+- 🏛️ **Ancient civilization theme** anchored in Egyptian gold + lapis gradients with pure-CSS noise (no client canvas).
+- 🧠 **Server-rendered hero + Suspense gating** so the critical copy streams instantly while heavy demos hydrate only on user intent.
+- 🌍 **Interactive language showcase** featuring the 46-language roadmap with authentic samples and writing-system notes.
+- 📚 **Lessons + Reader demos** powered by canonical excerpts (Iliad 1.1, Torah, etc.) and deterministic fixtures for testing.
+- 🗺️ **How It Works** 4-step journey plus comparison table that explain the neuro-symbolic stack to prospective funders.
+- ❓ **Comprehensive FAQ** covering licensing, pedagogy, BYOK deployments, and school partnerships.
+- ⚡ **Adaptive enhancements** (Lenis, overlays, scroll progress) that respect Save-Data, coarse pointers, and idle time.
+- ♿ **WCAG 2.1 AA** with skip links, 44px targets, RTL fonts, reduced-motion fallbacks, and semantic nav.
+- 🔤 **Self-hosted Noto stack** (Latin, Greek, Devanagari, Hebrew, CJK) managed via `next/font/local` for deterministic LCP.
+- 🔍 **SEO + Analytics ready**: JSON-LD structured data, Sentry + `/api/observability/vitals` pipeline, Cloudflare Analytics hook.
+- 🌐 **Edge-deployed** on Cloudflare Workers through OpenNext with automated cache purges.
 
 ---
 
@@ -82,7 +78,17 @@ pnpm preview     # Local Cloudflare Workers preview
 pnpm build       # Production build
 pnpm typecheck   # TypeScript validation
 pnpm lint        # ESLint check
+pnpm with-release <cmd>  # Inject release metadata + env for build tooling
+pnpm sentry:smoke        # Sends a test event using the env vars in .dev.vars
 ```
+
+## Quality & Observability
+
+- `pnpm test:e2e` exercises the marketing demos, typography harness, waitlist form, and mobile safeguards with `ENABLE_TEST_ROUTES=true`.
+- `pnpm perf:audit` wraps Lighthouse (`scripts/lighthouse.ts`) to ensure LCP ≤ 2.5 s, INP ≤ 200 ms, and CLS ≤ 0.1 across mobile/desktop. It writes both JSON + HTML reports to `test-results/`, and you can point it at a preview with `AUDIT_URL=https://your-preview-url`. Running against the deployed Worker is recommended so Chrome doesn’t block localhost with interstitials.
+- `.github/workflows/quality.yml` runs lint → typecheck → Playwright → Lighthouse on every push/PR, caches Chrome for Testing, and uploads the HTML/JSON reports.
+- `/app/reportWebVitals.ts` posts browser-side metrics into `/api/observability/vitals`, which logs the payload (path, element descriptor, snippet, nav type) to Sentry for cohort analysis.
+- `docs/CRITICAL_TO-DOs.md` tracks the live Core Web Vitals status plus any gating work before we can publish an external perf report.
 
 ---
 
@@ -144,13 +150,96 @@ Standard Next.js 16 App Router structure with Cloudflare Workers optimizations.
 
 ---
 
+---
 ## Environment Variables
 
-**Public vars** (prefixed `NEXT_PUBLIC_`) are safe to commit. **Secrets** go in `.dev.vars` locally and Cloudflare Wrangler for production (`pnpm wrangler secret put`).
+**Public vars** (prefixed ) are safe to commit. **Secrets** go in  locally and Cloudflare Wrangler for production (
+wrangler secret put <key>
 
-See `wrangler.jsonc` for the full list. Don't commit secrets. Rotate them if you do.
+Create or update a secret variable for a Worker
 
----
+POSITIONALS
+  key  The variable name to be accessible in the Worker  [string] [required]
+
+GLOBAL FLAGS
+  -c, --config    Path to Wrangler configuration file  [string]
+      --cwd       Run as if Wrangler was started in the specified directory instead of the current working directory  [string]
+  -e, --env       Environment to use for operations, and for selecting .env and .dev.vars files  [string]
+      --env-file  Path to an .env file to load - can be specified multiple times - values from earlier files are overridden by values in later files  [array]
+  -h, --help      Show help  [boolean]
+  -v, --version   Show version number  [boolean]
+
+OPTIONS
+      --name  Name of the Worker  [string]). Key observability variables:
+
+| Variable | Purpose |
+| --- | --- |
+|  /  | Client + server crash/error reporting |
+| , ,  | Required for CI releases + 
+> praviel-site@0.0.5 build /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> pnpm run ensure:observability && pnpm run with-release next build --webpack
+
+
+> praviel-site@0.0.5 ensure:observability /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> tsx scripts/check-observability.ts
+
+[observability] Skipping Sentry env validation (non-strict build)
+
+> praviel-site@0.0.5 with-release /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> tsx scripts/with-release.ts next build --webpack
+
+
+[with-release] Using Sentry release: praviel-site@0.0.5+bd1847647775
+Using vars defined in .dev.vars
+   ▲ Next.js 16.0.1 (webpack, Cache Components)
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     ✓ viewTransition
+
+   Creating an optimized production build ...
+   Running TypeScript ...
+ ELIFECYCLE  Command failed with exit code 1.
+ ELIFECYCLE  Command failed with exit code 1. guardrails |
+|  | Defaults to , override for preview/dev |
+| ,  | Control tracing + replay sampling |
+
+
+> praviel-site@0.0.5 build /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> pnpm run ensure:observability && pnpm run with-release next build --webpack
+
+
+> praviel-site@0.0.5 ensure:observability /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> tsx scripts/check-observability.ts
+
+[observability] Skipping Sentry env validation (non-strict build)
+
+> praviel-site@0.0.5 with-release /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> tsx scripts/with-release.ts next build --webpack
+
+
+[with-release] Using Sentry release: praviel-site@0.0.5+bd1847647775
+Using vars defined in .dev.vars
+   ▲ Next.js 16.0.1 (webpack, Cache Components)
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     ✓ viewTransition
+
+   Creating an optimized production build ...
+   Running TypeScript ...
+ ELIFECYCLE  Command failed with exit code 1.
+ ELIFECYCLE  Command failed with exit code 1., , , and  now run 
+> praviel-site@0.0.5 ensure:observability /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> tsx scripts/check-observability.ts
+
+[observability] Skipping Sentry env validation (non-strict build) and 
+> praviel-site@0.0.5 with-release /home/antonsoloviev/work/projects/praviel_files/praviel-website
+> tsx scripts/with-release.ts '…'
+
+
+[with-release] Using Sentry release: praviel-site@0.0.5+bd1847647775
+ ELIFECYCLE  Command failed with exit code 1. so production builds fail fast when Sentry secrets are missing and every deploy is tied to a deterministic .
+
+See  for the full list. Don't commit secrets. Rotate them if you do.
 
 ## Contributing
 
