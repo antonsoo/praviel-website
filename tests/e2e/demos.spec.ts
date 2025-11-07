@@ -1,31 +1,30 @@
 import { expect, test } from "@playwright/test";
-import type { Locator, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 
 import { MARKETING_EXCERPTS } from "@/app/test/data/marketing-excerpts";
 
-async function revealSection(page: Page, section: Locator) {
+async function revealSection(page: Page, sectionId: string) {
   const viewport = page.viewportSize()?.height ?? 900;
 
-  // Scroll section into view
-  for (let i = 0; i < 8; i += 1) {
-    if ((await section.count()) > 0) {
+  // Scroll down to trigger ClientSectionGate's IntersectionObserver
+  // The sections are lazy-loaded and don't exist until scrolled into viewport
+  for (let i = 0; i < 10; i += 1) {
+    await page.mouse.wheel(0, viewport * 0.8);
+    await page.waitForTimeout(300);
+
+    // Check if the section has loaded yet
+    const section = page.locator(`section[aria-labelledby="${sectionId}"]`);
+    const count = await section.count();
+    if (count > 0) {
+      // Section exists now, scroll it fully into view
       await section.scrollIntoViewIfNeeded();
-      break;
+      await section.waitFor({ state: "visible", timeout: 5000 });
+      return;
     }
-    await page.mouse.wheel(0, viewport);
-    await page.waitForTimeout(150);
   }
 
-  // Wait for section container to be visible
-  await section.first().waitFor({ state: "visible", timeout: 20_000 });
-  await section.scrollIntoViewIfNeeded();
-
-  // Wait for ClientSectionGate to load the dynamic content (indicated by non-skeleton content)
-  // The skeleton has specific classes, so we wait for actual demo content
-  await page.waitForTimeout(2000); // Give time for dynamic import
-
-  // Ensure we're scrolled to the section after content loads (layout might shift)
-  await section.scrollIntoViewIfNeeded();
+  // If we get here, section never loaded
+  throw new Error(`Section with aria-labelledby="${sectionId}" never loaded after scrolling`);
 }
 
 test.describe("Marketing demos", () => {
@@ -35,8 +34,11 @@ test.describe("Marketing demos", () => {
       "Tab interactions asserted once on desktop Chromium",
     );
     await page.goto("/");
+
+    // Wait for and reveal the section (lazy-loaded by ClientSectionGate)
+    await revealSection(page, "lessons-demo-title");
+
     const section = page.locator(`section[aria-labelledby="lessons-demo-title"]`);
-    await revealSection(page, section);
     await expect(section).toBeVisible();
 
     // Click the "Launch lesson matcher" button to load the interactive demo
@@ -45,7 +47,7 @@ test.describe("Marketing demos", () => {
     await launchButton.click();
 
     // Wait for the dynamic content to load
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
 
     for (const excerpt of MARKETING_EXCERPTS) {
       const tab = section.getByRole("tab", { name: excerpt.language }).first();
@@ -61,20 +63,29 @@ test.describe("Marketing demos", () => {
       "Interactive reader assertion runs once on desktop Chromium",
     );
     await page.goto("/");
-    const section = page.locator(`section[aria-labelledby="demo-title"]`);
-    await revealSection(page, section);
-    await expect(section).toBeVisible();
 
-    // Click the "Launch interactive reader" button to load the interactive demo
-    const launchButton = section.getByRole("button", { name: /launch interactive reader/i });
+    // Wait for and reveal the section (lazy-loaded by ClientSectionGate)
+    await revealSection(page, "demo-title");
+
+    // After loading, the InteractiveDemo component renders with a button to launch the reader
+    // First we need to find the island's launch button (before InteractiveDemoCore loads)
+    const launchButton = page.getByRole("button", { name: /launch interactive reader/i });
     await expect(launchButton).toBeVisible();
     await launchButton.click();
 
-    // Wait for the dynamic content to load
-    await page.waitForTimeout(1000);
+    // Wait for InteractiveDemoCore to load - it becomes a new section with the same aria-labelledby
+    await page.waitForTimeout(2000);
+
+    // Both the island wrapper and the loaded core have aria-labelledby="demo-title"
+    // Use .last() to get the actual loaded InteractiveDemoCore
+    const section = page.locator(`section[aria-labelledby="demo-title"]`).last();
+    await expect(section).toBeVisible();
 
     for (const excerpt of MARKETING_EXCERPTS) {
-      await page.getByRole("button", { name: excerpt.language }).click();
+      // These are tabs with role="tab", not buttons
+      await section.getByRole("tab", { name: excerpt.language }).click();
+      await page.waitForTimeout(300); // Wait for content to update
+
       const firstToken = excerpt.tokens[0];
       await expect(section.getByTestId("demo-morphology")).toContainText(firstToken.definition, {
         timeout: 5000,

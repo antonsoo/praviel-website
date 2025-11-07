@@ -90,7 +90,7 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
 - Do **not** add testimonials, social proof, or live chat.
 - Keep web-specific experience separate from Flutter app demos (chatbot, morphology, reader already live there).
 
-### 📊 Latest Status (2025-11-07 12:30 UTC)
+### 📊 Latest Status (2025-11-07 13:30 UTC)
 
 **✅ Build & Deployment**
 - Production build: Successful (Next.js 16.0.1, webpack, Cache Components)
@@ -102,8 +102,17 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
 **✅ Test Suite**
 - `pnpm typecheck`: Passes
 - `pnpm lint`: Passes (0 errors, 0 warnings)
-- Marketing demos tests: Fixed (now handle island pattern lazy loading)
+- E2E tests: All passing (2/2 marketing demo tests fixed for IntersectionObserver lazy loading)
+- Test fixes: Proper scroll-and-wait pattern for `ClientSectionGate`, disambiguated duplicate section IDs
 - Flutter deployment tests: Fixed (graceful skip when service unavailable)
+
+**✅ Dependencies**
+- All packages updated to latest versions (as of 2025-11-07):
+  - @tailwindcss/postcss: 4.1.16 → 4.1.17
+  - tailwindcss: 4.1.16 → 4.1.17
+  - wrangler: 4.45.4 → 4.46.0
+  - wait-on: 8.0.5 → 9.0.1 (major version, Node.js 20+ required)
+  - sharp: 0.34.4 → 0.34.5
 
 **🚧 Performance**
 - Mobile score: 90/100 (good, but not perfect)
