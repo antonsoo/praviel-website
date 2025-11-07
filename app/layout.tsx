@@ -117,13 +117,6 @@ export default async function RootLayout({
     ]
   };
 
-  const heroPosterSrcSet = [
-    "/hero-poster-mobile-480.avif 480w",
-    "/hero-poster-mobile-720.avif 720w",
-    "/hero-poster-mobile.avif 960w",
-  ].join(", ");
-
-  const heroPosterSizes = "(max-width: 640px) 94vw, 640px";
   const analyticsProvider = (publicEnv.NEXT_PUBLIC_ANALYTICS_PROVIDER ??
     (publicEnv.NEXT_PUBLIC_CF_ANALYTICS_TOKEN ? "cloudflare" : null)) as
     | "cloudflare"
@@ -132,18 +125,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
-      <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/hero-poster-mobile-480.avif"
-          type="image/avif"
-          media="(max-width: 768px)"
-          imageSrcSet={heroPosterSrcSet}
-          imageSizes={heroPosterSizes}
-          fetchPriority="high"
-        />
-      </head>
       <body
         className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
         style={{ paddingTop: "var(--safe-area-top)" }}
