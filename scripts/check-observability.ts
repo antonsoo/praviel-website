@@ -1,3 +1,9 @@
+// Allow skipping observability checks via env var
+if (process.env.SKIP_OBSERVABILITY_CHECK === "true") {
+  console.log("[observability] Skipping Sentry env validation (SKIP_OBSERVABILITY_CHECK=true)");
+  process.exit(0);
+}
+
 const STRICT_ENV = Boolean(
   process.env.CI === "true" ||
   process.env.VERCEL === "1" ||

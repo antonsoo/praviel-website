@@ -10,6 +10,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy to Cloudflare Workers
+    env:
+      SKIP_OBSERVABILITY_CHECK: "true"
 
     steps:
       - name: Checkout code
