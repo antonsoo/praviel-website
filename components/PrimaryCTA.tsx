@@ -8,7 +8,7 @@ export default function PrimaryCTA() {
         href="https://app.praviel.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative inline-flex min-h-[48px] items-center gap-2 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#D4AF37] px-8 py-4 text-lg font-semibold text-black shadow-[0_0_45px_rgba(212,175,55,0.45)] ring-1 ring-[#E8C55B]/50 transition duration-300 ease-out hover:shadow-[0_0_65px_rgba(212,175,55,0.65)]"
+        className="group relative inline-flex min-h-[48px] items-center gap-2 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#D4AF37] px-8 py-4 text-lg font-semibold text-black shadow-[0_0_45px_rgba(212,175,55,0.45)] ring-1 ring-[#E8C55B]/50 transition-all duration-300 ease-out hover:shadow-[0_0_65px_rgba(212,175,55,0.65)] hover:scale-105 active:scale-100"
       >
         <span className="tracking-tight">Read the Originals Now</span>
         <svg

@@ -1,4 +1,5 @@
 import PrimaryCTA from "@/components/PrimaryCTA";
+import GreekKeyBorder from "@/components/GreekKeyBorder";
 import { heroCopy } from "@/lib/canonicalCopy";
 
 export default function HeroSection() {
@@ -18,8 +19,11 @@ export default function HeroSection() {
       </div>
 
       <div className="relative mx-auto max-w-4xl text-center space-y-10">
+        {/* Decorative Greek Key Border - ancient aesthetic */}
+        <GreekKeyBorder className="mx-auto max-w-md mb-8" />
+
         {/* Eyebrow with credibility */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#E8C55B]/20 bg-[#E8C55B]/5 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase text-[#E8C55B]">
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#E8C55B]/20 bg-[#E8C55B]/5 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase text-[#E8C55B] shadow-lg shadow-[#E8C55B]/10">
           <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
           </svg>
