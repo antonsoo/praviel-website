@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import type { Response } from "playwright-core";
 
 const FLUTTER_APP_URL = "https://8ead70d5.app-praviel.pages.dev";
 
@@ -51,7 +52,7 @@ test.describe("Flutter Web App Deployment", () => {
 
   test("main.dart.js bundle loads successfully", async ({ page }) => {
     const resourceErrors: string[] = [];
-    let mainDartJsResponse: any = null;
+    let mainDartJsResponse: Response | null = null;
 
     page.on("requestfailed", (request) => {
       if (request.url().includes("main.dart.js")) {
@@ -71,7 +72,10 @@ test.describe("Flutter Web App Deployment", () => {
     await page.waitForTimeout(5000);
 
     expect(mainDartJsResponse, "main.dart.js did not load").toBeTruthy();
-    const mainDartJsRequest = mainDartJsResponse;
+    if (!mainDartJsResponse) {
+      throw new Error("main.dart.js did not load");
+    }
+    const mainDartJsRequest: Response = mainDartJsResponse;
 
     expect(mainDartJsRequest.status()).toBe(200);
     expect(resourceErrors).toHaveLength(0);
