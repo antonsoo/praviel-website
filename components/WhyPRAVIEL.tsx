@@ -6,13 +6,13 @@ export default function WhyPRAVIEL() {
       className="relative px-6 py-16 sm:py-24 md:py-32 overflow-hidden content-visibility-auto"
       aria-labelledby="why-praviel-title"
     >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#CD5C5C]/6 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#E8C55B]/8 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-6xl space-y-12">
         <header className="text-center space-y-4">
           <h2
             id="why-praviel-title"
-            className="text-4xl sm:text-5xl font-bold text-white bg-gradient-to-r from-[#CD5C5C] via-[#E8C55B] to-[#CD5C5C] bg-clip-text text-transparent"
+            className="text-4xl sm:text-5xl font-bold text-white bg-gradient-to-r from-[#E8C55B] via-[#D4AF37] to-[#E8C55B] bg-clip-text text-transparent"
           >
             {whyPravielCopy.problemHeading}
           </h2>
@@ -31,9 +31,9 @@ export default function WhyPRAVIEL() {
               className="group rounded-xl border border-zinc-800/60 bg-zinc-900/60 p-6 transition-transform duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/40 hover:shadow-xl hover:shadow-[#D4AF37]/15"
             >
               <div className="flex gap-3">
-                <div className="mt-1 text-[#CD5C5C]">
+                <div className="mt-1 text-[#E8C55B]">
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6m6 6l-6-6 6-6" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
                 <p className="text-sm text-zinc-300 leading-relaxed">{bullet}</p>
