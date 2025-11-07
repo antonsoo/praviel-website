@@ -39,6 +39,14 @@ test.describe("Marketing demos", () => {
     await revealSection(page, section);
     await expect(section).toBeVisible();
 
+    // Click the "Launch lesson matcher" button to load the interactive demo
+    const launchButton = section.getByRole("button", { name: /launch lesson matcher/i });
+    await expect(launchButton).toBeVisible();
+    await launchButton.click();
+
+    // Wait for the dynamic content to load
+    await page.waitForTimeout(1000);
+
     for (const excerpt of MARKETING_EXCERPTS) {
       const tab = section.getByRole("tab", { name: excerpt.language }).first();
       await expect(tab).toBeVisible();
@@ -56,6 +64,14 @@ test.describe("Marketing demos", () => {
     const section = page.locator(`section[aria-labelledby="demo-title"]`);
     await revealSection(page, section);
     await expect(section).toBeVisible();
+
+    // Click the "Launch interactive reader" button to load the interactive demo
+    const launchButton = section.getByRole("button", { name: /launch interactive reader/i });
+    await expect(launchButton).toBeVisible();
+    await launchButton.click();
+
+    // Wait for the dynamic content to load
+    await page.waitForTimeout(1000);
 
     for (const excerpt of MARKETING_EXCERPTS) {
       await page.getByRole("button", { name: excerpt.language }).click();
