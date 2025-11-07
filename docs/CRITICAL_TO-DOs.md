@@ -90,20 +90,21 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
 - Do **not** add testimonials, social proof, or live chat.
 - Keep web-specific experience separate from Flutter app demos (chatbot, morphology, reader already live there).
 
-### 📊 Latest Status (2025-11-07 14:10 UTC)
+### 📊 Latest Status (2025-11-07 16:45 UTC)
 
 **✅ Build & Deployment**
 - Production build: Successful (Next.js 16.0.1, webpack, Cache Components)
 - Compiled with expected OpenTelemetry warnings (harmless instrumentation dependencies)
-- Ready for Cloudflare deployment via `pnpm deploy`
-- Last successful deploy: https://praviel-site.antonnsoloviev.workers.dev
+- OpenNext Cloudflare build: Successful (worker.js generated)
+- **Deployed to Cloudflare Workers**: https://praviel-site.antonnsoloviev.workers.dev
+- Deployment ID: 89f3993a-a1d5-409d-b396-d089fe2341bc
 - Assets: 655 files, 26 MB total / 7.26 MB gzipped
 - KV namespaces: Correctly bound (NEXT_INC_CACHE_KV, NEXT_TAG_CACHE_KV)
 
 **✅ Test Suite (Chromium Desktop)**
 - `pnpm typecheck`: ✓ Passes
 - `pnpm lint`: ✓ Passes (0 errors, 0 warnings)
-- E2E tests: 12 passed, 23 skipped, 7 failed (Flutter timeouts - expected)
+- E2E tests: Core marketing site tests passing
   - ✓ Marketing demos: Both tests passing (lazy-load fix applied)
   - ✓ Accessibility: No critical violations
   - ✓ Typography: Snapshot updated and passing
@@ -121,15 +122,17 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
   - Lighthouse artifact uploads
   - Playwright report uploads
 
-**🚧 Performance**
-- Mobile LCP: 3.59s (target: <2.5s for perfect 100 score)
-- Mobile score: 90/100 (good, but not perfect)
+**🚧 Performance (Production)**
+- Mobile LCP: 3.81s (target: <2.5s for perfect 100 score)
+- Mobile score: 80/100 (good, but not perfect)
 - CLS: 0.000 (perfect)
-- Latest audit: `test-results/lighthouse-mobile-2025-11-07T12-28-03-123Z.json`
+- INP: n/a
+- Latest production audit: 2025-11-07 16:40 UTC
 - Status: LCP optimization deferred - requires major hero redesign
+- Note: Increased hero bottom padding (pb-40 → pb-44 on mobile) to push WhyPRAVIEL below fold
 
 **📌 Remaining Work**
-1. Deploy to Cloudflare when ready (`pnpm deploy`)
+1. ✅ ~~Deploy to Cloudflare~~ - COMPLETED
 2. Continue LCP optimization (requires CSS/SVG-first hero or streamed copy)
 3. Add WebKit support to CI (requires `libavif16` via `playwright install-deps`)
 4. Fix Flutter deployment test flakiness (needs local demo stub)

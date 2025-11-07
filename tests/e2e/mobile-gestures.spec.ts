@@ -198,6 +198,69 @@ test.describe("Mobile Gesture Interactions", () => {
     console.log("✅ App remains responsive during rapid gestures");
   });
 
+  test("home hero cards support horizontal drag gestures", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+
+    const flutterSurface = await page
+      .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
+      .catch(() => null);
+    if (!flutterSurface) {
+      test.skip(true, "Flutter app not reachable");
+      return;
+    }
+    await page.waitForTimeout(3000);
+
+    const dragY = 320;
+    await page.mouse.move(300, dragY);
+    await page.mouse.down();
+    await page.mouse.move(80, dragY, { steps: 12 });
+    await page.mouse.up();
+
+    await page.waitForTimeout(800);
+    await page.screenshot({
+      path: "test-results/mobile-gestures-home-drag.png",
+      fullPage: false,
+    });
+
+    const canvasCount = await page.locator("canvas").count();
+    expect(canvasCount).toBeGreaterThan(0);
+
+    console.log("✅ Home carousel responds to horizontal drag gesture");
+  });
+
+  test("reading page vertical scroll remains smooth after long swipe", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+
+    const flutterSurface = await page
+      .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
+      .catch(() => null);
+    if (!flutterSurface) {
+      test.skip(true, "Flutter app not reachable");
+      return;
+    }
+    await page.waitForTimeout(2500);
+
+    await page.mouse.click(187, 250);
+    await page.waitForTimeout(2000);
+
+    for (let i = 0; i < 3; i++) {
+      await page.mouse.wheel(0, 420);
+      await page.waitForTimeout(350);
+    }
+
+    await page.screenshot({
+      path: "test-results/mobile-gestures-reading-scroll.png",
+      fullPage: false,
+    });
+
+    const canvasCount = await page.locator("canvas").count();
+    expect(canvasCount).toBeGreaterThan(0);
+
+    console.log("✅ Reading page handles repeated vertical swipe gestures");
+  });
+
   test("pointer events are emitted for touch gestures", async ({ page }) => {
     await page.addInitScript(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

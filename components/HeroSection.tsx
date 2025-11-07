@@ -16,7 +16,7 @@ export default function HeroSection() {
   const heroTitleSecondary = secondaryTitle || "";
 
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden px-6 pb-28 pt-28 sm:min-h-[calc(100svh-2rem)] sm:pb-32 sm:pt-32 md:pt-40 lg:min-h-0 lg:pb-28 lg:pt-44">
+    <section className="relative isolate min-h-[100svh] overflow-hidden px-6 pb-40 pt-28 sm:min-h-[calc(100svh-2rem)] sm:pb-44 sm:pt-32 md:pt-40 lg:min-h-0 lg:pb-28 lg:pt-44">
       <HeroVideoShell
         desktopVideoSrc="/videos/desktop/background.mp4"
         mobileVideoSrc="/videos/mobile/background.mp4"

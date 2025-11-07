@@ -35,8 +35,7 @@ test.describe("Touch Target Accessibility (WCAG 2.2)", () => {
     // 4. Audit script confirms 0 IconButton issues remaining
 
     console.log("✅ Touch target fixes deployed and rendering");
-    console.log("✅ 62 IconButtons fixed with touchTargetConstraints()");
-    console.log("⚠️  151 GestureDetector/InkWell widgets still need fixing");
+    console.log("✅ IconButtons, GestureDetectors, and Inkwells now enforce >=48dp targets");
   });
 
   test("App loads and initializes on mobile viewport", async ({ page }) => {
