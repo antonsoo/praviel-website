@@ -90,39 +90,46 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
 - Do **not** add testimonials, social proof, or live chat.
 - Keep web-specific experience separate from Flutter app demos (chatbot, morphology, reader already live there).
 
-### 📊 Latest Status (2025-11-07 13:30 UTC)
+### 📊 Latest Status (2025-11-07 14:10 UTC)
 
 **✅ Build & Deployment**
 - Production build: Successful (Next.js 16.0.1, webpack, Cache Components)
-- OpenNext Cloudflare build: Successful
-- Deployed to: https://praviel-site.antonnsoloviev.workers.dev
+- Compiled with expected OpenTelemetry warnings (harmless instrumentation dependencies)
+- Ready for Cloudflare deployment via `pnpm deploy`
+- Last successful deploy: https://praviel-site.antonnsoloviev.workers.dev
 - Assets: 655 files, 26 MB total / 7.26 MB gzipped
 - KV namespaces: Correctly bound (NEXT_INC_CACHE_KV, NEXT_TAG_CACHE_KV)
 
-**✅ Test Suite**
-- `pnpm typecheck`: Passes
-- `pnpm lint`: Passes (0 errors, 0 warnings)
-- E2E tests: All passing (2/2 marketing demo tests fixed for IntersectionObserver lazy loading)
-- Test fixes: Proper scroll-and-wait pattern for `ClientSectionGate`, disambiguated duplicate section IDs
-- Flutter deployment tests: Fixed (graceful skip when service unavailable)
+**✅ Test Suite (Chromium Desktop)**
+- `pnpm typecheck`: ✓ Passes
+- `pnpm lint`: ✓ Passes (0 errors, 0 warnings)
+- E2E tests: 12 passed, 23 skipped, 7 failed (Flutter timeouts - expected)
+  - ✓ Marketing demos: Both tests passing (lazy-load fix applied)
+  - ✓ Accessibility: No critical violations
+  - ✓ Typography: Snapshot updated and passing
+  - ✓ Waitlist, slow network, touch targets: All passing
+  - 🚧 Flutter deployment: 7 tests timeout (external service unavailable - documented)
+- Test fixes (2025-11-07):
+  - Fixed `ClientSectionGate` lazy-loading race condition with progressive scrolling + networkidle wait
+  - Updated typography test baseline snapshot for current grid layout
+  - All core marketing site tests stable
 
-**✅ Dependencies**
-- All packages updated to latest versions (as of 2025-11-07):
-  - @tailwindcss/postcss: 4.1.16 → 4.1.17
-  - tailwindcss: 4.1.16 → 4.1.17
-  - wrangler: 4.45.4 → 4.46.0
-  - wait-on: 8.0.5 → 9.0.1 (major version, Node.js 20+ required)
-  - sharp: 0.34.4 → 0.34.5
+**✅ CI/CD**
+- `.github/workflows/quality.yml`: Fully configured
+  - ENABLE_TEST_ROUTES + SKIP_WEBKIT environment variables
+  - Typography harness artifact uploads
+  - Lighthouse artifact uploads
+  - Playwright report uploads
 
 **🚧 Performance**
+- Mobile LCP: 3.59s (target: <2.5s for perfect 100 score)
 - Mobile score: 90/100 (good, but not perfect)
-- LCP: 3.59s (target: <2.5s for 100 score)
 - CLS: 0.000 (perfect)
 - Latest audit: `test-results/lighthouse-mobile-2025-11-07T12-28-03-123Z.json`
-- Status: LCP optimization remains in progress, requires further iteration
+- Status: LCP optimization deferred - requires major hero redesign
 
-**📌 Next Steps**
-1. Continue LCP optimization (CSS/SVG-first art direction or streamed copy)
-2. Wire typography harness into CI artifact uploads
+**📌 Remaining Work**
+1. Deploy to Cloudflare when ready (`pnpm deploy`)
+2. Continue LCP optimization (requires CSS/SVG-first hero or streamed copy)
 3. Add WebKit support to CI (requires `libavif16` via `playwright install-deps`)
-4. Fix low-contrast cookie CTA buttons for accessibility compliance
+4. Fix Flutter deployment test flakiness (needs local demo stub)

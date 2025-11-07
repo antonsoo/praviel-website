@@ -4,27 +4,49 @@ import type { Page } from "@playwright/test";
 import { MARKETING_EXCERPTS } from "@/app/test/data/marketing-excerpts";
 
 async function revealSection(page: Page, sectionId: string) {
-  const viewport = page.viewportSize()?.height ?? 900;
+  // The sections are lazy-loaded via ClientSectionGate + IntersectionObserver
+  // We need to ensure the page is fully hydrated before scrolling triggers the observers
 
-  // Scroll down to trigger ClientSectionGate's IntersectionObserver
-  // The sections are lazy-loaded and don't exist until scrolled into viewport
-  for (let i = 0; i < 10; i += 1) {
-    await page.mouse.wheel(0, viewport * 0.8);
-    await page.waitForTimeout(300);
+  // Wait for page to be fully loaded and hydrated
+  await page.waitForLoadState("networkidle");
+  await page.waitForTimeout(1000); // Give React time to hydrate client components
 
-    // Check if the section has loaded yet
+  // Scroll in stages to progressively trigger IntersectionObservers
+  // (scrolling to bottom immediately might skip intermediate sections)
+  const scrollSteps = 8;
+  for (let i = 1; i <= scrollSteps; i++) {
+    await page.evaluate((step) => {
+      const targetY = (document.body.scrollHeight * step) / 8;
+      window.scrollTo({ top: targetY, behavior: "instant" });
+    }, i);
+
+    // Check if our target section loaded
     const section = page.locator(`section[aria-labelledby="${sectionId}"]`);
     const count = await section.count();
     if (count > 0) {
-      // Section exists now, scroll it fully into view
       await section.scrollIntoViewIfNeeded();
       await section.waitFor({ state: "visible", timeout: 5000 });
+      await page.waitForTimeout(500);
       return;
     }
+
+    // Wait a bit for the observer to trigger and component to load
+    await page.waitForTimeout(500);
   }
 
-  // If we get here, section never loaded
-  throw new Error(`Section with aria-labelledby="${sectionId}" never loaded after scrolling`);
+  // If we get here, section never loaded - provide debug info
+  const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
+  const allSections = await page.locator('section[aria-labelledby]').count();
+  const allSectionIds = await page.locator('section[aria-labelledby]').evaluateAll((sections) =>
+    sections.map((s) => s.getAttribute('aria-labelledby'))
+  );
+
+  throw new Error(
+    `Section with aria-labelledby="${sectionId}" never loaded after ${scrollSteps} scroll steps.\n` +
+    `Body height: ${bodyHeight}px\n` +
+    `Sections found: ${allSections}\n` +
+    `Section IDs: ${allSectionIds.join(', ')}`
+  );
 }
 
 test.describe("Marketing demos", () => {
