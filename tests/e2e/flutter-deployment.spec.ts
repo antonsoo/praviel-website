@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const FLUTTER_APP_URL = "https://56a92584.app-praviel.pages.dev";
+const FLUTTER_APP_URL = "https://b2cdffdf.app-praviel.pages.dev";
 
 test.describe("Flutter Web App Deployment", () => {
   test("loads without console errors", async ({ page }) => {
