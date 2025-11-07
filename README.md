@@ -153,93 +153,21 @@ Standard Next.js 16 App Router structure with Cloudflare Workers optimizations.
 ---
 ## Environment Variables
 
-**Public vars** (prefixed ) are safe to commit. **Secrets** go in  locally and Cloudflare Wrangler for production (
-wrangler secret put <key>
-
-Create or update a secret variable for a Worker
-
-POSITIONALS
-  key  The variable name to be accessible in the Worker  [string] [required]
-
-GLOBAL FLAGS
-  -c, --config    Path to Wrangler configuration file  [string]
-      --cwd       Run as if Wrangler was started in the specified directory instead of the current working directory  [string]
-  -e, --env       Environment to use for operations, and for selecting .env and .dev.vars files  [string]
-      --env-file  Path to an .env file to load - can be specified multiple times - values from earlier files are overridden by values in later files  [array]
-  -h, --help      Show help  [boolean]
-  -v, --version   Show version number  [boolean]
-
-OPTIONS
-      --name  Name of the Worker  [string]). Key observability variables:
+**Public vars** (prefixed `NEXT_PUBLIC_`) are safe to commit. **Secrets** go in `.env.local` locally and Cloudflare Wrangler for production (`pnpm wrangler secret put <KEY_NAME>`). Key observability variables:
 
 | Variable | Purpose |
 | --- | --- |
-|  /  | Client + server crash/error reporting |
-| , ,  | Required for CI releases + 
-> praviel-site@0.0.5 build /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> pnpm run ensure:observability && pnpm run with-release next build --webpack
+| `SENTRY_DSN` / `NEXT_PUBLIC_SENTRY_DSN` | Client + server crash/error reporting |
+| `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` | Required for CI releases + guardrails |
+| `SENTRY_ENVIRONMENT` | Defaults to `production`, override for preview/dev |
+| `SENTRY_TRACES_SAMPLE_RATE`, `SENTRY_REPLAYS_SESSION_SAMPLE_RATE` | Control tracing + replay sampling |
+| `SKIP_OBSERVABILITY_CHECK` | Set to `"true"` in CI to skip Sentry validation (when secrets unavailable) |
 
+**Note:** `pnpm build`, `pnpm deploy`, and `pnpm upload` now run `scripts/check-observability.ts` and `scripts/with-release.ts` so production builds fail fast when Sentry secrets are missing and every deploy is tied to a deterministic release identifier.
 
-> praviel-site@0.0.5 ensure:observability /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> tsx scripts/check-observability.ts
+See `lib/env.ts` for the full list. Don't commit secrets. Rotate them if you do.
 
-[observability] Skipping Sentry env validation (non-strict build)
-
-> praviel-site@0.0.5 with-release /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> tsx scripts/with-release.ts next build --webpack
-
-
-[with-release] Using Sentry release: praviel-site@0.0.5+bd1847647775
-Using vars defined in .dev.vars
-   ▲ Next.js 16.0.1 (webpack, Cache Components)
-   - Environments: .env.local, .env
-   - Experiments (use with caution):
-     ✓ viewTransition
-
-   Creating an optimized production build ...
-   Running TypeScript ...
- ELIFECYCLE  Command failed with exit code 1.
- ELIFECYCLE  Command failed with exit code 1. guardrails |
-|  | Defaults to , override for preview/dev |
-| ,  | Control tracing + replay sampling |
-
-
-> praviel-site@0.0.5 build /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> pnpm run ensure:observability && pnpm run with-release next build --webpack
-
-
-> praviel-site@0.0.5 ensure:observability /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> tsx scripts/check-observability.ts
-
-[observability] Skipping Sentry env validation (non-strict build)
-
-> praviel-site@0.0.5 with-release /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> tsx scripts/with-release.ts next build --webpack
-
-
-[with-release] Using Sentry release: praviel-site@0.0.5+bd1847647775
-Using vars defined in .dev.vars
-   ▲ Next.js 16.0.1 (webpack, Cache Components)
-   - Environments: .env.local, .env
-   - Experiments (use with caution):
-     ✓ viewTransition
-
-   Creating an optimized production build ...
-   Running TypeScript ...
- ELIFECYCLE  Command failed with exit code 1.
- ELIFECYCLE  Command failed with exit code 1., , , and  now run 
-> praviel-site@0.0.5 ensure:observability /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> tsx scripts/check-observability.ts
-
-[observability] Skipping Sentry env validation (non-strict build) and 
-> praviel-site@0.0.5 with-release /home/antonsoloviev/work/projects/praviel_files/praviel-website
-> tsx scripts/with-release.ts '…'
-
-
-[with-release] Using Sentry release: praviel-site@0.0.5+bd1847647775
- ELIFECYCLE  Command failed with exit code 1. so production builds fail fast when Sentry secrets are missing and every deploy is tied to a deterministic .
-
-See  for the full list. Don't commit secrets. Rotate them if you do.
+---
 
 ## Contributing
 
