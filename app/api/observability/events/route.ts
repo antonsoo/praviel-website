@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import * as Sentry from "@sentry/nextjs";
+// import * as Sentry from "@sentry/nextjs";
 
 type AnalyticsEventPayload = {
   event: string;
@@ -29,19 +29,19 @@ export async function POST(request: Request) {
 
   console.log("[analytics-event]", logPayload);
 
-  try {
-    Sentry.withScope((scope) => {
-      scope.setTag("analytics_event", payload?.event ?? "unknown");
-      scope.setContext("analytics", {
-        source: logPayload.source,
-        meta: logPayload.meta,
-        ua,
-      });
-      Sentry.captureMessage(`[analytics] ${payload.event}`);
-    });
-  } catch (error) {
-    console.debug("[analytics-event] sentry capture skipped", error);
-  }
+  // try {
+  //   Sentry.withScope((scope) => {
+  //     scope.setTag("analytics_event", payload?.event ?? "unknown");
+  //     scope.setContext("analytics", {
+  //       source: logPayload.source,
+  //       meta: logPayload.meta,
+  //       ua,
+  //     });
+  //     Sentry.captureMessage(`[analytics] ${payload.event}`);
+  //   });
+  // } catch (error) {
+  //   console.debug("[analytics-event] sentry capture skipped", error);
+  // }
 
   return NextResponse.json({ ok: true });
 }

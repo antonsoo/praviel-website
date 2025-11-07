@@ -28,20 +28,11 @@ export default async function HomePage() {
       <SectionDivider />
       <WhyPRAVIEL />
       <SectionDivider />
-      <TractionBar />
-      <SectionDivider />
       <ClientSectionGate
         section="lessons"
         fallback={<DemoSkeleton />}
         idleTimeout={0}
-        rootMargin="120px"
-      />
-      <SectionDivider />
-      <ClientSectionGate
-        section="interactive"
-        fallback={<DemoSkeleton />}
-        idleTimeout={0}
-        rootMargin="120px"
+        rootMargin="200px"
       />
       <SectionDivider />
       <HowItWorks />
