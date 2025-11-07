@@ -34,6 +34,13 @@ export default async function HomePage() {
         rootMargin="200px"
       />
       <SectionDivider />
+      <ClientSectionGate
+        section="interactive"
+        fallback={<DemoSkeleton />}
+        idleTimeout={0}
+        rootMargin="200px"
+      />
+      <SectionDivider />
       <HowItWorks />
       <SectionDivider />
       <PrivacyFirst />
