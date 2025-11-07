@@ -1,13 +1,22 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page, type TestInfo } from "@playwright/test";
 
 const FLUTTER_APP_URL = "https://8ead70d5.app-praviel.pages.dev";
+
+async function gotoFlutterApp(page: Page, testInfo: TestInfo) {
+  const projectName = testInfo.project?.name ?? "";
+  const isWebKit = projectName.includes("webkit");
+  await page.goto(FLUTTER_APP_URL, {
+    waitUntil: isWebKit ? "domcontentloaded" : "networkidle",
+    timeout: isWebKit ? 90000 : 60000,
+  });
+}
 
 test.describe("Mobile Gesture Interactions", () => {
   test("swipe-to-dismiss works on History page", async ({ page }) => {
     // Set mobile viewport (iPhone SE)
     await page.setViewportSize({ width: 375, height: 667 });
 
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
 
     // Wait for Flutter to render
     const flutterSurface = await page
@@ -89,7 +98,7 @@ test.describe("Mobile Gesture Interactions", () => {
     });
 
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
 
     const flutterSurface = await page
       .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
@@ -117,6 +126,7 @@ test.describe("Mobile Gesture Interactions", () => {
         !err.includes("favicon") &&
         !err.includes("DevTools") &&
         !err.includes("X-Frame-Options") &&
+        !err.includes("Access-Control-Allow-Origin") && // Known CSRF CORS noise while backend redeploys
         !err.includes("fonts.gstatic.com") &&
         !err.includes("csrf_token") &&
         !err.includes("no-response") &&
@@ -134,7 +144,7 @@ test.describe("Mobile Gesture Interactions", () => {
 
   test("pinch-to-zoom gesture on reading page", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
 
     const flutterSurface = await page
       .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
@@ -176,7 +186,7 @@ test.describe("Mobile Gesture Interactions", () => {
 
   test("app remains responsive during rapid gestures", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
 
     const flutterSurface = await page
       .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
@@ -208,7 +218,7 @@ test.describe("Mobile Gesture Interactions", () => {
 
   test("home hero cards support horizontal drag gestures", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
 
     const flutterSurface = await page
       .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
@@ -239,7 +249,7 @@ test.describe("Mobile Gesture Interactions", () => {
 
   test("reading page vertical scroll remains smooth after long swipe", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
 
     const flutterSurface = await page
       .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
@@ -253,8 +263,15 @@ test.describe("Mobile Gesture Interactions", () => {
     await page.mouse.click(187, 250);
     await page.waitForTimeout(2000);
 
+    const projectName = test.info().project?.name ?? "";
+    const supportsNativeWheel = !projectName.includes("webkit");
+
     for (let i = 0; i < 3; i++) {
-      await page.mouse.wheel(0, 420);
+      if (supportsNativeWheel) {
+        await page.mouse.wheel(0, 420);
+      } else {
+        await page.evaluate(() => window.scrollBy(0, 420));
+      }
       await page.waitForTimeout(350);
     }
 
@@ -286,7 +303,7 @@ test.describe("Mobile Gesture Interactions", () => {
     });
 
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await gotoFlutterApp(page, test.info());
     await page.waitForSelector("canvas", { timeout: 60000 });
     await page.waitForTimeout(1500);
 

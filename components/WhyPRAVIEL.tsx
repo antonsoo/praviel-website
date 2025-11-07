@@ -19,9 +19,6 @@ export default function WhyPRAVIEL() {
           <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
             {whyPravielCopy.problemIntro}
           </p>
-          <p className="text-base sm:text-lg text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-            {whyPravielCopy.problemDetail}
-          </p>
         </header>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -52,7 +49,7 @@ export default function WhyPRAVIEL() {
               <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">{whyPravielCopy.solutionIntro}</p>
 
               <ul className="space-y-3">
-                {whyPravielCopy.solutionBullets.map((benefit) => (
+                {whyPravielCopy.solutionBullets.slice(0, 3).map((benefit) => (
                   <li key={benefit} className="flex items-start gap-2 text-sm text-zinc-300">
                     <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-[#E8C55B]" aria-hidden />
                     <span>{benefit}</span>

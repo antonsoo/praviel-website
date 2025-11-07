@@ -34,52 +34,32 @@ export default function HeroSection() {
           </span>
         </h1>
 
-        {/* Clear, jargon-free subtitle */}
+        {/* Simplified subtitle - from canonical copy */}
         <p className="mx-auto max-w-2xl text-xl sm:text-2xl text-zinc-300 leading-relaxed">
-          Master ancient languages with AI tutors trained on <strong className="text-white">primary sources</strong>—no hallucinations, just scholarship.
+          {heroCopy.subtitle}
         </p>
 
-        {/* Social proof - addressing trust deficit */}
-        <div className="flex flex-col items-center gap-4 text-sm">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-zinc-400">
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-              46 Languages
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-              116,502 LSJ Entries
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-              Research-Grade
-            </span>
-          </div>
-          {/* Target audience statement */}
-          <div className="mt-4 flex items-center gap-3 text-zinc-400">
-            <div className="flex -space-x-2">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#E8C55B] to-[#D4AF37] border-2 border-zinc-900" />
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 border-2 border-zinc-900" />
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 border-2 border-zinc-900" />
-            </div>
-            <p className="text-sm">
-              <span className="font-semibold text-white">Built for everyone</span> passionate about ancient languages
-            </p>
-          </div>
+        {/* Condensed social proof - single line */}
+        <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-400">
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
+            46 Ancient Languages
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
+            Research-Grade Accuracy
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
+            AI-Powered
+          </span>
         </div>
 
-        {/* CTA with urgency */}
-        <div className="pt-6 space-y-4">
+        {/* CTA - clean and simple */}
+        <div className="pt-4">
           <PrimaryCTA />
-          <p className="text-sm text-zinc-500">
-            Free tier available • No credit card required • Open source (Elastic License 2.0)
-          </p>
-        </div>
-
-        {/* Credibility footer - more specific */}
-        <div className="pt-6 border-t border-zinc-800/50">
-          <p className="text-xs uppercase tracking-widest text-zinc-500">
-            Powered by <span className="text-zinc-400">GPT-5, Claude 4.5, Gemini 2.5</span> • Grounded in <span className="text-zinc-400">Perseus, LSJ, TLA</span>
+          <p className="mt-4 text-sm text-zinc-500">
+            Free tier available • No credit card required
           </p>
         </div>
       </div>

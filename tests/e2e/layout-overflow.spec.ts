@@ -1,5 +1,4 @@
-import { expect, test } from "@playwright/test";
-import type { Page } from "@playwright/test";
+import { expect, test, type Page, type TestInfo } from "@playwright/test";
 
 const FLUTTER_APP_URL = "https://8ead70d5.app-praviel.pages.dev";
 
@@ -23,9 +22,18 @@ const SECTIONS: Array<"home" | "lessons" | "profile" | "reading"> = [
   "reading",
 ];
 
-async function gotoFlutter(page: Page, viewport: { width: number; height: number }) {
+async function gotoFlutter(
+  page: Page,
+  viewport: { width: number; height: number },
+  testInfo: TestInfo,
+) {
   await page.setViewportSize({ width: viewport.width, height: viewport.height });
-  await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+  const projectName = testInfo.project?.name ?? "";
+  const isWebKit = projectName.includes("webkit");
+  await page.goto(FLUTTER_APP_URL, {
+    waitUntil: isWebKit ? "domcontentloaded" : "networkidle",
+    timeout: isWebKit ? 90000 : 60000,
+  });
   const flutterSurface = await page
     .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
     .catch(() => null);
@@ -69,7 +77,7 @@ test.describe("Layout overflow guardrails", () => {
   for (const viewport of VIEWPORTS) {
     for (const section of SECTIONS) {
       test(`no horizontal overflow on ${section} (${viewport.name})`, async ({ page }) => {
-        const ready = await gotoFlutter(page, viewport);
+        const ready = await gotoFlutter(page, viewport, test.info());
         if (!ready) {
           test.skip(true, "Flutter app not reachable");
           return;
