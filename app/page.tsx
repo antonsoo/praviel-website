@@ -3,7 +3,6 @@ import { cacheLife } from "next/cache";
 
 import HeroSection from "@/components/HeroSection";
 import SectionDivider from "@/components/SectionDivider";
-import TractionBar from "@/components/TractionBar";
 import WhyPRAVIEL from "@/components/WhyPRAVIEL";
 import FeatureGrid from "@/components/FeatureGrid";
 import { DemoSkeleton } from "@/components/Skeleton";
