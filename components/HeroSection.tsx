@@ -55,7 +55,7 @@ export default function HeroSection() {
               Research-Grade
             </span>
           </div>
-          {/* Mini testimonial for credibility */}
+          {/* Target audience statement */}
           <div className="mt-4 flex items-center gap-3 text-zinc-400">
             <div className="flex -space-x-2">
               <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#E8C55B] to-[#D4AF37] border-2 border-zinc-900" />
@@ -63,7 +63,7 @@ export default function HeroSection() {
               <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 border-2 border-zinc-900" />
             </div>
             <p className="text-sm">
-              <span className="font-semibold text-white">Used by scholars</span> at seminaries, universities, and research institutions
+              <span className="font-semibold text-white">Built for scholars</span> at seminaries, universities, and research institutions
             </p>
           </div>
         </div>
