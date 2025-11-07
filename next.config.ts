@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: true,
 
   experimental: {
+    // Note: PPR is now built into cacheComponents (not a separate flag in Next.js 16)
     // still experimental in Next.js 16
     turbopackFileSystemCacheForDev: true,
     viewTransition: true,
