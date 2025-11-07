@@ -63,7 +63,7 @@ export default function HeroSection() {
               <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 border-2 border-zinc-900" />
             </div>
             <p className="text-sm">
-              <span className="font-semibold text-white">Built for scholars</span> at seminaries, universities, and research institutions
+              <span className="font-semibold text-white">Built for everyone</span> passionate about ancient languages
             </p>
           </div>
         </div>
