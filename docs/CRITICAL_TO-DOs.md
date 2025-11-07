@@ -89,3 +89,31 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
 - Docs that must remain in sync: `docs/archive/imported-docs-from-main-repo/BIG_PICTURE_from_main_repo.md`, `README_from_main_repo.md`, `LANGUAGE_LIST.md`, `TOP_TEN_WORKS_PER_LANGUAGE.md`, `LANGUAGE_WRITING_RULES.md`.
 - Do **not** add testimonials, social proof, or live chat.
 - Keep web-specific experience separate from Flutter app demos (chatbot, morphology, reader already live there).
+
+### 📊 Latest Status (2025-11-07 12:30 UTC)
+
+**✅ Build & Deployment**
+- Production build: Successful (Next.js 16.0.1, webpack, Cache Components)
+- OpenNext Cloudflare build: Successful
+- Deployed to: https://praviel-site.antonnsoloviev.workers.dev
+- Assets: 655 files, 26 MB total / 7.26 MB gzipped
+- KV namespaces: Correctly bound (NEXT_INC_CACHE_KV, NEXT_TAG_CACHE_KV)
+
+**✅ Test Suite**
+- `pnpm typecheck`: Passes
+- `pnpm lint`: Passes (0 errors, 0 warnings)
+- Marketing demos tests: Fixed (now handle island pattern lazy loading)
+- Flutter deployment tests: Fixed (graceful skip when service unavailable)
+
+**🚧 Performance**
+- Mobile score: 90/100 (good, but not perfect)
+- LCP: 3.59s (target: <2.5s for 100 score)
+- CLS: 0.000 (perfect)
+- Latest audit: `test-results/lighthouse-mobile-2025-11-07T12-28-03-123Z.json`
+- Status: LCP optimization remains in progress, requires further iteration
+
+**📌 Next Steps**
+1. Continue LCP optimization (CSS/SVG-first art direction or streamed copy)
+2. Wire typography harness into CI artifact uploads
+3. Add WebKit support to CI (requires `libavif16` via `playwright install-deps`)
+4. Fix low-contrast cookie CTA buttons for accessibility compliance
