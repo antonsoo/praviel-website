@@ -19,7 +19,7 @@ import PrivacyFirst from "@/components/PrivacyFirst";
 
 export default async function HomePage() {
   "use cache";
-  cacheLife("days");
+  cacheLife("hours"); // Changed from days to hours to allow demos to appear sooner
 
   return (
     <>
