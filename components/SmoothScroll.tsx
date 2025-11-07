@@ -1,43 +1,70 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Lenis from "lenis";
+import type Lenis from "lenis";
 
-export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+import { scheduleIdleTask } from "@/lib/utils/idle";
+
+function shouldEnableLenis() {
+  if (typeof window === "undefined") return false;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  const isNarrowViewport = window.innerWidth < 768;
+  return !prefersReducedMotion && !isCoarsePointer && !isNarrowViewport;
+}
+
+export default function SmoothScroll() {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Initialize Lenis smooth scrolling
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-      infinite: false,
-    });
+    let frame = 0;
+    let isMounted = true;
+    let cancelIdle = () => {};
 
-    lenisRef.current = lenis;
+    async function init() {
+      if (!shouldEnableLenis() || !isMounted) {
+        return;
+      }
 
-    // Integrate with GSAP ScrollTrigger
-    lenis.on("scroll", () => {
-      // ScrollTrigger integration happens automatically
-    });
+      const { default: LenisModule } = (await import("lenis")) as {
+        default: typeof Lenis;
+      };
+      if (!isMounted) return;
 
-    // Animation loop
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      const lenis = new LenisModule({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 1.2,
+        infinite: false,
+      });
+
+      lenisRef.current = lenis;
+
+      const raf = (time: number) => {
+        lenis.raf(time);
+        frame = requestAnimationFrame(raf);
+      };
+
+      frame = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    const start = () => {
+      void init();
+    };
+    cancelIdle = scheduleIdleTask(start, { timeout: 1500 });
 
     return () => {
-      lenis.destroy();
+      isMounted = false;
+      cancelIdle();
+      if (frame) cancelAnimationFrame(frame);
+      lenisRef.current?.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
-  return <>{children}</>;
+  return null;
 }

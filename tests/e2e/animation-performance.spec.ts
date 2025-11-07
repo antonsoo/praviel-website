@@ -18,7 +18,7 @@ test.describe("Animation Performance & Smoothness", () => {
 
     // Start performance tracing
     await page.evaluate(() => {
-      (window as any).performanceMarks = [];
+      (window as unknown as Window & { performanceMarks: unknown[] }).performanceMarks = [];
       performance.mark("navigation-start");
     });
 
@@ -73,17 +73,18 @@ test.describe("Animation Performance & Smoothness", () => {
     // Capture performance metrics during scrolling
     const scrollPerformance = await page.evaluate(async () => {
       const frameTimestamps: number[] = [];
-      let rafId: number;
+      let _rafId: number;
 
       // Track frame timing during scroll
       const trackFrames = () => {
         frameTimestamps.push(performance.now());
         if (frameTimestamps.length < 60) {
-          rafId = requestAnimationFrame(trackFrames);
+          _rafId = requestAnimationFrame(trackFrames);
         }
       };
 
-      rafId = requestAnimationFrame(trackFrames);
+      // Start tracking frames (assignment needed to begin animation loop)
+      _rafId = requestAnimationFrame(trackFrames);
 
       // Simulate scroll
       window.scrollBy(0, 500);

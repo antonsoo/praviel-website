@@ -1,17 +1,17 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
+import { cacheLife } from "next/cache";
 import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
-import MusicToggle from "@/components/MusicToggle";
-import SmoothScroll from "@/components/SmoothScroll";
 import AncientBackground from "@/components/AncientBackground";
-import CookieConsent from "@/components/CookieConsent";
-import MotionProvider from "@/components/MotionProvider";
 import SkipToContent from "@/components/SkipToContent";
-import ScrollProgress from "@/components/ScrollProgress";
-import StickyCTA from "@/components/StickyCTA";
+import ClientEnhancements from "@/components/ClientEnhancements";
+import SmoothScroll from "@/components/SmoothScroll";
+import CookieConsent from "@/components/CookieConsent";
+import AnalyticsConsentGate from "@/components/AnalyticsConsentGate";
 import { fontVariables } from "@/lib/fonts";
+import { publicEnv } from "@/lib/env";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
@@ -73,11 +73,14 @@ export const viewport: Viewport = {
   viewportFit: "cover", // Ensures content extends into safe areas on notched devices
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  "use cache";
+  cacheLife("days");
+
   // Structured data for SEO (safe - using static data)
   // Note: This is safe to use with dangerouslySetInnerHTML because:
   // 1. Data is static (defined at compile time)
@@ -114,30 +117,55 @@ export default function RootLayout({
     ]
   };
 
+  const heroPosterSrcSet = [
+    "/hero-poster-mobile-480.avif 480w",
+    "/hero-poster-mobile-720.avif 720w",
+    "/hero-poster-mobile.avif 960w",
+  ].join(", ");
+
+  const heroPosterSizes = "(max-width: 640px) 94vw, 640px";
+  const analyticsProvider = (publicEnv.NEXT_PUBLIC_ANALYTICS_PROVIDER ??
+    (publicEnv.NEXT_PUBLIC_CF_ANALYTICS_TOKEN ? "cloudflare" : null)) as
+    | "cloudflare"
+    | "vercel"
+    | null;
+
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
-      <body className="min-h-dvh flex flex-col overflow-x-hidden font-sans" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-poster-mobile-480.avif"
+          type="image/avif"
+          media="(max-width: 768px)"
+          imageSrcSet={heroPosterSrcSet}
+          imageSizes={heroPosterSizes}
+          fetchPriority="high"
+        />
+      </head>
+      <body
+        className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
+        style={{ paddingTop: "var(--safe-area-top)" }}
+      >
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
 
-        {/* Ancient-themed background with ancient scripts, papyrus, and Greek patterns */}
         <AncientBackground />
 
-        {/* LazyMotion provider for bundle size optimization (34kb -> 6kb) */}
-        <MotionProvider>
-          {/* Scroll progress indicator */}
-          <ScrollProgress />
-
-          {/* Content */}
-          <SmoothScroll>
-            <SiteHeader />
-            <main id="main-content" className="flex-1 pt-16">{children}</main>
-            <Footer />
-            <MusicToggle />
-            <CookieConsent />
-            <StickyCTA />
-          </SmoothScroll>
-        </MotionProvider>
+        <SiteHeader />
+        <main id="main-content" className="flex-1 pt-16">
+          {children}
+        </main>
+        <Footer />
+        <CookieConsent />
+        <ClientEnhancements />
+        <SmoothScroll />
+        <AnalyticsConsentGate
+          provider={analyticsProvider}
+          cloudflareToken={publicEnv.NEXT_PUBLIC_CF_ANALYTICS_TOKEN}
+          sampleRate={publicEnv.NEXT_PUBLIC_ANALYTICS_SAMPLE_RATE}
+        />
 
         {/* Structured data for SEO */}
         <Script

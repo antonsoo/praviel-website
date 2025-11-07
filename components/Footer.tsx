@@ -1,156 +1,71 @@
-"use client";
-
-import { Suspense } from "react";
-import { motion } from "motion/react";
-import CurrentYear from "./CurrentYear";
 import OpenSourceBadge from "./OpenSourceBadge";
+import CurrentYear from "./CurrentYear";
+
+const CONTACT_LINKS = [
+  { href: "mailto:contact@praviel.com", label: "contact@praviel.com" },
+  { href: "https://app.praviel.com", label: "App" },
+  { href: "https://api.praviel.com/docs", label: "API" },
+  { href: "/fund", label: "Fund" },
+  { href: "/privacy", label: "Privacy" },
+];
+
+const SCRIPT_GLYPHS = ["𒀀", "𓀀", "Α", "א"];
 
 export default function Footer() {
-  const links = [
-    { href: "mailto:contact@praviel.com", label: "contact@praviel.com" },
-    { href: "https://app.praviel.com", label: "App" },
-    { href: "https://api.praviel.com/docs", label: "API" },
-    { href: "/fund", label: "Fund" },
-    { href: "/privacy", label: "Privacy" },
-  ];
-
   return (
-    <footer className="relative border-t border-white/5 bg-black/60 px-4 sm:px-6 py-8 sm:py-12 pb-[calc(2rem+env(safe-area-inset-bottom))] text-xs text-zinc-600 ring-1 ring-white/10 backdrop-blur-xl overflow-hidden">
-      {/* Animated top border */}
-      <motion.div
-        className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"
-        animate={{
-          opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
+    <footer className="relative overflow-hidden border-t border-white/5 bg-black/60 px-4 pb-[calc(2rem+var(--safe-area-bottom))] pt-8 text-xs text-zinc-600 ring-1 ring-white/10 backdrop-blur-xl sm:px-6 sm:pt-12">
+      <div className="footer-border-sheen" aria-hidden />
+      <div className="footer-bg-glow" aria-hidden />
 
-      {/* Background glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1e40af]/10 to-transparent pointer-events-none" />
-
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:gap-8 sm:flex-row sm:items-start sm:justify-between relative z-10">
-        <motion.div
-          className="space-y-2 sm:space-y-3"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <motion.div
-            className="text-base sm:text-lg font-bold bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent"
-            whileHover={{ scale: 1.05 }}
-          >
-            PRAVIEL
-          </motion.div>
-          <div className="max-w-xs text-xs sm:text-sm text-zinc-500 leading-relaxed">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+        <div className="space-y-3 sm:space-y-4">
+          <span className="text-base font-bold text-white sm:text-lg">
+            <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent">
+              PRAVIEL
+            </span>
+          </span>
+          <p className="max-w-xs text-xs leading-relaxed text-zinc-500 sm:text-sm">
             Through ancient tongues, wisdom echoes across millennia.
-          </div>
+          </p>
 
-          {/* Ancient script decoration */}
-          <motion.div
-            className="flex gap-2 text-[#D4AF37]/30 text-base"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            {["𒀀", "𓀀", "Α", "א"].map((symbol, i) => (
-              <motion.span
-                key={i}
-                animate={{
-                  opacity: [0.2, 0.5, 0.2],
-                  y: [0, -3, 0],
-                }}
-                transition={{
-                  duration: 2 + i * 0.3,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                }}
+          <div className="flex gap-2 text-base text-[#D4AF37]/30">
+            {SCRIPT_GLYPHS.map((symbol, index) => (
+              <span
+                key={symbol}
+                className="footer-symbol"
+                style={{ animationDelay: `${index * 0.2}s` }}
+                aria-hidden
               >
                 {symbol}
-              </motion.span>
+              </span>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Open Source Badge - Real, verifiable */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-          >
-            <OpenSourceBadge />
-          </motion.div>
-        </motion.div>
+          <OpenSourceBadge />
+        </div>
 
-        <motion.div
-          className="flex flex-col gap-2 sm:gap-3"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          {links.map((link, i) => (
-            <motion.a
+        <div className="flex flex-col gap-2 sm:gap-3">
+          {CONTACT_LINKS.map((link) => (
+            <a
               key={link.href}
               href={link.href}
-              className="relative text-xs sm:text-sm text-zinc-500 hover:text-[#E8C55B] transition-colors group w-fit min-h-[44px] flex items-center"
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 + i * 0.05 }}
-              whileHover={{ x: 5 }}
+              className="group relative flex min-h-[44px] w-fit items-center text-xs text-zinc-500 transition-colors duration-200 hover:text-[#E8C55B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60 sm:text-sm"
             >
               <span className="relative z-10">{link.label}</span>
-
-              {/* Hover underline */}
-              <motion.div
-                className="absolute -bottom-0.5 left-0 h-[1px] bg-[#D4AF37]"
-                initial={{ width: 0 }}
-                whileHover={{ width: "100%" }}
-                transition={{ duration: 0.3 }}
-              />
-
-              {/* Arrow on hover */}
-              <motion.span
-                className="absolute -right-3 top-0 text-[#E8C55B] opacity-0 group-hover:opacity-100"
-                initial={{ x: -5 }}
-                whileHover={{ x: 0 }}
-              >
+              <span className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-[#D4AF37] transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none" />
+              <span className="pointer-events-none absolute -right-3 top-0 translate-x-1 text-[#E8C55B] opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100">
                 →
-              </motion.span>
-            </motion.a>
+              </span>
+            </a>
           ))}
-        </motion.div>
+        </div>
       </div>
 
-      <motion.div
-        className="mx-auto mt-8 sm:mt-12 max-w-6xl text-[10px] sm:text-xs text-zinc-700 relative z-10 text-center sm:text-left"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-      >
-        <motion.span
-          animate={{
-            opacity: [0.5, 0.7, 0.5],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-          }}
-        >
-          ©{" "}
-          <Suspense fallback={null}>
-            <CurrentYear />
-          </Suspense>{" "}
-          PRAVIEL. All rights reserved.
-        </motion.span>
-      </motion.div>
+      <div className="relative z-10 mx-auto mt-8 max-w-6xl text-center text-[10px] text-zinc-700 sm:mt-12 sm:text-left sm:text-xs">
+        <span className="footer-copyright">
+          © <CurrentYear /> PRAVIEL. All rights reserved.
+        </span>
+      </div>
     </footer>
   );
 }

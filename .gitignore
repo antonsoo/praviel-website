@@ -44,6 +44,11 @@ wrangler.log
 coverage/
 *.tsbuildinfo
 .eslintcache
+playwright-report/
+test-results/
+!test-results/
+test-results/*
+!test-results/*.json
 
 # OS / editor junk
 .DS_Store

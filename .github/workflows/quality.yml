@@ -68,7 +68,7 @@ jobs:
           curl -sf -H "x-enable-test-routes: 1" "${BASE_URL}/test/scripts?enable-test-routes=1" >/dev/null
 
       - name: Run Playwright tests
-        run: pnpm test:e2e
+        run: pnpm test:e2e:ci
 
       - name: Upload Playwright report
         if: always()
@@ -76,6 +76,15 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload typography harness captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typography-harness
+          path: test-results/typography/*.png
           if-no-files-found: ignore
           retention-days: 7
 

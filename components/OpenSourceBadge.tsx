@@ -1,29 +1,14 @@
-"use client";
-
-import { useReducedMotion } from "motion/react";
-import * as m from "motion/react-m";
-
-/**
- * Open Source Badge
- * Real, verifiable badge linking to actual GitHub repository
- * NO FAKE DATA - only shows if legitimate open source
- */
 export default function OpenSourceBadge() {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
-    <m.a
+    <a
       href="https://github.com/antonsoo/praviel-website"
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-700 hover:border-[#D4AF37] text-sm text-zinc-400 hover:text-zinc-200 transition-all backdrop-blur-sm group"
-      whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
-      whileTap={{ scale: 0.95 }}
+      className="group inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/80 px-4 py-2 text-sm text-zinc-400 transition-all duration-200 hover:border-[#D4AF37] hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60 motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02]"
       aria-label="View source code on GitHub"
     >
-      {/* GitHub icon */}
       <svg
-        className="w-4 h-4 text-zinc-400 group-hover:text-[#E8C55B] transition-colors"
+        className="h-4 w-4 text-zinc-400 transition-colors duration-200 group-hover:text-[#E8C55B]"
         fill="currentColor"
         viewBox="0 0 24 24"
         aria-hidden="true"
@@ -34,12 +19,9 @@ export default function OpenSourceBadge() {
           clipRule="evenodd"
         />
       </svg>
-
       <span className="font-medium">Open Source</span>
-
-      {/* External link icon */}
       <svg
-        className="w-3 h-3 text-zinc-600 group-hover:text-zinc-400 transition-colors"
+        className="h-3 w-3 text-zinc-600 transition-colors duration-200 group-hover:text-zinc-400"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -52,6 +34,6 @@ export default function OpenSourceBadge() {
           d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
         />
       </svg>
-    </m.a>
+    </a>
   );
 }

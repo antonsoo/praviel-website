@@ -4,12 +4,15 @@ import tseslint from "typescript-eslint";
 export default [
   {
     ignores: [
+      ".cache/**",
       ".next/**",
       ".open-next/**",
       ".wrangler/**",
       "node_modules/**",
       "dist/**",
-      "build/**"
+      "build/**",
+      "playwright-report/**",
+      "test-results/**"
     ]
   },
   js.configs.recommended,

@@ -48,8 +48,19 @@ export async function joinWaitlist(formData: FormData) {
     return { ok: true } as const;
   } catch (err) {
     // Check if this is a duplicate email error (PostgreSQL unique constraint violation)
-    const isDuplicateEmail =
-      err && typeof err === "object" && "code" in err && err.code === "23505";
+    const errorCode =
+      err && typeof err === "object"
+        ? "code" in err && typeof err.code === "string"
+          ? err.code
+          : "cause" in err &&
+              err.cause &&
+              typeof err.cause === "object" &&
+              "code" in err.cause &&
+              typeof err.cause.code === "string"
+            ? err.cause.code
+            : undefined
+        : undefined;
+    const isDuplicateEmail = errorCode === "23505";
 
     if (isDuplicateEmail) {
       // Expected: user already on waitlist

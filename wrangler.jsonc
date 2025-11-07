@@ -1,48 +1,58 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "praviel-site",
-  "main": ".open-next/worker.js",
-  "compatibility_date": "2025-10-15",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
-  "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
-  },
-  "observability": {
-    "enabled": true
-  },
-  // Server-side secrets - set via `pnpm wrangler secret put <KEY_NAME> --env production`
-  // All secrets have been configured:
-  //   ✅ STACK_SECRET_SERVER_KEY
-  //   ✅ DATABASE_URL
-  //   ✅ REDIS_URL
-  //   ✅ RESEND_API_KEY
-  //   ✅ OPENAI_API_KEY
-  //   ✅ ANTHROPIC_API_KEY
-  //   ✅ GOOGLE_API_KEY
-  "env": {
-    "production": {
-      "name": "praviel-site-production",
-      "route": "praviel.com/*",
-      "services": [
-        {
-          "binding": "WORKER_SELF_REFERENCE",
-          "service": "praviel-site-production"
-        }
-      ],
-      // Public environment variables (safe to commit, exposed to browser)
-      "vars": {
-        "NEXT_PUBLIC_STACK_PROJECT_ID": "5c4f0ecc-f06f-4947-a471-36501ce65909",
-        "NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY": "pck_zqxdcens9atbf7jgmx3m5pj5e6146aygtr5j4ezetrwhg",
-        "NEXT_PUBLIC_APP_ORIGIN": "https://praviel.com",
-        "NEXT_PUBLIC_API_BASE": "https://api.praviel.com",
-        "EMAIL_FROM_ADDRESS": "noreply@praviel.com",
-        "EMAIL_FROM_NAME": "PRAVIEL",
-        "EMAIL_PROVIDER": "resend"
-      }
-    }
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "praviel-site",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2025-10-15",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	// Server-side secrets - set via `pnpm wrangler secret put <KEY_NAME> --env production`
+	// All secrets have been configured:
+	//   ✅ STACK_SECRET_SERVER_KEY
+	//   ✅ DATABASE_URL
+	//   ✅ REDIS_URL
+	//   ✅ RESEND_API_KEY
+	//   ✅ OPENAI_API_KEY
+	//   ✅ ANTHROPIC_API_KEY
+	//   ✅ GOOGLE_API_KEY
+	"env": {
+		"production": {
+			"name": "praviel-site-production",
+			"route": "praviel.com/*",
+			"services": [
+				{
+					"binding": "WORKER_SELF_REFERENCE",
+					"service": "praviel-site-production"
+				}
+			],
+			// Public environment variables (safe to commit, exposed to browser)
+			"vars": {
+				"NEXT_PUBLIC_STACK_PROJECT_ID": "5c4f0ecc-f06f-4947-a471-36501ce65909",
+				"NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY": "pck_zqxdcens9atbf7jgmx3m5pj5e6146aygtr5j4ezetrwhg",
+				"NEXT_PUBLIC_APP_ORIGIN": "https://praviel.com",
+				"NEXT_PUBLIC_API_BASE": "https://api.praviel.com",
+				"EMAIL_FROM_ADDRESS": "noreply@praviel.com",
+				"EMAIL_FROM_NAME": "PRAVIEL",
+				"EMAIL_PROVIDER": "resend"
+			}
+		}
+	},
+	"kv_namespaces": [
+		{
+			"binding": "NEXT_INC_CACHE_KV",
+			"id": "98bd3bff37b14f9eb1be4a57f383ecb5"
+		},
+		{
+			"binding": "NEXT_TAG_CACHE_KV",
+			"id": "3cad8e32713e4a6f85866753408df9f5"
+		}
+	]
 }

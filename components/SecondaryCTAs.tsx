@@ -76,7 +76,7 @@ export default function SecondaryCTAs() {
       >
         <p className="mb-4 text-center text-sm text-zinc-300">Sign up to get notified when iOS & Android apps launch</p>
         <div className="flex justify-center">
-          <WaitlistForm />
+          <WaitlistForm source="secondary" />
         </div>
       </div>
 

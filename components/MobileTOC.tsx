@@ -30,11 +30,12 @@ export default function MobileTOC({
     <>
       {/* Floating Menu Button - Only visible on mobile */}
       <motion.button
+        data-testid="mobile-toc-toggle"
         onClick={() => setIsOpen(true)}
         className="lg:hidden fixed z-40 w-14 h-14 bg-gradient-to-br from-violet-600 to-purple-600 rounded-full shadow-lg flex items-center justify-center text-white"
         style={{
-          bottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
-          right: 'calc(1.5rem + env(safe-area-inset-right))',
+          bottom: "calc(1.5rem + var(--safe-area-bottom))",
+          right: "calc(1.5rem + var(--safe-area-right))",
         }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}

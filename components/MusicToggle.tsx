@@ -54,18 +54,17 @@ export default function MusicToggle() {
     }
   }, [playlist.length]);
 
-  const ensureAudioElement = useCallback(async () => {
-    const element = audioRef.current;
-    if (element) {
-      return element;
-    }
-
-    const tracks = await loadPlaylist();
+  const ensureAudioElement = useCallback(async (): Promise<{ audio: HTMLAudioElement | null; tracks: string[] }> => {
+    const tracks = playlist.length ? playlist : await loadPlaylist();
     if (!tracks.length) {
-      return null;
+      return { audio: null, tracks };
     }
 
-    const audio = new Audio(tracks[currentTrackIndex % tracks.length]);
+    if (audioRef.current) {
+      return { audio: audioRef.current, tracks };
+    }
+
+    const audio = new Audio();
     audio.preload = "none";
     audio.volume = volume;
 
@@ -80,18 +79,23 @@ export default function MusicToggle() {
     });
 
     audioRef.current = audio;
-    return audio;
-  }, [currentTrackIndex, loadPlaylist, volume]);
+    return { audio, tracks };
+  }, [loadPlaylist, playlist, volume]);
 
   const togglePlay = useCallback(async () => {
     if (hasError) return;
-    const audio = await ensureAudioElement();
-    if (!audio) return;
+    const { audio, tracks } = await ensureAudioElement();
+    if (!audio || !tracks.length) return;
 
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
       return;
+    }
+
+    if (!audio.src) {
+      const nextTrack = tracks[currentTrackIndex % tracks.length] ?? tracks[0];
+      audio.src = nextTrack;
     }
 
     audio

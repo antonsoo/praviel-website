@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
-interface VideoBackgroundProps {
+export interface VideoBackgroundProps {
   /**
    * Desktop/landscape video source (MP4)
    * Used when viewport width > height (landscape orientation)
@@ -22,7 +22,13 @@ interface VideoBackgroundProps {
    * Static poster image for initial load and reduced-motion fallback
    * Should be optimized WebP/AVIF or JPEG
    */
-  posterSrc: string;
+  posterSrc?: string;
+  /**
+   * Mobile-specific poster image. Falls back to posterSrc when missing.
+   */
+  mobilePosterSrc?: string;
+  posterAlt?: string;
+  posterPriority?: boolean;
 
   /**
    * Overlay opacity (0-1)
@@ -41,6 +47,12 @@ interface VideoBackgroundProps {
    * @default 768
    */
   mobileBreakpoint?: number;
+
+  /**
+   * Prefer rendering a static poster instead of video on mobile to keep LCP low.
+   * @default true
+   */
+  preferStaticOnMobile?: boolean;
 }
 
 /**
@@ -49,7 +61,7 @@ interface VideoBackgroundProps {
  * Features:
  * - Responsive: Serves landscape video to desktop, portrait to mobile
  * - Lazy loading with IntersectionObserver
- * - Respects prefers-reduced-motion
+ * - Respects prefers-reduced-motion and Save-Data
  * - GPU-accelerated rendering
  * - Pause when off-screen for battery preservation
  * - Adaptive to orientation changes
@@ -63,135 +75,140 @@ export default function VideoBackground({
   desktopVideoSrc,
   mobileVideoSrc,
   posterSrc,
+  mobilePosterSrc,
+  posterAlt = "",
+  posterPriority = true,
   overlayOpacity = 0.5,
   className = "",
   mobileBreakpoint = 768,
+  preferStaticOnMobile = true,
 }: VideoBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileLike, setIsMobileLike] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return detectMobileLikeViewport(window, mobileBreakpoint);
+  });
   const shouldReduceMotion = useReducedMotion();
+  const [connectionMeta, setConnectionMeta] = useState(() => {
+    if (typeof navigator === "undefined") {
+      return { saveData: true, effectiveType: "slow-2g" } as ConnectionMeta;
+    }
+    return readConnectionMeta(navigator);
+  });
 
-  // Detect device type and orientation
   useEffect(() => {
-    const checkDevice = () => {
-      // Check both width and orientation for better mobile detection
-      const isMobileWidth = window.innerWidth < mobileBreakpoint;
-      const isPortrait = window.innerHeight > window.innerWidth;
+    if (typeof window === "undefined") return;
 
-      // Consider it mobile if either width is small OR device is in portrait
-      setIsMobile(isMobileWidth || isPortrait);
-    };
+    const updateViewport = () =>
+      setIsMobileLike(detectMobileLikeViewport(window, mobileBreakpoint));
+    updateViewport();
 
-    // Initial check
-    checkDevice();
+    window.addEventListener("resize", updateViewport);
+    window.addEventListener("orientationchange", updateViewport);
 
-    // Listen for resize and orientation changes
-    window.addEventListener("resize", checkDevice);
-    window.addEventListener("orientationchange", checkDevice);
+    const pointerQuery = window.matchMedia("(any-pointer: coarse)");
+    const pointerListener = () => updateViewport();
+    pointerQuery.addEventListener("change", pointerListener);
+
+    const nav = window.navigator as NavigatorWithConnection;
+    const connection = nav.connection;
+    const handleConnectionChange = () => setConnectionMeta(readConnectionMeta(window.navigator));
+    connection?.addEventListener?.("change", handleConnectionChange);
 
     return () => {
-      window.removeEventListener("resize", checkDevice);
-      window.removeEventListener("orientationchange", checkDevice);
+      window.removeEventListener("resize", updateViewport);
+      window.removeEventListener("orientationchange", updateViewport);
+      pointerQuery.removeEventListener("change", pointerListener);
+      connection?.removeEventListener?.("change", handleConnectionChange);
     };
   }, [mobileBreakpoint]);
 
-  // Get the appropriate video source based on device
-  const currentVideoSrc = isMobile ? mobileVideoSrc : desktopVideoSrc;
+  const currentVideoSrc = isMobileLike ? mobileVideoSrc ?? desktopVideoSrc : desktopVideoSrc;
+
+  const shouldForceStatic = useMemo(() => {
+    if (!preferStaticOnMobile) return false;
+    const slowConnection = ["slow-2g", "2g", "3g"].includes(
+      connectionMeta.effectiveType ?? ""
+    );
+    return isMobileLike || connectionMeta.saveData || slowConnection;
+  }, [connectionMeta, isMobileLike, preferStaticOnMobile]);
+
+  const shouldRenderVideo =
+    Boolean(currentVideoSrc) && !shouldReduceMotion && !shouldForceStatic;
+
+  const resolvedPosterSrc = isMobileLike
+    ? mobilePosterSrc ?? posterSrc
+    : posterSrc;
+
+  const shouldPrioritizePoster = Boolean(posterPriority || shouldForceStatic);
+
+  const renderPoster = () => (
+    <VideoPoster
+      posterSrc={resolvedPosterSrc}
+      mobilePosterSrc={mobilePosterSrc}
+      posterAlt={posterAlt}
+      posterPriority={shouldPrioritizePoster}
+      overlayOpacity={overlayOpacity}
+      className={className}
+      mobileBreakpoint={mobileBreakpoint}
+    />
+  );
 
   useEffect(() => {
-    // Respect reduced motion - don't load video at all
-    if (shouldReduceMotion || !videoRef.current || !currentVideoSrc) return;
+    if (!shouldRenderVideo || !videoRef.current || !currentVideoSrc) return;
 
     const video = videoRef.current;
 
-    // When video source changes (device switch), reload the video
     if (isLoaded) {
       video.load();
     }
 
-    // Lazy load video with IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Video is in viewport - load it
             if (!isLoaded) {
               video.load();
               setIsLoaded(true);
             }
-            // Play video when in view
-            video.play().catch(() => {
-              // Autoplay might be blocked, that's okay
-            });
-            setIsPlaying(true);
+            video
+              .play()
+              .then(() => setIsPlaying(true))
+              .catch(() => {
+                /* ignored */
+              });
           } else {
-            // Video is off-screen - pause to save battery
             video.pause();
             setIsPlaying(false);
           }
         });
       },
-      { threshold: 0.25 } // Load when 25% visible
+      { threshold: 0.25 }
     );
 
     observer.observe(video);
-
     return () => observer.disconnect();
-  }, [isLoaded, shouldReduceMotion, currentVideoSrc]);
+  }, [currentVideoSrc, isLoaded, shouldRenderVideo]);
 
-  // Fallback to static image if reduced motion is preferred
-  if (shouldReduceMotion) {
-    return (
-      <div className={`absolute inset-0 ${className}`}>
-        <img
-          src={posterSrc}
-          alt=""
-          className="w-full h-full object-cover"
-          loading="eager"
-        />
-        {/* Glass morphism overlay */}
-        <div
-          className="absolute inset-0 backdrop-blur-md bg-black/50"
-          style={{ opacity: overlayOpacity }}
-        />
-      </div>
-    );
-  }
-
-  // Don't render video if no source is provided
-  if (!currentVideoSrc) {
-    return (
-      <div className={`absolute inset-0 ${className}`}>
-        <img
-          src={posterSrc}
-          alt=""
-          className="w-full h-full object-cover"
-          loading="eager"
-        />
-        <div
-          className="absolute inset-0 backdrop-blur-md bg-gradient-to-b from-black/60 via-black/40 to-black/70"
-          style={{ opacity: overlayOpacity }}
-        />
-      </div>
-    );
+  if (!shouldRenderVideo) {
+    return renderPoster();
   }
 
   return (
     <div className={`absolute inset-0 ${className}`}>
       <video
         ref={videoRef}
-        key={currentVideoSrc} // Force re-mount when video source changes
-        poster={posterSrc}
+        key={currentVideoSrc}
+        poster={resolvedPosterSrc}
         autoPlay
         loop
         muted
         playsInline
         preload="none"
-        className="w-full h-full object-cover"
+        className="h-full w-full object-cover"
         style={{
-          // GPU acceleration
           transform: "translateZ(0)",
           backfaceVisibility: "hidden",
           willChange: isPlaying ? "transform" : "auto",
@@ -202,11 +219,102 @@ export default function VideoBackground({
         Your browser does not support video backgrounds.
       </video>
 
-      {/* Glass morphism overlay for text readability */}
       <div
         className="absolute inset-0 backdrop-blur-md bg-gradient-to-b from-black/60 via-black/40 to-black/70"
         style={{ opacity: overlayOpacity }}
       />
     </div>
   );
+}
+
+export type VideoPosterProps = Pick<
+  VideoBackgroundProps,
+  | "posterSrc"
+  | "mobilePosterSrc"
+  | "posterAlt"
+  | "posterPriority"
+  | "overlayOpacity"
+  | "className"
+  | "mobileBreakpoint"
+>;
+
+export function VideoPoster({
+  posterSrc,
+  mobilePosterSrc,
+  posterAlt = "",
+  posterPriority = true,
+  overlayOpacity = 0.5,
+  className = "",
+  mobileBreakpoint = 768,
+}: VideoPosterProps) {
+  return (
+    <div className={`absolute inset-0 ${className}`} aria-hidden="true">
+      {posterSrc ? (
+        <picture>
+          {mobilePosterSrc ? (
+            <source
+              srcSet={mobilePosterSrc}
+              media={`(max-width: ${mobileBreakpoint}px)`}
+            />
+          ) : null}
+          <img
+            src={posterSrc}
+            alt={posterAlt}
+            className="h-full w-full object-cover"
+            decoding="async"
+            loading={posterPriority ? "eager" : "lazy"}
+            fetchPriority={posterPriority ? "high" : "auto"}
+            sizes="100vw"
+          />
+        </picture>
+      ) : (
+        <div className="h-full w-full bg-gradient-to-br from-[#050505] via-[#111] to-[#1f1b10]" />
+      )}
+      <div
+        className="absolute inset-0 backdrop-blur-md bg-gradient-to-b from-black/60 via-black/40 to-black/70"
+        style={{ opacity: overlayOpacity }}
+      />
+    </div>
+  );
+}
+
+const MOBILE_UA_REGEX = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+type ConnectionMeta = { saveData?: boolean; effectiveType?: string };
+type NavigatorWithConnection = Navigator & {
+  connection?: {
+    saveData?: boolean;
+    effectiveType?: string;
+    addEventListener?: (_event: string, _listener: () => void) => void;
+    removeEventListener?: (_event: string, _listener: () => void) => void;
+  };
+  userAgentData?: { mobile?: boolean };
+  maxTouchPoints?: number;
+};
+
+function detectMobileLikeViewport(win: Window, breakpoint: number) {
+  const isPortrait = win.innerHeight >= win.innerWidth;
+  const narrowWidth = win.innerWidth <= breakpoint;
+  const coarsePointer = win.matchMedia?.("(any-pointer: coarse)").matches ?? false;
+  const nav = win.navigator as NavigatorWithConnection;
+  const hasTouch = (nav.maxTouchPoints ?? 0) > 0;
+  const uaMobile = isMobileUserAgent(nav);
+  return narrowWidth || isPortrait || coarsePointer || hasTouch || uaMobile;
+}
+
+function readConnectionMeta(nav: Navigator): ConnectionMeta {
+  const enriched = nav as NavigatorWithConnection;
+  const connection = enriched.connection;
+  return {
+    saveData: Boolean(connection?.saveData),
+    effectiveType: connection?.effectiveType ?? "4g",
+  };
+}
+
+function isMobileUserAgent(nav: Navigator) {
+  const uaData = (nav as NavigatorWithConnection).userAgentData;
+  if (typeof uaData?.mobile === "boolean") {
+    return uaData.mobile;
+  }
+  return MOBILE_UA_REGEX.test(nav.userAgent);
 }

@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * Skip to Content Link
  * Accessibility feature that allows keyboard users to skip navigation and jump to main content

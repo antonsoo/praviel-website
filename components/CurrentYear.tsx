@@ -1,16 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
+const CURRENT_YEAR = new Date().getFullYear();
 
 export default function CurrentYear() {
-  const [year, setYear] = useState<number | null>(null);
-
-  useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
-
-  // Don't render until client-side hydration
-  if (year === null) return null;
-
-  return <>{year}</>;
+  return <span suppressHydrationWarning>{CURRENT_YEAR}</span>;
 }

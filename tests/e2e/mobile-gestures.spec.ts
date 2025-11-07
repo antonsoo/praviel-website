@@ -152,7 +152,6 @@ test.describe("Mobile Gesture Interactions", () => {
     // Note: Playwright has limited support for multi-touch gestures
     // This is more of a smoke test to ensure the reading page loads
 
-    const canvas = await page.locator("canvas").first();
     const canvasCount = await page.locator("canvas").count();
     expect(canvasCount).toBeGreaterThan(0);
 
@@ -197,5 +196,40 @@ test.describe("Mobile Gesture Interactions", () => {
     });
 
     console.log("✅ App remains responsive during rapid gestures");
+  });
+
+  test("pointer events are emitted for touch gestures", async ({ page }) => {
+    await page.addInitScript(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore - injected into browser context
+      window.__pravielPointerEvents = [];
+      window.addEventListener(
+        "pointerdown",
+        (event) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore - injected helper
+          window.__pravielPointerEvents.push({ x: event.clientX, y: event.clientY });
+        },
+        { passive: true }
+      );
+    });
+
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto(FLUTTER_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await page.waitForSelector("canvas", { timeout: 60000 });
+    await page.waitForTimeout(1500);
+
+    // Tap bottom navigation twice to ensure events fire
+    await page.touchscreen.tap(90, 640);
+    await page.waitForTimeout(200);
+    await page.touchscreen.tap(260, 640);
+
+    const pointerCount = await page.evaluate(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore - injected helper
+      return window.__pravielPointerEvents?.length ?? 0;
+    });
+
+    expect(pointerCount).toBeGreaterThanOrEqual(2);
   });
 });

@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   // React Compiler + Cache Components are now first-class config keys in Next.js 16
   reactCompiler: true,
   cacheComponents: true,
+  productionBrowserSourceMaps: true,
 
   experimental: {
     // still experimental in Next.js 16
@@ -20,6 +21,7 @@ const nextConfig: NextConfig = {
 
   // Remote images allowed on the marketing site (adjust as needed)
   images: {
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "cdn.praviel.com" },
       { protocol: "https", hostname: "assets.praviel.com" },

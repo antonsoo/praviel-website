@@ -38,6 +38,8 @@
   --font-devanagari: var(--font-devanagari), 'Noto Sans Devanagari', 'Mukta Vaani', sans-serif;
   --font-hebrew: var(--font-hebrew), 'Noto Sans Hebrew', 'SBL Hebrew', sans-serif;
   --font-cjk: var(--font-cjk-sc), var(--font-cjk-tc), var(--font-cjk-jp), var(--font-cjk-kr), 'Songti SC', 'Source Han Serif SC', 'Source Han Serif TC', 'Hiragino Mincho ProN', 'Yu Mincho', 'SimSun', serif;
+
+  --shadow-glow-gold: 0 0 40px rgba(250, 204, 21, 0.4);
 }
 
 @layer base {
@@ -46,6 +48,12 @@
     --safe-area-right: env(safe-area-inset-right, 0px);
     --safe-area-bottom: env(safe-area-inset-bottom, 0px);
     --safe-area-left: env(safe-area-inset-left, 0px);
+  }
+
+  main > *:not(:first-child) {
+    content-visibility: auto;
+    contain: layout paint style;
+    contain-intrinsic-size: 600px 800px;
   }
 }
 
@@ -66,12 +74,48 @@
   }
 
   .font-devanagari {
-    font-family: var(--font-devanagari);
+    font-family: var(--font-devanagari, "Noto Sans Devanagari", "Mukta Vaani", sans-serif);
   }
 
   .font-hebrew {
-    font-family: var(--font-hebrew);
+    font-family: var(--font-hebrew, "Noto Sans Hebrew", "SBL Hebrew", sans-serif);
     direction: rtl;
+  }
+
+  .font-arabic {
+    font-family: var(--font-arabic, "Noto Naskh Arabic", "Amiri", serif);
+    direction: rtl;
+  }
+
+  .font-syriac {
+    font-family: var(--font-syriac, "Noto Sans Syriac", "Estrangelo Edessa", serif);
+    direction: rtl;
+  }
+
+  .font-aramaic {
+    font-family: var(--font-aramaic, "Noto Sans Imperial Aramaic", "Estrangelo Edessa", serif);
+    direction: rtl;
+  }
+
+  .font-phoenician {
+    font-family: var(--font-phoenician, "Noto Sans Phoenician", "New Athena Unicode", serif);
+    direction: rtl;
+  }
+
+  .font-coptic {
+    font-family: var(--font-coptic, "Noto Sans Coptic", "Quivira", serif);
+  }
+
+  .font-cuneiform {
+    font-family: var(--font-cuneiform, "Noto Sans Cuneiform", "Akkadian", serif);
+  }
+
+  .font-brahmi {
+    font-family: var(--font-brahmi, "Noto Sans Brahmi", "Noto Sans Devanagari", sans-serif);
+  }
+
+  .font-tamil {
+    font-family: var(--font-tamil, "Noto Serif Tamil", "Latha", serif);
   }
 
   .font-serif {
@@ -79,7 +123,16 @@
   }
 
   .font-cjk {
-    font-family: var(--font-cjk);
+    font-family: var(
+      --font-cjk-sc,
+      var(
+        --font-cjk-tc,
+        var(
+          --font-cjk-jp,
+          var(--font-cjk-kr, "Songti SC", "Source Han Serif SC", "Source Han Serif TC", "Hiragino Mincho ProN", "Yu Mincho", "SimSun", serif)
+        )
+      )
+    );
   }
 
   .content-visibility-auto {

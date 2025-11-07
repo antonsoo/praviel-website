@@ -1,40 +1,70 @@
-import { Noto_Sans, Noto_Sans_Devanagari, Noto_Sans_Hebrew, Noto_Serif } from "next/font/google";
+import localFont from "next/font/local";
 
-// Main body font with Latin characters
-export const notoSans = Noto_Sans({
-  subsets: ["latin", "latin-ext", "greek", "cyrillic"],
-  weight: ["400", "600", "700"],
+// Only the fonts that are actually used on the marketing surface live here.
+// The heavier script coverage (CJK, Brahmi, Phoenician, etc.) is scoped to the
+// test harness via app/test/layout.tsx so we do not pay the CSS cost on the
+// primary route.
+
+const notoSans = localFont({
+  src: [
+    { path: "../app/fonts/noto-sans/noto-sans-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../app/fonts/noto-sans/noto-sans-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../app/fonts/noto-sans/noto-sans-latin-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-noto-sans",
   display: "swap",
+  fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial"],
   preload: true,
 });
 
-// Devanagari script for Sanskrit
-export const notoSansDevanagari = Noto_Sans_Devanagari({
-  subsets: ["devanagari", "latin"],
-  weight: ["400", "600"],
-  variable: "--font-devanagari",
+const notoSerif = localFont({
+  src: [
+    { path: "../app/fonts/noto-serif/noto-serif-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../app/fonts/noto-serif/noto-serif-latin-600-normal.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-noto-serif",
   display: "swap",
-  preload: false, // Lazy load since not on initial view
+  fallback: ["Palatino", "Book Antiqua", "serif"],
+  preload: false,
 });
 
-// Hebrew script
-export const notoSansHebrew = Noto_Sans_Hebrew({
-  subsets: ["hebrew", "latin"],
-  weight: ["400", "600"],
+const notoSerifDisplay = localFont({
+  src: [
+    { path: "../app/fonts/noto-serif-display/noto-serif-display-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../app/fonts/noto-serif-display/noto-serif-display-latin-600-normal.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-display-serif",
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  preload: false,
+});
+
+const notoSerifGreek = localFont({
+  src: [
+    { path: "../app/fonts/noto-serif-display/noto-serif-display-greek-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../app/fonts/noto-serif-display/noto-serif-display-greek-600-normal.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-greek-serif",
+  display: "swap",
+  preload: false,
+});
+
+const notoSansHebrew = localFont({
+  src: [
+    { path: "../app/fonts/noto-sans-hebrew/noto-sans-hebrew-hebrew-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../app/fonts/noto-sans-hebrew/noto-sans-hebrew-hebrew-600-normal.woff2", weight: "600", style: "normal" },
+  ],
   variable: "--font-hebrew",
   display: "swap",
   preload: false,
 });
 
-// Serif font for special emphasis
-export const notoSerif = Noto_Serif({
-  subsets: ["latin", "greek", "cyrillic"],
-  weight: ["400", "600"],
-  variable: "--font-noto-serif",
-  display: "swap",
-  preload: true,
-});
-
-// CSS variable names for use in components
-export const fontVariables = `${notoSans.variable} ${notoSansDevanagari.variable} ${notoSansHebrew.variable} ${notoSerif.variable}`;
+export const fontVariables = [
+  notoSans.variable,
+  notoSerif.variable,
+  notoSerifDisplay.variable,
+  notoSerifGreek.variable,
+  notoSansHebrew.variable,
+]
+  .filter(Boolean)
+  .join(" ");

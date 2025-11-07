@@ -265,10 +265,10 @@ Building infrastructure to preserve 5,000 years of linguistic heritage isn't che
 <div align="center">
 
 [![GitHub Sponsors](https://img.shields.io/badge/GitHub-Sponsors-pink?logo=github&logoColor=white)](https://github.com/sponsors/antonsoo)
-[![Patreon](https://img.shields.io/badge/Patreon-Support-orange?logo=patreon&logoColor=white)](https://patreon.com/AntonSoloviev)
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy_a_Coffee-blue?logo=ko-fi&logoColor=white)](https://ko-fi.com/antonsoloviev)
+[![Patreon](https://img.shields.io/badge/Patreon-Support-orange?logo=patreon&logoColor=white)](https://patreon.com/PRAVIEL)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Buy_a_Coffee-blue?logo=ko-fi&logoColor=white)](https://ko-fi.com/PRAVIEL)
 
-[**One-time via Stripe**](https://buy.stripe.com/6oU8wOfCe7ccbhefx0ew800) • [**PayPal**](https://paypal.me/AntonS0)
+[**One-time via Stripe**](https://buy.stripe.com/6oU8wOfCe7ccbhefx0ew800) • [**PayPal**](https://www.paypal.com/ncp/payment/PY77DTBNL5D88)
 
 </div>
 

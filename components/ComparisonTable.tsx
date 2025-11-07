@@ -1,161 +1,120 @@
-"use client";
+const features = [
+  { name: "Ancient language coverage", traditional: "Latin + Greek electives", apps: "0 true ancient courses", praviel: "46 languages (Latin → Sumerian)" },
+  { name: "Primary texts included", traditional: "Buy each critical edition", apps: "Phrase banks only", praviel: "Top 10 canonical works per language (460+ texts)" },
+  { name: "Accuracy & citations", traditional: "Depends on instructor", apps: "Hallucinates, no sources", praviel: "Neuro-symbolic guardrails · LSJ 116 502 entries · Perseus · TLA Berlin · ORACC" },
+  { name: "Interactive reader", traditional: "Printed lexica", apps: "Word hints (modern languages)", praviel: "Tap for lemma, morphology, commentary in any script" },
+  { name: "AI lessons & personas", traditional: "Static drills", apps: "Generic GPT prompts", praviel: "GPT-5 · Claude 4.5 · Gemini 2.5 with citation forcing" },
+  { name: "Conversation focus", traditional: "Classroom recitation", apps: "Modern dialogues", praviel: "Historical personas speaking the target language" },
+  { name: "Privacy & control", traditional: "Offline books", apps: "Telemetry + ads", praviel: "BYOK, zero tracking, offline-capable" },
+  { name: "Open source", traditional: "Closed textbooks", apps: "Closed SaaS", praviel: "Elastic License 2.0, self-hostable" },
+  { name: "Cost", traditional: "$50-$200 per commentary", apps: "$10-$30/mo subscription", praviel: "Free + optional API usage" },
+];
 
-import { useReducedMotion } from "motion/react";
-import * as m from "motion/react-m";
-import { useScrollReveal } from "@/lib/hooks/useScrollReveal";
+const comparisonSummaries = [
+  {
+    label: "Traditional Methods",
+    icon: "📚",
+    body: "Scholarly but slow. Physical dictionaries, no instant feedback.",
+  },
+  {
+    label: "Language Apps",
+    icon: "📱",
+    body: "Fun but superficial. Baby phrases, not authentic texts.",
+  },
+  {
+    label: "PRAVIEL",
+    icon: "⚡",
+    body: "Scholarly accuracy meets modern UX. Best of both worlds.",
+  },
+];
 
 export default function ComparisonTable() {
-  const shouldReduceMotion = useReducedMotion();
-  const { ref, isInView } = useScrollReveal({ threshold: 0.2, triggerOnce: true });
-
-  const features = [
-    { name: "Ancient language support", traditional: "✓ (limited)", apps: "✗", praviel: "✓ 46 languages" },
-    { name: "Authentic primary texts", traditional: "✓", apps: "✗", praviel: "✓ 460+ texts" },
-    { name: "Research-grade accuracy", traditional: "✓", apps: "✗", praviel: "✓ Zero hallucinations" },
-    { name: "Interactive learning", traditional: "✗", apps: "✓", praviel: "✓" },
-    { name: "Instant morphological analysis", traditional: "✗", apps: "✗", praviel: "✓" },
-    { name: "AI-powered lessons", traditional: "✗", apps: "Partial", praviel: "✓ GPT-5, Claude 4.5" },
-    { name: "Works offline", traditional: "✓", apps: "Partial", praviel: "✓ Full offline mode" },
-    { name: "Privacy-first (BYOK)", traditional: "N/A", apps: "✗", praviel: "✓" },
-    { name: "Open source", traditional: "✗", apps: "✗", praviel: "✓ ELv2" },
-    { name: "Cost", traditional: "$50-200/book", apps: "$10-30/month", praviel: "Free + optional AI costs" },
-  ];
-
   return (
     <section
-      ref={ref}
-      className="relative px-6 py-24 sm:py-32 overflow-hidden"
+      className="relative overflow-hidden px-6 py-24 content-visibility-auto sm:py-32"
       aria-labelledby="comparison-title"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1e40af]/5 to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1e40af]/5 to-transparent" />
 
-      <div className="mx-auto max-w-6xl relative z-10">
-        {/* Header */}
-        <m.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
+      <div className="relative z-10 mx-auto max-w-6xl space-y-14">
+        <header className="space-y-4 text-center">
           <h2
             id="comparison-title"
-            className="text-4xl sm:text-5xl font-bold text-white mb-6"
+            className="text-4xl font-bold text-white sm:text-5xl"
           >
             Why <span className="bg-gradient-to-r from-[#E8C55B] to-[#3b82f6] bg-clip-text text-transparent">PRAVIEL</span>?
           </h2>
-          <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto">
-            The first platform to combine scholarly rigor with modern AI for ancient languages
+          <p className="mx-auto max-w-3xl text-lg text-zinc-300 sm:text-xl">
+            The first platform to combine scholarly rigor with modern AI for ancient languages.
           </p>
-        </m.div>
+        </header>
 
-        {/* Comparison Table */}
-        <m.div
-          className="overflow-x-auto rounded-2xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 backdrop-blur-sm shadow-2xl shadow-black/30 scroll-scale"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <table className="w-full min-w-[640px]">
+        <div className="overflow-x-auto rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
+          <table className="w-full border-collapse text-sm text-zinc-200">
             <thead>
-              <tr className="border-b border-zinc-800">
-                <th className="text-left p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-wider">
-                  Feature
-                </th>
-                <th className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-wider">
-                  Traditional<br/><span className="text-[10px] sm:text-xs font-normal normal-case">(Textbooks)</span>
-                </th>
-                <th className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-wider">
-                  Language Apps<br/><span className="text-[10px] sm:text-xs font-normal normal-case">(Popular Apps)</span>
-                </th>
-                <th className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-semibold bg-gradient-to-r from-[#D4AF37]/10 to-[#3b82f6]/10 border-l-2 border-[#D4AF37]">
-                  <span className="text-[#E8C55B] text-sm sm:text-base">PRAVIEL</span>
-                </th>
+              <tr className="text-left text-xs uppercase tracking-[0.3em] text-zinc-500">
+                <th className="px-6 py-4 font-semibold text-zinc-400">Capability</th>
+                <th className="px-6 py-4 font-semibold text-zinc-400">Traditional</th>
+                <th className="px-6 py-4 font-semibold text-zinc-400">Apps</th>
+                <th className="px-6 py-4 font-semibold text-[#E8C55B]">PRAVIEL</th>
               </tr>
             </thead>
             <tbody>
-              {features.map((feature, idx) => (
-                <m.tr
-                  key={feature.name}
-                  className="border-b border-zinc-800/50 hover:bg-white/[0.02] transition-colors"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.3 + (idx * 0.05) }}
-                >
-                  <td className="p-3 sm:p-4 md:p-6 text-xs sm:text-sm font-medium text-zinc-300">
+              {features.map((feature) => (
+                <tr key={feature.name} className="border-t border-white/5">
+                  <th scope="row" className="px-6 py-5 text-base font-semibold text-white">
                     {feature.name}
-                  </td>
-                  <td className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm text-zinc-400">
-                    {feature.traditional}
-                  </td>
-                  <td className="text-center p-3 sm:p-4 md:p-6 text-xs sm:text-sm text-zinc-400">
-                    {feature.apps}
-                  </td>
-                  <td className="text-center p-3 sm:p-4 md:p-6 bg-gradient-to-r from-[#D4AF37]/5 to-[#3b82f6]/5 border-l-2 border-[#D4AF37]">
-                    <span className="text-xs sm:text-sm font-semibold text-[#E8C55B]">
+                  </th>
+                  <td className="px-6 py-5 text-zinc-400">{feature.traditional}</td>
+                  <td className="px-6 py-5 text-zinc-400">{feature.apps}</td>
+                  <td className="px-6 py-5">
+                    <span className="inline-flex rounded-full bg-[#D4AF37]/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#E8C55B]">
                       {feature.praviel}
                     </span>
                   </td>
-                </m.tr>
+                </tr>
               ))}
             </tbody>
           </table>
-        </m.div>
+        </div>
 
-        {/* Bottom insight */}
-        <m.div
-          className="mt-12 grid md:grid-cols-3 gap-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <div className="rounded-xl border border-zinc-800/50 bg-zinc-900/50 p-6 text-center backdrop-blur-sm">
-            <div className="text-3xl mb-2">📚</div>
-            <h3 className="text-sm font-semibold text-white mb-2">Traditional Methods</h3>
-            <p className="text-xs text-zinc-500">
-              Scholarly but slow. Physical dictionaries, no instant feedback.
-            </p>
-          </div>
-          <div className="rounded-xl border border-zinc-800/50 bg-zinc-900/50 p-6 text-center backdrop-blur-sm">
-            <div className="text-3xl mb-2">📱</div>
-            <h3 className="text-sm font-semibold text-white mb-2">Language Apps</h3>
-            <p className="text-xs text-zinc-500">
-              Fun but superficial. Baby phrases, not authentic texts.
-            </p>
-          </div>
-          <div className="rounded-xl border border-[#D4AF37]/30 bg-gradient-to-br from-[#D4AF37]/10 to-[#3b82f6]/10 p-6 text-center backdrop-blur-sm ring-1 ring-[#D4AF37]/20">
-            <div className="text-3xl mb-2">⚡</div>
-            <h3 className="text-sm font-semibold text-[#E8C55B] mb-2">PRAVIEL</h3>
-            <p className="text-xs text-zinc-400">
-              Scholarly accuracy meets modern UX. Best of both worlds.
-            </p>
-          </div>
-        </m.div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {comparisonSummaries.map((item, index) => (
+            <div
+              key={item.label}
+              className={`rounded-xl border p-6 text-center backdrop-blur-sm ${
+                index === 2
+                  ? "border-[#D4AF37]/30 bg-gradient-to-br from-[#D4AF37]/10 to-[#3b82f6]/10 ring-1 ring-[#D4AF37]/20"
+                  : "border-zinc-800/50 bg-zinc-900/50"
+              }`}
+            >
+              <div className="text-3xl" aria-hidden>
+                {item.icon}
+              </div>
+              <p className={`mt-2 text-sm font-semibold ${index === 2 ? "text-[#E8C55B]" : "text-white"}`}>
+                {item.label}
+              </p>
+              <p className="mt-2 text-xs text-zinc-500">{item.body}</p>
+            </div>
+          ))}
+        </div>
 
-        {/* CTA */}
-        <m.div
-          className="mt-12 text-center"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 1 }}
-        >
-          <m.a
+        <div className="text-center">
+          <a
             href="https://app.praviel.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#D4AF37] to-[#C5A572] text-black font-semibold rounded-full hover:shadow-lg hover:shadow-[#D4AF37]/40 transition-all"
-            whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#C5A572] px-8 py-4 text-sm font-semibold text-black shadow-lg shadow-[#D4AF37]/40 transition hover:shadow-[#D4AF37]/60"
           >
             Try PRAVIEL Free
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-          </m.a>
-          <p className="text-xs text-zinc-600 mt-4">
+          </a>
+          <p className="mt-3 text-xs text-zinc-600">
             Start reading ancient texts in 10 seconds • No barriers
           </p>
-        </m.div>
+        </div>
       </div>
     </section>
   );

@@ -617,7 +617,7 @@ The ONE exception is if the user explicitly asks you to revert a file: "Please r
 **Package Manager**: pnpm 10.20.0+ (JavaScript), uv/pixi (Python)
 **Platform**: Linux (Ubuntu on WSL2)
 **Python Environment**: `praviel-website-env` (activate: `source praviel-website-env/bin/activate`)
-**Deployment Target**: Cloudflare Workers via OpenNext
+**Deployment Target**: Cloudflare Workers via OpenNext *(Workers Paid plan active — 10 MB bundle limit)*
 **Database**: Neon Postgres (serverless)
 
 ### Node.js Version Requirements

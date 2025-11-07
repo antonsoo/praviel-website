@@ -1,161 +1,111 @@
-"use client";
-
-import { useReducedMotion } from "motion/react";
-import * as m from "motion/react-m";
-import { useScrollReveal } from "@/lib/hooks/useScrollReveal";
+const steps = [
+  {
+    number: "1",
+    title: "Select a canonical text",
+    description:
+      "Start with the exact passage you want—Homer, Torah, Bhagavad-Gītā, Pyramid Texts. No phrasebook filler or modern paraphrases.",
+    icon: (
+      <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    number: "2",
+    title: "Neuro-symbolic grounding",
+    description:
+      "Perseus morphology, LSJ (116,502 entries), TLA Berlin, ORACC, and CDLI feed our tutors. GPT-5 only teaches when citations back it up—zero hallucinations on grammar.",
+    icon: (
+      <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+        />
+      </svg>
+    ),
+  },
+  {
+    number: "3",
+    title: "Study in the scholar reader",
+    description:
+      "Tap scriptio continua text for lemma, morphology, Smyth references, and contextual glosses. Vocabulary drills and annotations are generated from the manuscript line you picked.",
+    icon: (
+      <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    number: "4",
+    title: "Live with the language",
+    description:
+      "AI tutors role-play historical grammarians, philologists annotate your progress, and custom drills adapt to your weak declensions and verb systems.",
+    icon: (
+      <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+        />
+      </svg>
+    ),
+  },
+];
 
 export default function HowItWorks() {
-  const shouldReduceMotion = useReducedMotion();
-  const { ref, isInView } = useScrollReveal({ threshold: 0.2, triggerOnce: true });
-
-  const steps = [
-    {
-      number: "1",
-      title: "Choose Your Language",
-      description: "Select from 46 ancient languages—Latin, Greek, Hebrew, Sanskrit, Egyptian hieroglyphics, and more.",
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-    },
-    {
-      number: "2",
-      title: "Learn with AI Lessons",
-      description: "AI-generated vocabulary, grammar, translation, and word order exercises from authentic texts—the Iliad, Torah, Bhagavad-Gītā.",
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        </svg>
-      ),
-    },
-    {
-      number: "3",
-      title: "Read with Interactive Analysis",
-      description: "Tap any word for instant scholarly analysis—lemma, morphology, definitions from LSJ, Smyth's Grammar, and more.",
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-        </svg>
-      ),
-    },
-    {
-      number: "4",
-      title: "Practice with Coach",
-      description: "Chat with historical personas in their native language—Athenian philosophers, Roman senators, Egyptian scribes.",
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      ),
-    },
-  ];
-
   return (
     <section
-      ref={ref}
-      className="relative px-6 py-24 sm:py-32 overflow-hidden"
-      aria-labelledby="how-it-works-title"
+      className="relative overflow-hidden px-6 py-24 content-visibility-auto sm:py-32"
+      aria-labelledby="workflow-title"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/5 to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1e40af]/8 to-transparent" />
 
-      <div className="mx-auto max-w-6xl relative z-10">
-        {/* Header */}
-        <m.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          <h2
-            id="how-it-works-title"
-            className="text-4xl sm:text-5xl font-bold text-white mb-6"
-          >
-            How <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent">PRAVIEL</span> Works
+      <div className="relative z-10 mx-auto max-w-6xl space-y-12">
+        <header className="text-center space-y-4">
+          <span className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#E8C55B]">
+            Workflow
+          </span>
+          <h2 id="workflow-title" className="text-4xl font-bold text-white sm:text-5xl">
+            How PRAVIEL takes you from{" "}
+            <span className="bg-gradient-to-r from-[#E8C55B] to-[#3b82f6] bg-clip-text text-transparent">script to mastery</span>
           </h2>
-          <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto">
-            From beginner to reading Homer in the original Greek—here's your learning journey
+          <p className="text-lg text-zinc-300 sm:text-xl">
+            We combine manuscript-grade data with frontier AI tutors so nothing gets lost between the tablets and your notebook.
           </p>
-        </m.div>
+        </header>
 
-        {/* Steps */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {steps.map((step, idx) => (
-            <m.div
-              key={step.number}
-              className="relative"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: idx * 0.15 }}
-            >
-              {/* Connecting line (desktop only) */}
-              {idx < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-full w-full h-px">
-                  <m.div
-                    className="h-full bg-gradient-to-r from-[#D4AF37]/50 to-transparent"
-                    initial={{ scaleX: 0 }}
-                    animate={isInView ? { scaleX: 1 } : {}}
-                    transition={{ duration: 0.8, delay: (idx * 0.15) + 0.3 }}
-                    style={{ transformOrigin: "left" }}
-                  />
-                </div>
-              )}
-
-              <div className="relative rounded-2xl border border-zinc-800/50 bg-gradient-to-br from-zinc-900/90 to-zinc-900/60 p-5 sm:p-6 backdrop-blur-sm hover:border-[#D4AF37]/40 transition-colors">
-                {/* Step number badge */}
-                <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#C5A572] flex items-center justify-center shadow-lg shadow-[#D4AF37]/30">
-                  <span className="text-lg sm:text-xl font-bold text-black">{step.number}</span>
-                </div>
-
-                {/* Icon */}
-                <m.div
-                  className="mb-4 sm:mb-6 mt-2 text-[#E8C55B]"
-                  whileHover={shouldReduceMotion ? {} : { scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {step.icon}
-                </m.div>
-
-                {/* Content */}
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                  {step.description}
-                </p>
+        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => (
+            <li key={step.number} className="how-step group rounded-2xl border border-zinc-800/60 bg-zinc-900/65 p-6 backdrop-blur-sm">
+              <div className="how-step-number">
+                <span>{step.number}</span>
               </div>
-            </m.div>
+              <div className="mt-4 flex items-center gap-3 text-[#E8C55B]">{step.icon}</div>
+              <h3 className="mt-4 text-lg font-semibold text-white">{step.title}</h3>
+              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">{step.description}</p>
+            </li>
           ))}
-        </div>
+        </ol>
 
-        {/* Bottom CTA */}
-        <m.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <p className="text-zinc-400 mb-6">
-            Ready to read ancient texts in their original languages?
+        <div className="rounded-2xl border border-[#D4AF37]/20 bg-black/50 p-8 text-center shadow-[0_24px_60px_rgba(12,12,12,0.65)]">
+          <h3 className="text-2xl font-semibold text-white">Scholars + AI = fluent in primary texts</h3>
+          <p className="mt-3 text-sm text-zinc-400">
+            Every stage is auditable. Tutors cite primary sources, and you retain full control over your corpus and annotations.
           </p>
-          <m.a
-            href="https://app.praviel.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#D4AF37] to-[#C5A572] text-black font-semibold rounded-full hover:shadow-lg hover:shadow-[#D4AF37]/40 transition-all"
-            whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Start Learning Free
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </m.a>
-          <p className="text-xs text-zinc-600 mt-4">
-            100% free • No signup required • Donor-supported
-          </p>
-        </m.div>
+        </div>
       </div>
     </section>
   );

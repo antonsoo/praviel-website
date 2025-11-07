@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { useEffect } from "react";
 import { useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
@@ -14,8 +15,10 @@ export default function Error({
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    // Log error to console in development
     console.error("Error boundary caught:", error);
+
+    // Forward boundary errors to Sentry for visibility in production.
+    Sentry.captureException(error);
   }, [error]);
 
   return (

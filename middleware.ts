@@ -21,7 +21,7 @@ export function middleware(req: NextRequest) {
   // Content Security Policy (CSP)
   // Note: Using 'unsafe-inline' for styles is necessary for Next.js + Tailwind
   // Consider moving to nonce-based CSP in production for enhanced security
-  const csp = [
+  const cspDirectives = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com",
     "style-src 'self' 'unsafe-inline'",
@@ -32,8 +32,16 @@ export function middleware(req: NextRequest) {
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self' https://app.praviel.com",
-    "upgrade-insecure-requests"
-  ].join('; ');
+  ];
+
+  const forwardedProto = req.headers.get("x-forwarded-proto");
+  const isSecureRequest =
+    req.nextUrl.protocol === "https:" || forwardedProto?.toLowerCase() === "https";
+  if (isSecureRequest) {
+    cspDirectives.push("upgrade-insecure-requests");
+  }
+
+  const csp = cspDirectives.join("; ");
 
   response.headers.set('Content-Security-Policy', csp);
 
