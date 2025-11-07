@@ -54,5 +54,11 @@
 			"binding": "NEXT_TAG_CACHE_KV",
 			"id": "3cad8e32713e4a6f85866753408df9f5"
 		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "repositio-sitularum"
+		}
 	]
 }

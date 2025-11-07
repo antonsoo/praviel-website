@@ -90,7 +90,7 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
 - Do **not** add testimonials, social proof, or live chat.
 - Keep web-specific experience separate from Flutter app demos (chatbot, morphology, reader already live there).
 
-### 📊 Latest Status (2025-11-07 16:45 UTC)
+### 📊 Latest Status (2025-11-07 18:00 UTC)
 
 **✅ Build & Deployment**
 - Production build: Successful (Next.js 16.0.1, webpack, Cache Components)
@@ -122,17 +122,31 @@ These are the must-do engineering tasks for the **praviel-website** repository. 
   - Lighthouse artifact uploads
   - Playwright report uploads
 
-**🚧 Performance (Production)**
-- Mobile LCP: 3.81s (target: <2.5s for perfect 100 score)
-- Mobile score: 80/100 (good, but not perfect)
+**🚧 Performance (Production) - CRITICAL ISSUES REMAIN**
+- Mobile LCP: 3.87s (target: <2.5s) - **52% OVER TARGET**
+- Mobile score: 77/100 - **NEEDS IMPROVEMENT**
 - CLS: 0.000 (perfect)
 - INP: n/a
-- Latest production audit: 2025-11-07 16:40 UTC
-- Status: LCP optimization deferred - requires major hero redesign
-- Note: Increased hero bottom padding (pb-40 → pb-44 on mobile) to push WhyPRAVIEL below fold
+- Latest audit: 2025-11-07 18:00 UTC
+- **TTFB Improvement**: 1.34s → 0.24s (cached) via R2/KV caching (**82% faster!**)
+- **Remaining Issues**:
+  1. LCP still >3.5s - fundamental hero/above-fold redesign required
+  2. Critical JS bundle: 830KB+ (framework 188KB, chunks 2x196KB, main 136KB, polyfills 112KB)
+  3. Image optimization disabled (`images.unoptimized: true`) - only affects 1 component but still suboptimal
+  4. First load still slow due to cold R2/Worker startup
 
-**📌 Remaining Work**
+**📌 Remaining Critical Work**
 1. ✅ ~~Deploy to Cloudflare~~ - COMPLETED
-2. Continue LCP optimization (requires CSS/SVG-first hero or streamed copy)
-3. Add WebKit support to CI (requires `libavif16` via `playwright install-deps`)
-4. Fix Flutter deployment test flakiness (needs local demo stub)
+2. ✅ ~~Configure R2/KV caching~~ - COMPLETED (82% TTFB improvement)
+3. **URGENT**: Reduce critical JS bundle from 830KB to <400KB
+   - Investigate code splitting for large chunks
+   - Consider removing/lazy-loading Sentry instrumentation (adds significant overhead)
+4. **URGENT**: LCP optimization - requires fundamental hero redesign
+   - Current: 3.87s (52% over 2.5s target)
+   - Need: CSS/SVG-first hero, smaller initial paint, or server-streamed content
+5. Fix image optimization (currently disabled via `images.unoptimized: true`)
+   - Option 1: Set up Cloudflare Images
+   - Option 2: Pre-optimize images at build time
+   - Option 3: Custom loader for AVIF/WebP
+6. Add WebKit support to CI (requires `libavif16` via `playwright install-deps`)
+7. Fix Flutter deployment test flakiness (needs local demo stub)
