@@ -1,270 +1,292 @@
-# Critical To-Dos
+# Critical To-Dos - NEXT SESSION FOCUS
 
-**Last Updated**: 2025-11-07 17:55 UTC
-**Focus**: Fix marketing website issues; Flutter app issues are in separate repo
-
----
-
-## ⚠️ CRITICAL SCOPE CLARIFICATION
-
-**THIS REPOSITORY** (praviel-website):
-- Marketing website only (Next.js + React)
-- Static demos with fixture data
-- No actual lesson generation
-- Deployed at https://praviel.com
-
-**MAIN PRAVIEL REPOSITORY** (separate codebase):
-- Python/FastAPI backend
-- Flutter web/mobile app
-- Actual lesson generation for 46 languages
-- Real user-facing application
-- **This is what alpha testers are complaining about**
+**Last Updated**: 2025-11-07 19:40 UTC
+**Focus**: Flutter App UI/UX + Performance + Lessons Actually Working
 
 ---
 
-## 🔴 URGENT - Marketing Website (THIS REPO)
+## 🔴 ABSOLUTE TOP PRIORITY - Flutter App Usability
 
-### 1. **✅ FIXED - InteractiveDemo Missing from Homepage**
-**Status**: ✅ RESOLVED
-**Issue**: InteractiveDemo component existed but wasn't rendered on homepage
-**Root Cause**: `<ClientSectionGate section="interactive" />` was missing from app/page.tsx
-**Fix Applied**: Added InteractiveDemo back to homepage between LessonsDemo and HowItWorks
-**Commit**: Pending
-**Test**: E2E test "interactive reader exposes morphological tokens" should now pass
+### **Context: Alpha Tester Complaints**
+Users are reporting:
+- ❌ "App not correctly sized for mobile"
+- ❌ "Lagging like crazy"
+- ❌ "Browser errors, API errors"
+- ❌ "Lessons don't work"
 
----
-
-### 2. **CI/CD Pipeline Status**
-**Status**: ⚠️ PARTIALLY VERIFIED
-
-**GitHub Actions**:
-- ✅ Deploy workflows: Passing (last successful deploy: 2025-11-07 17:23)
-- ⚠️ Quality Checks: Running 8-22+ minutes (possibly hung on E2E tests or Lighthouse)
-
-**Local Testing**:
-- ✅ `pnpm typecheck`: Passes
-- ✅ `pnpm lint`: Passes
-- ✅ `pnpm build`: Passes (4s compile time)
-- ⚠️ `pnpm test:e2e`: Hangs on Flutter deployment tests (expected - Flutter app is separate repo)
-
-**Tasks**:
-- [ ] Update E2E tests to skip/mark Flutter tests as external dependency
-- [ ] Verify GitHub Actions Quality Checks complete successfully
-- [ ] Consider adding timeout to Flutter deployment tests or marking them as optional
+**The next AI agent session MUST fix these issues by doing actual programming work and testing.**
 
 ---
 
-### 3. **Mobile UI/UX Issues**
-**Status**: ❌ NOT FULLY TESTED - Requires real device testing
+## 1. 🎨 UI/UX - Desktop + Mobile Sizing (AGENT MUST FIX)
 
-**What CAN be tested** (via Playwright mobile emulation):
-- Safe-area CSS variables
-- Touch target sizes (WCAG 2.2 - 48x48px minimum)
-- Horizontal overflow detection
-- Layout consistency across viewports
+### Tasks for AI Agent:
 
-**What CANNOT be tested** (requires real devices):
-- Actual performance on low-end Android devices
-- iOS-specific rendering issues
-- Network performance on cellular
-- Touch gesture accuracy
+**A. Mobile Sizing Audit & Fix**
+- [ ] Run Flutter app at https://app.praviel.com on mobile emulator (375x667, 414x896)
+- [ ] Document ALL elements that are oversized/incorrectly sized
+- [ ] Fix CSS/Flutter layout code to make everything fit properly on mobile
+- [ ] Test on both iOS and Android viewport sizes
+- [ ] Verify no horizontal scrolling on mobile
+- [ ] Ensure all touch targets are minimum 48x48px
 
-**E2E Test Results** (from partial run):
-- ✅ Safe-area CSS variables defined correctly
-- ✅ Touch targets meet 48x48px minimum
-- ✅ No horizontal overflow on mobile viewports
-- ⚠️ Some animation performance tests failed on Firefox (tap response 157ms vs 150ms target)
+**B. Desktop Sizing Audit & Fix**
+- [ ] Run Flutter app on desktop viewport (1920x1080, 1366x768)
+- [ ] Document ALL elements that are too large/small
+- [ ] Fix layout code to ensure proper desktop scaling
+- [ ] Test on both wide and narrow desktop viewports
 
-**Remaining Tasks**:
-- [ ] Manual testing on actual iPhone/Android devices
-- [ ] Test on slow 3G connection
-- [ ] Verify animations are smooth on low-end devices
-- [ ] Check for layout shift during lazy loading
-
----
-
-### 4. **Performance Optimization**
-**Status**: ⚠️ NEEDS IMPROVEMENT
-
-**Current Metrics** (from previous audit):
-- Mobile score: 91/100
-- LCP: 3.40s (target: <2.5s)
-- Desktop performance: Good
-
-**Performance Improvements to Implement**:
-- [ ] Inline critical CSS for above-fold content
-- [ ] Preload hero fonts with `fetchpriority="high"`
-- [ ] Optimize ClientSectionGate lazy-loading (reduce layout shift)
-- [ ] Consider removing animated gradients on mobile (GPU overhead)
-- [ ] Add `content-visibility: auto` to off-screen sections
-- [ ] Run fresh `pnpm perf:audit` and document actual current metrics
+**C. Responsive Design Testing**
+- [ ] Write automated E2E tests that verify sizing at 5+ breakpoints:
+  - 375px (mobile)
+  - 768px (tablet)
+  - 1024px (small laptop)
+  - 1440px (desktop)
+  - 1920px (large desktop)
+- [ ] Tests must FAIL if any element overflows viewport
+- [ ] Tests must FAIL if text is unreadable (too small)
 
 ---
 
-## 🔴 CRITICAL - Main PRAVIEL Platform (SEPARATE REPO)
+## 2. ⚡ Performance - Fix Lag Issues (AGENT MUST FIX)
 
-### 5. **Flutter App Not Working**
-**Status**: ❌ CANNOT FIX IN THIS REPO
+### Tasks for AI Agent:
 
-**User Complaints**:
-- "Flutter app not usable on mobile web"
-- "Lessons don't work"
-- "Browser errors, API errors"
-- "App is lagging like crazy"
-- "Incorrect mobile sizing"
+**A. Identify Performance Bottlenecks**
+- [ ] Run Chrome DevTools Performance profiler on https://app.praviel.com
+- [ ] Document all functions taking >50ms
+- [ ] Document all animations causing jank (framerate <30fps)
+- [ ] Document all API calls taking >2s
 
-**E2E Test Findings** (from this repo's tests of Flutter app):
-- ❌ All Flutter deployment tests timeout waiting for canvas element
-- ❌ Google Fonts failing to load (CORS + ServiceWorker errors)
-- ❌ CSRF token rejection (SameSite: Lax/Strict policy)
-- ❌ API calls to https://api.praviel.com failing
-- ❌ Flutter canvas elements (flt-glass-pane, flutter-view) never render
+**B. Fix Performance Issues**
+- [ ] Optimize identified slow functions (memoization, lazy loading, etc.)
+- [ ] Replace expensive animations with GPU-accelerated alternatives
+- [ ] Add loading states for slow API calls
+- [ ] Implement request caching where appropriate
+- [ ] Profile again and verify improvements
 
-**Root Cause**: These are issues in the main praviel repository (Python backend + Flutter app)
-
-**Action Required**: Open separate issue/session for main praviel repository to address:
-1. Flutter canvas rendering failure
-2. Google Fonts CORS configuration
-3. API authentication (CSRF tokens)
-4. Mobile performance optimization
-5. Lesson generation for top 10 languages
+**C. Mobile Performance Testing**
+- [ ] Run Lighthouse audit on mobile (https://app.praviel.com)
+- [ ] Document current performance score
+- [ ] Fix issues until performance score is >90
+- [ ] Test on throttled CPU (4x slowdown) and verify no lag
+- [ ] Test on slow 3G network and verify acceptable load times
 
 ---
 
-### 6. **Actual Lesson Generation (Top 10 Languages)**
-**Status**: ❌ NOT APPLICABLE TO THIS REPO
+## 3. 📚 Lessons - Make Them ACTUALLY WORK (AGENT MUST FIX)
 
-**THIS REPO** only has:
-- Static marketing demos (LessonsDemo.tsx, InteractiveDemoCore.tsx)
-- Fixture data from `/app/test/data/marketing-excerpts`
-- No real lesson generation
+### Tasks for AI Agent:
 
-**MAIN REPO** has:
-- Python/FastAPI lesson generation backend
-- Integration with LSJ, TLA Berlin, ORACC lexicons
-- Support for 46 ancient languages
-- **This is what needs to be fixed for actual users**
+**A. Test Top 10 Languages - End-to-End**
 
-**Priority Languages to Test** (in main repo):
-1. Ancient Greek
-2. Biblical Hebrew
-3. Latin
-4. Sanskrit
-5. Classical Arabic
-6. Old Church Slavonic
-7. Ge'ez
-8. Classical Syriac
-9. Coptic
-10. Akkadian
+For EACH of these languages, the AI agent must:
+1. **Ancient Greek**
+2. **Biblical Hebrew**
+3. **Latin**
+4. **Sanskrit**
+5. **Classical Arabic**
+6. **Old Church Slavonic**
+7. **Ge'ez**
+8. **Classical Syriac**
+9. **Coptic**
+10. **Akkadian**
 
----
+**Per-Language Test Protocol:**
+- [ ] Navigate to https://app.praviel.com
+- [ ] Select language
+- [ ] Start a lesson
+- [ ] Verify lesson loads without errors
+- [ ] Complete at least 3 exercises
+- [ ] Verify morphology data displays correctly
+- [ ] Verify translations are accurate
+- [ ] Verify pronunciation audio works (if applicable)
+- [ ] Document ANY errors encountered
+- [ ] FIX all errors found
 
-## 🟢 MEDIUM PRIORITY - Polish (THIS REPO)
+**B. API Error Debugging**
+- [ ] Monitor browser console during lesson loading
+- [ ] Document ALL API errors (status codes, error messages)
+- [ ] Check API response times (<2s for lesson generation)
+- [ ] Fix API authentication issues (CSRF tokens, CORS)
+- [ ] Fix any 4xx/5xx errors from backend
+- [ ] Verify fixes with repeat testing
 
-### 7. **Image Optimization**
-**Status**: ❌ NOT CONFIGURED
-
-Current: `images.unoptimized: true`
-
-**Options**:
-- Configure Cloudflare Images
-- Pre-optimize at build time (sharp, AVIF/WebP)
-- Custom Next.js image loader
-
-**Tasks**:
-- [ ] Choose optimization approach
-- [ ] Implement and test
-- [ ] Set `images.unoptimized: false`
-
----
-
-### 8. **Re-enable Sentry (Conditional)**
-**Status**: ✅ WORKING AS DESIGNED
-
-Current state:
-- Sentry imports present but commented out
-- `SKIP_OBSERVABILITY_CHECK` environment variable working correctly
-- CI builds pass
-
-**No action needed** - Sentry is intentionally disabled for performance
+**C. Lesson Quality Assurance**
+- [ ] For each of top 10 languages, verify:
+  - [ ] Lesson generates successfully
+  - [ ] Vocabulary is appropriate for beginner level
+  - [ ] Grammar explanations are clear
+  - [ ] Examples are relevant
+  - [ ] No broken lexicon lookups
+  - [ ] No missing morphology data
+- [ ] Document any quality issues
+- [ ] Fix data pipeline issues causing bad lessons
 
 ---
 
-## 📋 Reference
+## 4. 🐛 Error Fixing - Browser & API Errors (AGENT MUST FIX)
 
-### Latest Commits (This Session)
-1. Added InteractiveDemo back to homepage (app/page.tsx) - **PENDING COMMIT**
+### Tasks for AI Agent:
 
-### Latest Deployment
-- **Production**: https://praviel.com
-- **Version**: ab353df0-1e0d-4766-8ef1-ec499b7c48ff
-- **Deployed**: 2025-11-07 16:52 UTC
+**A. Browser Console Error Audit**
+- [ ] Open https://app.praviel.com with DevTools console open
+- [ ] Use the app for 10 minutes (navigate, start lessons, etc.)
+- [ ] Document EVERY error in console (no matter how small)
+- [ ] Categorize errors: JS errors, network errors, warnings
+- [ ] Fix ALL errors one by one
+- [ ] Re-test and verify console is clean
 
-### Commands
-```bash
-# Development
-pnpm dev                  # Start dev server
-pnpm typecheck            # TypeScript check
-pnpm lint                 # ESLint
-pnpm build                # Production build
+**B. Network Error Debugging**
+- [ ] Open Network tab in DevTools
+- [ ] Use app for 10 minutes
+- [ ] Document ALL failed requests (4xx, 5xx status codes)
+- [ ] Document ALL slow requests (>2s)
+- [ ] Fix backend issues causing failures
+- [ ] Optimize slow endpoints
+- [ ] Re-test and verify all requests succeed
 
-# Testing
-pnpm test:e2e             # Run all E2E tests (WARNING: hangs on Flutter tests)
-pnpm test:e2e -- --project=chromium-mobile  # Mobile tests only
-pnpm perf:audit           # Lighthouse audit
-
-# Deployment
-pnpm deploy               # Deploy to Cloudflare Workers
-```
-
----
-
-## ⚠️ HONEST ASSESSMENT
-
-**What's Working** (Marketing Website - THIS REPO):
-- ✅ Website deployed and accessible
-- ✅ Type checking and linting pass
-- ✅ Build process works
-- ✅ Deploy workflows succeed
-- ✅ Static demos work (once InteractiveDemo fix is deployed)
-- ✅ Mobile-responsive design (mostly)
-
-**What's NOT Working** (Marketing Website):
-- ⚠️ InteractiveDemo was missing (now fixed, pending deployment)
-- ⚠️ Performance could be better (LCP 3.40s vs 2.5s target)
-- ⚠️ Some E2E tests hang on Flutter app checks
-
-**What's NOT Working** (Main PRAVIEL Platform - SEPARATE REPO):
-- ❌ Flutter app canvas not rendering
-- ❌ Lesson generation for users
-- ❌ Google Fonts loading issues
-- ❌ API authentication errors
-- ❌ Mobile performance/lag
-
-**Next Steps**:
-1. **THIS SESSION**: Deploy InteractiveDemo fix, verify it works
-2. **SEPARATE SESSION**: Address main praviel platform issues (Flutter app, lessons, API)
-3. **LATER**: Mobile performance optimization, image optimization
+**C. Flutter-Specific Errors**
+- [ ] Check for Flutter canvas rendering issues
+- [ ] Check for ServiceWorker errors
+- [ ] Check for Google Fonts loading errors (CORS)
+- [ ] Fix any Flutter framework errors
+- [ ] Test on multiple browsers (Chrome, Firefox, Safari)
 
 ---
 
-## 🎯 SESSION PRIORITIES
+## 5. 🧪 E2E Testing - Verify Everything Works (AGENT MUST DO)
 
-**For THIS Session** (marketing website):
-1. ✅ Add InteractiveDemo back to homepage
-2. ⏳ Commit and deploy fix
-3. ⏳ Verify fix works in production
-4. ⏳ Update this TODO file
+### Tasks for AI Agent:
 
-**For NEXT Session** (main praviel platform):
-1. Fix Flutter canvas rendering
-2. Debug API authentication (CSRF tokens)
-3. Fix Google Fonts CORS issues
-4. Test lesson generation for top 10 languages
-5. Optimize mobile performance
+**A. Write Comprehensive E2E Tests**
+- [ ] Test: User can sign up and log in
+- [ ] Test: User can select a language
+- [ ] Test: User can start a lesson
+- [ ] Test: User can complete a lesson
+- [ ] Test: Morphology tooltips work
+- [ ] Test: Audio pronunciation works
+- [ ] Test: Progress is saved
+- [ ] Test: All of above works on mobile viewport
 
-**DON'T LIE**:
-- Marketing website demos are STATIC fixtures, not real lesson generation
-- Flutter app issues are in SEPARATE REPO, can't be fixed here
-- Performance is "decent" (91/100) but not "perfect"
-- Most user complaints are about the main platform, not marketing site
+**B. Run E2E Tests and Fix Failures**
+- [ ] Run all E2E tests
+- [ ] Document ALL failures
+- [ ] Fix code to make tests pass
+- [ ] Re-run tests until 100% pass rate
+
+**C. Regression Testing**
+- [ ] After each fix, re-run ALL E2E tests
+- [ ] Ensure no regressions introduced
+- [ ] Document any new issues found
+
+---
+
+## 6. 📦 Deployment & Verification (AGENT MUST DO)
+
+### Tasks for AI Agent:
+
+**A. Deploy Fixes**
+- [ ] Build production Flutter app
+- [ ] Deploy to https://app.praviel.com
+- [ ] Verify deployment succeeded
+- [ ] Clear all caches
+
+**B. Production Smoke Tests**
+- [ ] Test app on production URL
+- [ ] Verify no console errors
+- [ ] Verify lessons work for top 3 languages
+- [ ] Verify mobile sizing is correct
+- [ ] Verify performance is acceptable
+
+**C. Monitoring**
+- [ ] Set up error tracking (Sentry or similar)
+- [ ] Monitor for 24 hours after deployment
+- [ ] Document any new errors
+- [ ] Fix critical issues immediately
+
+---
+
+## 🚫 WHAT NOT TO DO
+
+**DO NOT:**
+- Write "user must test X" in TODOs
+- Write "needs manual testing" in TODOs
+- Leave any tasks unfinished with "will do later"
+- Assume anything works without actually testing it
+- Skip testing on mobile
+- Skip testing on slow networks
+- Leave console errors unfixed
+
+**DO:**
+- Actually run the Flutter app and test it yourself
+- Actually fix the code
+- Actually write and run tests
+- Actually verify everything works
+- Actually deploy the fixes
+- Actually check that users can use the app
+
+---
+
+## 📊 Success Criteria
+
+The next session is COMPLETE when:
+- ✅ Flutter app loads without errors on desktop AND mobile
+- ✅ All top 10 languages have working lessons
+- ✅ No console errors during normal usage
+- ✅ All API calls succeed (<2s response time)
+- ✅ App is correctly sized on all viewports (no overflow)
+- ✅ Performance score >90 on mobile
+- ✅ No lag during normal usage
+- ✅ E2E tests pass 100%
+- ✅ Changes deployed to production
+- ✅ Production verified working
+
+**DO NOT mark session complete until ALL of the above are TRUE.**
+
+---
+
+## 🎯 Priority Order
+
+1. **Fix sizing issues** (most visible, easiest to fix)
+2. **Fix console/API errors** (blocking users)
+3. **Fix lesson generation** (core functionality)
+4. **Fix performance/lag** (user experience)
+5. **Write E2E tests** (prevent regressions)
+6. **Deploy and verify** (ship it!)
+
+---
+
+## 📝 Notes for Next AI Agent
+
+**Current State (as of 2025-11-07 19:40 UTC):**
+
+**Marketing Website (praviel-website repo):**
+- ✅ Working well, deployed at https://praviel.com
+- ✅ Recent improvements: GPU acceleration, visual enhancements, removed 9.5MB dead code
+- ⚠️ LCP is 3.43s (target <2.5s) due to OpenNext Cloudflare TTFB issue
+- ✅ Mobile responsive, no major issues
+- **NOT the focus of next session**
+
+**Flutter App (main praviel repo):**
+- ❌ Alpha testers complaining about multiple issues
+- ❌ Sizing problems on mobile
+- ❌ Performance/lag issues
+- ❌ Browser/API errors
+- ❌ Lessons not working reliably
+- **THIS IS THE FOCUS - FIX IT**
+
+**Tools Available:**
+- Playwright for E2E testing
+- Chrome DevTools for debugging
+- Lighthouse for performance audits
+- Flutter web app at https://app.praviel.com
+
+**Honest Assessment:**
+The marketing website is in decent shape, but the actual Flutter app that users interact with has serious issues that are preventing user adoption. The next session MUST focus on making the Flutter app actually usable by:
+1. Fixing the UI/UX issues
+2. Making lessons work reliably
+3. Fixing all errors
+4. Improving performance
+
+**DO NOT get distracted by the marketing website - focus on the Flutter app.**
