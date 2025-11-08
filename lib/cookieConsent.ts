@@ -33,23 +33,42 @@ function getStorage(): Storage | null {
   }
 }
 
+// Cache for snapshot stability - CRITICAL for useSyncExternalStore
+// Without caching, every call returns a new object, causing infinite loops
+let cachedSnapshot: CookiePreferences = DEFAULT_COOKIE_PREFERENCES;
+let lastRawValue: string | null = null;
+
 export function readCookiePreferences(): CookiePreferences {
   const storage = getStorage();
   if (!storage) {
     return DEFAULT_COOKIE_PREFERENCES;
   }
+
   const raw = storage.getItem(COOKIE_STORAGE_KEY);
-  if (!raw) {
-    return DEFAULT_COOKIE_PREFERENCES;
+
+  // CRITICAL: Only create new object if raw value actually changed
+  // This maintains referential stability required by useSyncExternalStore
+  if (raw === lastRawValue) {
+    return cachedSnapshot;
   }
+
+  lastRawValue = raw;
+
+  if (!raw) {
+    cachedSnapshot = DEFAULT_COOKIE_PREFERENCES;
+    return cachedSnapshot;
+  }
+
   try {
     const parsed = JSON.parse(raw) as Partial<CookiePreferences>;
-    return {
+    cachedSnapshot = {
       ...DEFAULT_COOKIE_PREFERENCES,
       ...parsed,
     } satisfies CookiePreferences;
+    return cachedSnapshot;
   } catch {
-    return DEFAULT_COOKIE_PREFERENCES;
+    cachedSnapshot = DEFAULT_COOKIE_PREFERENCES;
+    return cachedSnapshot;
   }
 }
 
@@ -58,6 +77,10 @@ export function persistCookiePreferences(prefs: CookiePreferences) {
   if (!storage) return;
   storage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(prefs));
   storage.setItem(COOKIE_DATE_KEY, new Date().toISOString());
+
+  // Invalidate cache to ensure fresh read on next getSnapshot call
+  lastRawValue = null;
+
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent(COOKIE_EVENT, { detail: prefs }));
   }
@@ -99,8 +122,17 @@ function subscribe(listener: Listener) {
 // Module-level hydration tracking (shared across all hook instances)
 let isClientHydrated = false;
 
-const getSnapshot = () => readCookiePreferences();
+// Server snapshot - always returns default preferences for SSR
 const getServerSnapshot = () => DEFAULT_COOKIE_PREFERENCES;
+
+// Client snapshot - stable function reference that checks hydration state internally
+// This function reference never changes, preventing infinite loops from changing functions
+const getClientSnapshot = () => {
+  if (!isClientHydrated) {
+    return DEFAULT_COOKIE_PREFERENCES;
+  }
+  return readCookiePreferences();
+};
 
 /**
  * React hook for accessing cookie preferences with proper SSR/hydration support.
@@ -134,14 +166,6 @@ export function useCookiePreferences() {
     }
   }, []);
 
-  // Stable snapshot function that checks module-level hydration flag
-  // This prevents the "changing snapshot function" issue that causes infinite loops
-  const getClientSnapshot = () => {
-    if (!isClientHydrated) {
-      return getServerSnapshot();
-    }
-    return getSnapshot();
-  };
-
+  // Use the stable module-level snapshot function
   return useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
 }
