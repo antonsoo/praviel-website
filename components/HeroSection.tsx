@@ -5,17 +5,40 @@ import { heroCopy } from "@/lib/canonicalCopy";
 export default function HeroSection() {
   return (
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
-      {/* Animated gradient background - engaging but performant */}
+      {/* Background video with fallback gradient */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" />
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(232,197,91,0.15),transparent_50%)] animate-gradient-slow" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)] animate-gradient-slower" />
-        {/* Subtle grid pattern for academic feel */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: 'linear-gradient(rgba(232,197,91,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(232,197,91,0.5) 1px, transparent 1px)',
-          backgroundSize: '100px 100px'
-        }} aria-hidden />
+        {/* Desktop video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40"
+          aria-label="Ancient library background"
+        >
+          <source src="/videos/desktop/alexandria1_LANDSCAPE.mp4" type="video/mp4" />
+        </video>
+
+        {/* Mobile video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40"
+          aria-label="Papyrus background"
+        >
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.mp4" type="video/mp4" />
+        </video>
+
+        {/* Gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-zinc-900/80 to-black/70" />
+
+        {/* Animated gradient orbs for visual interest */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(232,197,91,0.10),transparent_50%)] animate-gradient-slow" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.08),transparent_50%)] animate-gradient-slower" />
       </div>
 
       <div className="relative mx-auto max-w-4xl text-center space-y-10">
