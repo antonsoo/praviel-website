@@ -50,7 +50,8 @@ export default function CookieConsent() {
   const [localPreferences, setLocalPreferences] = useState<CookiePreferences>(storedPreferences);
   const [mode, setMode] = useState<"summary" | "advanced">("summary");
   const [panelOpen, setPanelOpen] = useState(false);
-  const [hasChoice, setHasChoice] = useState(() => hasStoredCookiePreferences());
+  // Initialize to false to match server render, sync with actual value after mount
+  const [hasChoice, setHasChoice] = useState(false);
   const intentReady = useUserIntentGate({ scrollDistance: 80, fallbackDelay: 120_000 });
 
   useEffect(() => {

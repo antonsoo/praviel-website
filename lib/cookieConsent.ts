@@ -99,15 +99,34 @@ function subscribe(listener: Listener) {
 const getSnapshot = () => readCookiePreferences();
 const getServerSnapshot = () => DEFAULT_COOKIE_PREFERENCES;
 
+/**
+ * React hook for accessing cookie preferences with proper SSR/hydration support.
+ *
+ * CRITICAL: This implementation prevents hydration mismatches in Next.js 16 Cache Components.
+ *
+ * The Problem:
+ * - Layout uses 'use cache' directive, pre-rendering with default preferences
+ * - Client-side hydration must match this cached HTML exactly
+ * - Reading localStorage during hydration causes mismatch if user has saved preferences
+ *
+ * The Solution:
+ * - Return server snapshot (defaults) during initial client render
+ * - Only read from localStorage AFTER hydration completes
+ * - This ensures cached HTML matches initial client render
+ * - After hydration, a second render updates to actual localStorage values
+ *
+ * Trade-offs:
+ * - Extra re-render after mount (acceptable for correctness)
+ * - Brief flash of default preferences for returning users (imperceptible)
+ */
 export function useCookiePreferences() {
   const [hydrated, setHydrated] = useState(false);
 
-  // Wait for hydration to complete before reading from localStorage
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  // During hydration, always return server snapshot to prevent mismatches
+  // Use server snapshot during hydration, switch to client snapshot after
   const clientSnapshot = hydrated ? getSnapshot : getServerSnapshot;
 
   return useSyncExternalStore(subscribe, clientSnapshot, getServerSnapshot);
