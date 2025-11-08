@@ -1,4 +1,4 @@
-import { useSyncExternalStore, useEffect, useState } from "react";
+import { useSyncExternalStore, useEffect } from "react";
 
 export type CookiePreferences = {
   essential: boolean;
@@ -96,38 +96,52 @@ function subscribe(listener: Listener) {
   };
 }
 
+// Module-level hydration tracking (shared across all hook instances)
+let isClientHydrated = false;
+
 const getSnapshot = () => readCookiePreferences();
 const getServerSnapshot = () => DEFAULT_COOKIE_PREFERENCES;
 
 /**
  * React hook for accessing cookie preferences with proper SSR/hydration support.
  *
- * CRITICAL: This implementation prevents hydration mismatches in Next.js 16 Cache Components.
+ * CRITICAL: This implementation prevents hydration mismatches AND infinite update loops.
  *
  * The Problem:
  * - Layout uses 'use cache' directive, pre-rendering with default preferences
  * - Client-side hydration must match this cached HTML exactly
  * - Reading localStorage during hydration causes mismatch if user has saved preferences
+ * - Changing snapshot function reference after mount can cause infinite update loops (React error #185)
  *
  * The Solution:
- * - Return server snapshot (defaults) during initial client render
- * - Only read from localStorage AFTER hydration completes
+ * - Use STABLE snapshot function that internally checks hydration state
+ * - Module-level flag tracks hydration (doesn't trigger re-renders)
+ * - Dispatch event when hydration completes to notify subscribers
  * - This ensures cached HTML matches initial client render
- * - After hydration, a second render updates to actual localStorage values
+ * - After hydration, subscribers get notified and re-evaluate
  *
  * Trade-offs:
  * - Extra re-render after mount (acceptable for correctness)
  * - Brief flash of default preferences for returning users (imperceptible)
+ * - Module-level state (acceptable - hydration is global concept)
  */
 export function useCookiePreferences() {
-  const [hydrated, setHydrated] = useState(false);
-
   useEffect(() => {
-    setHydrated(true);
+    if (!isClientHydrated && typeof window !== "undefined") {
+      // Mark as hydrated and notify all subscribers
+      isClientHydrated = true;
+      window.dispatchEvent(new CustomEvent(COOKIE_EVENT));
+    }
   }, []);
 
-  // Use server snapshot during hydration, switch to client snapshot after
-  const clientSnapshot = hydrated ? getSnapshot : getServerSnapshot;
+  // Stable snapshot function that checks module-level hydration flag
+  // This prevents the "changing snapshot function" issue that causes infinite loops
+  const getClientSnapshot = () => {
+    if (!isClientHydrated) {
+      return getServerSnapshot();
+    }
+    return getSnapshot();
+  };
 
-  return useSyncExternalStore(subscribe, clientSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
 }
