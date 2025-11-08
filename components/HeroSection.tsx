@@ -7,38 +7,41 @@ export default function HeroSection() {
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
       {/* Background video with fallback gradient */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop video */}
+        {/* Desktop video - respects prefers-reduced-motion */}
         <video
           autoPlay
           loop
           muted
           playsInline
           preload="metadata"
-          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40"
+          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           aria-label="Ancient library background"
         >
           <source src="/videos/desktop/alexandria1_LANDSCAPE.mp4" type="video/mp4" />
         </video>
 
-        {/* Mobile video */}
+        {/* Mobile video - respects prefers-reduced-motion */}
         <video
           autoPlay
           loop
           muted
           playsInline
           preload="metadata"
-          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40"
+          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           aria-label="Papyrus background"
         >
           <source src="/videos/mobile/simple_papyrus_LANDSCAPE.mp4" type="video/mp4" />
         </video>
 
+        {/* Static fallback background for reduced motion preference */}
+        <div className="hidden motion-reduce:block absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" aria-hidden="true" />
+
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-zinc-900/80 to-black/70" />
 
-        {/* Animated gradient orbs for visual interest */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(232,197,91,0.10),transparent_50%)] animate-gradient-slow" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.08),transparent_50%)] animate-gradient-slower" />
+        {/* Animated gradient orbs for visual interest - also respects reduced motion */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(232,197,91,0.10),transparent_50%)] motion-reduce:animate-none animate-gradient-slow" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.08),transparent_50%)] motion-reduce:animate-none animate-gradient-slower" />
       </div>
 
       <div className="relative mx-auto max-w-4xl text-center space-y-10">
