@@ -13,7 +13,7 @@ export default function HeroSection() {
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="none"
           className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           aria-label="Ancient library background"
         >
@@ -26,7 +26,7 @@ export default function HeroSection() {
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="none"
           className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           aria-label="Papyrus background"
         >

@@ -55,14 +55,14 @@ ffmpeg -i public/videos/mobile/simple_papyrus_LANDSCAPE.mp4 -vframes 1 -f image2
 
 ## Recently Completed ✅ (Nov 8, 2025 Session)
 
-- ✅ Background video integration (commit: 564756d)
-- ✅ Interactive demos restored - word reader + vocab game (commit: 564756d)
-- ✅ **CRITICAL**: Accessibility fix - prefers-reduced-motion support (commit: b9cfe7d)
-- ✅ **CRITICAL**: Page restructure to reduce info overload (commit: 08c4323)
-- ✅ Removed FeatureGrid (redundant)
-- ✅ Moved demos to bottom of page
-- ✅ Reduced section dividers from 9 to 6
-- ✅ Deployed to Cloudflare production (latest: a2d98d35-7265-4024-861f-39ed455f67ac)
+- ✅ Background video integration with responsive desktop/mobile videos
+- ✅ **CRITICAL**: Accessibility fix - prefers-reduced-motion support (WCAG 2.1 compliant)
+- ✅ **CRITICAL**: Page restructure to reduce info overload (10 sections → 7 clean marketing sections)
+- ✅ **CRITICAL**: Removed redundant app feature demos (InteractiveDemo, LessonsDemo) - website is now pure marketing, not app demo
+- ✅ Removed FeatureGrid (redundant with ComparisonTable)
+- ✅ Video preload optimization (metadata → none) for faster initial load
+- ✅ All messaging aligned with core docs from main repo
+- ✅ Deployed to Cloudflare production multiple times
 
 ---
 
