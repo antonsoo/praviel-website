@@ -4,7 +4,6 @@ import { cacheLife } from "next/cache";
 import HeroSection from "@/components/HeroSection";
 import SectionDivider from "@/components/SectionDivider";
 import WhyPRAVIEL from "@/components/WhyPRAVIEL";
-import FeatureGrid from "@/components/FeatureGrid";
 import HowItWorks from "@/components/HowItWorks";
 import FAQ from "@/components/FAQ";
 import ComparisonTable from "@/components/ComparisonTable";
@@ -27,21 +26,17 @@ export default async function HomePage() {
       <SectionDivider />
       <WhyPRAVIEL />
       <SectionDivider />
-      <InteractiveDemo />
-      <SectionDivider />
-      <LessonsDemo />
-      <SectionDivider />
-      <HowItWorks />
-      <SectionDivider />
-      <PrivacyFirst />
-      <SectionDivider />
-      <LanguageShowcase />
-      <SectionDivider />
       <ComparisonTable />
       <SectionDivider />
-      <FeatureGrid />
+      <LanguageShowcase />
+      <HowItWorks />
       <SectionDivider />
       <FAQ />
+      <SectionDivider />
+      <InteractiveDemo />
+      <LessonsDemo />
+      <SectionDivider />
+      <PrivacyFirst />
     </>
   );
 }
