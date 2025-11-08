@@ -79,7 +79,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   "use cache";
-  cacheLife("days");
+  cacheLife("hours"); // Match page cache to prevent hydration mismatches
 
   // Structured data for SEO (safe - using static data)
   // Note: This is safe to use with dangerouslySetInnerHTML because:
