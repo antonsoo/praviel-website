@@ -9,8 +9,6 @@ import FAQ from "@/components/FAQ";
 import ComparisonTable from "@/components/ComparisonTable";
 import LanguageShowcase from "@/components/LanguageShowcase";
 import PrivacyFirst from "@/components/PrivacyFirst";
-import InteractiveDemo from "@/components/InteractiveDemo";
-import LessonsDemo from "@/components/LessonsDemo";
 
 // Marketing site stays static via cacheLife + cacheComponents
 // Note: OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
@@ -32,9 +30,6 @@ export default async function HomePage() {
       <HowItWorks />
       <SectionDivider />
       <FAQ />
-      <SectionDivider />
-      <InteractiveDemo />
-      <LessonsDemo />
       <SectionDivider />
       <PrivacyFirst />
     </>
