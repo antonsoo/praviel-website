@@ -14,10 +14,12 @@ export default function HeroSection() {
           muted
           playsInline
           preload="none"
+          poster="/videos/desktop/poster.jpg"
           className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           aria-label="Ancient library background"
         >
-          <source src="/videos/desktop/alexandria1_LANDSCAPE.mp4" type="video/mp4" />
+          <source src="/videos/desktop/alexandria1_LANDSCAPE.webm" type="video/webm" />
+          <source src="/videos/desktop/alexandria1_LANDSCAPE_compressed.mp4" type="video/mp4" />
         </video>
 
         {/* Mobile video - respects prefers-reduced-motion */}
@@ -27,10 +29,12 @@ export default function HeroSection() {
           muted
           playsInline
           preload="none"
+          poster="/videos/mobile/poster.jpg"
           className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           aria-label="Papyrus background"
         >
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.mp4" type="video/mp4" />
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE_compressed.mp4" type="video/mp4" />
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.webm" type="video/webm" />
         </video>
 
         {/* Static fallback background for reduced motion preference */}
