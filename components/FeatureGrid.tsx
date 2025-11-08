@@ -10,9 +10,9 @@ type Feature = {
 
 const features: Feature[] = [
   {
-    title: "Neuro-symbolic accuracy",
+    title: "Grounded in Scholarship",
     body:
-      "Perseus morphology, LSJ (116,502 entries), TLA Berlin, ORACC, and CDLI ground every explanation. GPT-5 only teaches when citations back it up—zero hallucinations allowed.",
+      "Every definition comes from Perseus, LSJ, and university research—not AI guessing. Read with confidence.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
@@ -20,9 +20,9 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Authentic immersion",
+    title: "Learn from the Classics",
     body:
-      "Lessons, vocabulary games, and personas are generated from manuscripts—Homer, Torah, Bhagavad-Gītā, Pyramid Texts. No phrasebook filler, only the originals.",
+      "Read actual passages from Homer, the Torah, and the Bhagavad-Gītā. No \"the apple is red\" filler.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path
@@ -34,9 +34,9 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "46-language infrastructure",
+    title: "5,000 Years of Language",
     body:
-      "From Sumerian (3100 BCE) to medieval manuscripts. Latin, Koine, Classical Greek, Biblical Hebrew, Sanskrit, Egyptian hieroglyphics, and 40+ more in one learning system.",
+      "From Sumerian cuneiform to medieval Latin. 46 ancient languages spanning human history.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path
@@ -48,9 +48,9 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Privacy-first & open",
+    title: "Your Privacy, Your Data",
     body:
-      "BYOK architecture, zero telemetry, offline Echo provider, and Elastic License 2.0 so schools can self-host. Your manuscripts, your servers.",
+      "No tracking. Use your own API keys or go offline. Open source and self-hostable.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path
@@ -73,10 +73,10 @@ export default function FeatureGrid() {
       <div className="mx-auto max-w-5xl mb-12 text-center space-y-4">
         <GreekKeyBorder className="mx-auto max-w-3xl" />
         <h2 id="features-title" className="text-3xl sm:text-4xl font-semibold text-white">
-          What sets PRAVIEL apart
+          Why PRAVIEL?
         </h2>
         <p className="text-sm sm:text-base text-zinc-400">
-          Built with investors, educators, and polyglots in mind—every capability is anchored to primary sources and measurable impact.
+          Modern learning tools for ancient voices.
         </p>
       </div>
 
@@ -101,11 +101,8 @@ export default function FeatureGrid() {
       </div>
 
       <div className="mx-auto mt-16 max-w-2xl text-center px-4">
-        <p className="text-xs sm:text-sm text-zinc-400">
-          Authoritative stack: Perseus Digital Library (Tufts), LSJ Lexicon (Oxford), TLA Berlin, ORACC UPenn, CDLI UCLA.
-        </p>
-        <p className="mt-4 text-[11px] sm:text-xs text-zinc-600">
-          Institutional pilots & funding: <a className="text-[#E8C55B] underline-offset-2 hover:underline" href="mailto:contact@praviel.com">contact@praviel.com</a>
+        <p className="text-xs sm:text-sm text-zinc-500">
+          Powered by: Perseus (Tufts) · LSJ Lexicon · TLA Berlin · ORACC · CDLI
         </p>
       </div>
     </section>

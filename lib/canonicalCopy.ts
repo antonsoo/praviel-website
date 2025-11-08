@@ -1,8 +1,8 @@
 export const heroCopy = {
-  eyebrow: "Join the Conversation Across Millennia",
+  eyebrow: "The Conversation Across Millennia",
   title: "Read the originals — not the translations.",
   subtitle:
-    "Every translation is someone else's interpretation. Learn the languages and hear the authors speak for themselves.",
+    "When you read Homer in English, you're reading the translator—not Homer. Hear the ancient voices speak for themselves.",
   mission:
     "Democratize access to 5,000 years of human knowledge by making ancient language learning accessible, engaging, and effective through modern AI technology while maintaining scholarly rigor.",
   valueProps: [
@@ -13,32 +13,31 @@ export const heroCopy = {
 };
 
 export const whyPravielCopy = {
-  problemHeading: "Every Translation is an Interpretation",
+  problemHeading: "Translations Filter the Ancient Voices",
   problemIntro:
-    "Reading translations is like watching a movie described over the phone. You get the plot, but you miss the soul.",
+    "Translations give you the plot. But the soul—the rhythm, the wordplay, the cultural context—disappears.",
   problemDetail:
     "Ancient Greek has four words for \"love\" (ἔρως, φιλία, ἀγάπη, στοργή). English collapses them to one. Egyptian hieroglyphs carry meaning in their very shape. Homer's dactylic hexameter becomes prose. When you read a translation, you're reading the interpreter's choices, not the author's voice.",
   problemBullets: [
     "Ancient Greek has 4 words for \"love.\" English has 1. Which one did Homer mean?",
-    "Homer's poetry had rhythm. Translations turn it into prose. You lose the music.",
-    "Wordplay, puns, and cultural jokes vanish. You get the plot, not the soul.",
+    "Homer's dactylic hexameter had rhythm. Translations turn it into prose.",
+    "Jokes, wordplay, and cultural context vanish. You get the plot, not the soul.",
   ],
-  solutionHeading: "The Solution: Learn the Original Language",
+  solutionHeading: "Hear the Voices Directly",
   solutionIntro:
-    "PRAVIEL is the first platform to combine research-grade philology with modern AI. We don't just teach you about these languages—we let you interact with them.",
+    "Learn the languages. Read Homer's actual words. Catch the jokes that disappeared 2,000 years ago.",
   solutionBullets: [
-    "Read the author's actual words — not the translator's interpretation",
-    "Catch jokes, wordplay, and references that disappear in translation",
-    "Join thousands of years of readers who engaged with the original texts",
+    "Read the author's actual words — not a translator's interpretation",
+    "Catch wordplay and cultural references that vanish in translation",
+    "Join millennia of readers who heard these voices firsthand",
   ],
-  accuracyHeading: "Zero AI Hallucinations",
+  accuracyHeading: "Grounded in Scholarship",
   accuracyBody:
-    "We use a neuro-symbolic approach: AI handles synthesis and dialogue, but hard linguistic truth comes from peer-reviewed academic sources. Result: Zero AI hallucinations on grammar.",
+    "AI tutors explain the grammar. But the definitions come from Perseus, LSJ, and university research—not AI guessing.",
   accuracySources: [
-    "Perseus Digital Library morphology",
-    "LSJ Lexicon (116,502 Greek entries)",
-    "TLA Berlin, ORACC UPenn, CDLI UCLA",
-    "Transparent citations for every definition",
+    "Perseus Digital Library (Tufts)",
+    "LSJ Lexicon (116,502 entries)",
+    "TLA Berlin, ORACC UPenn",
   ],
 };
 
