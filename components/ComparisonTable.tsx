@@ -1,13 +1,8 @@
 const features = [
-  { name: "Ancient language coverage", traditional: "Latin + Greek electives", apps: "0 true ancient courses", praviel: "46 languages (Latin → Sumerian)" },
-  { name: "Primary texts included", traditional: "Buy each critical edition", apps: "Phrase banks only", praviel: "Top 10 canonical works per language (460+ texts)" },
-  { name: "Accuracy & citations", traditional: "Depends on instructor", apps: "Hallucinates, no sources", praviel: "Neuro-symbolic guardrails · LSJ 116 502 entries · Perseus · TLA Berlin · ORACC" },
-  { name: "Interactive reader", traditional: "Printed lexica", apps: "Word hints (modern languages)", praviel: "Tap for lemma, morphology, commentary in any script" },
-  { name: "AI lessons & personas", traditional: "Static drills", apps: "Generic GPT prompts", praviel: "GPT-5 · Claude 4.5 · Gemini 2.5 with citation forcing" },
-  { name: "Conversation focus", traditional: "Classroom recitation", apps: "Modern dialogues", praviel: "Historical personas speaking the target language" },
-  { name: "Privacy & control", traditional: "Offline books", apps: "Telemetry + ads", praviel: "BYOK, zero tracking, offline-capable" },
-  { name: "Open source", traditional: "Closed textbooks", apps: "Closed SaaS", praviel: "Elastic License 2.0, self-hostable" },
-  { name: "Cost", traditional: "$50-$200 per commentary", apps: "$10-$30/mo subscription", praviel: "Free + optional API usage" },
+  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: "46 languages" },
+  { name: "Accuracy", traditional: "Depends on instructor", apps: "Hallucinates", praviel: "Grounded in LSJ, Perseus, TLA" },
+  { name: "Interactive reader", traditional: "Paper dictionary", apps: "Word hints", praviel: "Tap any word for morphology" },
+  { name: "Privacy", traditional: "Offline books", apps: "Ads + tracking", praviel: "BYOK, zero tracking" },
 ];
 
 const comparisonSummaries = [
@@ -53,7 +48,7 @@ export default function ComparisonTable() {
           <table className="w-full border-collapse text-sm text-zinc-200">
             <thead>
               <tr className="text-left text-xs uppercase tracking-[0.3em] text-zinc-500">
-                <th className="px-6 py-4 font-semibold text-zinc-400">Capability</th>
+                <th className="px-6 py-4 font-semibold text-zinc-400">Feature</th>
                 <th className="px-6 py-4 font-semibold text-zinc-400">Traditional</th>
                 <th className="px-6 py-4 font-semibold text-zinc-400">Apps</th>
                 <th className="px-6 py-4 font-semibold text-[#E8C55B]">PRAVIEL</th>
@@ -68,7 +63,7 @@ export default function ComparisonTable() {
                   <td className="px-6 py-5 text-zinc-400">{feature.traditional}</td>
                   <td className="px-6 py-5 text-zinc-400">{feature.apps}</td>
                   <td className="px-6 py-5">
-                    <span className="inline-flex rounded-full bg-[#D4AF37]/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#E8C55B]">
+                    <span className="inline-flex rounded-full bg-[#D4AF37]/15 px-3 py-1.5 text-sm font-semibold text-[#E8C55B]">
                       {feature.praviel}
                     </span>
                   </td>
@@ -82,19 +77,19 @@ export default function ComparisonTable() {
           {comparisonSummaries.map((item, index) => (
             <div
               key={item.label}
-              className={`rounded-xl border p-6 text-center backdrop-blur-sm ${
+              className={`rounded-xl border p-6 text-center backdrop-blur-sm transition-all hover:scale-105 ${
                 index === 2
                   ? "border-[#D4AF37]/30 bg-gradient-to-br from-[#D4AF37]/10 to-[#3b82f6]/10 ring-1 ring-[#D4AF37]/20"
                   : "border-zinc-800/50 bg-zinc-900/50"
               }`}
             >
-              <div className="text-3xl" aria-hidden>
+              <div className="text-4xl mb-3" aria-hidden>
                 {item.icon}
               </div>
-              <p className={`mt-2 text-sm font-semibold ${index === 2 ? "text-[#E8C55B]" : "text-white"}`}>
+              <p className={`text-base font-semibold ${index === 2 ? "text-[#E8C55B]" : "text-white"}`}>
                 {item.label}
               </p>
-              <p className="mt-2 text-xs text-zinc-500">{item.body}</p>
+              <p className="mt-2 text-sm text-zinc-400">{item.body}</p>
             </div>
           ))}
         </div>
@@ -104,15 +99,15 @@ export default function ComparisonTable() {
             href="https://app.praviel.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#C5A572] px-8 py-4 text-sm font-semibold text-black shadow-lg shadow-[#D4AF37]/40 transition hover:shadow-[#D4AF37]/60"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#C5A572] px-8 py-4 text-sm font-semibold text-black shadow-lg shadow-[#D4AF37]/40 transition hover:shadow-[#D4AF37]/60 hover:scale-105"
           >
             Try PRAVIEL Free
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </a>
-          <p className="mt-3 text-xs text-zinc-600">
-            Start reading ancient texts in 10 seconds • No barriers
+          <p className="mt-3 text-xs text-zinc-500">
+            Start reading ancient texts in 10 seconds
           </p>
         </div>
       </div>

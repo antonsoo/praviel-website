@@ -1,8 +1,8 @@
 export const heroCopy = {
-  eyebrow: "The Conversation Across Millennia",
+  eyebrow: "Join the Conversation Across Millennia",
   title: "Read the originals — not the translations.",
   subtitle:
-    "Every translation is an interpretation. Learn the languages exactly as the authors wrote them.",
+    "Every translation is someone else's interpretation. Learn the languages and hear the authors speak for themselves.",
   mission:
     "Democratize access to 5,000 years of human knowledge by making ancient language learning accessible, engaging, and effective through modern AI technology while maintaining scholarly rigor.",
   valueProps: [
@@ -19,21 +19,17 @@ export const whyPravielCopy = {
   problemDetail:
     "Ancient Greek has four words for \"love\" (ἔρως, φιλία, ἀγάπη, στοργή). English collapses them to one. Egyptian hieroglyphs carry meaning in their very shape. Homer's dactylic hexameter becomes prose. When you read a translation, you're reading the interpreter's choices, not the author's voice.",
   problemBullets: [
-    "Linguistic nuance disappears: Ancient Greek has four words for \"love\" (ἔρως, φιλία, ἀγάπη, στοργή), each with distinct meanings. English collapses them all to \"love.\"",
-    "Poetic structure vanishes: Homer's dactylic hexameter becomes prose. The rhythm that ancient audiences heard is lost.",
-    "Wordplay evaporates: Puns, alliteration, and rhetorical devices that worked in the original language become invisible.",
-    "Cultural context requires footnotes: References and idioms that ancient readers understood intuitively need extensive annotation for modern audiences.",
-    "Grammatical precision is simplified: Ancient languages had grammatical structures (like the Greek optative mood or Sanskrit's eight cases) that don't exist in modern English.",
+    "Ancient Greek has 4 words for \"love.\" English has 1. Which one did Homer mean?",
+    "Homer's poetry had rhythm. Translations turn it into prose. You lose the music.",
+    "Wordplay, puns, and cultural jokes vanish. You get the plot, not the soul.",
   ],
   solutionHeading: "The Solution: Learn the Original Language",
   solutionIntro:
     "PRAVIEL is the first platform to combine research-grade philology with modern AI. We don't just teach you about these languages—we let you interact with them.",
   solutionBullets: [
-    "Read texts as the authors wrote them — no intermediary, no translator's bias, no lost nuance",
-    "Understand cultural context — grasp jokes, references, and subtleties that translations miss",
-    "Join a scholarly tradition — connect with millennia of readers who've engaged directly with these texts",
-    "Access primary sources — conduct research, verify claims, discover insights that translations obscure",
-    "Transform cognition — learning ancient languages enhances linguistic awareness, analytical thinking, and creativity",
+    "Read the author's actual words — not the translator's interpretation",
+    "Catch jokes, wordplay, and references that disappear in translation",
+    "Join thousands of years of readers who engaged with the original texts",
   ],
   accuracyHeading: "Zero AI Hallucinations",
   accuracyBody:
