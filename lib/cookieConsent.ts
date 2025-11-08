@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, useEffect, useState } from "react";
 
 export type CookiePreferences = {
   essential: boolean;
@@ -100,5 +100,15 @@ const getSnapshot = () => readCookiePreferences();
 const getServerSnapshot = () => DEFAULT_COOKIE_PREFERENCES;
 
 export function useCookiePreferences() {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Wait for hydration to complete before reading from localStorage
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  // During hydration, always return server snapshot to prevent mismatches
+  const clientSnapshot = hydrated ? getSnapshot : getServerSnapshot;
+
+  return useSyncExternalStore(subscribe, clientSnapshot, getServerSnapshot);
 }
