@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 
 import { useCookiePreferences } from "@/lib/cookieConsent";
+import { useHydrated } from "@/lib/hooks/useHydrated";
 
 const VercelAnalytics = dynamic(() => import("@vercel/analytics/react").then((mod) => ({ default: mod.Analytics })), {
   ssr: false,
@@ -20,6 +21,7 @@ type AnalyticsConsentGateProps = {
 };
 
 export default function AnalyticsConsentGate({ provider = null, cloudflareToken, sampleRate = 1 }: AnalyticsConsentGateProps) {
+  const hydrated = useHydrated();
   const { analytics } = useCookiePreferences();
   const normalizedSampleRate = useMemo(() => {
     if (!Number.isFinite(sampleRate)) return 1;
@@ -31,7 +33,7 @@ export default function AnalyticsConsentGate({ provider = null, cloudflareToken,
     setSampledIn(Math.random() <= normalizedSampleRate);
   }, [normalizedSampleRate]);
 
-  const shouldLoad = analytics && sampledIn && provider;
+  const shouldLoad = hydrated && analytics && sampledIn && provider;
 
   useEffect(() => {
     if (!provider) return;

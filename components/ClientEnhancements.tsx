@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useCookiePreferences } from "@/lib/cookieConsent";
 import { useUserIntentGate } from "@/lib/hooks/useUserIntentGate";
+import { useHydrated } from "@/lib/hooks/useHydrated";
 import { scheduleIdleTask } from "@/lib/utils/idle";
 
 type OverlayBundle = {
@@ -13,6 +14,7 @@ type OverlayBundle = {
 };
 
 export default function ClientEnhancements() {
+  const hydrated = useHydrated();
   const [scrollProgressComponent, setScrollProgressComponent] = useState<ComponentType | null>(null);
   const [overlayBundle, setOverlayBundle] = useState<OverlayBundle | null>(null);
   const cookiePreferences = useCookiePreferences();
@@ -35,7 +37,7 @@ export default function ClientEnhancements() {
     return prefersReducedMotion || saveData || slowConnection || (coarsePointer && lowPowerDevice);
   }, []);
 
-  const canLoadOverlays = !shouldSkipEnhancements && hasFunctionalConsent && userIntentReady;
+  const canLoadOverlays = hydrated && !shouldSkipEnhancements && hasFunctionalConsent && userIntentReady;
 
   // Lazily load the scroll progress bar after first paint.
   useEffect(() => {
