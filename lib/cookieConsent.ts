@@ -75,8 +75,17 @@ export function readCookiePreferences(): CookiePreferences {
 export function persistCookiePreferences(prefs: CookiePreferences) {
   const storage = getStorage();
   if (!storage) return;
-  storage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(prefs));
-  storage.setItem(COOKIE_DATE_KEY, new Date().toISOString());
+
+  try {
+    storage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(prefs));
+    storage.setItem(COOKIE_DATE_KEY, new Date().toISOString());
+  } catch (error) {
+    // Storage might be full (QuotaExceededError) or disabled
+    if (typeof console !== "undefined" && console.warn) {
+      console.warn("[cookieConsent] Failed to persist preferences:", error);
+    }
+    return; // Don't invalidate cache or dispatch event if write failed
+  }
 
   // Invalidate cache to ensure fresh read on next getSnapshot call
   lastRawValue = null;
