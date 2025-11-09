@@ -56,7 +56,7 @@ function LanguageDetailsItem({ language }: { language: Language }) {
 }
 
 export default function AllLanguagesList({ languages }: { languages: Language[] }) {
-  const INITIAL_DISPLAY = 8;
+  const INITIAL_DISPLAY = 6; // Reduced from 8 to improve mobile performance
   const [showAll, setShowAll] = useState(false);
   const displayedLanguages = showAll ? languages : languages.slice(0, INITIAL_DISPLAY);
   const remainingCount = languages.length - INITIAL_DISPLAY;
