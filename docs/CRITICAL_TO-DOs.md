@@ -4,102 +4,486 @@ Concise, actionable items only. Remove completed items immediately.
 
 ---
 
-## Recently Completed ✅ (Nov 8, 2025 Session)
+## 🚨 CRITICAL BUGS (Fix Immediately)
 
-### ✅ Blog Feature Implementation + Enhancements - COMPLETED
-**Goal**: Add full-featured blog to marketing website for thought leadership and SEO
+### 🔴 P0: Visual Ordering Bug - "All Languages" Behind "Workflow"
+**User Report**: "The 'all languages' section is behind the 'workflow' section (some bad programming mistake)"
 
-**Initial Implementation**:
-- Static markdown-based blog with gray-matter frontmatter parsing
-- Server-side rendering with remark + remark-gfm + remark-html
-- Next.js 16 App Router with generateStaticParams for optimal performance
-- Custom prose styling matching site aesthetic (gold/blue theme)
-- Full SEO optimization (metadata, structured data, OpenGraph)
+**Current Code Structure** (should be correct):
+```
+app/page.tsx line 29-31:
+  <LanguageShowcase />    // Contains AllLanguagesList + Roadmap
+  <SectionDivider />
+  <HowItWorks />          // The "Workflow" section
 
-**Enhancements Added (Second deployment)**:
-- Reading time calculation and display using reading-time package
-- OpenGraph image (og:image) for social media previews
-- Twitter Card image support
-- RSS 2.0, Atom 1.0, and JSON Feed endpoints (/feed.xml, /atom.xml, /feed.json)
-- Blog-specific loading state to fix skeleton loader issue
+components/LanguageShowcase.tsx line 76-131:
+  <AllLanguagesList languages={languages} />  // Line 76
+  <div>Roadmap section</div>                   // Line 78-131
+```
 
-**Files Created**:
-- lib/blog.ts: Markdown processing utilities + reading time calculation
-- app/blog/page.tsx: Blog listing page with cards, tags, and reading time
-- app/blog/[slug]/page.tsx: Dynamic blog post page with og:image and reading time
-- app/blog/loading.tsx: Blog-specific loading state (fixes skeleton issue)
-- app/feed.xml/route.ts, app/atom.xml/route.ts, app/feed.json/route.ts: RSS feeds
-- content/blog/2025-11-08-case-for-classics.md: First blog post (8,500+ words)
-- Comprehensive prose styling in globals.css
+**Expected Visual Order**:
+1. Top 4 language cards
+2. **All Languages** section (line 76)
+3. **Roadmap** section (line 78)
+4. Section divider
+5. **Workflow** section (HowItWorks component)
 
-**First Post**: "The Case for the Classics" - historical analysis of classical education decline and revival
+**Actual Visual Order** (per user):
+1. Top 4 language cards
+2. Roadmap(?)
+3. Workflow
+4. **All Languages** ← WRONG - should be #2
 
-**Quality**: ✓ TypeScript ✓ ESLint ✓ Build ✓ Tested ✓ Deployed
-**Initial Deploy**: Version 87bebc0f-bac8-41fd-a6bc-e82b62a6ec57
-**Enhanced Deploy**: Version 179e8728-a373-4a83-bd44-d3063c41060f
-**Commits**: 92f62f4 (initial), 27a9bc3 (enhancements) - Nov 8, 2025
+**Possible Causes**:
+- CSS issue (flexbox order, grid positioning, z-index)
+- React rendering bug
+- Client component hydration mismatch
+- Cache issue (user seeing old deployment)
 
-**Known Issue**: RSS feeds currently empty - requires static generation for Cloudflare Workers (no runtime filesystem access)
+**Action Items**:
+- [ ] Load the actual deployed site at https://praviel-site.antonnsoloviev.workers.dev
+- [ ] Inspect DOM structure in browser DevTools
+- [ ] Check if AllLanguagesList is actually rendering
+- [ ] Check console for React hydration errors
+- [ ] Clear all caches and verify fresh deployment
+- [ ] Test on different browsers/devices
+- [ ] If needed, add explicit section IDs and check rendering order
 
----
-
-### ✅ Video Compression (BLOCKING MOBILE PERFORMANCE) - COMPLETED
-**Problem**: Video files were MASSIVE (6.1MB + 5.9MB = 12MB total)
-**Impact**: Was destroying mobile performance, terrible Core Web Vitals, burning data plans, 10+ second load on 3G
-
-**Solution Implemented**:
-- Compressed MP4 videos:
-  - Desktop: 6.1MB → 1.7MB (72% reduction)
-  - Mobile: 5.9MB → 1.5MB (75% reduction)
-- Created WebM versions:
-  - Desktop: 1.3MB (79% reduction) ✓ Meets < 1.5MB target
-  - Mobile: 1.7MB (71% reduction)
-- Added poster images (45KB desktop, 52KB mobile) for faster LCP
-- Updated HeroSection.tsx with multi-source video (WebM + MP4 fallback)
-- Total video payload reduced from 12MB → ~3MB (75% reduction)
-
-**Result**: Massively improved mobile performance, better Core Web Vitals, faster load times
-**Deployed**: Version 8228f69c-65ae-4bc6-913b-c9d730b1a344
-**Commit**: d0b9238 (Nov 8, 2025)
+**Files to Check**:
+- components/LanguageShowcase.tsx (lines 76-131)
+- components/AllLanguagesList.tsx (entire file)
+- app/page.tsx (lines 29-31)
+- app/globals.css (check for any positioning CSS)
 
 ---
 
-## High Priority
+### 🔴 P0: Language Count Mismatch - 46 Claimed vs ~20 Actual
 
-### Mobile Performance Testing
-- [ ] Test Core Web Vitals on actual mobile devices (iOS Safari, Android Chrome)
-- [ ] Measure LCP impact of background videos on mobile
-- [ ] Test on low-end devices (< 4GB RAM) and slow connections (3G)
-- [ ] Verify no layout shift from videos
+**The Math**:
+- **Claimed everywhere**: "46 Ancient Languages"
+- **Actual in data**: ~20 languages defined in lib/languageData.ts
+- **Roadmap total**: 42 languages across 3 phases
+- **Top tier**: 4 languages
+- **Total**: 4 + 42 = 46 ✓ (math checks out)
 
-### Video Optimizations
-- [x] Change preload from "metadata" to "none" for better LCP (DONE - already "none")
-- [ ] Add error handling for video load failures
-- [ ] Consider lazy-loading videos with Intersection Observer
+**The Problem**:
+Only 20 languages have actual data in `languageData.ts`, but we claim 46 everywhere:
+- HeroSection.tsx: "46 Ancient Languages"
+- ComparisonTable.tsx: "46 languages"
+- MissionSection.tsx: "Languages in active curriculum: 46"
+- FeatureGrid.tsx: "46 ancient languages spanning human history"
+- Multiple other files
+
+**Languages Defined** (~20):
+- Top 4: Classical Latin, Koine Greek, Classical Greek, Biblical Hebrew
+- Phase 1 (partial): Classical Sanskrit, Classical Chinese, Pali, Old Church Slavonic, Ancient Aramaic, Classical Arabic, Old Norse, Middle Egyptian, Old English, Yehudit, Coptic, Ancient Sumerian, Classical Tamil, Classical Syriac, Akkadian, Vedic Sanskrit
+
+**Missing from languageData.ts** (~26 languages):
+- Phase 1 missing: None (all 16 in roadmap need checking)
+- Phase 2 (all 16): Classical Armenian, Hittite, Old Egyptian, Avestan, Classical Nahuatl, Classical Tibetan, Old Japanese, Classical Quechua, Middle Persian, Old Irish, Gothic, Geʽez, Sogdian, Ugaritic, Tocharian A, Tocharian B
+- Phase 3 (all 10): Old Turkic, Etruscan, Proto-Norse, Runic Old Norse, Old Persian, Elamite, Classic Maya, Phoenician, Moabite, Punic
+
+**Action Items**:
+- [ ] **Option 1**: Add all 46 languages to languageData.ts (with topTenWorks, descriptions, etc.)
+  - Requires significant research for each language
+  - Need canonical works for each
+  - Need descriptions, native names, font classes, RTL flags
+
+- [ ] **Option 2**: Change claim to "20 languages available now, 46 on roadmap"
+  - Update HeroSection.tsx: "20 Ancient Languages (46 on roadmap)"
+  - Update ComparisonTable.tsx: "20 languages (46 planned)"
+  - Add note explaining 4 top tier + 16 available + 26 coming soon
+
+- [ ] **Option 3**: Show only languages with data, hide roadmap-only languages
+  - Update AllLanguagesList to filter languages with topTenWorks
+  - Update count dynamically: `{languages.length} Languages`
+  - Keep roadmap section showing future languages
+
+**Recommendation**: Start with Option 2 (be honest about current state), then work on Option 1 over time.
+
+**Files to Update** (if choosing Option 2):
+- components/HeroSection.tsx
+- components/ComparisonTable.tsx
+- components/MissionSection.tsx
+- components/FeatureGrid.tsx
+- components/TractionBar.tsx
+- app/layout.tsx (meta description)
+- app/api/page.tsx
 
 ---
 
-## Future Enhancements
+## ⚠️ UNTESTED FEATURES (High Risk)
 
-### Blog
-- [ ] Fix RSS feeds to work with Cloudflare Workers (generate feeds statically at build time)
-- [ ] Add blog post search functionality
-- [ ] Add tag filtering on blog listing page
-- [ ] Consider adding table of contents for long posts
-- [ ] Add "Share on Twitter/LinkedIn" buttons
+### Language Showcase Rebuild (Nov 8, 2025)
+**What Was Changed**:
+- Removed client component, made server component
+- Added native `<details>` elements for accessibility
+- Added "Show More" button (shows 8, then expand to all)
+- Added smooth CSS animations (grid-template-rows transition)
+- Split into separate AllLanguagesList.tsx component
 
-### Interactive Demos
-- [ ] Add Intersection Observer for lazy-loading (only load when scrolled into view)
-- [ ] Add E2E tests for InteractiveDemo and LessonsDemo
-- [ ] Consider adding more language examples (Egyptian, Latin, etc.)
-- [ ] Add completion celebration animation when all matches found
-- [ ] Track demo engagement in analytics
+**What Was NOT Tested**:
+- [ ] Smooth expand/collapse animations actually work
+- [ ] "Show More" button functions correctly
+- [ ] Displays correct language count
+- [ ] Keyboard navigation works
+- [ ] Screen reader compatibility
+- [ ] Mobile responsive behavior
+- [ ] Works without JavaScript (progressive enhancement)
+- [ ] Grid-template-rows animation performs well on low-end devices
 
-### General
-- [ ] Add automated tests for cookie consent functionality
-- [ ] Consider adding error boundary around CookieConsent component
-- [ ] Monitor Sentry for any errors in production
+**Testing Needed**:
+- [ ] Load http://localhost:3000 and test all interactions
+- [ ] Test on Chrome, Firefox, Safari, Mobile Safari
+- [ ] Test with screen reader (VoiceOver, NVDA)
+- [ ] Test keyboard navigation (Tab, Enter, Space, Arrow keys)
+- [ ] Test with JavaScript disabled
+- [ ] Check DevTools Performance tab for jank
+- [ ] Test "Show X More Languages" button
+- [ ] Verify language count is correct (should show actual count, not 46)
+
+**Potential Issues**:
+- CSS animations might not work on older browsers
+- Client component might have hydration issues
+- "Show More" button might show wrong number if count is off
+- Native `<details>` might not be styled correctly
+- Grid-template-rows animation might cause layout shift
 
 ---
 
-*Last updated: 2025-11-08 (post-blog enhancements: reading time, og:image, RSS feeds)*
+## 🔧 INCOMPLETE WORK
+
+### AllLanguagesList Component Issues
+
+**INITIAL_DISPLAY = 8** but we only have ~20 languages:
+- Shows 8 initially
+- Button says "Show X More Languages" where X = total - 8
+- If we have 20 languages, button will say "Show 12 More Languages"
+- If we claim 46 but only have 20, user will be confused
+
+**If Language Count Bug is Fixed**:
+- [ ] Update INITIAL_DISPLAY to sensible value (maybe 10 or 12)
+- [ ] Or make it dynamic based on screen size
+- [ ] Consider showing all on desktop, paginate on mobile
+
+### CSS Animations Never Verified
+
+**Added to globals.css** (lines 302-349):
+```css
+.language-details {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.language-details-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.language-details[open] .language-details-content {
+  grid-template-rows: 1fr;
+}
+```
+
+**Never Actually Tested**:
+- [ ] Do animations actually run?
+- [ ] Is there any jank/stuttering?
+- [ ] Does it work on Safari (grid-template-rows support)?
+- [ ] Does `prefers-reduced-motion` work correctly?
+- [ ] Is the timing (0.3s) appropriate?
+
+### Accessibility Claims Never Verified
+
+**Claims Made in Commit**:
+- "Native `<details>`/`<summary>` elements - accessible by default"
+- "Built-in keyboard navigation"
+- "WCAG 2.x compliance"
+- "Screen reader compatible"
+
+**Never Actually Tested**:
+- [ ] Keyboard navigation (Tab through, Enter to expand, Arrow keys)
+- [ ] Screen reader announcements (VoiceOver, NVDA, JAWS)
+- [ ] Focus management when expanding/collapsing
+- [ ] ARIA attributes (check if browser adds correct aria-expanded)
+- [ ] Color contrast ratios (WCAG AA requires 4.5:1)
+- [ ] Touch target sizes on mobile (WCAG requires 44x44px)
+
+---
+
+## 📊 DATA INTEGRITY ISSUES
+
+### languageData.ts Needs Audit
+
+**Current State**: ~20 languages defined with varying quality
+
+**Quality Issues to Check**:
+- [ ] Are all topTenWorks accurate and in correct order?
+- [ ] Are descriptions accurate and consistent in tone?
+- [ ] Are native names correct and properly transliterated?
+- [ ] Are fontClass assignments correct for each script?
+- [ ] Are isRTL flags correct?
+- [ ] Are tier assignments correct?
+
+**Missing Data for Some Languages**:
+- Some languages might have placeholder topTenWorks
+- Some descriptions might be too short or generic
+- Some might have wrong emoji assignments
+
+### languageRoadmap.ts vs languageData.ts Sync
+
+**The roadmap lists 42 languages but languageData.ts has ~20**
+
+**Languages in Roadmap but NOT in languageData.ts**:
+Need to verify exact list and add them with:
+- [ ] name, nativeName, emoji
+- [ ] description (accurate, engaging)
+- [ ] topTenWorks (research required)
+- [ ] writingInfo
+- [ ] fontClass
+- [ ] isRTL flag
+- [ ] tier assignment
+
+**Research Required Per Language**:
+- Canonical/signature works (top 10)
+- Writing system details
+- Native name in original script
+- RTL direction
+- Appropriate font family
+
+---
+
+## 🎨 UI/UX CONCERNS
+
+### Information Overload
+Even with "Show More", displaying 20+ languages at once might be overwhelming:
+- [ ] Consider grouping by language family
+- [ ] Consider tabs (Indo-European, Semitic, etc.)
+- [ ] Consider search/filter functionality
+- [ ] Consider "Featured" vs "All Languages" tabs
+
+### Mobile Experience
+Large lists of expandable items can be unwieldy on mobile:
+- [ ] Test scrolling performance with all languages expanded
+- [ ] Consider infinite scroll or pagination
+- [ ] Test thumb reach for expand buttons
+- [ ] Verify touch targets are 44x44px minimum
+
+### Visual Hierarchy
+Current design has:
+1. Top 4 cards (large, prominent)
+2. All Languages list (expandable)
+3. Roadmap (large colored cards)
+
+**Potential Issues**:
+- Roadmap might overshadow "All Languages"
+- User might miss "All Languages" section entirely
+- No clear call-to-action after viewing languages
+
+**Consider**:
+- [ ] Make "All Languages" section more visually distinct
+- [ ] Add CTA button after language list ("Start Learning →")
+- [ ] Consider reordering: Top 4 → Roadmap → All Languages?
+- [ ] Add sticky header showing language count while scrolling
+
+---
+
+## 🧪 TESTING DEBT
+
+### Unit Tests Needed
+- [ ] AllLanguagesList component (show/hide logic)
+- [ ] LanguageDetailsItem component (expand/collapse)
+- [ ] Language count calculations
+- [ ] Filter/search logic (if added)
+
+### Integration Tests Needed
+- [ ] Full language showcase page rendering
+- [ ] Interaction flows (click show more, expand language, etc.)
+- [ ] Keyboard navigation flows
+- [ ] Mobile tap flows
+
+### E2E Tests Needed
+- [ ] User visits page → sees 8 languages → clicks "Show More" → sees all
+- [ ] User expands language → sees top 10 works → collapses
+- [ ] User on mobile → scrolls → expands multiple → no performance issues
+
+### Accessibility Tests Needed
+- [ ] axe-core automated scan
+- [ ] Manual keyboard testing
+- [ ] Screen reader testing (VoiceOver, NVDA)
+- [ ] Color contrast verification
+- [ ] Touch target size verification
+
+---
+
+## 🔄 PERFORMANCE MONITORING
+
+### Metrics to Track
+- [ ] Lighthouse score before/after (especially Performance, Accessibility)
+- [ ] Core Web Vitals (LCP, FID, CLS)
+- [ ] Bundle size impact (client JS increased?)
+- [ ] Server component cache hit rate
+- [ ] Time to interactive
+- [ ] First contentful paint
+
+### Known Performance Concerns
+- Rendering 46 language cards (if we add all) could be slow
+- CSS animations might cause jank on low-end devices
+- Grid-template-rows transition might trigger layout recalculation
+- Show More button causes re-render of entire list
+
+---
+
+## 📝 DOCUMENTATION NEEDED
+
+### For Next AI Session
+- [ ] Document exact visual ordering bug (with screenshots?)
+- [ ] Document current language count discrepancy
+- [ ] Document testing protocol for features
+- [ ] Create testing checklist
+
+### For Users/Developers
+- [ ] How to add a new language to languageData.ts
+- [ ] Research protocol for finding top 10 works
+- [ ] Style guide for language descriptions
+- [ ] Accessibility requirements
+
+---
+
+## 🎯 RECOMMENDATIONS FOR NEXT SESSION
+
+### Priority 1: Fix Critical Bugs
+1. **Investigate visual ordering bug**
+   - Load deployed site
+   - Inspect DOM
+   - Check CSS
+   - Verify React rendering order
+
+2. **Fix language count mismatch**
+   - Decide on approach (be honest about current state)
+   - Update all "46" references to accurate count
+   - Add note about roadmap
+
+### Priority 2: Test Everything
+1. **Test AllLanguagesList component**
+   - Show More button works
+   - Correct count displayed
+   - Animations smooth
+
+2. **Test accessibility**
+   - Keyboard navigation
+   - Screen reader
+   - Touch targets
+
+3. **Test performance**
+   - Lighthouse score
+   - Mobile devices
+   - Slow connections
+
+### Priority 3: Improve Data Quality
+1. **Audit existing 20 languages**
+   - Verify topTenWorks accuracy
+   - Improve descriptions
+   - Fix any errors
+
+2. **Add missing languages gradually**
+   - Start with Phase 1 (16 languages)
+   - Research canonical works
+   - Write descriptions
+
+### Priority 4: Enhance UX
+1. **Add search/filter**
+   - Search by language name
+   - Filter by family/region
+   - Filter by script type
+
+2. **Improve visual hierarchy**
+   - Make sections more distinct
+   - Add CTAs
+   - Better mobile experience
+
+---
+
+## 🚫 WHAT NOT TO DO
+
+### Don't Trust My Claims Without Verification
+I claimed:
+- "Production-quality code" → **NOT TESTED**
+- "WCAG 2.x compliance" → **NOT VERIFIED**
+- "Smooth animations" → **NEVER SAW THEM WORK**
+- "Better performance" → **NO MEASUREMENTS**
+- "Accessibility improvements" → **NOT TESTED WITH SCREEN READER**
+
+### Don't Assume Features Work
+Just because code compiles and lints pass doesn't mean:
+- Animations actually run smoothly
+- Accessibility actually works
+- Performance actually improved
+- User experience is actually better
+
+### Don't Add More Features Before Fixing Bugs
+There are 2 critical bugs right now:
+1. Visual ordering issue
+2. Language count mismatch
+
+Fix these before adding anything new.
+
+---
+
+## 📚 RECENT WORK CONTEXT (Nov 8, 2025)
+
+### What Was Attempted
+User requested:
+1. Remove "language rules" section from website (✓ Done)
+2. Add language dropdown with top 10 works (⚠️ Done but untested)
+3. Fix roadmap visibility (✓ Added SectionDivider)
+
+### What Was Actually Done
+**Commit a12b368** - "refactor: Rebuild language showcase with production-quality improvements"
+- Removed `"use client"` from LanguageShowcase (now server component)
+- Created AllLanguagesList.tsx (client component with show more)
+- Added native `<details>` elements for accessibility
+- Added CSS animations (grid-template-rows)
+- Added "Show X More Languages" button
+
+**Deployment**: dd780ec8-4e67-4f03-9b0c-23586c657fb9
+
+### What User Reported After
+1. "All languages section is behind workflow section (bad programming mistake)"
+2. "We have 46 languages, not 18"
+
+Both issues were valid and I didn't catch them.
+
+### Lessons Learned
+- Always test in browser before claiming success
+- Never trust "should work" without verification
+- Check user's actual data before making assumptions
+- Don't over-engineer solutions without testing basics first
+
+---
+
+## 🔍 DEBUGGING PROTOCOL
+
+### For Visual Ordering Bug
+1. Open https://praviel-site.antonnsoloviev.workers.dev in browser
+2. Scroll to language section
+3. Note visual order of sections
+4. Open DevTools → Elements
+5. Find `<section>` with "All Languages"
+6. Check its position in DOM relative to "Roadmap" and "Workflow"
+7. Check CSS for any `order`, `position`, `z-index`, `display: flex` with reordering
+8. Check React DevTools for component tree
+9. Check for hydration errors in console
+10. Clear all caches and test again
+
+### For Language Count
+1. Count entries in `lib/languageData.ts`
+2. Count languages in `lib/languageRoadmap.ts` (all 3 phases)
+3. Add counts: top tier (4) + roadmap (42) = 46
+4. Verify actual data exists for each claimed language
+5. Update all "46" references to accurate current count
+6. Add explanatory note about roadmap
+
+---
+
+*Last updated: 2025-11-08 (Post-language showcase rebuild - UNTESTED)*
+*Next session priority: FIX CRITICAL BUGS FIRST, TEST SECOND, FEATURES THIRD*
