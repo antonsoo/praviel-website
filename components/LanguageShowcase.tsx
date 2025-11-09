@@ -24,11 +24,6 @@ function LanguageCard({ language }: { language: Language }) {
 
       <p className="mt-4 text-sm leading-relaxed text-zinc-200">{language.description}</p>
 
-      <div className="mt-5 rounded-2xl border border-white/10 bg-black/30 px-4 py-3">
-        <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Writing system</p>
-        <p className="mt-2 text-sm text-zinc-200">{language.writingInfo}</p>
-      </div>
-
       <div className="mt-5">
         <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Signature works</p>
         <ul className="mt-2 space-y-1 text-sm text-zinc-200">
