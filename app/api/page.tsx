@@ -4,11 +4,11 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "PRAVIEL API — Ancient Language Analysis",
   description:
-    "Access powerful morphological analysis, pronunciation feedback, and linguistic data for 46+ ancient languages via our RESTful API.",
+    "Access powerful morphological analysis, pronunciation feedback, and linguistic data for 21+ ancient languages via our RESTful API.",
   openGraph: {
     title: "PRAVIEL API — Ancient Language Analysis",
     description:
-      "Access powerful morphological analysis, pronunciation feedback, and linguistic data for 46+ ancient languages via our RESTful API.",
+      "Access powerful morphological analysis, pronunciation feedback, and linguistic data for 21+ ancient languages via our RESTful API.",
   },
 };
 
@@ -35,7 +35,7 @@ export default function APIPage() {
     {
       title: "Multi-Language Support",
       description:
-        "46+ ancient languages and dialects with growing coverage of cuneiform, hieroglyphics, and extinct scripts.",
+        "21+ ancient languages and dialects with growing coverage of cuneiform, hieroglyphics, and extinct scripts.",
       icon: "🌍",
     },
   ];

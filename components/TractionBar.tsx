@@ -1,6 +1,6 @@
 const metrics = [
   {
-    value: "46",
+    value: "21",
     label: "Languages (Latin → Sumerian)",
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

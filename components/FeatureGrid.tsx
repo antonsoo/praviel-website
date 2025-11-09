@@ -36,7 +36,7 @@ const features: Feature[] = [
   {
     title: "5,000 Years of Language",
     body:
-      "From Sumerian cuneiform to medieval Latin. 46 ancient languages spanning human history.",
+      "From Sumerian cuneiform to medieval Latin. 21 ancient languages spanning human history.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path

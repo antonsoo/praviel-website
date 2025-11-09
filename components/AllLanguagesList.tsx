@@ -65,7 +65,7 @@ export default function AllLanguagesList({ languages }: { languages: Language[] 
     <div className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-8 shadow-2xl shadow-black/30">
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
-          All Languages (46)
+          All Languages ({languages.length})
         </p>
         <p className="mt-2 text-sm text-zinc-300">
           Click any language to see its top 10 canonical works

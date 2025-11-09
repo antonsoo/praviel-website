@@ -68,7 +68,7 @@ export default function HeroSection() {
         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-400">
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-            46 Ancient Languages
+            21 Ancient Languages
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />

@@ -17,9 +17,9 @@ const steps = [
   },
   {
     number: "2",
-    title: "Neuro-symbolic grounding",
+    title: "AI tutors that cite their sources",
     description:
-      "Perseus morphology, LSJ (116,502 entries), TLA Berlin, ORACC, and CDLI feed our tutors. GPT-5 only teaches when citations back it up—zero hallucinations on grammar.",
+      "Definitions come from university research (Perseus, LSJ), not AI guessing. Zero hallucinations on grammar.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -33,9 +33,9 @@ const steps = [
   },
   {
     number: "3",
-    title: "Study in the scholar reader",
+    title: "Tap any word for instant help",
     description:
-      "Tap scriptio continua text for lemma, morphology, Smyth references, and contextual glosses. Vocabulary drills and annotations are generated from the manuscript line you picked.",
+      "Get definitions, grammar explanations, and context on demand. Vocabulary drills adapt to what you're reading.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -49,9 +49,9 @@ const steps = [
   },
   {
     number: "4",
-    title: "Live with the language",
+    title: "Your personal language coach",
     description:
-      "AI tutors role-play historical grammarians, philologists annotate your progress, and custom drills adapt to your weak declensions and verb systems.",
+      "AI tutors that adapt to you. Custom drills focus on what you need to improve. Learn at your own pace.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
