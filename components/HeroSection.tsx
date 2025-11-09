@@ -6,26 +6,53 @@ import { heroCopy } from "@/lib/canonicalCopy";
 export default function HeroSection() {
   return (
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
-      {/* Background images with LCP optimization */}
+      {/* Background videos with image fallbacks */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop hero image - prioritized for LCP */}
+        {/* Desktop video background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/videos/desktop/poster.jpg"
+          className="hidden md:block h-full w-full object-cover opacity-40 motion-reduce:hidden"
+          aria-hidden="true"
+        >
+          <source src="/videos/desktop/alexandria1_LANDSCAPE.webm" type="video/webm" />
+          <source src="/videos/desktop/alexandria1_LANDSCAPE_compressed.mp4" type="video/mp4" />
+        </video>
+
+        {/* Mobile video background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/videos/mobile/poster.jpg"
+          className="md:hidden h-full w-full object-cover opacity-40 motion-reduce:hidden"
+          aria-hidden="true"
+        >
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.webm" type="video/webm" />
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE_compressed.mp4" type="video/mp4" />
+        </video>
+
+        {/* Fallback images for reduced motion or video load failure */}
         <Image
           src="/videos/desktop/poster.jpg"
           alt="Ancient library background"
           fill
           priority
           quality={90}
-          className="hidden md:block object-cover opacity-40"
+          className="hidden md:block object-cover opacity-40 motion-reduce:block"
         />
 
-        {/* Mobile hero image - prioritized for LCP */}
         <Image
           src="/videos/mobile/poster.jpg"
           alt="Papyrus background"
           fill
           priority
           quality={85}
-          className="md:hidden object-cover opacity-40"
+          className="md:hidden object-cover opacity-40 motion-reduce:block"
         />
 
         {/* Static fallback background for reduced motion preference */}
