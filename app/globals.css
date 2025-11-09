@@ -299,6 +299,55 @@
     background: rgba(212, 175, 55, 0.32);
   }
 
+  /* Language details smooth animations */
+  .language-details {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .language-details[open] {
+    border-color: rgba(232, 197, 91, 0.25);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .language-details summary {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .language-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Smooth height animation using grid-template-rows trick */
+  .language-details-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .language-details[open] .language-details-content {
+    grid-template-rows: 1fr;
+  }
+
+  .language-details-content > div {
+    overflow: hidden;
+  }
+
+  /* Fade in content as it expands */
+  @media (prefers-reduced-motion: no-preference) {
+    .language-details-content > div {
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.25s ease 0.05s, transform 0.25s ease 0.05s;
+    }
+
+    .language-details[open] .language-details-content > div {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .site-bg-gradient {
     position: fixed;
     inset: 0;

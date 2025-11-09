@@ -1,9 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import { languageShowcaseCopy } from "@/lib/canonicalCopy";
 import { languages, type Language } from "@/lib/languageData";
 import { languageRoadmapPhases, languageEmoji } from "@/lib/languageRoadmap";
+import AllLanguagesList from "./AllLanguagesList";
 
 function LanguageCard({ language }: { language: Language }) {
   const topWorks = language.topTenWorks.slice(0, 3);
@@ -42,63 +40,6 @@ function LanguageCard({ language }: { language: Language }) {
   );
 }
 
-function ExpandableLanguageItem({ language }: { language: Language }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="rounded-2xl border border-white/10 bg-zinc-950/40 overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors"
-        aria-expanded={isOpen}
-      >
-        <div className="flex items-center gap-3">
-          <span className="text-2xl" aria-hidden>
-            {language.emoji}
-          </span>
-          <div>
-            <p className="text-base font-semibold text-white">{language.name}</p>
-            <p
-              className={`text-sm text-zinc-400 ${language.fontClass ?? "font-serif"}`}
-              dir={language.isRTL ? "rtl" : "ltr"}
-            >
-              {language.nativeName}
-            </p>
-          </div>
-        </div>
-        <svg
-          className={`h-5 w-5 text-zinc-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-      {isOpen && (
-        <div className="p-4 pt-0 border-t border-white/5">
-          <p className="text-sm text-zinc-300 mb-4">{language.description}</p>
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500 mb-2">
-              Top 10 Works
-            </p>
-            <ul className="space-y-2 text-sm text-zinc-200">
-              {language.topTenWorks.map((work, idx) => (
-                <li key={work} className="flex items-start gap-3">
-                  <span className="text-xs text-zinc-500 font-semibold min-w-[1.5rem]">
-                    {idx + 1}.
-                  </span>
-                  <span>{work}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function LanguageShowcase() {
   const topTier = languages.filter((lang) => lang.tier === "top");
   const languageIndex = new Map(languages.map((lang) => [lang.name, lang]));
@@ -132,22 +73,7 @@ export default function LanguageShowcase() {
           ))}
         </div>
 
-        <div className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-8 shadow-2xl shadow-black/30">
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
-              All Languages
-            </p>
-            <p className="mt-2 text-sm text-zinc-300">
-              Click any language to see its top 10 canonical works
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {languages.map((language) => (
-              <ExpandableLanguageItem key={language.name} language={language} />
-            ))}
-          </div>
-        </div>
+        <AllLanguagesList languages={languages} />
 
         <div className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-8 shadow-2xl shadow-black/30">
           <div className="text-center">
