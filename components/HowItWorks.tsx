@@ -1,9 +1,9 @@
 const steps = [
   {
     number: "1",
-    title: "Select a canonical text",
+    title: "Select the source, not a paraphrase",
     description:
-      "Start with the exact passage you want—Homer, Torah, Bhagavad-Gītā, Pyramid Texts. No phrasebook filler or modern paraphrases.",
+      "Open the Iliad, Mishnah, Mahābhārata, or Pyramid Texts and work line-for-line. No graded readers or phrasebook filler.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -17,9 +17,9 @@ const steps = [
   },
   {
     number: "2",
-    title: "AI tutors that cite their sources",
+    title: "Let the stack pre-compute the hard parts",
     description:
-      "Definitions come from university research (Perseus, LSJ), not AI guessing. Zero hallucinations on grammar.",
+      "Morphology, lemmatisation, and syntax trees are tied directly to Perseus, LSJ, ORACC, and TLA Berlin. Tutors quote those sources verbatim.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -33,9 +33,9 @@ const steps = [
   },
   {
     number: "3",
-    title: "Tap any word for instant help",
+    title: "Interact line by line",
     description:
-      "Get definitions, grammar explanations, and context on demand. Vocabulary drills adapt to what you're reading.",
+      "Tap any word to see stems, cultural notes, and manuscript context. Exercises adapt to whatever slowed you down in that passage.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -49,9 +49,9 @@ const steps = [
   },
   {
     number: "4",
-    title: "Your personal language coach",
+    title: "Own the pipeline",
     description:
-      "AI tutors that adapt to you. Custom drills focus on what you need to improve. Learn at your own pace.",
+      "Export annotations, self-host with BYOK, or share progress with advisors. No telemetry—your corpus and drills remain yours.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path

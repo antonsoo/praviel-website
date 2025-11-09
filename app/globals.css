@@ -135,6 +135,49 @@
     );
   }
 
+  .font-armenian {
+    font-family: var(--font-armenian, "Noto Sans Armenian", "Noto Serif Armenian", serif);
+  }
+
+  .font-tibetan {
+    font-family: var(--font-tibetan, "Noto Serif Tibetan", "Noto Sans Tibetan", serif);
+  }
+
+  .font-ethiopic {
+    font-family: var(--font-ethiopic, "Noto Serif Ethiopic", "Noto Sans Ethiopic", serif);
+  }
+
+  .font-gothic {
+    font-family: var(--font-gothic, "Noto Sans Gothic", "Segoe UI Historic", serif);
+  }
+
+  .font-turkic {
+    font-family: var(--font-turkic, "Noto Sans Old Turkic", "Segoe UI Historic", serif);
+  }
+
+  .font-runic {
+    font-family: var(--font-runic, "Noto Sans Runic", "Segoe UI Historic", "BabelStone Runic", serif);
+  }
+
+  .font-pahlavi {
+    font-family: var(--font-pahlavi, "Noto Sans Pahlavi", "Segoe UI Historic", serif);
+    direction: rtl;
+  }
+
+  .font-sogdian {
+    font-family: var(--font-sogdian, "Noto Sans Sogdian", "Segoe UI Historic", serif);
+    direction: rtl;
+  }
+
+  .font-etruscan {
+    font-family: var(--font-etruscan, "Noto Sans Etruscan", "Segoe UI Historic", serif);
+    direction: rtl;
+  }
+
+  .font-maya {
+    font-family: var(--font-maya, "Noto Sans Maya Numerals", "Segoe UI Historic", serif);
+  }
+
   .content-visibility-auto {
     content-visibility: auto;
     contain: layout paint style size;

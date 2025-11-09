@@ -10,9 +10,9 @@ type Feature = {
 
 const features: Feature[] = [
   {
-    title: "Grounded in Scholarship",
+    title: "Students move beyond translation",
     body:
-      "Every definition comes from Perseus, LSJ, and university research—not AI guessing. Read with confidence.",
+      "Vocabulary coverage, live morphology, and adaptive drills keep you reading real texts instead of phrasebook fillers. Exams and entrance requirements stop being gatekeepers.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
@@ -20,9 +20,9 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Learn from the Classics",
+    title: "Scholars ship research faster",
     body:
-      "Read actual passages from Homer, the Torah, and the Bhagavad-Gītā. No \"the apple is red\" filler.",
+      "Corpora, lemma stats, and structured annotations stay in sync with ORACC, Perseus, TLA Berlin, and CDLI. Source citations appear beside every AI explanation—no hallucinated grammars.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path
@@ -34,9 +34,9 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "5,000 Years of Language",
+    title: "Humanity keeps 5,000 years of memory",
     body:
-      "From Sumerian cuneiform to medieval Latin. 46 ancient languages spanning 5,000 years of human history.",
+      "Phase map covers 46 languages from Sumerian cuneiform to medieval manuscripts. Every rollout prioritises endangered traditions first so the linguistic record lives on.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path
@@ -48,9 +48,9 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Your Privacy, Your Data",
+    title: "Privacy-first infrastructure",
     body:
-      "No tracking. Use your own API keys or go offline. Open source and self-hostable.",
+      "Self-host, use BYOK, or run offline. No trackers, no telemetry, Elastic License 2.0 source. Swap providers without touching your data.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path

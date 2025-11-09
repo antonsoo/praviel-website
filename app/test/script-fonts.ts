@@ -1,17 +1,24 @@
 import localFont from "next/font/local";
 import {
   Noto_Naskh_Arabic,
+  Noto_Sans_Armenian,
   Noto_Sans_Brahmi,
   Noto_Sans_Coptic,
   Noto_Sans_Cuneiform,
+  Noto_Sans_Ethiopic,
+  Noto_Sans_Gothic,
   Noto_Sans_Imperial_Aramaic,
   Noto_Sans_JP,
   Noto_Sans_KR,
+  Noto_Sans_Old_Turkic,
   Noto_Sans_Phoenician,
   Noto_Sans_SC,
   Noto_Sans_Syriac,
   Noto_Sans_TC,
+  Noto_Serif_Armenian,
+  Noto_Serif_Ethiopic,
   Noto_Serif_Tamil,
+  Noto_Serif_Tibetan,
 } from "next/font/google";
 
 const notoSerifCyrillic = localFont({
@@ -130,6 +137,62 @@ const notoSerifTamil = Noto_Serif_Tamil({
   preload: false,
 });
 
+const notoSansArmenian = Noto_Sans_Armenian({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-armenian",
+  display: "swap",
+  preload: false,
+});
+
+const notoSerifArmenian = Noto_Serif_Armenian({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-armenian-serif",
+  display: "swap",
+  preload: false,
+});
+
+const notoSerifTibetan = Noto_Serif_Tibetan({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-tibetan",
+  display: "swap",
+  preload: false,
+});
+
+const notoSansEthiopic = Noto_Sans_Ethiopic({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-ethiopic",
+  display: "swap",
+  preload: false,
+});
+
+const notoSerifEthiopic = Noto_Serif_Ethiopic({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-ethiopic-serif",
+  display: "swap",
+  preload: false,
+});
+
+const notoSansGothic = Noto_Sans_Gothic({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-gothic",
+  display: "swap",
+  preload: false,
+});
+
+const notoSansOldTurkic = Noto_Sans_Old_Turkic({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-turkic",
+  display: "swap",
+  preload: false,
+});
+
 export const scriptFontVariables = [
   notoSerifCyrillic.variable,
   notoSansDevanagari.variable,
@@ -145,6 +208,13 @@ export const scriptFontVariables = [
   notoSansCuneiform.variable,
   notoSansBrahmi.variable,
   notoSerifTamil.variable,
+  notoSansArmenian.variable,
+  notoSerifArmenian.variable,
+  notoSerifTibetan.variable,
+  notoSansEthiopic.variable,
+  notoSerifEthiopic.variable,
+  notoSansGothic.variable,
+  notoSansOldTurkic.variable,
 ]
   .filter(Boolean)
   .join(" ");

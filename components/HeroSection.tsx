@@ -6,57 +6,29 @@ import { heroCopy } from "@/lib/canonicalCopy";
 export default function HeroSection() {
   return (
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
-      {/* Background videos with image fallbacks */}
+      {/* Optimized background images for LCP performance */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop video background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/videos/desktop/poster.jpg"
-          className="hidden md:block h-full w-full object-cover opacity-40 motion-reduce:hidden"
-          aria-hidden="true"
-        >
-          <source src="/videos/desktop/alexandria1_LANDSCAPE.webm" type="video/webm" />
-          <source src="/videos/desktop/alexandria1_LANDSCAPE_compressed.mp4" type="video/mp4" />
-        </video>
-
-        {/* Mobile video background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/videos/mobile/poster.jpg"
-          className="md:hidden h-full w-full object-cover opacity-40 motion-reduce:hidden"
-          aria-hidden="true"
-        >
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.webm" type="video/webm" />
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE_compressed.mp4" type="video/mp4" />
-        </video>
-
-        {/* Fallback images for reduced motion or video load failure */}
+        {/* Desktop background - optimized for LCP */}
         <Image
           src="/videos/desktop/poster.jpg"
           alt="Ancient library background"
           fill
           priority
-          quality={90}
-          className="hidden md:block object-cover opacity-40 motion-reduce:block"
+          quality={75}
+          fetchPriority="high"
+          className="hidden md:block object-cover opacity-40"
         />
 
+        {/* Mobile background - optimized for LCP */}
         <Image
           src="/videos/mobile/poster.jpg"
           alt="Papyrus background"
           fill
           priority
-          quality={85}
-          className="md:hidden object-cover opacity-40 motion-reduce:block"
+          quality={70}
+          fetchPriority="high"
+          className="md:hidden object-cover opacity-40"
         />
-
-        {/* Static fallback background for reduced motion preference */}
-        <div className="hidden motion-reduce:block absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" aria-hidden="true" />
 
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-zinc-900/80 to-black/70" />
