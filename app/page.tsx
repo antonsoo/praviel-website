@@ -27,6 +27,7 @@ export default async function HomePage() {
       <ComparisonTable />
       <SectionDivider />
       <LanguageShowcase />
+      <SectionDivider />
       <HowItWorks />
       <SectionDivider />
       <FAQ />
