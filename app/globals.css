@@ -301,12 +301,16 @@
 
   /* Language details smooth animations */
   .language-details {
+    position: relative;
+    z-index: 1;
+    contain: layout;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .language-details[open] {
     border-color: rgba(232, 197, 91, 0.25);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    z-index: 2;
   }
 
   .language-details summary {
@@ -324,6 +328,7 @@
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.3s ease;
+    will-change: grid-template-rows;
   }
 
   .language-details[open] .language-details-content {
@@ -332,19 +337,18 @@
 
   .language-details-content > div {
     overflow: hidden;
+    min-height: 0;
   }
 
   /* Fade in content as it expands */
   @media (prefers-reduced-motion: no-preference) {
     .language-details-content > div {
       opacity: 0;
-      transform: translateY(-8px);
-      transition: opacity 0.25s ease 0.05s, transform 0.25s ease 0.05s;
+      transition: opacity 0.25s ease 0.05s;
     }
 
     .language-details[open] .language-details-content > div {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 
