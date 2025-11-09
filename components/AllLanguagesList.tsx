@@ -68,7 +68,7 @@ export default function AllLanguagesList({ languages }: { languages: Language[] 
           All Languages (46)
         </p>
         <p className="mt-2 text-sm text-zinc-300">
-          {languages.length} available now • Click any to see top 10 works
+          Click any language to see its top 10 canonical works
         </p>
       </div>
 
