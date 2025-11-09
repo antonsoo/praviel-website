@@ -3,6 +3,7 @@ import Link from "next/link";
 const NAV_LINKS = [
   { href: "https://app.praviel.com", label: "Launch app" },
   { href: "#features", label: "Features" },
+  { href: "/blog", label: "Blog" },
   { href: "/fund", label: "Support us" },
   { href: "https://api.praviel.com/docs", label: "API" },
 ];

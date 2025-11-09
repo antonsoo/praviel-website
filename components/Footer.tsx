@@ -4,6 +4,7 @@ import CurrentYear from "./CurrentYear";
 const CONTACT_LINKS = [
   { href: "mailto:contact@praviel.com", label: "contact@praviel.com" },
   { href: "https://app.praviel.com", label: "App" },
+  { href: "/blog", label: "Blog" },
   { href: "https://api.praviel.com/docs", label: "API" },
   { href: "/fund", label: "Fund" },
   { href: "/privacy", label: "Privacy" },
