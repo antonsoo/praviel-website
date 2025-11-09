@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PrimaryCTA from "@/components/PrimaryCTA";
 import GreekKeyBorder from "@/components/GreekKeyBorder";
 import { heroCopy } from "@/lib/canonicalCopy";
@@ -5,37 +6,27 @@ import { heroCopy } from "@/lib/canonicalCopy";
 export default function HeroSection() {
   return (
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
-      {/* Background video with fallback gradient */}
+      {/* Background images with LCP optimization */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop video - respects prefers-reduced-motion */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="none"
-          poster="/videos/desktop/poster.jpg"
-          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
-          aria-label="Ancient library background"
-        >
-          <source src="/videos/desktop/alexandria1_LANDSCAPE.webm" type="video/webm" />
-          <source src="/videos/desktop/alexandria1_LANDSCAPE_compressed.mp4" type="video/mp4" />
-        </video>
+        {/* Desktop hero image - prioritized for LCP */}
+        <Image
+          src="/videos/desktop/poster.jpg"
+          alt="Ancient library background"
+          fill
+          priority
+          quality={90}
+          className="hidden md:block object-cover opacity-40"
+        />
 
-        {/* Mobile video - respects prefers-reduced-motion */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="none"
-          poster="/videos/mobile/poster.jpg"
-          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
-          aria-label="Papyrus background"
-        >
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE_compressed.mp4" type="video/mp4" />
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.webm" type="video/webm" />
-        </video>
+        {/* Mobile hero image - prioritized for LCP */}
+        <Image
+          src="/videos/mobile/poster.jpg"
+          alt="Papyrus background"
+          fill
+          priority
+          quality={85}
+          className="md:hidden object-cover opacity-40"
+        />
 
         {/* Static fallback background for reduced motion preference */}
         <div className="hidden motion-reduce:block absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" aria-hidden="true" />
@@ -93,7 +84,7 @@ export default function HeroSection() {
         <div className="pt-4">
           <PrimaryCTA />
           <p className="mt-4 text-sm text-zinc-500">
-            Free tier available • No credit card required
+            Web app available now • iOS & Android coming soon
           </p>
         </div>
       </div>

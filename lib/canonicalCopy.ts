@@ -84,4 +84,19 @@ export const faqEntries: FaqEntry[] = [
     answer:
       "Every definition, grammar explanation, and morphological analysis is grounded in authoritative academic sources: Perseus Digital Library, Liddell-Scott-Jones, Smyth's Greek Grammar, TLA Berlin-Brandenburg, ORACC UPenn, and the Cuneiform Digital Library Initiative.",
   },
+  {
+    question: "How is PRAVIEL different from Duolingo or other language apps?",
+    answer:
+      "Duolingo teaches modern conversational skills (ordering coffee, making small talk). PRAVIEL teaches you to read authentic ancient texts. We focus on reading comprehension and literary analysis, not conversation. Think of it as the difference between learning Spanish to travel vs studying Don Quixote in the original. Both are valuable, but completely different goals.",
+  },
+  {
+    question: "Why not just hire a tutor or take a university course?",
+    answer:
+      "Traditional instruction is excellent but expensive ($50-200/hour for tutors, thousands for semester courses) and requires scheduling. PRAVIEL provides on-demand, AI-powered tutoring grounded in the same academic sources (Perseus, LSJ) that university professors use—at a fraction of the cost. We're not replacing professors; we're making their knowledge accessible 24/7.",
+  },
+  {
+    question: "Is PRAVIEL really free? How do you sustain this?",
+    answer:
+      "PRAVIEL is free for individual learners and always will be. We offer institutional licensing for universities and seminaries who want enhanced features (learning analytics, custom content, SSO integration). We also accept donations. Our goal is to be financially sustainable without gating access to knowledge.",
+  },
 ];

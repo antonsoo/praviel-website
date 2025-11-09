@@ -74,7 +74,12 @@ export default function SecondaryCTAs() {
         style={{ display: showWaitlist ? "block" : "none" }}
         className="w-full rounded-2xl border border-[#D4AF37]/20 bg-[#D4AF37]/5 p-6 lg:backdrop-blur stone-texture"
       >
-        <p className="mb-4 text-center text-sm text-zinc-300">Sign up to get notified when iOS & Android apps launch</p>
+        <p className="mb-4 text-center text-sm text-zinc-300">
+          Get notified when <strong className="text-[#E8C55B]">mobile apps</strong> launch
+          <span className="block mt-1 text-xs text-zinc-500">
+            (Web app already available — no waiting!)
+          </span>
+        </p>
         <div className="flex justify-center">
           <WaitlistForm source="secondary" />
         </div>
