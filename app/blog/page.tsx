@@ -1,4 +1,3 @@
-import { cacheLife } from "next/cache";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, formatDate } from "@/lib/blog";
@@ -15,10 +14,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
-  "use cache";
-  cacheLife("hours");
-
+// Note: Made synchronous to avoid loading state hydration issues with OpenNext Cloudflare
+// The filesystem reads are fast enough that we don't need async here
+export default function BlogPage() {
   const posts = getAllPosts();
 
   return (
@@ -85,6 +83,8 @@ export default async function BlogPage() {
                       <time dateTime={post.publishDate}>
                         {formatDate(post.publishDate)}
                       </time>
+                      <span>•</span>
+                      <span>{post.readingTime}</span>
                     </div>
 
                     {/* Excerpt */}

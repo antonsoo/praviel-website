@@ -39,11 +39,20 @@ export async function generateMetadata({
       publishedTime: post.publishDate,
       authors: [post.author],
       tags: post.tags,
+      images: [
+        {
+          url: "https://praviel.com/og.png",
+          width: 1200,
+          height: 630,
+          alt: "PRAVIEL - Ancient Languages & Classical Education",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
+      images: ["https://praviel.com/og.png"],
     },
   };
 }
@@ -173,6 +182,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <time dateTime={post.publishDate}>
                   {formatDate(post.publishDate)}
                 </time>
+              </div>
+              <span>•</span>
+              <div className="flex items-center gap-2">
+                <svg
+                  className="w-5 h-5 text-[#D4AF37]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{post.readingTime}</span>
               </div>
             </div>
           </header>

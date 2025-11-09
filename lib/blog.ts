@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
+import readingTime from "reading-time";
 
 const postsDirectory = path.join(process.cwd(), "content/blog");
 
@@ -16,6 +17,7 @@ export interface BlogPost {
   excerpt: string;
   tags: string[];
   content: string;
+  readingTime: string;
 }
 
 export interface BlogPostMetadata {
@@ -26,6 +28,7 @@ export interface BlogPostMetadata {
   publishDate: string;
   excerpt: string;
   tags: string[];
+  readingTime: string;
 }
 
 /**
@@ -51,7 +54,10 @@ export function getAllPosts(): BlogPostMetadata[] {
     .map((slug) => {
       const fullPath = path.join(postsDirectory, `${slug}.md`);
       const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data } = matter(fileContents);
+      const { data, content } = matter(fileContents);
+
+      // Calculate reading time from markdown content
+      const stats = readingTime(content);
 
       return {
         slug,
@@ -61,6 +67,7 @@ export function getAllPosts(): BlogPostMetadata[] {
         publishDate: data.publishDate || data.date || "",
         excerpt: data.excerpt || "",
         tags: data.tags || [],
+        readingTime: stats.text,
       } as BlogPostMetadata;
     })
     .sort((a, b) => {
@@ -80,6 +87,9 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
 
+    // Calculate reading time from markdown content
+    const stats = readingTime(content);
+
     // Process markdown to HTML
     const processedContent = await remark()
       .use(remarkGfm)
@@ -96,6 +106,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       excerpt: data.excerpt || "",
       tags: data.tags || [],
       content: contentHtml,
+      readingTime: stats.text,
     };
   } catch (error) {
     console.error(`Error reading blog post ${slug}:`, error);
