@@ -9,7 +9,7 @@ export default function ImpactSection() {
     {
       title: "Linguistic Infrastructure",
       description:
-        "Server costs, database hosting, and API infrastructure to deliver instant morphological analysis for 21 ancient languages.",
+        "Server costs, database hosting, and API infrastructure to deliver instant morphological analysis for 46 ancient languages.",
       icon: (
         <svg
           viewBox="0 0 24 24"

@@ -1,5 +1,5 @@
 const features = [
-  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: "21 languages" },
+  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: "46 languages" },
   { name: "Accuracy", traditional: "Depends on instructor", apps: "Hallucinates", praviel: "Grounded in LSJ, Perseus, TLA" },
   { name: "Interactive reader", traditional: "Paper dictionary", apps: "Word hints", praviel: "Tap any word for morphology" },
   { name: "Privacy", traditional: "Offline books", apps: "Ads + tracking", praviel: "BYOK, zero tracking" },

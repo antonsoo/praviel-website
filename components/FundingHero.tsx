@@ -40,7 +40,7 @@ export default function FundingHero() {
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <span>21 ancient languages with AI lesson generation</span>
+            <span>46 ancient languages with AI lesson generation</span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <svg
