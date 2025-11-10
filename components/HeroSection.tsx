@@ -8,9 +8,9 @@ export default function HeroSection() {
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
       {/* Background video with fallback poster images */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop background video */}
+        {/* Desktop background video - respects prefers-reduced-motion */}
         <video
-          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40"
+          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           autoPlay
           loop
           muted
@@ -29,9 +29,9 @@ export default function HeroSection() {
           />
         </video>
 
-        {/* Mobile background video */}
+        {/* Mobile background video - respects prefers-reduced-motion */}
         <video
-          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40"
+          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
           autoPlay
           loop
           muted
@@ -49,6 +49,26 @@ export default function HeroSection() {
             className="object-cover"
           />
         </video>
+
+        {/* Fallback poster images for reduced-motion preference */}
+        <Image
+          src="/videos/desktop/poster.jpg"
+          alt="Ancient library background"
+          fill
+          priority
+          quality={75}
+          fetchPriority="high"
+          className="hidden md:block motion-reduce:block object-cover opacity-40"
+        />
+        <Image
+          src="/videos/mobile/poster.jpg"
+          alt="Papyrus background"
+          fill
+          priority
+          quality={70}
+          fetchPriority="high"
+          className="md:hidden motion-reduce:block object-cover opacity-40"
+        />
 
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-zinc-900/80 to-black/70" />

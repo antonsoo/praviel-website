@@ -11,10 +11,10 @@ export type LanguageRoadmapPhase = {
 export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   {
     id: "phase-1",
-    title: "Phase 1 · Foundational Content",
-    timeframe: "In Progress",
+    title: "Phase 1 · Core Languages",
+    timeframe: "Now Available",
     summary:
-      "Building comprehensive lessons and text libraries for core ancient languages. Each language includes interactive reader, grammar lessons, vocabulary drills, cultural context, and curated text selections from canonical works.",
+      "Comprehensive learning platform for foundational ancient languages. Each language includes: interactive reader with morphology, grammar lessons, vocabulary drills with spaced repetition, AI tutors trained on primary sources, cultural and historical context, and curated canonical texts. Not just a reader—a complete learning system.",
     accent: "from-[#E8C55B]/40 to-[#3b82f6]/30",
     languages: [
       "Classical Sanskrit",
@@ -37,10 +37,10 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   },
   {
     id: "phase-2",
-    title: "Phase 2 · Advanced Features",
-    timeframe: "Q1-Q2 2026",
+    title: "Phase 2 · Expanding Coverage",
+    timeframe: "Coming Q1 2026",
     summary:
-      "Expanding beyond text reading with innovative learning methods: video lessons from historical sites and manuscripts, photo-based exercises with real inscriptions, spaced repetition systems, and AI tutors trained on primary sources for personalized learning paths.",
+      "Additional ancient languages with the same comprehensive feature set, plus enhanced learning methods: video lessons from historical sites and manuscripts, photo-based exercises with real inscriptions, and advanced AI tutors. Continuing to build complete learning experiences, not simple text readers.",
     accent: "from-[#3b82f6]/30 to-[#a855f7]/25",
     languages: [
       "Classical Armenian",
@@ -63,12 +63,12 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   },
   {
     id: "phase-3",
-    title: "Phase 3 · Mobile & Community",
-    timeframe: "H2 2026",
+    title: "Phase 3 · Final Languages + Mobile",
+    timeframe: "Coming H2 2026",
     summary:
-      "Native iOS and Android apps with offline-first architecture, community features for sharing annotations and translations, collaborative tools for study groups and classrooms, and integration with university research platforms.",
+      "Completing our coverage of major ancient writing systems with the same comprehensive learning platform. Plus: native iOS and Android apps with full offline support, community features for sharing annotations, and collaborative tools for classrooms and research groups.",
     accent: "from-[#a855f7]/25 to-[#f472b6]/25",
-    note: "Mobile apps will support full offline mode with embedded lexicons and grammar references.",
+    note: "These languages will launch alongside mobile apps with embedded lexicons and full offline mode.",
     languages: [
       "Old Turkic (Orkhon)",
       "Etruscan",
