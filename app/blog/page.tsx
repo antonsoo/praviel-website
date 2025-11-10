@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-// Note: Made synchronous to avoid loading state hydration issues with OpenNext Cloudflare
-// The filesystem reads are fast enough that we don't need async here
+// Static generation handled by cacheComponents in next.config.ts
+// This ensures getAllPosts() runs at build time when fs is available, not at runtime
 export default function BlogPage() {
   const posts = getAllPosts();
 

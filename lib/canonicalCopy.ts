@@ -53,6 +53,24 @@ export interface FaqEntry {
   answer: string;
 }
 
+export const missionPillars = [
+  {
+    label: "Students",
+    body:
+      "Read primary texts sooner with real-time morphology, adaptive drills, and guided roadmaps instead of phrasebook filler.",
+  },
+  {
+    label: "Scholars",
+    body:
+      "Sync annotated corpora with Perseus, ORACC, LSJ, and TLA Berlin so research, teaching, and translation stay citation-grade.",
+  },
+  {
+    label: "Humanity",
+    body:
+      "Preserve 5,000 years of linguistic memory—46 ancient languages prioritized by cultural risk, not popularity.",
+  },
+];
+
 export const faqEntries: FaqEntry[] = [
   {
     question: "Why isn't reading translations enough?",

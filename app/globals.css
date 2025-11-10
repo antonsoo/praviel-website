@@ -50,11 +50,7 @@
     --safe-area-left: env(safe-area-inset-left, 0px);
   }
 
-  main > *:not(:first-child) {
-    content-visibility: auto;
-    contain: layout paint style;
-    contain-intrinsic-size: 600px 800px;
-  }
+  /* Removed content-visibility to fix rendering issues with language showcase */
 }
 
 /* Font utility classes for special scripts */
@@ -346,7 +342,6 @@
   .language-details {
     position: relative;
     z-index: 1;
-    contain: layout;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
@@ -1087,7 +1082,7 @@ a:focus-visible,
 /* Custom Prose Styling for Blog Content */
 .prose {
   color: rgb(228 228 231);
-  max-width: 65ch;
+  max-width: 75ch;
   font-size: 1.125rem;
   line-height: 1.75;
 }

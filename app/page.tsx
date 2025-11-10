@@ -3,6 +3,8 @@ import { cacheLife } from "next/cache";
 
 import HeroSection from "@/components/HeroSection";
 import SectionDivider from "@/components/SectionDivider";
+import FeatureGrid from "@/components/FeatureGrid";
+import MissionSection from "@/components/MissionSection";
 import WhyPRAVIEL from "@/components/WhyPRAVIEL";
 import HowItWorks from "@/components/HowItWorks";
 import FAQ from "@/components/FAQ";
@@ -21,6 +23,10 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <SectionDivider />
+      <FeatureGrid />
+      <SectionDivider />
+      <MissionSection />
       <SectionDivider />
       <WhyPRAVIEL />
       <SectionDivider />

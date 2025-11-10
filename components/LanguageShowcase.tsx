@@ -47,11 +47,11 @@ export default function LanguageShowcase() {
   return (
     <section
       aria-labelledby="language-showcase-title"
-      className="relative overflow-hidden px-6 py-24 sm:py-32 content-visibility-auto"
+      className="relative px-6 py-24 sm:py-32"
     >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#E8C55B]/5 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-[#E8C55B]/5 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-6xl space-y-12">
+      <div className="relative mx-auto max-w-6xl space-y-12">
         <header className="space-y-4 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#E8C55B]">
             {languageShowcaseCopy.topTierLabel}

@@ -2,13 +2,19 @@
 
 Concise, actionable items only. Remove completed items immediately.
 
-**Last Updated**: 2025-11-09 (23:15 UTC)
+**Last Updated**: 2025-11-10 (03:30 UTC)
 
 ---
 
-## ✅ COMPLETED (2025-11-09 - Current Session)
+## ✅ COMPLETED (2025-11-10 - Current Session)
 
-### Major Accomplishments
+### P0 Bug Fixes (DEPLOYED: ac73b7bd-6faa-4fb0-b204-f303762c30e5)
+- ✓ **Fixed Blog Posts Missing** - Removed incompatible `dynamic` exports that conflicted with `cacheComponents` in Next.js 16
+- ✓ **Fixed All Languages Section Hidden** - Removed `content-visibility-auto`, `overflow-hidden`, and `contain: layout` CSS that prevented rendering
+- ✓ **Deployed to Production** - Both fixes verified working on https://praviel-site.antonnsoloviev.workers.dev
+- ✓ **Performance Audit** - Lighthouse score: 81/100 (LCP: 4.25s, CLS: 0.000)
+
+### Major Accomplishments (Previous Session)
 - ✓ **Added all 26 remaining languages to languageData.ts** (now 46 total)
   - Phase 2: 16 languages (Classical Armenian, Hittite, Old Egyptian, Avestan, Classical Nahuatl, Classical Tibetan, Old Japanese, Classical Quechua, Middle Persian, Old Irish, Gothic, Geʽez, Sogdian, Ugaritic, Tocharian A & B)
   - Phase 3: 10 languages (Old Turkic, Etruscan, Proto-Norse, Runic Old Norse, Old Persian, Elamite, Classic Maya, Phoenician, Moabite, Punic)
@@ -30,50 +36,45 @@ Concise, actionable items only. Remove completed items immediately.
 
 ## ⚠️ PENDING WORK
 
+### Performance Optimization (Current: 81/100)
+- [ ] Improve LCP from 4.25s to <2.5s (partially blocked by OpenNext Cloudflare TTFB issues)
+- [ ] Optimize video background loading/preloading
+- [ ] Review font loading strategy (preload critical fonts)
+- [ ] Consider lazy loading for below-fold content
+
 ### Testing & QA
 - [ ] Test AllLanguagesList component with all 46 languages (show more button, animations)
 - [ ] Verify video backgrounds work properly on mobile and desktop
 - [ ] Verify CSS animations work smoothly on mobile
-- [ ] Test mobile performance (should have no lag)
-- [ ] Verify proper spacing on all screen sizes
-
-### Performance
-- [ ] Run Lighthouse audit on deployed site
-- [ ] Check Core Web Vitals (LCP, FID, CLS)
 - [ ] Test keyboard navigation and screen reader compatibility
-- [ ] Verify no layout shifts or visual jank on low-end devices
 
 ### UX Improvements
 - [ ] Consider adding search/filter to language list
 - [ ] Consider grouping languages by family/region
 - [ ] Ensure mobile experience is smooth and engaging
-- [ ] Reduce information overload for new visitors
 
 ---
 
-## 📝 NOTES FOR NEXT SESSION
+## 📝 TECHNICAL NOTES
+
+**Key Fixes Applied**:
+- Removed `export const dynamic = 'force-static'` from blog pages (incompatible with Next.js 16 `cacheComponents`)
+- Removed `content-visibility-auto` from LanguageShowcase and globals.css (caused rendering issues)
+- Removed `overflow-hidden` from LanguageShowcase (prevented content visibility)
+- Removed `contain: layout` from `.language-details` CSS (caused stacking context issues)
+- Fixed TypeScript errors in test files (unused error variables, type assertions)
 
 **What Works Well**:
-- Language count now accurate (46 languages across full offering)
-- 20 languages fully implemented in languageData.ts
-- 26 more languages in roadmap (lib/languageRoadmap.ts)
-- Code structure is correct (verified component ordering)
+- Blog posts now display correctly (1 post: "The Case for the Classics")
+- All Languages section visible (4 featured + "Show 40 More" button)
+- Language count accurate (46 languages total)
 - Type checking, linting, and build all pass
-- UX is more accessible and less overwhelming
+- Zero CLS (0.000) - excellent layout stability
 
-**What Still Needs Attention**:
-- Background videos not being used (could improve visual appeal)
-- Demo lessons mentioned by user but not found in codebase
-- Mobile performance optimization needed
-- AllLanguagesList shows 6 initially - verify "Show More" button text is correct
-
-**Future Enhancements**:
-- Implement background video for hero section
-- Create interactive language demos/lessons
-- Add filtering by script type, language family, or time period
-- Improve mobile touch interactions
-- Add more visual interest to language cards
+**Known Issues**:
+- LCP at 4.25s (target: <2.5s) - partially due to OpenNext Cloudflare TTFB issues (1.5s+)
+- Performance score 81/100 - room for improvement but acceptable
 
 ---
 
-*Deployment Info: https://praviel-site.antonnsoloviev.workers.dev (version: fb62e843-cd31-42a5-a2c8-f49f38d92aed)*
+*Latest Deployment: https://praviel-site.antonnsoloviev.workers.dev (version: ac73b7bd-6faa-4fb0-b204-f303762c30e5)*

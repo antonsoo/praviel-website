@@ -9,6 +9,7 @@ interface BlogPostPageProps {
   }>;
 }
 
+// Static generation handled by generateStaticParams + cacheComponents in next.config.ts
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
   return slugs.map((slug) => ({

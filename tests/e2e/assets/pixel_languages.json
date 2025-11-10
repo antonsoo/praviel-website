@@ -1,0 +1,12 @@
+[
+  { "code": "lat", "name": "Classical Latin" },
+  { "code": "grc-koi", "name": "Koine Greek" },
+  { "code": "hbo", "name": "Biblical Hebrew" },
+  { "code": "san", "name": "Classical Sanskrit" },
+  { "code": "lzh", "name": "Classical Chinese" },
+  { "code": "cop", "name": "Coptic" },
+  { "code": "akk", "name": "Akkadian" },
+  { "code": "syc", "name": "Classical Syriac" },
+  { "code": "grc-cls", "name": "Classical Greek" },
+  { "code": "pli", "name": "Pali" }
+]
