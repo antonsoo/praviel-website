@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Read Ancient Texts in Their Original Languages | PRAVIEL",
     description:
-      "Learn Latin, Greek, Hebrew, Sanskrit, Egyptian. Read the Iliad, Aeneid, Torah as the authors wrote them. 42 languages. Zero AI hallucinations.",
+      "Learn Latin, Greek, Hebrew, Sanskrit, Egyptian. Read the Iliad, Aeneid, Torah as the authors wrote them. 46 languages. Zero AI hallucinations.",
     images: ["/og.png"],
   },
 };
