@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-import { withPlausibleProxy } from "next-plausible";
 
 const nextConfig: NextConfig = {
   // React Compiler + Cache Components are now first-class config keys in Next.js 16
@@ -47,5 +46,4 @@ const nextConfig: NextConfig = {
 // bindings (.dev.vars, KV/D1/etc.) locally.
 initOpenNextCloudflareForDev();
 
-// Wrap config with Plausible proxy to avoid ad blockers
-export default withPlausibleProxy()(nextConfig);
+export default nextConfig;

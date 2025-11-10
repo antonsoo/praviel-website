@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { cacheLife } from "next/cache";
 import Script from "next/script";
-import PlausibleProvider from "next-plausible";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import AncientBackground from "@/components/AncientBackground";
@@ -127,8 +126,15 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
       <head>
-        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies */}
-        <PlausibleProvider domain="praviel.com" trackLocalhost enabled />
+        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
+            Using custom proxy through our domain to avoid ad blockers */}
+        <Script
+          defer
+          data-domain="praviel.com"
+          data-api="/api/proxy/api/event"
+          src="/api/proxy/js/script.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body
         className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
