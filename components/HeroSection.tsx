@@ -6,29 +6,49 @@ import { heroCopy } from "@/lib/canonicalCopy";
 export default function HeroSection() {
   return (
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
-      {/* Optimized background images for LCP performance */}
+      {/* Background video with fallback poster images */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop background - optimized for LCP */}
-        <Image
-          src="/videos/desktop/poster.jpg"
-          alt="Ancient library background"
-          fill
-          priority
-          quality={75}
-          fetchPriority="high"
-          className="hidden md:block object-cover opacity-40"
-        />
+        {/* Desktop background video */}
+        <video
+          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/videos/desktop/poster.jpg"
+        >
+          <source src="/videos/desktop/alexandria1_LANDSCAPE.webm" type="video/webm" />
+          <source src="/videos/desktop/alexandria1_LANDSCAPE.mp4" type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+          <Image
+            src="/videos/desktop/poster.jpg"
+            alt="Ancient library background"
+            fill
+            quality={75}
+            className="object-cover"
+          />
+        </video>
 
-        {/* Mobile background - optimized for LCP */}
-        <Image
-          src="/videos/mobile/poster.jpg"
-          alt="Papyrus background"
-          fill
-          priority
-          quality={70}
-          fetchPriority="high"
-          className="md:hidden object-cover opacity-40"
-        />
+        {/* Mobile background video */}
+        <video
+          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/videos/mobile/poster.jpg"
+        >
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.webm" type="video/webm" />
+          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.mp4" type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
+          <Image
+            src="/videos/mobile/poster.jpg"
+            alt="Papyrus background"
+            fill
+            quality={70}
+            className="object-cover"
+          />
+        </video>
 
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-zinc-900/80 to-black/70" />

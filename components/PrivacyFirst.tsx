@@ -12,14 +12,14 @@ export default function PrivacyFirst() {
             Privacy & Control
           </span>
           <h2 id="privacy-title" className="text-4xl font-bold text-white sm:text-5xl">
-            Your keys. Your data.{" "}
+            Your data.{" "}
             <span className="bg-gradient-to-r from-[#3b82f6] to-[#E8C55B] bg-clip-text text-transparent">
               Your scholarship.
             </span>
           </h2>
           <p className="mx-auto max-w-3xl text-lg text-zinc-300 sm:text-xl">
-            Unlike subscription apps that monetize your data, PRAVIEL puts you in control.
-            Bring your own API keys or run completely offline—no tracking, no telemetry, no vendor lock-in.
+            No tracking. No telemetry. Your study habits and reading history stay on your device.
+            Whether you use our AI features or study completely offline, your privacy comes first.
           </p>
         </header>
 
@@ -35,10 +35,11 @@ export default function PrivacyFirst() {
                 />
               </svg>
             </div>
-            <h3 className="mt-6 text-xl font-semibold text-white">Bring Your Own Key (BYOK)</h3>
+            <h3 className="mt-6 text-xl font-semibold text-white">Flexible AI Options</h3>
             <p className="mt-3 text-sm leading-relaxed text-zinc-300">
-              Provide your own API keys for OpenAI GPT-5, Anthropic Claude 4.5, or Google Gemini 2.5.
-              Pay only for what you use—no middleman markup, no subscription traps.
+              Choose how you access AI features: use our simple membership plans for hassle-free learning,
+              bring your own API keys for maximum control, or study entirely offline with embedded lexicons.
+              You decide what works best for you.
             </p>
           </article>
 

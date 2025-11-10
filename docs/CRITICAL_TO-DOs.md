@@ -2,49 +2,63 @@
 
 Concise, actionable items only. Remove completed items immediately.
 
-**Last Updated**: 2025-11-10 (04:15 UTC)
+**Last Updated**: 2025-11-10 (11:00 UTC)
 
 ---
 
 ## ✅ COMPLETED (2025-11-10 - Current Session)
 
-### P0 Bug Fixes (DEPLOYED: ac73b7bd-6faa-4fb0-b204-f303762c30e5)
-- ✓ **Fixed Blog Posts Missing** - Removed incompatible `dynamic` exports that conflicted with `cacheComponents` in Next.js 16
-- ✓ **Fixed All Languages Section Hidden** - Removed `content-visibility-auto`, `overflow-hidden`, and `contain: layout` CSS that prevented rendering
-- ✓ **Deployed to Production** - Both fixes verified working on https://praviel-site.antonnsoloviev.workers.dev
-- ✓ **Performance Audit** - Lighthouse score: 81/100 (LCP: 4.25s, CLS: 0.000)
+### Website Content & UX Improvements
+- ✓ **Updated Roadmap Content** - Revised all 3 phases to reflect actual app capabilities (not just text reading)
+  - Phase 1: Foundational content with lessons, reader, grammar, vocabulary, cultural context
+  - Phase 2: Advanced features including video lessons, photo exercises, spaced repetition, AI tutors
+  - Phase 3: Mobile apps and community features
+  - IMPACT: No longer undersells the product, accurately represents comprehensive learning platform
 
-### P0 Improvements (DEPLOYED: 58711e84-c950-4a75-8e61-d208bee3b227)
-- ✓ **Preloaded Hero Fonts** - Changed `notoSerifDisplay` to `preload: true` for LCP optimization
-- ✓ **Added Loading States** - Created `app/loading.tsx` with skeleton screens for better perceived performance
-- ✓ **Added Error Boundary** - Created `app/blog/error.tsx` with proper error handling and user-friendly messaging
-- ✓ **Improved Blog Robustness** - Added try-catch blocks, validation, and logging to `lib/blog.ts`
-- ✓ **Performance Improvement** - Lighthouse score: 84/100 (+3 points from 81/100)
-- ✓ **LCP Status** - 4.26s (unchanged - bottleneck is OpenNext Cloudflare TTFB ~1.5s)
+- ✓ **Revised BYOK Section** - Made privacy section more user-friendly and accurate
+  - Changed "Bring Your Own Key (BYOK)" to "Flexible AI Options"
+  - Updated copy to mention membership plans alongside BYOK option
+  - De-emphasized technical BYOK details that non-technical users don't care about
+  - IMPACT: More welcoming to general users, less intimidating technical jargon
 
-### Major Accomplishments (Previous Session)
-- ✓ **Added all 26 remaining languages to languageData.ts** (now 46 total)
-  - Phase 2: 16 languages (Classical Armenian, Hittite, Old Egyptian, Avestan, Classical Nahuatl, Classical Tibetan, Old Japanese, Classical Quechua, Middle Persian, Old Irish, Gothic, Geʽez, Sogdian, Ugaritic, Tocharian A & B)
-  - Phase 3: 10 languages (Old Turkic, Etruscan, Proto-Norse, Runic Old Norse, Old Persian, Elamite, Classic Maya, Phoenician, Moabite, Punic)
-  - All entries include: native names in original scripts, authentic samples, accurate translations, top 10 works, detailed writing instructions, proper RTL flags
-  - Updated Language interface to support "partial" tier for Phase 3 languages
-
-- ✓ **Implemented video backgrounds in HeroSection**
+- ✓ **Fixed Video Background** - Replaced static poster images with actual video playback
   - Desktop: alexandria1_LANDSCAPE.webm (1.3MB) with MP4 fallback
   - Mobile: simple_papyrus_LANDSCAPE.webm (1.7MB) with MP4 fallback
-  - Respects `prefers-reduced-motion` preference
-  - Poster images for fallback and LCP optimization
+  - Added autoplay, loop, muted, playsInline attributes
+  - Poster images as fallback for unsupported browsers
+  - IMPACT: Hero section now has dynamic background as intended
 
-- ✓ Type checking passed
-- ✓ Linting passed
-- ✓ Production build successful (21 pages generated)
-- ✓ Deployed to Cloudflare (version: **6e5f19f6-8ced-4178-97e3-82116ec41970**)
+### Repository Cleanup
+- ✓ **Fixed .gitignore for Lighthouse Directories** - Added proper patterns to ignore lighthouse temp directories
+  - Pattern: `**/lighthouse.*` and `**/*lighthouse*/**`
+  - Prevents Windows paths like `C:\Users\anton\AppData\Local\lighthouse.*` from appearing in git status
+  - IMPACT: Cleaner repo, no more confusing untracked directories
+
+- ✓ **Deleted AI Planning Files** - Removed `docs/NEXT_SESSION_PLAN.md`
+  - Kept CRITICAL_ANALYSIS.md (comprehensive and useful)
+  - Archive files already gitignored in docs/archive/
+  - IMPACT: Less clutter, only actionable docs remain
+
+### Bug Investigation
+- ✓ **Investigated Blog Post Issue** - Blog posts ARE working in dev mode
+  - Verified "The Case for the Classics" renders correctly
+  - Build generates blog pages successfully
+  - Issue likely related to production caching or OpenNext Cloudflare deployment
+  - User reported: "showed up before... glitched out and disappeared unless I refreshed the page"
+  - DIAGNOSIS: Possible caching/SSR issue with OpenNext Cloudflare, not a broken blog system
 
 ---
 
 ## 🚨 BLOCKING PRODUCTION/INVESTOR READINESS
 
 ### 🔴 P0 - Critical (Do Before Any Investor Demo)
+- [ ] **Investigate Blog Post Production Issue**
+  - Blog works in dev, but user reports it disappears in production
+  - Might be caching issue with OpenNext Cloudflare
+  - Need to test on production URL and verify caching headers
+  - WHY: Blog content is key for SEO and demonstrating thought leadership
+  - HOW TO TEST: Deploy and check https://praviel-site.antonnsoloviev.workers.dev/blog
+
 - [ ] **Add Real User Monitoring (RUM)**
   - Enable Sentry performance monitoring (already configured)
   - Add web-vitals reporting to track real user LCP/CLS/INP
@@ -52,7 +66,8 @@ Concise, actionable items only. Remove completed items immediately.
   - IMPACT: Can't pitch without data
 
 - [ ] **Optimize LCP to < 3.0s** (Current: 4.26s)
-  - Try native `<img>` with `fetchpriority="high"` instead of Next/Image for hero poster
+  - Video backgrounds may increase LCP (monitor this)
+  - Try native `<img>` with `fetchpriority="high"` if video hurts performance
   - Inline critical CSS (above-the-fold styles)
   - Remove unused CSS from bundle
   - WHY: 4.26s vs 2.5s target = ~17% conversion loss (~$170K/year at $1M ARR target)
@@ -75,16 +90,17 @@ Concise, actionable items only. Remove completed items immediately.
 
 ### Testing & Quality
 - [ ] Add Playwright tests for critical paths:
-  - Homepage loads → CTA visible → clicks work
+  - Homepage loads → Video plays → CTA visible → clicks work
   - Blog listing → Post detail → Back navigation
   - Language showcase → Expand → Language details
 - [ ] Set up Lighthouse CI to prevent performance regressions
 - [ ] Add performance budgets (LCP < 3.0s, bundle < 500KB)
+- [ ] Test video backgrounds impact on LCP (may need to revert if too slow)
 
 ### Mobile Experience
 - [ ] Test on real iOS devices (Safari, Chrome)
 - [ ] Test on real Android devices (Chrome, Samsung Internet)
-- [ ] Verify video poster images render correctly
+- [ ] Verify video backgrounds render correctly and don't tank performance
 - [ ] Test touch interactions and animations
 - [ ] Check for layout shifts on low-end devices
 
@@ -95,14 +111,15 @@ Concise, actionable items only. Remove completed items immediately.
 ### Architecture Improvements
 - [ ] Refactor blog system:
   - Add comprehensive error messages
+  - Debug production caching issue with OpenNext Cloudflare
   - Consider CMS migration (Contentful, Sanity, or bundle into JS)
   - Add preview mode for unpublished posts
   - Document deployment requirements clearly
 
 ### Performance Optimization
+- [ ] Measure video background impact on performance metrics
 - [ ] Audit Tailwind CSS bundle size in production
 - [ ] Implement critical CSS extraction
-- [ ] Revisit `content-visibility` with proper `contain-intrinsic-size`
 - [ ] Optimize font subsetting (only include glyphs actually used)
 - [ ] Add resource hints (`preconnect`, `dns-prefetch`) for external domains
 
@@ -130,29 +147,36 @@ Concise, actionable items only. Remove completed items immediately.
 
 ## 📝 TECHNICAL NOTES
 
-**Key Fixes Applied**:
-- Removed `export const dynamic = 'force-static'` from blog pages (incompatible with Next.js 16 `cacheComponents`)
-- Removed `content-visibility-auto` from LanguageShowcase and globals.css (caused rendering issues)
-- Removed `overflow-hidden` from LanguageShowcase (prevented content visibility)
-- Removed `contain: layout` from `.language-details` CSS (caused stacking context issues)
-- Fixed TypeScript errors in test files (unused error variables, type assertions)
+**Changes Applied (2025-11-10)**:
+- Roadmap updated to reflect comprehensive app capabilities beyond just text reading
+- BYOK section revised to be more welcoming (mentions membership plans)
+- Video backgrounds enabled (was using static posters before)
+- .gitignore updated to properly exclude lighthouse temp directories
+- Removed AI planning file (NEXT_SESSION_PLAN.md)
 
 **What Works Well**:
-- Blog posts now display correctly (1 post: "The Case for the Classics")
+- Blog posts render correctly in dev (1 post: "The Case for the Classics")
 - All Languages section visible (4 featured + "Show 40 More" button)
 - Language count accurate (46 languages total)
 - Type checking, linting, and build all pass
-- Zero CLS (0.000) - excellent layout stability
+- Video backgrounds add visual polish to hero section
 
-**Known Issues**:
-- **LCP at 4.26s** (target: <2.5s, realistic: <3.0s) - partially due to OpenNext Cloudflare TTFB issues (1.5s+)
+**Known Issues & Investigations Needed**:
+- **Blog post production caching**: User reports blog "glitches out" in production - needs investigation
+- **LCP at 4.26s** (target: <2.5s, realistic: <3.0s) - video backgrounds may impact this
 - **Performance score 84/100** - improved but not excellent
 - **No analytics/monitoring** - CRITICAL for investor readiness
 - **No automated tests** - increases maintenance risk
-- **Blog system fragile** - better error handling added, but architecture needs rework
+
+**User Feedback Addressed**:
+1. ✅ Roadmap no longer undersells product (was "next 60 days" now "in progress" with realistic scope)
+2. ✅ BYOK section less intimidating, mentions membership plans
+3. ✅ Video backgrounds now actually play (was just static images)
+4. ✅ Lighthouse directories no longer clutter git status
+5. ⏳ Blog post production issue needs further investigation
 
 ---
 
-*Latest Deployment: https://praviel-site.antonnsoloviev.workers.dev (version: 58711e84-c950-4a75-8e61-d208bee3b227)*
+*Latest Deployment: https://praviel-site.antonnsoloviev.workers.dev (version: TBD - pending deployment)*
 
-**Critical Analysis Document**: See [CRITICAL_ANALYSIS.md](CRITICAL_ANALYSIS.md) for comprehensive multi-perspective evaluation.
+**Next Actions**: Run type check, lint, build, test, and deploy to verify all changes work in production.

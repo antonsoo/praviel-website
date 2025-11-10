@@ -99,6 +99,24 @@ async function tapLanguageChip(page: import("@playwright/test").Page) {
   }
 }
 
+async function tapNavigationSlot(
+  page: import("@playwright/test").Page,
+  slotIndex: number,
+) {
+  const canvas = page.locator("canvas").first();
+  await expect(canvas).toBeVisible({ timeout: 15_000 });
+  const box = await canvas.boundingBox();
+  if (!box) {
+    throw new Error("Canvas bounding box unavailable for nav tap");
+  }
+  const totalSlots = 6;
+  const widthPerSlot = box.width / totalSlots;
+  const tapX = box.x + widthPerSlot * (slotIndex + 0.5);
+  const tapY = box.y + box.height * 0.92;
+  await page.mouse.click(tapX, tapY);
+  await page.waitForTimeout(400);
+}
+
 async function openLanguageSheet(page: import("@playwright/test").Page) {
   const dialog = page.getByRole("dialog", { name: /select a language/i });
   if (await dialog.isVisible().catch(() => false)) {
@@ -171,6 +189,16 @@ async function searchAndSelectLanguage(
     await setLanguageViaStorage(page, language.code);
     return "storage" as const;
   }
+}
+
+async function goToLessonsTab(page: import("@playwright/test").Page) {
+  const lessonsButton = page.getByRole("button", { name: /^lessons$/i });
+  if (await lessonsButton.count()) {
+    await lessonsButton.click({ timeout: 5_000 }).catch(() => undefined);
+    return "ui" as const;
+  }
+  await tapNavigationSlot(page, 1);
+  return "coordinate" as const;
 }
 
 async function acceptAccessibilityPrompt(page: import("@playwright/test").Page) {
@@ -246,14 +274,20 @@ test.describe("Flutter Pixel-5 sweep", () => {
       });
     });
 
-    await page.goto(FLUTTER_E2E_URL, { waitUntil: "networkidle", timeout: 120_000 });
+    await page.goto(FLUTTER_E2E_URL, { waitUntil: "domcontentloaded", timeout: 120_000 });
     await acceptAccessibilityPrompt(page);
     await dismissAccountGate(page);
     await waitForFlutter(page);
     await completeOnboarding(page);
     await waitForFlutter(page);
 
-    const report: Array<{ language: string; status: string; screenshot?: string; strategy?: string }> = [];
+    const report: Array<{
+      language: string;
+      status: string;
+      screenshot?: string;
+      strategy?: string;
+      lessonsNav?: string;
+    }> = [];
     const semanticsCount = await page.locator('flt-semantics').count().catch(() => 0);
     const semanticsSnapshot = semanticsCount
       ? await page
@@ -271,6 +305,7 @@ test.describe("Flutter Pixel-5 sweep", () => {
       try {
         activeLanguage = language.code;
         const strategy = await searchAndSelectLanguage(page, language);
+        const lessonsNav = await goToLessonsTab(page);
         await expect(page.getByRole("button", { name: /start lesson/i })).toBeVisible({ timeout: 20_000 });
         await page.waitForTimeout(1000);
         await expect(page.locator("canvas").first()).toBeVisible({ timeout: 25_000 });
@@ -284,7 +319,13 @@ test.describe("Flutter Pixel-5 sweep", () => {
           path: screenshotPath,
           contentType: "image/png",
         });
-        report.push({ language: language.code, status: "ok", screenshot: screenshotPath, strategy });
+        report.push({
+          language: language.code,
+          status: "ok",
+          screenshot: screenshotPath,
+          strategy,
+          lessonsNav,
+        });
       } catch (error) {
         const failureShot = path.join(
           artifactDir,

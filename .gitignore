@@ -71,5 +71,9 @@ NUL
 # Documentation archive (historical reports not needed in repo)
 docs/archive/
 docs/docs_from_the_other_repo
+
+# Lighthouse temporary directories (from performance audits)
+# These appear as C:\Users\...\lighthouse.* on Windows
+**/lighthouse.*
+**/*lighthouse*/**
 C:\Users\*
-"C:\Users\anton\AppData\Local\lighthouse.*/"

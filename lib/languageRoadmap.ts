@@ -11,10 +11,10 @@ export type LanguageRoadmapPhase = {
 export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   {
     id: "phase-1",
-    title: "Phase 1 · Core Languages",
-    timeframe: "Next 60 days",
+    title: "Phase 1 · Foundational Content",
+    timeframe: "In Progress",
     summary:
-      "Finish the core texts that investors, schools, and early access scholars requested: Sanskrit epics, Classical Chinese philosophy, Buddhist canon, and the Slavic liturgical stack.",
+      "Building comprehensive lessons and text libraries for core ancient languages. Each language includes interactive reader, grammar lessons, vocabulary drills, cultural context, and curated text selections from canonical works.",
     accent: "from-[#E8C55B]/40 to-[#3b82f6]/30",
     languages: [
       "Classical Sanskrit",
@@ -37,10 +37,10 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   },
   {
     id: "phase-2",
-    title: "Phase 2 · Expanding Coverage",
-    timeframe: "Months 3–6",
+    title: "Phase 2 · Advanced Features",
+    timeframe: "Q1-Q2 2026",
     summary:
-      "Bring the rest of the ancient Near East, Indo-European, and Mesoamerican canon online so scholars can trace cross-cultural threads without leaving the platform.",
+      "Expanding beyond text reading with innovative learning methods: video lessons from historical sites and manuscripts, photo-based exercises with real inscriptions, spaced repetition systems, and AI tutors trained on primary sources for personalized learning paths.",
     accent: "from-[#3b82f6]/30 to-[#a855f7]/25",
     languages: [
       "Classical Armenian",
@@ -63,12 +63,12 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   },
   {
     id: "phase-3",
-    title: "Phase 3 · Completing the Vision",
-    timeframe: "Months 6–12",
+    title: "Phase 3 · Mobile & Community",
+    timeframe: "H2 2026",
     summary:
-      "Release partial courses for the remaining scripts so researchers can at least read inscriptions while we continue building deeper curricula.",
+      "Native iOS and Android apps with offline-first architecture, community features for sharing annotations and translations, collaborative tools for study groups and classrooms, and integration with university research platforms.",
     accent: "from-[#a855f7]/25 to-[#f472b6]/25",
-    note: "Partial courses focus on script mastery + core texts while we gather more manuscripts.",
+    note: "Mobile apps will support full offline mode with embedded lexicons and grammar references.",
     languages: [
       "Old Turkic (Orkhon)",
       "Etruscan",
