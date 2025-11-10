@@ -4,7 +4,7 @@
 
 ### The marketing site for humanity's conversation across millennia
 
-**Learn 42 ancient languages with modern AI and scholarly rigor**
+**Learn 46 ancient languages with modern AI and scholarly rigor**
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2-blue?logo=react&logoColor=white)](https://react.dev/)
@@ -22,7 +22,7 @@
 
 Reading translations is like watching a movie described over the phone—you get the plot, but miss the soul.
 
-**PRAVIEL** teaches you to read Homer, Plato, and the *Bhagavad-Gītā* as they were written. From Sumerian cuneiform (3100 BCE) to medieval manuscripts (1200 CE), we're making 42 ancient languages accessible through modern AI while maintaining research-grade accuracy.
+**PRAVIEL** teaches you to read Homer, Plato, and the *Bhagavad-Gītā* as they were written. From Sumerian cuneiform (3100 BCE) to medieval manuscripts (1200 CE), we're making 46 ancient languages accessible through modern AI while maintaining research-grade accuracy.
 
 This repo is the **marketing website**. For the main platform (Python/FastAPI + Flutter), see [antonsoo/praviel](https://github.com/antonsoo/praviel).
 
@@ -32,7 +32,7 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 
 - 🏛️ **Ancient civilization theme** anchored in Egyptian gold + lapis gradients with pure-CSS noise (no client canvas).
 - 🧠 **Server-rendered hero + Suspense gating** so the critical copy streams instantly while heavy demos hydrate only on user intent.
-- 🌍 **Interactive language showcase** featuring the 42-language roadmap with authentic samples and writing-system notes.
+- 🌍 **Interactive language showcase** featuring the 46-language roadmap with authentic samples and writing-system notes.
 - 📚 **Lessons + Reader demos** powered by canonical excerpts (Iliad 1.1, Torah, etc.) and deterministic fixtures for testing.
 - 🗺️ **How It Works** 4-step journey plus comparison table that explain the neuro-symbolic stack to prospective funders.
 - ❓ **Comprehensive FAQ** covering licensing, pedagogy, BYOK deployments, and school partnerships.
