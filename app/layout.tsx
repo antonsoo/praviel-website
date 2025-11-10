@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { cacheLife } from "next/cache";
-import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import AncientBackground from "@/components/AncientBackground";
@@ -10,6 +9,7 @@ import ClientEnhancements from "@/components/ClientEnhancements";
 import SmoothScroll from "@/components/SmoothScroll";
 import CookieConsent from "@/components/CookieConsent";
 import AnalyticsConsentGate from "@/components/AnalyticsConsentGate";
+import PlausibleAnalytics from "@/components/PlausibleAnalytics";
 import { fontVariables } from "@/lib/fonts";
 import { publicEnv } from "@/lib/env";
 
@@ -125,21 +125,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
-      <head>
-        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
-            Using custom proxy through our domain to avoid ad blockers */}
-        <Script
-          defer
-          data-domain="praviel.com"
-          data-api="/api/proxy/api/event"
-          src="/api/proxy/js/script.js"
-          strategy="afterInteractive"
-        />
-      </head>
       <body
         className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
         style={{ paddingTop: "var(--safe-area-top)" }}
       >
+        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
+            Using custom proxy through our domain to avoid ad blockers
+            Must be a client component to work with Next.js Script strategy */}
+        <PlausibleAnalytics />
 
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
@@ -160,8 +153,8 @@ export default async function RootLayout({
           sampleRate={publicEnv.NEXT_PUBLIC_ANALYTICS_SAMPLE_RATE}
         />
 
-        {/* Structured data for SEO */}
-        <Script
+        {/* Structured data for SEO - using regular script tag in server component */}
+        <script
           id="structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(_structuredData) }}
