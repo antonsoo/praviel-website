@@ -173,12 +173,6 @@
   .font-maya {
     font-family: var(--font-maya, "Noto Sans Maya Numerals", "Segoe UI Historic", serif);
   }
-
-  .content-visibility-auto {
-    content-visibility: auto;
-    contain: layout paint style size;
-    contain-intrinsic-size: 600px 800px;
-  }
 }
 
 @layer components {

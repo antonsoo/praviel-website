@@ -49,7 +49,7 @@ const metrics = [
 
 export default function TractionBar() {
   return (
-    <section className="relative px-6 py-16 overflow-hidden content-visibility-auto" aria-label="Platform metrics">
+    <section className="relative px-6 py-16 overflow-hidden" aria-label="Platform metrics">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#D4AF37]/5 via-[#3b82f6]/5 to-[#D4AF37]/5" />
 
       <div className="relative z-10 mx-auto max-w-7xl">

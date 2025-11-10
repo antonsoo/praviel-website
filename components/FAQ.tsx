@@ -3,7 +3,7 @@ import { faqEntries } from "@/lib/canonicalCopy";
 export default function FAQ() {
   return (
     <section
-      className="relative overflow-hidden px-6 py-24 content-visibility-auto sm:py-32"
+      className="relative overflow-hidden px-6 py-24 sm:py-32"
       aria-labelledby="faq-title"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#CD5C5C]/6 to-transparent" />

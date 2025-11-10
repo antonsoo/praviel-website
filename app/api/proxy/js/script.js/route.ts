@@ -1,6 +1,10 @@
 // Plausible Analytics script proxy
 // This proxies the Plausible script through our domain to avoid ad blockers
 
+// Prevent Next.js 16 from trying to prerender this API route during build
+// The route needs to fetch fresh data at runtime, not during static generation
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const response = await fetch('https://plausible.io/js/script.js', {

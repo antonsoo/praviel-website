@@ -1,7 +1,7 @@
 export default function PrivacyFirst() {
   return (
     <section
-      className="relative overflow-hidden px-6 py-24 sm:py-32 content-visibility-auto"
+      className="relative overflow-hidden px-6 py-24 sm:py-32"
       aria-labelledby="privacy-title"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#3b82f6]/8 to-transparent" />

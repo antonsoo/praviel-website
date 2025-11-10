@@ -67,7 +67,7 @@ export default function FeatureGrid() {
   return (
     <section
       id="features"
-      className="relative z-10 px-6 py-16 sm:py-24 content-visibility-auto md:py-32"
+      className="relative z-10 px-6 py-16 sm:py-24 md:py-32"
       aria-labelledby="features-title"
     >
       <div className="mx-auto max-w-5xl mb-12 text-center space-y-4">

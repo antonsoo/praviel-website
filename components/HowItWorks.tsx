@@ -68,7 +68,7 @@ const steps = [
 export default function HowItWorks() {
   return (
     <section
-      className="relative overflow-hidden px-6 py-24 content-visibility-auto sm:py-32"
+      className="relative overflow-hidden px-6 py-24 sm:py-32"
       aria-labelledby="workflow-title"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1e40af]/8 to-transparent" />

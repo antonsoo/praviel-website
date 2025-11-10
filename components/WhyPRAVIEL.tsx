@@ -4,7 +4,7 @@ import GreekKeyBorder from "@/components/GreekKeyBorder";
 export default function WhyPRAVIEL() {
   return (
     <section
-      className="relative px-6 py-16 sm:py-24 md:py-32 overflow-hidden content-visibility-auto"
+      className="relative px-6 py-16 sm:py-24 md:py-32 overflow-hidden"
       aria-labelledby="why-praviel-title"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#E8C55B]/8 to-transparent" />
