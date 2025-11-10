@@ -76,7 +76,7 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
     title: "Phase 3 · Native Mobile Apps",
     timeframe: "Alpha Launching Now",
     summary:
-      "Native iOS and Android apps with full offline support, embedded lexicons for all 42+ languages, community features for sharing annotations, and collaborative tools for classrooms and research groups. Take your ancient language studies anywhere with native mobile performance.",
+      "Native iOS and Android apps with full offline support, embedded lexicons for all 46+ languages, community features for sharing annotations, and collaborative tools for classrooms and research groups. Take your ancient language studies anywhere with native mobile performance.",
     accent: "from-[#a855f7]/25 to-[#f472b6]/25",
     note: "Alpha versions launching this week (Android) and next week (iOS). Full public release coming soon with complete offline mode.",
     languages: [],
