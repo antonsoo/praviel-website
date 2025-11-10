@@ -125,19 +125,19 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
-      <head>
-        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies */}
+      <body
+        className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
+        style={{ paddingTop: "var(--safe-area-top)" }}
+      >
+        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
+            Note: Script component must be in body, not head in Next.js App Router */}
         <Script
           defer
           data-domain="praviel.com"
           src="https://plausible.io/js/script.js"
           strategy="afterInteractive"
         />
-      </head>
-      <body
-        className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
-        style={{ paddingTop: "var(--safe-area-top)" }}
-      >
+
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
 
