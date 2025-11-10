@@ -2,8 +2,348 @@
 
 **HONEST STATUS**: Site works, but has critical performance and monitoring gaps that block investor readiness.
 
-**Last Updated**: 2025-11-10 (17:00 UTC)
+**Last Updated**: 2025-11-10 (18:00 UTC)
 **Latest Deployment**: https://praviel-site.antonnsoloviev.workers.dev (version: d30a067c-67c7-4341-98a8-d4c68af66a03)
+
+---
+
+## 🚀 NEXT SESSION - DO THESE FIRST (Priority Order)
+
+### 1️⃣ FIX BLOG HYDRATION ERROR (15 minutes) - P0 BLOCKER
+
+**Problem**: Blog post loads, then 404 after 1 second. Gets worse over time.
+
+**Solution**:
+```typescript
+// File: app/blog/page.tsx
+// ADD these two lines at the top (after imports):
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
+// File: app/blog/[slug]/page.tsx
+// ADD the same two lines
+export const dynamic = 'force-static'
+export const dynamicParams = false
+```
+
+**Why**: Forces pure static generation. Prevents client-side re-evaluation that causes hydration mismatch.
+
+**Test**:
+1. Deploy changes
+2. Open https://praviel-site.antonnsoloviev.workers.dev/blog
+3. Click blog post
+4. Watch for 1 second - should NOT disappear
+5. Navigate back, click again - should work every time
+
+**Expected Result**: Blog post loads and STAYS visible. No 404.
+
+---
+
+### 2️⃣ INSTALL PLAUSIBLE ANALYTICS (15 minutes) - P0 BLOCKER
+
+**Why**: Zero analytics = can't answer investor questions about traction.
+
+**Steps**:
+1. Sign up at https://plausible.io ($9/month)
+2. Add domain: `praviel.com`
+3. Get script snippet from dashboard
+4. Add to `app/layout.tsx`:
+
+```typescript
+// File: app/layout.tsx
+// Add after other Script imports
+import Script from 'next/script'
+
+// In the <body> or <head>, add:
+<Script
+  defer
+  data-domain="praviel.com"
+  src="https://plausible.io/js/script.js"
+/>
+```
+
+5. Deploy
+6. Visit site, check Plausible dashboard for real-time view
+7. Verify pageviews are tracked
+
+**Expected Result**: Plausible dashboard shows real-time visitor data.
+
+---
+
+### 3️⃣ TEST VIDEO PERFORMANCE (30 minutes) - P0 CRITICAL
+
+**Why**: Videos likely add +1.2s to LCP (research shows). Current LCP: 4.26s → could be 5.5s with videos.
+
+**Steps**:
+```bash
+# Run Lighthouse audit
+pnpm lighthouse https://praviel-site.antonnsoloviev.workers.dev
+
+# Check LCP score
+# If LCP > 4.5s, videos are hurting performance
+```
+
+**Decision Tree**:
+- **If LCP < 4.3s**: Videos are fine, keep them ✅
+- **If LCP 4.3-4.5s**: Videos are marginal, consider removing ⚠️
+- **If LCP > 4.5s**: Videos are killing performance, REMOVE them ❌
+
+**If removing videos**:
+```typescript
+// File: components/HeroSection.tsx
+// DELETE the <video> elements (lines 11-51)
+// KEEP the static Image fallbacks (lines 53-71)
+// Videos will show as static posters instead
+```
+
+**Expected Result**: Know if videos hurt or help. Make data-driven decision.
+
+---
+
+### 4️⃣ ASK USER ABOUT LANGUAGE AVAILABILITY (5 minutes) - P0
+
+**Ask user these exact questions**:
+
+1. **Which Phase 2 languages have texts ready RIGHT NOW?**
+   - Classical Armenian?
+   - Hittite?
+   - Old Egyptian (Old Kingdom)?
+   - Avestan?
+   - Classical Nahuatl?
+   - Classical Tibetan?
+   - Old Japanese?
+   - Classical Quechua?
+   - Middle Persian (Pahlavi)?
+   - Old Irish?
+   - Gothic?
+   - Geʽez?
+   - Sogdian?
+   - Ugaritic?
+   - Tocharian A & B?
+
+2. **Which Phase 3 languages have texts ready RIGHT NOW?**
+   - Old Turkic (Orkhon)?
+   - Etruscan?
+   - Proto-Norse (Elder Futhark)?
+   - Runic Old Norse (Younger Futhark)?
+   - Old Persian (Ariya)?
+   - Elamite?
+   - Classic Maya (Chʼoltiʼ)?
+   - Phoenician (Canaanite)?
+   - Moabite?
+   - Punic (Carthaginian)?
+
+3. **Are all lesson types (grammar, vocabulary, cultural context) ready for Phase 1 languages?**
+
+**Expected Result**: Know exactly which languages to list as "Available Now" vs "Coming Soon".
+
+---
+
+### 5️⃣ UPDATE ROADMAP (20 minutes) - P1
+
+**Based on user's answer to #4, update roadmap to show reality**:
+
+```typescript
+// File: lib/languageRoadmap.ts
+
+// Option A: If most texts exist NOW
+Phase 1: "46 Languages Available Now"
+Phase 2: "Advanced Features - Q1 2026" (video lessons, photo exercises)
+Phase 3: "Mobile Apps - H2 2026" (iOS, Android)
+
+// Option B: If only some Phase 2/3 are ready
+Phase 1: "Core Languages - Available Now" (16 + ready Phase 2/3 languages)
+Phase 2: "Expanding Coverage - Q1 2026" (remaining languages)
+Phase 3: "Mobile Apps - H2 2026"
+```
+
+**Why**: User is moving MUCH faster than roadmap shows. Show aggressive progress.
+
+**Expected Result**: Roadmap accurately reflects what's available TODAY.
+
+---
+
+### 6️⃣ DE-EMPHASIZE BYOK MORE (15 minutes) - P1
+
+**User's feedback**: "BYOK confuses common man. Make it a footnote for power users."
+
+**Current copy** (too prominent):
+> "Choose how you access AI features: use our simple membership plans for hassle-free learning, bring your own API keys for maximum control..."
+
+**New copy** (membership-first):
+```typescript
+// File: components/PrivacyFirst.tsx (lines 38-43)
+
+// Change title to:
+<h3>Hassle-Free Learning</h3>
+
+// Change body to:
+<p>
+  Start learning immediately with our simple membership plans.
+  AI features work out of the box, your progress syncs across devices,
+  and you can focus on learning—not API configuration.
+</p>
+
+// Add small footnote at bottom:
+<p className="text-xs text-zinc-500 mt-2">
+  *Advanced users: Bring your own API keys for maximum control
+</p>
+```
+
+**Expected Result**: Memberships front and center. BYOK as small footnote.
+
+---
+
+### 7️⃣ ENABLE SENTRY ERROR MONITORING (15 minutes) - P1
+
+**Why**: Currently flying blind. Don't know when errors happen in production.
+
+**Steps**:
+1. Get Sentry DSN (already have account)
+2. Add to `.env.local`:
+```bash
+NEXT_PUBLIC_SENTRY_DSN=https://YOUR_KEY@sentry.io/YOUR_PROJECT
+SENTRY_AUTH_TOKEN=your_auth_token
+```
+
+3. Add to Cloudflare Workers environment:
+   - Go to Cloudflare Dashboard
+   - Workers & Pages → praviel-site → Settings → Variables
+   - Add `NEXT_PUBLIC_SENTRY_DSN` and `SENTRY_AUTH_TOKEN`
+
+4. Redeploy
+5. Test by triggering an error (e.g., visit non-existent page)
+6. Check Sentry dashboard for error report
+
+**Expected Result**: Errors tracked in Sentry. Get real-time notifications.
+
+---
+
+### 8️⃣ ADD ERROR BOUNDARIES TO ALL PAGES (30 minutes) - P1
+
+**Current**: Only blog has error boundary
+
+**Missing**:
+- Homepage (`app/page.tsx`)
+- Privacy page (`app/privacy/page.tsx`)
+- Fund page (`app/fund/page.tsx`)
+
+**Steps**:
+```bash
+# Copy existing error boundary template
+cp app/blog/error.tsx app/error.tsx
+cp app/blog/error.tsx app/privacy/error.tsx
+cp app/blog/error.tsx app/fund/error.tsx
+```
+
+**Customize each** with appropriate messaging:
+```typescript
+// app/error.tsx
+<h2>Something went wrong on the homepage</h2>
+
+// app/privacy/error.tsx
+<h2>Error loading privacy policy</h2>
+
+// app/fund/error.tsx
+<h2>Error loading funding page</h2>
+```
+
+**Expected Result**: Graceful error handling on all pages.
+
+---
+
+### 9️⃣ PRELOAD HERO FONTS (10 minutes) - P1
+
+**Why**: Hero fonts not preloaded = ~500ms delay in LCP.
+
+**Steps**:
+```typescript
+// File: lib/fonts.ts
+// Find notoSerifDisplay definition
+// Change preload to true:
+
+const notoSerifDisplay = localFont({
+  // ... existing config
+  preload: true, // ← CHANGE THIS from false to true
+})
+```
+
+**Expected Result**: Fonts load faster, LCP improves by ~500ms.
+
+---
+
+### 🔟 RUN FULL VERIFICATION (30 minutes) - P1
+
+**After completing steps 1-9, verify everything works**:
+
+**Checklist**:
+```bash
+# 1. Type checking
+pnpm typecheck
+
+# 2. Linting
+pnpm lint
+
+# 3. Production build
+pnpm build
+
+# 4. Deploy
+SKIP_OBSERVABILITY_CHECK=true pnpm run deploy
+
+# 5. Test in browser
+# - Open https://praviel-site.antonnsoloviev.workers.dev
+# - Navigate: Home → Blog → Post → Back
+# - Check: No 404, no errors
+# - Check: Plausible tracking works
+# - Check: Videos load (or static images if removed)
+
+# 6. Run Lighthouse
+pnpm lighthouse https://praviel-site.antonnsoloviev.workers.dev
+
+# 7. Check metrics
+# - LCP: Should be < 4.5s (ideally < 3.5s without videos)
+# - Performance: Should be 85+
+# - CLS: Should be 0.0
+# - Accessibility: Should be 95+
+```
+
+**Expected Result**: Everything passes. Site is faster and monitored.
+
+---
+
+## ✅ SUCCESS CRITERIA
+
+After completing all 10 tasks above, you should have:
+
+✅ **Blog works reliably** - No more 404s, loads every time
+✅ **Analytics enabled** - Can answer investor questions about traction
+✅ **Video decision made** - Keep (if fast) or remove (if slow)
+✅ **Roadmap updated** - Shows actual language availability
+✅ **BYOK de-emphasized** - Memberships front and center
+✅ **Error monitoring** - Know when things break
+✅ **Error boundaries** - Graceful failures everywhere
+✅ **Better performance** - Fonts preloaded, LCP improved
+
+---
+
+## 📊 INVESTOR READINESS STATUS
+
+**Before these tasks**:
+- ❌ Blog broken (404 errors)
+- ❌ No analytics (can't prove traction)
+- ❌ No monitoring (flying blind)
+- ❌ Performance unknown (videos untested)
+
+**After these tasks**:
+- ✅ Blog works reliably
+- ✅ Analytics tracking (Plausible)
+- ✅ Error monitoring (Sentry)
+- ✅ Performance measured and optimized
+- ✅ Roadmap shows actual progress
+- ✅ Copy focused on mainstream users
+
+**Time Investment**: ~3 hours total
+**Impact**: Site becomes investor-ready
 
 ---
 
