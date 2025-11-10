@@ -116,14 +116,15 @@ Concise, actionable items only. Remove completed items immediately.
 
 ## 📋 NICE-TO-HAVE (Backlog)
 
-- [ ] Add keyboard shortcuts for power users
-- [ ] Implement dark mode toggle
-- [ ] Add print stylesheet for blog posts
+- [ ] Add keyboard shortcuts for power users (e.g., `/` for search, `esc` to close modals)
+- [ ] Add print stylesheet for blog posts (clean, readable print version)
 - [ ] Create interactive language demos/lessons
-- [ ] Add filtering by script type (alphabetic, logographic, etc.)
-- [ ] Improve accessibility (WCAG 2.1 AA compliance)
+- [ ] Add filtering by script type (alphabetic, logographic, abjad, etc.)
+- [ ] Improve accessibility (WCAG 2.1 AA compliance - keyboard nav, screen readers)
 - [ ] Add structured data for better SEO (already have blog article markup)
 - [ ] Create video tutorials for language learning
+- [ ] Add language comparison tool (show multiple languages side-by-side)
+- [ ] Implement saved favorites/bookmarks for languages
 
 ---
 
