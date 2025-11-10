@@ -32,8 +32,8 @@ const recurringPlatforms: Platform[] = [
   {
     name: "Patreon",
     description:
-      "patreon.com/AntonSoloviev — monthly pledges unlock roadmap briefings, AMAs, and quarterly philology workshops.",
-    url: "https://www.patreon.com/AntonSoloviev",
+      "patreon.com/PRAVIEL — monthly pledges unlock roadmap briefings, AMAs, and quarterly philology workshops.",
+    url: "https://www.patreon.com/PRAVIEL",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
         <path d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524M.003 23.537h4.22V.524H.003" />
@@ -48,7 +48,7 @@ const recurringPlatforms: Platform[] = [
     name: "Open Collective",
     description:
       "Transparent ledger for labs, DAOs, and universities. Every manuscript acquisition and GPU hour is itemized.",
-    url: "https://opencollective.com/antonsoloviev",
+    url: "https://opencollective.com/praviel",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none">
         <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth={2} />
@@ -75,6 +75,20 @@ const recurringPlatforms: Platform[] = [
     hoverBg: "hover:bg-amber-500/5",
     hoverBorder: "hover:border-amber-400/30",
   },
+  {
+    name: "Ko-fi",
+    description: "ko-fi.com/PRAVIEL — monthly memberships and one-time tips to fund OCR sprints or digitization trips.",
+    url: "https://ko-fi.com/PRAVIEL",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
+        <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" />
+      </svg>
+    ),
+    color: "from-cyan-500 to-sky-500",
+    ringColor: "ring-cyan-500/40",
+    hoverBg: "hover:bg-cyan-500/5",
+    hoverBorder: "hover:border-cyan-400/30",
+  },
 ];
 
 const oneTimePlatforms: Platform[] = [
@@ -94,23 +108,9 @@ const oneTimePlatforms: Platform[] = [
     hoverBorder: "hover:border-purple-400/30",
   },
   {
-    name: "Ko-fi",
-    description: "ko-fi.com/antonsoloviev — fund the next OCR sprint or digitization trip.",
-    url: "https://ko-fi.com/antonsoloviev",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
-        <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" />
-      </svg>
-    ),
-    color: "from-cyan-500 to-sky-500",
-    ringColor: "ring-cyan-500/40",
-    hoverBg: "hover:bg-cyan-500/5",
-    hoverBorder: "hover:border-cyan-400/30",
-  },
-  {
-    name: "PayPal · Anton",
-    description: "Direct PayPal.me/AntonS0 link for individuals covering manuscripts or travel.",
-    url: "https://paypal.me/AntonS0",
+    name: "PayPal",
+    description: "Direct PayPal contribution for individuals and institutions supporting the project.",
+    url: "https://www.paypal.com/ncp/payment/PY77DTBNL5D88",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
         <path d="M6.5 3A3.5 3.5 0 0 0 3 6.5v11A3.5 3.5 0 0 0 6.5 21h11a3.5 3.5 0 0 0 3.5-3.5v-11A3.5 3.5 0 0 0 17.5 3h-11Zm3.25 4.5h4.5a2.25 2.25 0 0 1 0 4.5h-2.5V16H9.75V7.5Zm2 2v1.5h2a.75.75 0 0 0 0-1.5h-2Z" />
@@ -120,21 +120,6 @@ const oneTimePlatforms: Platform[] = [
     ringColor: "ring-sky-500/40",
     hoverBg: "hover:bg-sky-500/5",
     hoverBorder: "hover:border-sky-400/30",
-  },
-  {
-    name: "PayPal · Ancient Languages App",
-    description:
-      "Departmental PayPal channel for institutions that need receipts under the project name.",
-    url: "https://paypal.me/ancientlanguagesapp",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
-        <path d="M12 2c-5.523 0-10 3.806-10 8.5S6.477 19 12 19c1.343 0 2.63-.205 3.807-.586l4.033 3.272c.676.549 1.66-.144 1.33-.94l-1.777-4.224C20.53 15.024 22 12.888 22 10.5 22 5.806 17.523 2 12 2Zm-2 5.5h4.5a2.5 2.5 0 0 1 0 5h-2V16H10V7.5Zm2 1.5v1.5h2a.75.75 0 0 0 0-1.5h-2Z" />
-      </svg>
-    ),
-    color: "from-indigo-500 to-blue-600",
-    ringColor: "ring-indigo-500/40",
-    hoverBg: "hover:bg-indigo-500/5",
-    hoverBorder: "hover:border-indigo-400/30",
   },
 ];
 
