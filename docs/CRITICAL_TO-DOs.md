@@ -2,7 +2,7 @@
 
 Concise, actionable items only. Remove completed items immediately.
 
-**Last Updated**: 2025-11-10 (03:30 UTC)
+**Last Updated**: 2025-11-10 (04:15 UTC)
 
 ---
 
@@ -42,24 +42,88 @@ Concise, actionable items only. Remove completed items immediately.
 
 ---
 
-## ⚠️ PENDING WORK
+## 🚨 BLOCKING PRODUCTION/INVESTOR READINESS
 
-### Performance Optimization (Current: 81/100)
-- [ ] Improve LCP from 4.25s to <2.5s (partially blocked by OpenNext Cloudflare TTFB issues)
-- [ ] Optimize video background loading/preloading
-- [ ] Review font loading strategy (preload critical fonts)
-- [ ] Consider lazy loading for below-fold content
+### 🔴 P0 - Critical (Do Before Any Investor Demo)
+- [ ] **Add Real User Monitoring (RUM)**
+  - Enable Sentry performance monitoring (already configured)
+  - Add web-vitals reporting to track real user LCP/CLS/INP
+  - WHY: Need metrics to prove product-market fit to investors
+  - IMPACT: Can't pitch without data
 
-### Testing & QA
-- [ ] Test AllLanguagesList component with all 46 languages (show more button, animations)
-- [ ] Verify video backgrounds work properly on mobile and desktop
-- [ ] Verify CSS animations work smoothly on mobile
-- [ ] Test keyboard navigation and screen reader compatibility
+- [ ] **Optimize LCP to < 3.0s** (Current: 4.26s)
+  - Try native `<img>` with `fetchpriority="high"` instead of Next/Image for hero poster
+  - Inline critical CSS (above-the-fold styles)
+  - Remove unused CSS from bundle
+  - WHY: 4.26s vs 2.5s target = ~17% conversion loss (~$170K/year at $1M ARR target)
+  - REALISTIC TARGET: 3.0s (accounting for 1.5s TTFB we can't control)
 
-### UX Improvements
-- [ ] Consider adding search/filter to language list
-- [ ] Consider grouping languages by family/region
-- [ ] Ensure mobile experience is smooth and engaging
+- [ ] **Add Analytics & Conversion Tracking**
+  - Set up Google Analytics 4 or Plausible
+  - Track: Homepage → Blog, Homepage → Language List, CTA clicks
+  - WHY: Need conversion funnel data for investor pitch
+  - IMPACT: Can't prove traction without metrics
+
+---
+
+## ⚠️ P1 - High Priority (Do This Week)
+
+### Error Handling & Monitoring
+- [ ] Enable Sentry error tracking in production (already configured)
+- [ ] Add error boundaries to remaining pages (homepage, privacy, fund)
+- [ ] Test error boundary UX on real devices
+
+### Testing & Quality
+- [ ] Add Playwright tests for critical paths:
+  - Homepage loads → CTA visible → clicks work
+  - Blog listing → Post detail → Back navigation
+  - Language showcase → Expand → Language details
+- [ ] Set up Lighthouse CI to prevent performance regressions
+- [ ] Add performance budgets (LCP < 3.0s, bundle < 500KB)
+
+### Mobile Experience
+- [ ] Test on real iOS devices (Safari, Chrome)
+- [ ] Test on real Android devices (Chrome, Samsung Internet)
+- [ ] Verify video poster images render correctly
+- [ ] Test touch interactions and animations
+- [ ] Check for layout shifts on low-end devices
+
+---
+
+## 🟢 P2 - Important (Do This Month)
+
+### Architecture Improvements
+- [ ] Refactor blog system:
+  - Add comprehensive error messages
+  - Consider CMS migration (Contentful, Sanity, or bundle into JS)
+  - Add preview mode for unpublished posts
+  - Document deployment requirements clearly
+
+### Performance Optimization
+- [ ] Audit Tailwind CSS bundle size in production
+- [ ] Implement critical CSS extraction
+- [ ] Revisit `content-visibility` with proper `contain-intrinsic-size`
+- [ ] Optimize font subsetting (only include glyphs actually used)
+- [ ] Add resource hints (`preconnect`, `dns-prefetch`) for external domains
+
+### UX Polish
+- [ ] Add search/filter to language list (46 languages = overwhelming)
+- [ ] Group languages by family/region/time period
+- [ ] Add "Recently Viewed" or "Popular" language badges
+- [ ] Improve mobile touch targets (ensure 44x44px minimum)
+
+---
+
+## 📋 NICE-TO-HAVE (Backlog)
+
+- [ ] Add keyboard shortcuts for power users
+- [ ] Implement dark mode toggle
+- [ ] Add print stylesheet for blog posts
+- [ ] Create interactive language demos/lessons
+- [ ] Add filtering by script type (alphabetic, logographic, etc.)
+- [ ] Improve accessibility (WCAG 2.1 AA compliance)
+- [ ] Add structured data for better SEO (already have blog article markup)
+- [ ] Create video tutorials for language learning
 
 ---
 
@@ -80,8 +144,11 @@ Concise, actionable items only. Remove completed items immediately.
 - Zero CLS (0.000) - excellent layout stability
 
 **Known Issues**:
-- LCP at 4.25s (target: <2.5s) - partially due to OpenNext Cloudflare TTFB issues (1.5s+)
-- Performance score 81/100 - room for improvement but acceptable
+- **LCP at 4.26s** (target: <2.5s, realistic: <3.0s) - partially due to OpenNext Cloudflare TTFB issues (1.5s+)
+- **Performance score 84/100** - improved but not excellent
+- **No analytics/monitoring** - CRITICAL for investor readiness
+- **No automated tests** - increases maintenance risk
+- **Blog system fragile** - better error handling added, but architecture needs rework
 
 ---
 
