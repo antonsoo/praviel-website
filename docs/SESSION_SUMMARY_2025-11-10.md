@@ -43,9 +43,12 @@ Completed **7 major improvements** to the PRAVIEL website, fixing all P0 blocker
 **Changes**:
 - Phase 1: 16 → **24 languages "Available Now"** (+50% increase!)
 - Added 8 ready languages: Classical Armenian, Hittite, Old Egyptian, Avestan, Old Turkic, Etruscan, Proto-Norse, Old Persian
-- Phase 3: Mobile apps "End of 2025" (not H2 2026 - 6 weeks away!)
-**Files Modified**: `lib/languageRoadmap.ts`
-**Impact**: Shows aggressive development pace = investor confidence
+- Phase 3: **Mobile apps alpha launching THIS WEEK** (Android this week, iOS next week!)
+  - Originally showed "H2 2026"
+  - Then corrected to "End of 2025"
+  - **ACTUAL REALITY**: Alpha versions launching NOW (November 2025)
+**Files Modified**: `lib/languageRoadmap.ts`, `components/HeroSection.tsx`
+**Impact**: Shows **explosive** development pace = massive investor confidence
 
 #### 5. BYOK Copy - DE-EMPHASIZED ✅
 **User Feedback**: "BYOK confuses common man... it's for power users"

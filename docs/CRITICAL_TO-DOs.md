@@ -30,8 +30,9 @@
 4. ✅ **Roadmap Updated to Reality** (lib/languageRoadmap.ts)
    - Phase 1: **16 → 24 languages "Available Now"**
    - Added 8 ready languages: Classical Armenian, Hittite, Old Egyptian, Avestan, Old Turkic, Etruscan, Proto-Norse, Old Persian
-   - Phase 3: Mobile apps **"End of 2025"** (not H2 2026!)
-   - Shows aggressive development pace
+   - Phase 3: **Mobile apps alpha launching THIS WEEK!** (Android this week, iOS next week)
+     - Originally: "H2 2026" → Corrected to "End of 2025" → **ACTUAL: November 2025 (NOW!)**
+   - Shows **explosive** development pace (mobile apps 12+ months ahead of original schedule)
 
 5. ✅ **BYOK De-emphasized** (components/PrivacyFirst.tsx:38-46)
    - Title: "Flexible AI Options" → "Hassle-Free Learning"

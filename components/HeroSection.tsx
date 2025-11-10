@@ -86,7 +86,7 @@ export default function HeroSection() {
         <div className="pt-4">
           <PrimaryCTA />
           <p className="mt-4 text-sm text-zinc-500">
-            Web app available now • iOS & Android coming soon
+            Web app available now • iOS & Android alpha launching this week
           </p>
         </div>
       </div>
