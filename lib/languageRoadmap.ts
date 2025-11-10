@@ -12,11 +12,15 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   {
     id: "phase-1",
     title: "Phase 1 · Available Now",
-    timeframe: "24 Languages Live",
+    timeframe: "28 Languages Live",
     summary:
-      "Comprehensive learning platform for foundational ancient languages. Each language includes: interactive reader with morphology, grammar lessons, vocabulary drills with spaced repetition, AI tutors trained on primary sources, cultural and historical context, and curated canonical texts. Not just a reader—a complete learning system.",
+      "Comprehensive learning platform for foundational ancient languages, including our 4 flagship languages (Classical Latin, Koine Greek, Classical Greek, Biblical Hebrew) plus 24 additional languages. Each language includes: interactive reader with morphology, grammar lessons, vocabulary drills with spaced repetition, AI tutors trained on primary sources, cultural and historical context, and curated canonical texts. Not just a reader—a complete learning system.",
     accent: "from-[#E8C55B]/40 to-[#3b82f6]/30",
     languages: [
+      "Classical Latin",
+      "Koine Greek",
+      "Classical Greek",
+      "Biblical Hebrew",
       "Classical Sanskrit",
       "Classical Chinese",
       "Pali",

@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PRAVIEL — Read the Originals, Not the Translations",
     description:
-      "When you read Homer in English, you're reading the translator—not Homer. Learn to read authentic ancient texts in Latin, Greek, Hebrew, Sanskrit, and 17 more languages.",
+      "When you read Homer in English, you're reading the translator—not Homer. Learn to read authentic ancient texts in Latin, Greek, Hebrew, Sanskrit, and 41 more languages.",
     url: "https://praviel.com",
     siteName: "PRAVIEL",
     images: [
