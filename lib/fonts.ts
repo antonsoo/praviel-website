@@ -36,7 +36,7 @@ const notoSerifDisplay = localFont({
   variable: "--font-display-serif",
   display: "swap",
   fallback: ["Georgia", "Times New Roman", "serif"],
-  preload: false,
+  preload: true, // Preload hero fonts for LCP optimization
 });
 
 const notoSerifGreek = localFont({

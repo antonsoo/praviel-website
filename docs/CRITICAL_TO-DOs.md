@@ -14,6 +14,14 @@ Concise, actionable items only. Remove completed items immediately.
 - ✓ **Deployed to Production** - Both fixes verified working on https://praviel-site.antonnsoloviev.workers.dev
 - ✓ **Performance Audit** - Lighthouse score: 81/100 (LCP: 4.25s, CLS: 0.000)
 
+### P0 Improvements (DEPLOYED: 58711e84-c950-4a75-8e61-d208bee3b227)
+- ✓ **Preloaded Hero Fonts** - Changed `notoSerifDisplay` to `preload: true` for LCP optimization
+- ✓ **Added Loading States** - Created `app/loading.tsx` with skeleton screens for better perceived performance
+- ✓ **Added Error Boundary** - Created `app/blog/error.tsx` with proper error handling and user-friendly messaging
+- ✓ **Improved Blog Robustness** - Added try-catch blocks, validation, and logging to `lib/blog.ts`
+- ✓ **Performance Improvement** - Lighthouse score: 84/100 (+3 points from 81/100)
+- ✓ **LCP Status** - 4.26s (unchanged - bottleneck is OpenNext Cloudflare TTFB ~1.5s)
+
 ### Major Accomplishments (Previous Session)
 - ✓ **Added all 26 remaining languages to languageData.ts** (now 46 total)
   - Phase 2: 16 languages (Classical Armenian, Hittite, Old Egyptian, Avestan, Classical Nahuatl, Classical Tibetan, Old Japanese, Classical Quechua, Middle Persian, Old Irish, Gothic, Geʽez, Sogdian, Ugaritic, Tocharian A & B)
@@ -77,4 +85,6 @@ Concise, actionable items only. Remove completed items immediately.
 
 ---
 
-*Latest Deployment: https://praviel-site.antonnsoloviev.workers.dev (version: ac73b7bd-6faa-4fb0-b204-f303762c30e5)*
+*Latest Deployment: https://praviel-site.antonnsoloviev.workers.dev (version: 58711e84-c950-4a75-8e61-d208bee3b227)*
+
+**Critical Analysis Document**: See [CRITICAL_ANALYSIS.md](CRITICAL_ANALYSIS.md) for comprehensive multi-perspective evaluation.
