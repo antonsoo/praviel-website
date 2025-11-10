@@ -1,9 +1,11 @@
 # Critical To-Dos
 
-**HONEST STATUS**: Major improvements completed! Site is now investor-ready with analytics, accurate roadmap, and identified performance bottleneck (OpenNext TTFB).
+**CRITICAL UPDATE**: Self-review revealed Plausible Analytics NOT actually working despite claims. See detailed findings below.
 
-**Last Updated**: 2025-11-10 (20:30 UTC)
-**Latest Deployment**: https://praviel-site.antonnsoloviev.workers.dev (version: 66aa9af7-3e39-4425-b796-d9469c2cf6f1)
+**HONEST STATUS**: Blog fixed ✅, Roadmap updated ✅, BUT Analytics broken ❌ and "46 languages" claim incorrect ⚠️
+
+**Last Updated**: 2025-11-10 (22:45 UTC)
+**Latest Deployment**: https://praviel-site.antonnsoloviev.workers.dev (version: a753adf8-89b4-429f-baeb-240d06c9b9cf)
 
 ---
 
@@ -83,23 +85,142 @@ TTFB: 1.38s  # ← THIS is why LCP is slow!
 
 ---
 
-## 🚀 NEXT SESSION - DO THESE FIRST (Priority Order)
+## 🚨 CRITICAL BUGS DISCOVERED (2025-11-10 Evening Review)
 
-### 1️⃣ ENABLE PLAUSIBLE ANALYTICS ACCOUNT (5 minutes) - P0
+### Critical Bug #1: Plausible Analytics NOT Working ❌
 
-**Status**: Script already installed in app/layout.tsx:128-136 ✅
+**Problem**: Claimed "installed" but script doesn't render in HTML
+**Evidence**:
+```bash
+$ curl https://praviel-site.antonnsoloviev.workers.dev | grep -i plausible
+# Shows: <link rel="preload" href="https://plausible.io/js/script.js" as="script"/>
+# Missing: Actual <script defer data-domain="praviel.com" src="..."></script>
+```
 
-**ACTION REQUIRED**: Complete Plausible account setup
-1. Sign up at https://plausible.io ($9/month)
-2. Add domain: `praviel.com`
-3. Visit https://praviel-site.antonnsoloviev.workers.dev
-4. Check Plausible dashboard - pageviews should appear immediately
+**Root Cause**: Next.js Script component with `strategy="afterInteractive"` not rendering properly in App Router
 
-**Expected Result**: Real-time visitor data in Plausible dashboard
+**Attempted Fixes**:
+1. ❌ Moved from `<head>` to `<body>` - Still doesn't render
+2. ❌ Changed strategy - Still doesn't render
+
+**Next Steps**:
+- Try `next-plausible` npm package (recommended approach for Next.js)
+- OR use metadata/head approach
+- OR create custom analytics client component
+- MUST verify in browser console that `plausible` object exists
+
+**Impact**: ZERO analytics tracking. Cannot prove traction to investors.
 
 ---
 
-### 2️⃣ ENABLE SENTRY ERROR MONITORING (15 minutes) - P1
+### Critical Issue #2: "46 Languages" Claim is Wrong ⚠️
+
+**Current Claims**: Homepage, meta descriptions, multiple components say "46 ancient languages"
+**Actual Count**: Phase 1 (24) + Phase 2 (18) = **42 languages total**
+**Discrepancy**: Off by 4 languages
+
+**Where It Appears**:
+- app/layout.tsx (meta descriptions)
+- components/HeroSection.tsx
+- lib/canonicalCopy.ts
+- README.md
+- Multiple other files (found 13 instances via grep)
+
+**Fix Required**: Global find-replace "46" → "42" OR clarify where the extra 4 came from
+
+**Impact**: Misleading investors/users about product scope
+
+---
+
+## 🚀 NEXT SESSION - DO THESE FIRST (Priority Order)
+
+### 1️⃣ FIX PLAUSIBLE ANALYTICS - CRITICAL ❌ (30 minutes) - P0
+
+**Status**: Script in code but NOT RENDERING in HTML ❌
+
+**Problem**: Next.js Script component not working properly
+**Evidence**: Only shows preload link, no actual script tag
+
+**SOLUTION OPTIONS**:
+
+**Option A: Use next-plausible package** (RECOMMENDED)
+```bash
+pnpm add next-plausible
+```
+```typescript
+// app/layout.tsx
+import PlausibleProvider from 'next-plausible'
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <head>
+        <PlausibleProvider domain="praviel.com" />
+      </head>
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+**Option B: Use Metadata API**
+```typescript
+export const metadata = {
+  // ... existing metadata
+  other: {
+    'plausible-script': 'https://plausible.io/js/script.js',
+  },
+}
+```
+
+**Option C: Client Component**
+Create `components/PlausibleAnalytics.tsx` as "use client" component
+
+**VERIFICATION STEPS**:
+1. Deploy changes
+2. `curl https://praviel-site.antonnsoloviev.workers.dev | grep "plausible"`
+3. Should see: `<script defer data-domain="praviel.com" src="https://plausible.io/js/script.js"></script>`
+4. Open browser console, check `window.plausible` exists
+5. Create Plausible account at https://plausible.io
+6. Add domain: `praviel.com`
+7. Verify real-time tracking works
+
+**Expected Result**: Script actually renders AND executes, tracking works
+
+---
+
+### 2️⃣ FIX "46 LANGUAGES" DISCREPANCY ⚠️ (15 minutes) - P0
+
+**Problem**: Claims "46 ancient languages" but roadmap shows 42 total
+**Count**: Phase 1 (24) + Phase 2 (18) = 42 languages
+**Discrepancy**: 46 ≠ 42 (off by 4)
+
+**Files to Update** (13 instances found):
+- app/layout.tsx (line 20, 62)
+- lib/canonicalCopy.ts (line 70)
+- app/api/page.tsx (lines 7, 11, 38)
+- components/ImpactSection.tsx (line 12)
+- components/FundingHero.tsx (line 43)
+- components/HeroSection.tsx (line 73)
+- README.md (lines 7, 25, 35)
+- components/ComparisonTable.tsx (line 2)
+- components/FeatureGrid.tsx (line 39)
+
+**Fix Options**:
+1. Change all "46" → "42" (if 42 is correct)
+2. Change to "42+ languages" (allows for future additions)
+3. Clarify: "24 available now, 42 total planned"
+
+**Command to verify**:
+```bash
+grep -r "46.*[Ll]anguages?" --include="*.tsx" --include="*.ts" --include="*.md"
+```
+
+**Expected Result**: Accurate, consistent language count across all copy
+
+---
+
+### 3️⃣ ENABLE SENTRY ERROR MONITORING (15 minutes) - P1
 
 **Status**: Configuration already exists in instrumentation.ts, sentry.config.ts ✅
 
