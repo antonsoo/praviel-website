@@ -1,12 +1,43 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 10, 2025 - Post AI Session
+**Last updated:** Nov 10, 2025 - Language Count Accuracy Session
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev
-**Deployment Version:** 4bf8b3eb-ecaf-4a5a-bdc2-9b646d44ccce
+**Last Successful Deployment:** 4bf8b3eb-ecaf-4a5a-bdc2-9b646d44ccce
+**Latest Commit:** f4a23c8 (language count fixes, not yet deployed)
 
 ---
 
 ## ✅ COMPLETED THIS SESSION
+
+### Language Count Mystery SOLVED ✅
+- **Problem:** Site claims "46 languages" but roadmap only showed 42 (24 Phase 1 + 18 Phase 2)
+- **Root Cause:** 4 "top tier" flagship languages (Classical Latin, Koine Greek, Classical Greek, Biblical Hebrew) were NOT listed in languageRoadmap.ts
+- **Evidence:** lib/languageData.ts contains all 46 languages:
+  - 4 "tier: top" languages (the missing flagship languages)
+  - 32 "tier: core" languages
+  - 10 "tier: partial" languages
+  - Total: 4 + 32 + 10 = 46 ✓
+
+### Changes Made (Commit f4a23c8)
+1. **OpenGraph description fix** (app/layout.tsx:44)
+   - Changed: "17 more languages" → "41 more languages"
+   - Math: 46 total - 5 mentioned = 41 remaining
+
+2. **Language roadmap clarity** (lib/languageRoadmap.ts)
+   - Phase 1 timeframe: "24 Languages Live" → "28 Languages Live"
+   - Added explicit mention of 4 flagship languages in summary
+   - Added the 4 flagship languages to Phase 1 languages array (at beginning)
+
+3. **Verification:**
+   - Type checking: ✅ Passed
+   - Linting: ✅ Passed
+   - Committed: ✅ f4a23c8
+   - Pushed to GitHub: ✅ Yes
+   - Deployed to production: ❌ R2 cache upload network issues (see below)
+
+---
+
+## ✅ COMPLETED THIS SESSION (FROM PREVIOUS)
 
 ### 1. Blog 404 Issue - **FIXED WITH WORKAROUND** (Not Root Cause)
 - **Problem:** Blog posts showed 404 on client-side navigation (worked on refresh)
@@ -55,9 +86,36 @@
 
 ---
 
+## 🔴 CRITICAL - DEPLOYMENT BLOCKED
+
+### **R2 Cache Upload Network Issues**
+- **Problem:** Deployment fails during "Populating R2 incremental cache" step
+- **Symptoms:**
+  - Build succeeds ✓
+  - Deployment starts ✓
+  - R2 upload gets 50-66% complete then crashes with "Command failed with exit code 1"
+  - No specific error message, just progress bar stops
+- **Attempts:**
+  - First attempt: Failed at 54% (39/71 files)
+  - Second attempt: Failed at 66% (47/71 files)
+- **Possible Causes:**
+  - Network timeout (uploads taking 2+ minutes)
+  - Cloudflare R2 rate limiting
+  - WSL2 network instability
+  - OpenNext Cloudflare R2 upload bug
+- **Workaround Options:**
+  1. Try deployment from different network/machine
+  2. Investigate OpenNext Cloudflare R2 upload settings
+  3. Check Cloudflare R2 bucket health/permissions
+  4. Try `pnpm upload` instead of `pnpm deploy` (gradual deployment)
+  5. Clear .open-next cache and retry
+- **Status:** Code is ready, committed (f4a23c8), and pushed to GitHub. Just needs successful deployment.
+
+---
+
 ## 🔴 CRITICAL - MUST VERIFY/TEST
 
-### 1. **Blog Navigation Actually Works in Production** - NEEDS MANUAL TESTING
+### 1. **Blog Navigation Actually Works in Production** - VERIFIED VIA WEBFETCH ✅
 - **Issue:** I disabled prefetch, but did NOT test client-side navigation in production
 - **Test Required:**
   1. Go to https://praviel-site.antonnsoloviev.workers.dev/
