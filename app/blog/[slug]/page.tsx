@@ -10,6 +10,7 @@ interface BlogPostPageProps {
 }
 
 // Static generation handled by generateStaticParams + cacheComponents in next.config.ts
+// cacheComponents ensures blog posts are cached and don't cause hydration mismatches
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
   return slugs.map((slug) => ({

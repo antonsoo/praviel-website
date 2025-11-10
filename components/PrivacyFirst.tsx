@@ -35,11 +35,14 @@ export default function PrivacyFirst() {
                 />
               </svg>
             </div>
-            <h3 className="mt-6 text-xl font-semibold text-white">Flexible AI Options</h3>
+            <h3 className="mt-6 text-xl font-semibold text-white">Hassle-Free Learning</h3>
             <p className="mt-3 text-sm leading-relaxed text-zinc-300">
-              Choose how you access AI features: use our simple membership plans for hassle-free learning,
-              bring your own API keys for maximum control, or study entirely offline with embedded lexicons.
-              You decide what works best for you.
+              Start learning immediately with our simple membership plans.
+              AI features work out of the box, your progress syncs across devices,
+              and you can focus on learning—not API configuration.
+            </p>
+            <p className="mt-3 text-xs text-zinc-500">
+              *Advanced users: Bring your own API keys for maximum control
             </p>
           </article>
 

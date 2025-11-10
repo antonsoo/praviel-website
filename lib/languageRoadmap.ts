@@ -11,8 +11,8 @@ export type LanguageRoadmapPhase = {
 export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
   {
     id: "phase-1",
-    title: "Phase 1 · Core Languages",
-    timeframe: "Now Available",
+    title: "Phase 1 · Available Now",
+    timeframe: "24 Languages Live",
     summary:
       "Comprehensive learning platform for foundational ancient languages. Each language includes: interactive reader with morphology, grammar lessons, vocabulary drills with spaced repetition, AI tutors trained on primary sources, cultural and historical context, and curated canonical texts. Not just a reader—a complete learning system.",
     accent: "from-[#E8C55B]/40 to-[#3b82f6]/30",
@@ -33,20 +33,24 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
       "Classical Syriac",
       "Akkadian",
       "Vedic Sanskrit",
+      "Classical Armenian",
+      "Hittite",
+      "Old Egyptian (Old Kingdom)",
+      "Avestan",
+      "Old Turkic (Orkhon)",
+      "Etruscan",
+      "Proto-Norse (Elder Futhark)",
+      "Old Persian (Ariya)",
     ],
   },
   {
     id: "phase-2",
-    title: "Phase 2 · Expanding Coverage",
+    title: "Phase 2 · Enhanced Features",
     timeframe: "Coming Q1 2026",
     summary:
       "Additional ancient languages with the same comprehensive feature set, plus enhanced learning methods: video lessons from historical sites and manuscripts, photo-based exercises with real inscriptions, and advanced AI tutors. Continuing to build complete learning experiences, not simple text readers.",
     accent: "from-[#3b82f6]/30 to-[#a855f7]/25",
     languages: [
-      "Classical Armenian",
-      "Hittite",
-      "Old Egyptian (Old Kingdom)",
-      "Avestan",
       "Classical Nahuatl",
       "Classical Tibetan",
       "Old Japanese",
@@ -59,28 +63,23 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
       "Ugaritic",
       "Tocharian A (Ārśi)",
       "Tocharian B (Kuśiññe)",
-    ],
-  },
-  {
-    id: "phase-3",
-    title: "Phase 3 · Final Languages + Mobile",
-    timeframe: "Coming H2 2026",
-    summary:
-      "Completing our coverage of major ancient writing systems with the same comprehensive learning platform. Plus: native iOS and Android apps with full offline support, community features for sharing annotations, and collaborative tools for classrooms and research groups.",
-    accent: "from-[#a855f7]/25 to-[#f472b6]/25",
-    note: "These languages will launch alongside mobile apps with embedded lexicons and full offline mode.",
-    languages: [
-      "Old Turkic (Orkhon)",
-      "Etruscan",
-      "Proto-Norse (Elder Futhark)",
       "Runic Old Norse (Younger Futhark)",
-      "Old Persian (Ariya)",
       "Elamite",
       "Classic Maya (Chʼoltiʼ)",
       "Phoenician (Canaanite)",
       "Moabite",
       "Punic (Carthaginian)",
     ],
+  },
+  {
+    id: "phase-3",
+    title: "Phase 3 · Native Mobile Apps",
+    timeframe: "Coming End of 2025",
+    summary:
+      "Native iOS and Android apps with full offline support, embedded lexicons for all 42+ languages, community features for sharing annotations, and collaborative tools for classrooms and research groups. Take your ancient language studies anywhere with native mobile performance.",
+    accent: "from-[#a855f7]/25 to-[#f472b6]/25",
+    note: "Mobile apps launching with complete offline mode—study on planes, trains, and anywhere without internet.",
+    languages: [],
   },
 ];
 

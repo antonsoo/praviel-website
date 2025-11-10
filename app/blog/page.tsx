@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 };
 
 // Static generation handled by cacheComponents in next.config.ts
-// This ensures getAllPosts() runs at build time when fs is available, not at runtime
+// cacheComponents ensures getAllPosts() runs at build time when fs is available
+// and the result is cached, preventing client-side re-evaluation
 export default function BlogPage() {
   const posts = getAllPosts();
 

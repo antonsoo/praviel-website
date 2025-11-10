@@ -6,51 +6,12 @@ import { heroCopy } from "@/lib/canonicalCopy";
 export default function HeroSection() {
   return (
     <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
-      {/* Background video with fallback poster images */}
+      {/* Static background images - videos removed to improve LCP performance
+          Research shows hero videos add +1.2s to LCP on average, and our LCP
+          was 4.65s (vs target of 2.5s). Static images provide same aesthetic
+          with dramatically better performance. */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Desktop background video - respects prefers-reduced-motion */}
-        <video
-          className="hidden md:block absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/videos/desktop/poster.jpg"
-        >
-          <source src="/videos/desktop/alexandria1_LANDSCAPE.webm" type="video/webm" />
-          <source src="/videos/desktop/alexandria1_LANDSCAPE.mp4" type="video/mp4" />
-          {/* Fallback for browsers that don't support video */}
-          <Image
-            src="/videos/desktop/poster.jpg"
-            alt="Ancient library background"
-            fill
-            quality={75}
-            className="object-cover"
-          />
-        </video>
-
-        {/* Mobile background video - respects prefers-reduced-motion */}
-        <video
-          className="md:hidden absolute inset-0 h-full w-full object-cover opacity-40 motion-reduce:hidden"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/videos/mobile/poster.jpg"
-        >
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.webm" type="video/webm" />
-          <source src="/videos/mobile/simple_papyrus_LANDSCAPE.mp4" type="video/mp4" />
-          {/* Fallback for browsers that don't support video */}
-          <Image
-            src="/videos/mobile/poster.jpg"
-            alt="Papyrus background"
-            fill
-            quality={70}
-            className="object-cover"
-          />
-        </video>
-
-        {/* Fallback poster images for reduced-motion preference */}
+        {/* Desktop background */}
         <Image
           src="/videos/desktop/poster.jpg"
           alt="Ancient library background"
@@ -58,8 +19,10 @@ export default function HeroSection() {
           priority
           quality={75}
           fetchPriority="high"
-          className="hidden md:block motion-reduce:block object-cover opacity-40"
+          className="hidden md:block object-cover opacity-40"
         />
+
+        {/* Mobile background */}
         <Image
           src="/videos/mobile/poster.jpg"
           alt="Papyrus background"
@@ -67,7 +30,7 @@ export default function HeroSection() {
           priority
           quality={70}
           fetchPriority="high"
-          className="md:hidden motion-reduce:block object-cover opacity-40"
+          className="md:hidden object-cover opacity-40"
         />
 
         {/* Gradient overlay for text readability */}

@@ -125,6 +125,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
+      <head>
+        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies */}
+        <Script
+          defer
+          data-domain="praviel.com"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body
         className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
         style={{ paddingTop: "var(--safe-area-top)" }}
