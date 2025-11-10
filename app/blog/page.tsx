@@ -48,6 +48,7 @@ export default function BlogPage() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
+                prefetch={false}
                 className="block group"
               >
                 <article className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-sm p-8 transition-all duration-300 hover:border-[#D4AF37]/30 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-[#D4AF37]/10">

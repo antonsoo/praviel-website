@@ -27,7 +27,7 @@ export default function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              prefetch
+              prefetch={false}
               className="group relative inline-flex items-center px-2 py-1 font-medium text-zinc-300 transition-colors duration-200 ease-out hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/70"
             >
               <span className="relative z-10">{link.label}</span>

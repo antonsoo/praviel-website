@@ -9,19 +9,19 @@ export default function FAQ() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#CD5C5C]/6 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-4xl">
-        <div className="mb-16 text-center">
-          <h2 id="faq-title" className="text-4xl font-bold text-white sm:text-5xl">
+        <div className="mb-12 sm:mb-16 text-center px-4">
+          <h2 id="faq-title" className="text-3xl font-bold text-white sm:text-4xl md:text-5xl">
             Frequently Asked{" "}
             <span className="bg-gradient-to-r from-[#E8C55B] to-[#CD5C5C] bg-clip-text text-transparent">
               Questions
             </span>
           </h2>
-          <p className="mt-4 text-lg text-zinc-300">
+          <p className="mt-4 text-base text-zinc-300 sm:text-lg max-w-2xl mx-auto">
             Everything you need to know about learning ancient languages with PRAVIEL
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {faqEntries.map((faq) => (
             <details key={faq.question} className="faq-item group rounded-xl border border-zinc-800/50 bg-zinc-900/70 backdrop-blur-sm">
               <summary className="faq-summary">

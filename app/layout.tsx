@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
   title: "PRAVIEL — Read Ancient Texts in Their Original Languages",
   description:
-    "Learn Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Egyptian. Read the Iliad, Aeneid, and Torah as the authors wrote them. Research-grade accuracy. 42 ancient languages. Zero AI hallucinations.",
+    "Learn Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Egyptian. Read the Iliad, Aeneid, and Torah as the authors wrote them. Research-grade accuracy. 46 ancient languages. Zero AI hallucinations.",
   keywords: [
     "ancient languages",
     "Classical Latin",

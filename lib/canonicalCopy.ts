@@ -67,7 +67,7 @@ export const missionPillars = [
   {
     label: "Humanity",
     body:
-      "Preserve 5,000 years of linguistic memory—42 ancient languages prioritized by cultural risk, not popularity.",
+      "Preserve 5,000 years of linguistic memory—46 ancient languages prioritized by cultural risk, not popularity.",
   },
 ];
 
@@ -103,9 +103,9 @@ export const faqEntries: FaqEntry[] = [
       "Every definition, grammar explanation, and morphological analysis is grounded in authoritative academic sources: Perseus Digital Library, Liddell-Scott-Jones, Smyth's Greek Grammar, TLA Berlin-Brandenburg, ORACC UPenn, and the Cuneiform Digital Library Initiative.",
   },
   {
-    question: "How is PRAVIEL different from Duolingo or other language apps?",
+    question: "How is PRAVIEL different from top language apps on the market?",
     answer:
-      "Duolingo teaches modern conversational skills (ordering coffee, making small talk). PRAVIEL teaches you to read authentic ancient texts. We focus on reading comprehension and literary analysis, not conversation. Think of it as the difference between learning Spanish to travel vs studying Don Quixote in the original. Both are valuable, but completely different goals.",
+      "Most language apps teach modern conversational skills through AI-generated phrases or made-up dialogues. PRAVIEL teaches both ancient conversational language AND how to read authentic ancient texts—with all conversation teachings drawn from real ancient texts, not hallucinated by AI or invented by instructors. You learn to speak as the ancients spoke by studying their actual words, not modern approximations.",
   },
   {
     question: "Why not just hire a tutor or take a university course?",

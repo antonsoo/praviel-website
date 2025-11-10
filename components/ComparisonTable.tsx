@@ -1,5 +1,5 @@
 const features = [
-  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: "42 languages" },
+  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: "46 languages" },
   { name: "Accuracy", traditional: "Depends on instructor", apps: "Hallucinates", praviel: "Grounded in LSJ, Perseus, TLA" },
   { name: "Interactive reader", traditional: "Paper dictionary", apps: "Word hints", praviel: "Tap any word for morphology" },
   { name: "Privacy", traditional: "Offline books", apps: "Ads + tracking", praviel: "BYOK, zero tracking" },
@@ -32,14 +32,14 @@ export default function ComparisonTable() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1e40af]/5 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-6xl space-y-14">
-        <header className="space-y-4 text-center">
+        <header className="space-y-4 text-center px-4">
           <h2
             id="comparison-title"
-            className="text-4xl font-bold text-white sm:text-5xl"
+            className="text-3xl font-bold text-white sm:text-4xl md:text-5xl"
           >
             Why <span className="bg-gradient-to-r from-[#E8C55B] to-[#3b82f6] bg-clip-text text-transparent">PRAVIEL</span>?
           </h2>
-          <p className="mx-auto max-w-3xl text-lg text-zinc-300 sm:text-xl">
+          <p className="mx-auto max-w-3xl text-base text-zinc-300 sm:text-lg md:text-xl">
             The first platform to combine scholarly rigor with modern AI for ancient languages.
           </p>
         </header>

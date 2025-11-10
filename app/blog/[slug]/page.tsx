@@ -109,6 +109,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Back to blog link */}
           <Link
             href="/blog"
+            prefetch={false}
             className="inline-flex items-center text-[#E8C55B] hover:text-[#D4AF37] transition-colors duration-200 mb-12 group"
           >
             <svg
@@ -220,6 +221,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <footer className="mt-16 pt-8 border-t border-zinc-800">
             <Link
               href="/blog"
+              prefetch={false}
               className="inline-flex items-center text-[#E8C55B] hover:text-[#D4AF37] transition-colors duration-200 group"
             >
               <svg

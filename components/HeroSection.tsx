@@ -41,7 +41,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.08),transparent_50%)] motion-reduce:animate-none animate-gradient-slower" />
       </div>
 
-      <div className="relative mx-auto max-w-4xl text-center space-y-10">
+      <div className="relative mx-auto max-w-4xl text-center space-y-8 sm:space-y-10">
         {/* Decorative Greek Key Border - ancient aesthetic */}
         <GreekKeyBorder className="mx-auto max-w-md mb-8" />
 
@@ -62,7 +62,7 @@ export default function HeroSection() {
         </h1>
 
         {/* Simplified subtitle - from canonical copy */}
-        <p className="mx-auto max-w-2xl text-xl sm:text-2xl text-zinc-300 leading-relaxed">
+        <p className="mx-auto max-w-2xl text-lg sm:text-xl md:text-2xl text-zinc-300 leading-relaxed px-4">
           {heroCopy.subtitle}
         </p>
 
@@ -70,7 +70,7 @@ export default function HeroSection() {
         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-400">
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-            42 Ancient Languages
+            46 Ancient Languages
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />

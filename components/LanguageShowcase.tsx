@@ -52,17 +52,17 @@ export default function LanguageShowcase() {
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-[#E8C55B]/5 to-transparent" />
 
       <div className="relative mx-auto max-w-6xl space-y-12">
-        <header className="space-y-4 text-center">
+        <header className="space-y-4 text-center px-4">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#E8C55B]">
             {languageShowcaseCopy.topTierLabel}
           </p>
           <h2
             id="language-showcase-title"
-            className="text-4xl font-semibold text-white sm:text-5xl"
+            className="text-3xl font-semibold text-white sm:text-4xl md:text-5xl"
           >
             {languageShowcaseCopy.title}
           </h2>
-          <p className="mx-auto max-w-3xl text-base text-zinc-300">
+          <p className="mx-auto max-w-3xl text-sm text-zinc-300 sm:text-base md:text-lg leading-relaxed">
             {languageShowcaseCopy.description}
           </p>
         </header>
