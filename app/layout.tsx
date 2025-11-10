@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { cacheLife } from "next/cache";
 import Script from "next/script";
+import PlausibleProvider from "next-plausible";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import AncientBackground from "@/components/AncientBackground";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
   title: "PRAVIEL — Read Ancient Texts in Their Original Languages",
   description:
-    "Learn Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Egyptian. Read the Iliad, Aeneid, and Torah as the authors wrote them. Research-grade accuracy. 46 ancient languages. Zero AI hallucinations.",
+    "Learn Latin, Classical Greek, Biblical Hebrew, Sanskrit, and Egyptian. Read the Iliad, Aeneid, and Torah as the authors wrote them. Research-grade accuracy. 42 ancient languages. Zero AI hallucinations.",
   keywords: [
     "ancient languages",
     "Classical Latin",
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Read Ancient Texts in Their Original Languages | PRAVIEL",
     description:
-      "Learn Latin, Greek, Hebrew, Sanskrit, Egyptian. Read the Iliad, Aeneid, Torah as the authors wrote them. 46 languages. Zero AI hallucinations.",
+      "Learn Latin, Greek, Hebrew, Sanskrit, Egyptian. Read the Iliad, Aeneid, Torah as the authors wrote them. 42 languages. Zero AI hallucinations.",
     images: ["/og.png"],
   },
 };
@@ -125,18 +126,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
+      <head>
+        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies */}
+        <PlausibleProvider domain="praviel.com" trackLocalhost enabled />
+      </head>
       <body
         className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
         style={{ paddingTop: "var(--safe-area-top)" }}
       >
-        {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
-            Note: Script component must be in body, not head in Next.js App Router */}
-        <Script
-          defer
-          data-domain="praviel.com"
-          src="https://plausible.io/js/script.js"
-          strategy="afterInteractive"
-        />
 
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />

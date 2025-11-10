@@ -24,7 +24,7 @@ export default function HeroCrest({ className = "" }: HeroCrestProps) {
       >
         <div className="space-y-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.45em] text-black/60">
-            PRAVIEL · 46 LANGUAGES
+            PRAVIEL · 42 LANGUAGES
           </p>
           <div className="space-y-2 font-display">
             <p className="text-3xl font-semibold leading-tight">Every translation</p>

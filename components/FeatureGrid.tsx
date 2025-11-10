@@ -36,7 +36,7 @@ const features: Feature[] = [
   {
     title: "Humanity keeps 5,000 years of memory",
     body:
-      "Phase map covers 46 languages from Sumerian cuneiform to medieval manuscripts. Every rollout prioritises endangered traditions first so the linguistic record lives on.",
+      "Phase map covers 42 languages from Sumerian cuneiform to medieval manuscripts. Every rollout prioritises endangered traditions first so the linguistic record lives on.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#E8C55B]" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <path

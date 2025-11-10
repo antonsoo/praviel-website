@@ -67,7 +67,7 @@ export const missionPillars = [
   {
     label: "Humanity",
     body:
-      "Preserve 5,000 years of linguistic memory—46 ancient languages prioritized by cultural risk, not popularity.",
+      "Preserve 5,000 years of linguistic memory—42 ancient languages prioritized by cultural risk, not popularity.",
   },
 ];
 
