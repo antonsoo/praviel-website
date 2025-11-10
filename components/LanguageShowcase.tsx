@@ -7,7 +7,7 @@ function LanguageCard({ language }: { language: Language }) {
   const topWorks = language.topTenWorks.slice(0, 3);
 
   return (
-    <article className="rounded-3xl border border-white/10 bg-white/5/80 p-6 shadow-xl shadow-black/30">
+    <article className="rounded-3xl border border-white/10 bg-white/5/80 p-4 sm:p-6 shadow-xl shadow-black/30">
       <div className="flex flex-wrap items-start gap-3">
         <span className="text-3xl" aria-hidden>
           {language.emoji}
@@ -47,7 +47,7 @@ export default function LanguageShowcase() {
   return (
     <section
       aria-labelledby="language-showcase-title"
-      className="relative px-6 py-24 sm:py-32"
+      className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-[#E8C55B]/5 to-transparent" />
 
@@ -75,7 +75,7 @@ export default function LanguageShowcase() {
 
         <AllLanguagesList languages={languages} />
 
-        <div className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-8 shadow-2xl shadow-black/30">
+        <div className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-6 sm:p-8 shadow-2xl shadow-black/30">
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
               Roadmap

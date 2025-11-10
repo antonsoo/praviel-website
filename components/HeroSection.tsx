@@ -5,7 +5,7 @@ import { heroCopy } from "@/lib/canonicalCopy";
 
 export default function HeroSection() {
   return (
-    <section className="relative isolate min-h-[85svh] overflow-hidden px-6 py-32 sm:py-40 md:min-h-[75svh]">
+    <section className="relative isolate min-h-[85svh] overflow-hidden px-4 sm:px-6 py-20 sm:py-32 md:py-40 md:min-h-[75svh]">
       {/* Static background images - videos removed to improve LCP performance
           Research shows hero videos add +1.2s to LCP on average, and our LCP
           was 4.65s (vs target of 2.5s). Static images provide same aesthetic

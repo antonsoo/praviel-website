@@ -125,23 +125,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
-      <head>
-        {/* Preload critical above-the-fold hero images for optimal LCP */}
-        <link
-          rel="preload"
-          as="image"
-          href="/videos/desktop/poster.jpg"
-          media="(min-width: 768px)"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/videos/mobile/poster.jpg"
-          media="(max-width: 767px)"
-          fetchPriority="high"
-        />
-      </head>
       <body
         className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
         style={{ paddingTop: "var(--safe-area-top)" }}

@@ -45,25 +45,25 @@ export default function ComparisonTable() {
         </header>
 
         <div className="overflow-x-auto rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
-          <table className="w-full border-collapse text-sm text-zinc-200">
+          <table className="w-full border-collapse text-xs sm:text-sm text-zinc-200 min-w-[600px]">
             <thead>
-              <tr className="text-left text-xs uppercase tracking-[0.3em] text-zinc-500">
-                <th className="px-6 py-4 font-semibold text-zinc-400">Feature</th>
-                <th className="px-6 py-4 font-semibold text-zinc-400">Traditional</th>
-                <th className="px-6 py-4 font-semibold text-zinc-400">Apps</th>
-                <th className="px-6 py-4 font-semibold text-[#E8C55B]">PRAVIEL</th>
+              <tr className="text-left text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-zinc-500">
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold text-zinc-400">Feature</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold text-zinc-400">Traditional</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold text-zinc-400">Apps</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 font-semibold text-[#E8C55B]">PRAVIEL</th>
               </tr>
             </thead>
             <tbody>
               {features.map((feature) => (
                 <tr key={feature.name} className="border-t border-white/5">
-                  <th scope="row" className="px-6 py-5 text-base font-semibold text-white">
+                  <th scope="row" className="px-3 sm:px-6 py-4 sm:py-5 text-sm sm:text-base font-semibold text-white">
                     {feature.name}
                   </th>
-                  <td className="px-6 py-5 text-zinc-400">{feature.traditional}</td>
-                  <td className="px-6 py-5 text-zinc-400">{feature.apps}</td>
-                  <td className="px-6 py-5">
-                    <span className="inline-flex rounded-full bg-[#D4AF37]/15 px-3 py-1.5 text-sm font-semibold text-[#E8C55B]">
+                  <td className="px-3 sm:px-6 py-4 sm:py-5 text-zinc-400">{feature.traditional}</td>
+                  <td className="px-3 sm:px-6 py-4 sm:py-5 text-zinc-400">{feature.apps}</td>
+                  <td className="px-3 sm:px-6 py-4 sm:py-5">
+                    <span className="inline-flex rounded-full bg-[#D4AF37]/15 px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold text-[#E8C55B]">
                       {feature.praviel}
                     </span>
                   </td>
