@@ -1,9 +1,9 @@
 // Plausible Analytics script proxy
 // This proxies the Plausible script through our domain to avoid ad blockers
 
-// Prevent Next.js 16 from trying to prerender this API route during build
-// The route needs to fetch fresh data at runtime, not during static generation
-export const dynamic = 'force-dynamic';
+// Note: The prerendering error during build is expected and handled by the try/catch
+// API routes with external fetch() calls will show warnings but function correctly
+// See: https://github.com/vercel/next.js/discussions/85272
 
 export async function GET() {
   try {
