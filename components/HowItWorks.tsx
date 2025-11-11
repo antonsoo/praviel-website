@@ -95,14 +95,14 @@ export default function HowItWorks() {
               </div>
               <div className="mt-4 flex items-center gap-3 text-[#E8C55B]">{step.icon}</div>
               <h3 className="mt-4 text-lg font-semibold text-white">{step.title}</h3>
-              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">{step.description}</p>
+              <p className="mt-3 text-base text-zinc-400 leading-relaxed">{step.description}</p>
             </li>
           ))}
         </ol>
 
         <div className="rounded-2xl border border-[#D4AF37]/20 bg-black/50 p-8 text-center shadow-[0_24px_60px_rgba(12,12,12,0.65)]">
           <h3 className="text-2xl font-semibold text-white">Scholars + AI = fluent in primary texts</h3>
-          <p className="mt-3 text-sm text-zinc-400">
+          <p className="mt-3 text-base text-zinc-400">
             Every stage is auditable. Tutors cite primary sources, and you retain full control over your corpus and annotations.
           </p>
         </div>

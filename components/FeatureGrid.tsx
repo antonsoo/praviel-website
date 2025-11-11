@@ -75,7 +75,7 @@ export default function FeatureGrid() {
         <h2 id="features-title" className="text-3xl sm:text-4xl font-semibold text-white">
           Why PRAVIEL?
         </h2>
-        <p className="text-sm sm:text-base text-zinc-400">
+        <p className="text-base md:text-lg text-zinc-400">
           Modern learning tools for ancient voices.
         </p>
       </div>
@@ -93,7 +93,7 @@ export default function FeatureGrid() {
             <h3 className="relative text-base font-semibold text-white">
               {feature.title}
             </h3>
-            <p className="relative mt-3 text-sm text-zinc-300 leading-relaxed">
+            <p className="relative mt-3 text-base text-zinc-300 leading-relaxed">
               {feature.body}
             </p>
           </article>

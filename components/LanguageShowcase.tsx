@@ -23,7 +23,7 @@ function LanguageCard({ language }: { language: Language }) {
         </div>
       </div>
 
-      <p className="mt-4 text-sm leading-relaxed text-zinc-200">{language.description}</p>
+      <p className="mt-4 text-base leading-relaxed text-zinc-200">{language.description}</p>
 
       <div className="mt-5">
         <p className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">Signature works</p>

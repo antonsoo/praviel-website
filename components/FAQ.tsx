@@ -32,7 +32,7 @@ export default function FAQ() {
                   </svg>
                 </span>
               </summary>
-              <div className="faq-answer text-sm text-zinc-400 sm:text-base">{faq.answer}</div>
+              <div className="faq-answer text-base text-zinc-400">{faq.answer}</div>
             </details>
           ))}
         </div>
