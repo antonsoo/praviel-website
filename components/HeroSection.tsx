@@ -80,30 +80,25 @@ export default function HeroSection() {
             </p>
           </div>
 
-          <div className="w-full px-4 sm:hidden" data-lcp-priority="cta">
-            <div className="mx-auto flex w-full max-w-md min-h-[18rem] flex-col justify-between rounded-[36px] border border-[#E8C55B]/30 bg-gradient-to-b from-[#242016] via-[#0b0b07] to-[#040403] px-6 py-8 text-left shadow-[0_32px_95px_rgba(0,0,0,0.55)]" data-lcp-target="hero-mobile-cta-panel">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.55em] text-[#E8C55B]/70">
-                Investor preview
-              </p>
-              <div>
-                <h2 className="mt-2 text-4xl font-semibold leading-tight text-white text-balance">
-                  Read the originals, not the summaries.
-                </h2>
-                <p className="mt-4 text-base text-zinc-200/90 text-balance">
+            <div className="w-full px-4 sm:hidden" data-lcp-priority="cta">
+              <div className="mx-auto flex w-full max-w-md flex-col items-stretch gap-3" data-lcp-target="hero-mobile-cta">
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.55em] text-[#E8C55B]/70 text-center">
+                  Investor preview
+                </p>
+                <PrimaryCTA
+                  variant="mobile"
+                  ariaDescribedBy={HERO_CTA_SUBCOPY_ID}
+                  className="w-full"
+                  lcpTarget="hero-mobile-cta-button"
+                />
+                <p className="text-sm text-zinc-300 text-center text-balance">
                   {LANGUAGE_COUNT} languages, manuscript scans, scholia, and citation trails you can audit.
                 </p>
+                <p className="text-[0.65rem] uppercase tracking-[0.45em] text-zinc-500/80 text-center">
+                  Playwright • Lighthouse • Plausible verified
+                </p>
               </div>
-              <PrimaryCTA
-                variant="mobile"
-                ariaDescribedBy={HERO_CTA_SUBCOPY_ID}
-                className="mt-6"
-                lcpTarget="hero-mobile-cta"
-              />
-              <p className="mt-5 text-[0.65rem] uppercase tracking-[0.45em] text-zinc-500/90">
-                Playwright • Lighthouse • Plausible verified
-              </p>
             </div>
-          </div>
 
           <p className="sr-only" id={HERO_CTA_SUBCOPY_ID}>
             {heroCopy.ctaSubcopy}
