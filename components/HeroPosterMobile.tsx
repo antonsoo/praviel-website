@@ -7,7 +7,6 @@ const highlights = [
 
 type HeroPosterMobileProps = {
   className?: string;
-  priority?: boolean;
 };
 
 export default function HeroPosterMobile({ className = "" }: HeroPosterMobileProps) {

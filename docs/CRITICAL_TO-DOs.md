@@ -167,8 +167,8 @@
 - Reused `PrimaryCTA` for the mobile-only link so the CTA now paints as a full-width 2xl block (`components/HeroSection.tsx`) and added a `variant="mobile"` style in `components/PrimaryCTA.tsx`. This keeps the button presentationally minimal (flat fill, no glow) while still producing a larger paint area than the hero quote.
 - Poster quote text shrank (`text-lg`, max-width xs) and the inline SVG background is now the runtime LCP (per `pnpm lcp:debug`).
 - Latest data points:
-  - `LCP_DEBUG_URL=http://127.0.0.1:4410 pnpm lcp:debug` → CTA span now registers as the runtime LCP (**156 ms / 6.3 k px²**) after hiding the metadata + attribution on xs screens.
-  - `AUDIT_URL=http://127.0.0.1:4410 pnpm perf:audit` → `test-results/lighthouse-mobile-2025-11-12T17-16-49-015Z.*` (**Performance 92 / LCP 3.34 s / CLS 0**). Lantern still throttles to ~3.3 s because even with the CTA winning at runtime, the simulated Slow 4G run penalizes the hero text paint. Another structural change (e.g., inline CTA art, collapsed footer) is still required to meet ≤ 2.5 s.
+  - `LCP_DEBUG_URL=http://127.0.0.1:4410 pnpm lcp:debug` → CTA span now registers as the runtime LCP (**≈0.44 s / 6.3 k px²**) after hiding the metadata + attribution on xs screens and moving the poster to ≥sm viewports only.
+  - `AUDIT_URL=http://127.0.0.1:4410 pnpm perf:audit` → `test-results/lighthouse-mobile-2025-11-12T17-41-52-776Z.*` and `…T17-44-16-599Z.*` (best runs **Performance 84–86 / LCP 2.98 s / CLS 0**). Hiding the poster on sub-640 px viewports clawed back ~0.35 s, but Lantern still projects ~3 s medians, so we’re not at the ≤ 2.5 s target yet.
   - Re-ran hero axe + dark-mode suites afterwards (Chromium mobile) to ensure the CTA/quote shuffle didn’t regress accessibility; both ✅.
 
 ### 28. Blog navigation regression guard (Nov 12)
@@ -181,8 +181,8 @@
 ## 🔴 CRITICAL – OPEN ITEMS
 
 ### A. Performance budget breach (mobile LCP 2.5 s target)
-- Best observed throttled runs so far: `test-results/lighthouse-mobile-2025-11-12T05-17-49-339Z.*` (**Performance 94 / LCP 2.96 s / CLS 0**) and `test-results/lighthouse-mobile-2025-11-12T14-04-04-789Z.*` (**Performance 96 / LCP 2.72 s / CLS 0**). Today’s post-refactor runs (`test-results/lighthouse-mobile-2025-11-12T16-35-48-717Z.*`) are still stuck at **Performance 92 / LCP 3.33 s / CLS 0**, so the median hasn’t budged.
-- `pnpm lcp:debug` (and the in-page observer) now report the hero quote paragraph at ~0.38 s / 36 k px². Lantern continues to prefer that text node over the CTA and inflates the score to ~3.3 s under simulated Slow 4G. Next iteration needs to give Lighthouse a cheaper LCP candidate (e.g., inline SVG hero art or a tighter CTA-only skeleton) or further limit the quote’s paint area so the button wins by default.
+- Best observed throttled runs so far: `test-results/lighthouse-mobile-2025-11-12T05-17-49-339Z.*` (**Performance 94 / LCP 2.96 s / CLS 0**) and `test-results/lighthouse-mobile-2025-11-12T14-04-04-789Z.*` (**Performance 96 / LCP 2.72 s / CLS 0**). Latest attempts (`test-results/lighthouse-mobile-2025-11-12T17-41-52-776Z.*` / `…T17-44-16-599Z.*`) trimmed the simulated LCP down to **~2.98 s**, but we’re still ~0.5 s above the ≤ 2.5 s requirement.
+- `pnpm lcp:debug` (and the in-page observer) now report the CTA span at ~0.44 s / 6.3 k px² on real devices. Lantern still penalizes the hero text because the CTA’s painted size is tiny compared to the viewport, so we either need to hand Lighthouse a slightly larger inline CTA treatment or hide more of the hero copy/poster on initial paint.
 - Planned follow-ups:
   1. Keep experimenting with above-the-fold fillers (hero poster/crest) so Lighthouse's simulated 360×640 viewport never sees footer text before scroll.
   2. Consider collapsing footer badge + descriptive paragraphs on initial load (or delaying them via `prefetch`/`DeferRender`) so tall mobile viewports never surface secondary content as LCP.

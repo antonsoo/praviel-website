@@ -112,7 +112,7 @@ export default function HeroSection() {
           </span>
         </div>
 
-        <HeroPosterMobile priority className="mt-12 sm:hidden" />
+        <HeroPosterMobile className="mt-12 hidden sm:block md:hidden" />
         <HeroCrest className="hidden sm:block mt-16" />
       </div>
     </section>
