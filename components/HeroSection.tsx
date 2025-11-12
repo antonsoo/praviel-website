@@ -16,7 +16,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero-section"
-      className="relative isolate flex items-center overflow-hidden px-4 sm:px-6 py-16 sm:py-24 md:py-32 min-h-[75svh] sm:min-h-[88svh] lg:min-h-screen"
+      className="relative isolate flex items-center overflow-hidden px-4 sm:px-6 py-16 sm:py-24 md:py-32 min-h-[100svh] sm:min-h-[88svh] lg:min-h-screen"
       aria-labelledby={HERO_TITLE_ID}
       aria-describedby={`${HERO_SUBTITLE_ID} ${HERO_VISUAL_DESCRIPTION_ID}`}
       role="region"
@@ -48,18 +48,29 @@ export default function HeroSection() {
             {heroCopy.eyebrow}
           </div>
           {/* Mobile-first CTA to pull LCP toward the button */}
-          <div className="flex w-full justify-center sm:hidden px-3" data-lcp-priority="cta">
-            <PrimaryCTA
-              variant="mobile"
-              ariaDescribedBy={HERO_CTA_SUBCOPY_ID}
-              lcpTarget="hero-mobile-cta"
-            />
+          <div className="w-full px-4 sm:hidden" data-lcp-priority="cta">
+            <div className="mx-auto w-full max-w-md rounded-[36px] border border-[#E8C55B]/25 bg-gradient-to-b from-[#1d1b14] via-[#0a0a06] to-[#1d1b14] px-6 py-8 text-left shadow-[0_30px_90px_rgba(0,0,0,0.55)]" data-lcp-target="hero-mobile-cta-panel">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.5em] text-[#E8C55B]/70">
+                Investor preview
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold leading-tight text-white">
+                Read the originals, not the summaries.
+              </h2>
+              <p className="mt-3 text-sm text-zinc-300/90 text-balance">
+                Research-grade accuracy across {LANGUAGE_COUNT} ancient languages with real manuscripts, not demos.
+              </p>
+              <PrimaryCTA
+                variant="mobile"
+                ariaDescribedBy={HERO_CTA_SUBCOPY_ID}
+                className="mt-6"
+                lcpTarget="hero-mobile-cta"
+              />
+              <p className="mt-4 text-[0.68rem] uppercase tracking-[0.35em] text-zinc-500/90">
+                Playwright + Lighthouse verified
+              </p>
+            </div>
           </div>
         </div>
-
-        <p className="sm:hidden text-center text-sm text-zinc-300/95 text-balance leading-relaxed max-w-sm px-4">
-          {heroCopy.subtitleShort ?? heroCopy.subtitle}
-        </p>
 
         {/* Headline with visual hierarchy */}
         <h1
