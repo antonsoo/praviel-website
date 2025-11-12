@@ -1,0 +1,142 @@
+name: Nightly Production Checks
+
+on:
+  schedule:
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  production-audits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      BASE_URL: https://praviel-site.antonnsoloviev.workers.dev
+      ENABLE_TEST_ROUTES: "true"
+      SKIP_WEBKIT: "1"
+      PLAYWRIGHT_BROWSERS_PATH: 0
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.20.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright (Chromium only)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Plausible proxy monitor
+        env:
+          MONITOR_URL: ${{ env.BASE_URL }}
+        run: pnpm monitor:plausible
+
+      - name: Blog smoke (listing + latest detail)
+        env:
+          BLOG_SMOKE_BASE: ${{ env.BASE_URL }}
+        run: pnpm smoke:blog
+
+      - name: Blog navigation against production
+        run: pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop
+
+      - name: Dark-mode regression (production)
+        run: pnpm playwright test tests/e2e/dark-mode.spec.ts --project=chromium-mobile
+
+      - name: Typography harness (production)
+        run: pnpm playwright test tests/e2e/typography.spec.ts --project=chromium-mobile
+
+      - name: Layout overflow sweeps
+        run: |
+          LAYOUT_VIEWPORTS=mobile pnpm playwright test tests/e2e/layout-overflow.spec.ts --project=chromium-mobile
+          LAYOUT_VIEWPORTS=tablet pnpm playwright test tests/e2e/layout-overflow.spec.ts --project=chromium-mobile
+          LAYOUT_VIEWPORTS=desktop pnpm playwright test tests/e2e/layout-overflow.spec.ts --project=chromium-desktop
+
+      - name: Lighthouse mobile + desktop audit
+        env:
+          AUDIT_URL: ${{ env.BASE_URL }}
+        run: pnpm perf:audit
+
+      - name: Capture LCP debug entry
+        env:
+          LCP_DEBUG_URL: ${{ env.BASE_URL }}
+        run: pnpm lcp:debug
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-playwright-${{ github.run_id }}
+          path: |
+            playwright-report
+            test-results/**/*.png
+          if-no-files-found: ignore
+          retention-days: 5
+
+      - name: Upload Lighthouse artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-lighthouse-${{ github.run_id }}
+          path: |
+            test-results/lighthouse-*.json
+            test-results/lighthouse-*.html
+          if-no-files-found: ignore
+          retention-days: 10
+
+      - name: Slack alert (failure)
+        if: failure() && secrets.SLACK_ALERT_WEBHOOK != ''
+        env:
+          SLACK_ALERT_WEBHOOK: ${{ secrets.SLACK_ALERT_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          payload=$(cat <<'JSON'
+          {
+            "text": "Nightly Production Checks failed for ${{ github.repository }} at run #${{ github.run_number }}. Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          JSON
+          )
+          curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_ALERT_WEBHOOK"
+
+      - name: Email alert (failure)
+        if: failure() && secrets.RESEND_API_KEY != '' && vars.ALERT_EMAIL_TO != ''
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ALERT_EMAIL_TO: ${{ vars.ALERT_EMAIL_TO }}
+        run: |
+          set -euo pipefail
+          curl -s -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d @- <<'JSON'
+          {
+            "from": "alerts@praviel.com",
+            "to": ["${ALERT_EMAIL_TO}"],
+            "subject": "Nightly production checks failed",
+            "html": "<p>The nightly production workflow failed for ${{ github.repository }}.</p><p>Run: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View logs</a></p><p>Commit: ${{ github.sha }}</p>"
+          }
+          JSON
+
+      - name: Notify failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `Nightly Production Checks failed (#${context.runNumber})`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = `Nightly production checks failed.\n\n- Workflow: ${context.workflow}\n- Run: [View logs](${runUrl})\n- Commit: ${context.sha}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+            });

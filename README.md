@@ -84,6 +84,7 @@ pnpm build       # Production build
 pnpm typecheck   # TypeScript validation
 pnpm lint        # ESLint check
 pnpm blog:generate  # Rebuilds lib/generated/blog-data.json after editing markdown
+pnpm smoke:blog  # Hits /blog and the latest slug (set BLOG_SMOKE_BASE to prod when needed)
 pnpm with-release <cmd>  # Inject release metadata + env for build tooling
 pnpm sentry:smoke        # Sends a test event using the env vars in .dev.vars
 ```

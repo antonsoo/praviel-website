@@ -63,7 +63,7 @@ export default function HeroSection() {
             data-lcp-target="hero-headline"
           >
             <span className="block">Read the originals.</span>
-            <span className="mt-2 block text-3xl sm:text-[3.5rem] md:text-[4rem] bg-gradient-to-r from-[#E8C55B] via-[#D4AF37] to-[#3b82f6] bg-clip-text text-transparent leading-tight motion-safe:animate-gradient-x">
+            <span className="mt-2 block text-3xl sm:text-[3.5rem] md:text-[4rem] text-white sm:bg-gradient-to-r sm:from-[#E8C55B] sm:via-[#D4AF37] sm:to-[#3b82f6] sm:bg-clip-text sm:text-transparent leading-tight motion-safe:animate-gradient-x">
               Not the translations.
             </span>
           </h1>

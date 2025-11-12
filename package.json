@@ -36,6 +36,7 @@
     "perf:audit": "tsx scripts/lighthouse.ts",
     "monitor:plausible": "tsx scripts/monitor-plausible.ts",
     "lcp:debug": "tsx scripts/debug-lcp.ts",
+    "smoke:blog": "tsx scripts/smoke-blog.ts",
     "sentry:smoke": "pnpm run with-release tsx scripts/sentry-smoke.ts"
   },
   "engines": {

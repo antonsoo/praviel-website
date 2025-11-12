@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import SiteHeaderMobileMenu from "@/components/SiteHeaderMobileMenu";
+
 const NAV_LINKS = [
   { href: "https://app.praviel.com", label: "Launch app" },
   { href: "#features", label: "Features" },
@@ -15,14 +17,14 @@ export default function SiteHeader() {
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
         <Link href="/" className="group relative flex items-center gap-2 text-lg font-bold">
-          <span className="bg-gradient-to-r from-[#E8C55B] via-[#3b82f6] to-[#E8DCC4] bg-clip-text text-transparent transition-transform duration-200 ease-out motion-safe:hover:scale-105">
+          <span className="text-white sm:text-transparent sm:bg-gradient-to-r sm:from-[#E8C55B] sm:via-[#3b82f6] sm:to-[#E8DCC4] sm:bg-clip-text transition-transform duration-200 ease-out motion-safe:hover:scale-105">
             PRAVIEL
           </span>
           <span className="sr-only">PRAVIEL home</span>
           <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-gradient-to-r from-[#D4AF37] to-[#3b82f6] transition-transform duration-300 ease-out motion-safe:group-hover:scale-x-100 motion-reduce:transition-none" />
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="hidden items-center gap-6 sm:flex" aria-label="Primary navigation">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -48,32 +50,7 @@ export default function SiteHeader() {
           </Link>
         </div>
 
-        <details className="site-header-menu group sm:hidden">
-          <summary className="site-header-summary group flex h-11 min-w-[44px] items-center justify-center rounded-full text-2xl text-zinc-400 transition-colors duration-200 ease-out hover:text-white focus-visible:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/70">
-            <span className="sr-only">Toggle navigation</span>
-            <span className="transition-transform duration-200 group-open:hidden">☰</span>
-            <span className="hidden transition-transform duration-200 group-open:inline">✕</span>
-          </summary>
-          <div className="site-header-menu-panel max-h-0 overflow-hidden border-t border-white/10 opacity-0 transition-[max-height,opacity] duration-300 ease-out group-open:max-h-96 group-open:opacity-100">
-            <div className="space-y-2 px-0 pt-4">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block min-h-[44px] rounded-lg px-4 py-3 text-base text-zinc-300 transition-colors duration-200 hover:bg-[#D4AF37]/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="#waitlist"
-                className="block min-h-[44px] rounded-lg px-4 py-3 font-medium text-[#E8C55B] transition-colors duration-200 hover:text-[#F5E4B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60"
-              >
-                Get early access
-              </Link>
-            </div>
-          </div>
-        </details>
+        <SiteHeaderMobileMenu links={NAV_LINKS} />
       </div>
     </header>
   );

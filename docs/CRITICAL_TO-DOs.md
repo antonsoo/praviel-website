@@ -38,7 +38,7 @@
 5. **Blog regression & content tooling**
    - ✅ Added two Field Reports (`2025-11-05` comfort controls + `2025-11-10` view transitions) and regenerated `lib/generated/blog-data.json` on build.
    - ✅ `BASE_URL=http://127.0.0.1:3000 pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop` (Nov 12).
-   - TODO: add a prod smoke test that fetches `/blog` and `/blog/<slug>` via Playwright or curl to catch future JSON mismatches.
+   - ✅ New `pnpm smoke:blog` script fetches `/blog` + the latest slug; wired into nightly workflow with `BLOG_SMOKE_BASE=${BASE_URL}` (Nov 12).
 
 6. **Monitoring + nightly automation**
    - Wire `pnpm monitor:plausible`, `pnpm perf:audit`, and the accessibility suites into CI/nightly workflow (`.github/workflows/nightly-monitor.yml` exists but is not checked in).
