@@ -4,9 +4,9 @@ import { Link } from "next-view-transitions";
 import { getPostBySlug, getAllPostSlugs, formatDate } from "@/lib/blog";
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Static generation handled by generateStaticParams + cacheComponents in next.config.ts
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -60,7 +60,7 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {

@@ -40,7 +40,9 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 - ⚡ **Adaptive enhancements** (Lenis, overlays, scroll progress) that respect Save-Data, coarse pointers, and idle time.
 - ♿ **WCAG 2.1 AA** with skip links, 44px targets, RTL fonts, reduced-motion fallbacks, and semantic nav.
 - 🔤 **Self-hosted Noto stack** (Latin, Greek, Devanagari, Hebrew, CJK) managed via `next/font/local` for deterministic LCP.
+- 🎚️ **Comfort controls + Immersive mode** that sync via `localStorage`, set `data-*` attributes before hydration, and respect `prefers-reduced-motion` / Save-Data across tabs.
 - 🔍 **SEO + Analytics ready**: JSON-LD structured data, Sentry + `/api/observability/vitals` pipeline, Cloudflare Analytics hook.
+- 📰 **Field Reports pipeline** powered by Markdown in `/content/blog`, `pnpm blog:generate`, and a server-side JSON cache so Cloudflare Workers never touch the filesystem.
 - 🌐 **Edge-deployed** on Cloudflare Workers through OpenNext with automated cache purges.
 - 📰 **Field reports spotlight** pulls the three latest blog essays directly into the homepage with papyrus-styled cards and announces new dispatches without leaving hero context.
 - 🌀 **Native View Transitions** (via `next-view-transitions`) keep blog list/detail navigation seamless while respecting reduced-motion and immersive-preference settings.

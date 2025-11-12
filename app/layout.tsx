@@ -15,6 +15,52 @@ import { fontVariables } from "@/lib/fonts";
 import { publicEnv } from "@/lib/env";
 import { LANGUAGE_COUNT } from "@/lib/languageStats";
 
+const preferenceBootstrapScript = `(() => {
+  try {
+    const doc = document.documentElement;
+    const comfortKey = "praviel:comfortPrefs";
+    const immersiveKey = "praviel:immersivePref";
+    const defaults = { typeScale: "base", contrast: "default", bodyFont: "sans" };
+
+    const clamp = (value) => {
+      if (!value || typeof value !== "object") return { ...defaults };
+      return {
+        typeScale: value.typeScale === "plus" ? "plus" : "base",
+        contrast: value.contrast === "high" ? "high" : "default",
+        bodyFont: value.bodyFont === "serif" ? "serif" : "sans",
+      };
+    };
+
+    const applyComfort = (value) => {
+      doc.dataset.typeScale = value.typeScale;
+      doc.dataset.contrast = value.contrast;
+      doc.dataset.bodyFont = value.bodyFont;
+    };
+
+    let comfort = { ...defaults };
+    const storedComfort = localStorage.getItem(comfortKey);
+    if (storedComfort) {
+      comfort = clamp(JSON.parse(storedComfort));
+    }
+    applyComfort(comfort);
+
+    const applyImmersive = (value) => {
+      doc.dataset.immersivePref = value;
+    };
+
+    const storedImmersive = localStorage.getItem(immersiveKey);
+    if (storedImmersive === "auto" || storedImmersive === "on" || storedImmersive === "off") {
+      applyImmersive(storedImmersive);
+    } else {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const saveData = navigator.connection?.saveData;
+      applyImmersive(reduceMotion || saveData ? "off" : "auto");
+    }
+  } catch (error) {
+    // Swallow bootstrap errors to avoid breaking rendering
+  }
+})();`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://praviel.com"),
   title: "PRAVIEL — Read Ancient Texts in Their Original Languages",
@@ -127,11 +173,22 @@ export default async function RootLayout({
 
   return (
     <ViewTransitions>
-      <html lang="en" className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}>
+      <html
+        lang="en"
+        data-type-scale="base"
+        data-contrast="default"
+        data-body-font="sans"
+        data-immersive-pref="auto"
+        className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}
+      >
         <body
           className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
           style={{ paddingTop: "var(--safe-area-top)" }}
         >
+        <script
+          id="preferences-bootstrap"
+          dangerouslySetInnerHTML={{ __html: preferenceBootstrapScript }}
+        />
         {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
             Using custom proxy through our domain to avoid ad blockers
             Must be a client component to work with Next.js Script strategy */}

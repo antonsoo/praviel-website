@@ -55,51 +55,54 @@ export default function HeroSection() {
               </svg>
               {heroCopy.eyebrow}
             </div>
-
-            <div className="w-full px-4 sm:hidden" data-lcp-priority="cta">
-              <div className="mx-auto flex w-full max-w-md min-h-[22rem] flex-col justify-between rounded-[40px] border border-[#E8C55B]/30 bg-gradient-to-b from-[#242016] via-[#0b0b07] to-[#040403] px-7 py-9 text-left shadow-[0_40px_110px_rgba(0,0,0,0.6)]" data-lcp-target="hero-mobile-cta-panel">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.55em] text-[#E8C55B]/70">
-                  Investor preview
-                </p>
-                <div>
-                  <h2 className="mt-2 text-4xl font-semibold leading-tight text-white text-balance">
-                    Read the originals, not the summaries.
-                  </h2>
-                  <p className="mt-4 text-base text-zinc-200/90 text-balance">
-                    {LANGUAGE_COUNT} languages, manuscript scans, scholia, and citation trails you can audit.
-                  </p>
-                </div>
-                <PrimaryCTA
-                  variant="mobile"
-                  ariaDescribedBy={HERO_CTA_SUBCOPY_ID}
-                  className="mt-6"
-                  lcpTarget="hero-mobile-cta"
-                />
-                <p className="mt-6 text-xs uppercase tracking-[0.45em] text-zinc-500/90">
-                  Playwright • Lighthouse • Plausible verified
-                </p>
-              </div>
-            </div>
           </div>
 
           <h1
             id={HERO_TITLE_ID}
-            className="sr-only sm:not-sr-only sm:text-6xl md:text-[4.75rem] font-bold leading-[1.03] tracking-tight text-white sm:max-w-[16ch] lg:mx-0"
+            className="text-4xl sm:text-6xl md:text-[4.75rem] font-bold leading-[1.05] tracking-tight text-white text-balance max-w-[18ch] sm:max-w-[16ch] lg:mx-0"
             data-lcp-target="hero-headline"
           >
-            <span className="block">Read the Originals</span>
-            <span className="mt-3 hidden max-w-[12ch] text-[1.35rem] text-[#E8C55B] leading-tight sm:inline-block sm:max-w-none sm:text-inherit sm:bg-gradient-to-r sm:from-[#E8C55B] sm:via-[#D4AF37] sm:to-[#E8C55B] sm:bg-clip-text sm:text-transparent motion-safe:animate-gradient-x">
-              Not the Translations
+            <span className="block">Read the originals.</span>
+            <span className="mt-2 block text-3xl sm:text-[3.5rem] md:text-[4rem] bg-gradient-to-r from-[#E8C55B] via-[#D4AF37] to-[#3b82f6] bg-clip-text text-transparent leading-tight motion-safe:animate-gradient-x">
+              Not the translations.
             </span>
           </h1>
 
           <div id={HERO_SUBTITLE_ID} className="space-y-2">
+            <p className="text-base leading-snug text-zinc-300/95 text-balance px-1.5 sm:hidden">
+              {heroCopy.subtitleShort ?? heroCopy.subtitle}
+            </p>
             <p className="hidden sm:block text-sm leading-snug text-zinc-300/95 text-balance px-1.5 lg:px-0">
               {heroCopy.subtitleShort ?? heroCopy.subtitle}
             </p>
             <p className="hidden sm:block text-lg md:text-2xl text-zinc-300 leading-relaxed text-balance px-4 lg:px-0">
               {heroCopy.subtitle}
             </p>
+          </div>
+
+          <div className="w-full px-4 sm:hidden" data-lcp-priority="cta">
+            <div className="mx-auto flex w-full max-w-md min-h-[18rem] flex-col justify-between rounded-[36px] border border-[#E8C55B]/30 bg-gradient-to-b from-[#242016] via-[#0b0b07] to-[#040403] px-6 py-8 text-left shadow-[0_32px_95px_rgba(0,0,0,0.55)]" data-lcp-target="hero-mobile-cta-panel">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.55em] text-[#E8C55B]/70">
+                Investor preview
+              </p>
+              <div>
+                <h2 className="mt-2 text-4xl font-semibold leading-tight text-white text-balance">
+                  Read the originals, not the summaries.
+                </h2>
+                <p className="mt-4 text-base text-zinc-200/90 text-balance">
+                  {LANGUAGE_COUNT} languages, manuscript scans, scholia, and citation trails you can audit.
+                </p>
+              </div>
+              <PrimaryCTA
+                variant="mobile"
+                ariaDescribedBy={HERO_CTA_SUBCOPY_ID}
+                className="mt-6"
+                lcpTarget="hero-mobile-cta"
+              />
+              <p className="mt-5 text-[0.65rem] uppercase tracking-[0.45em] text-zinc-500/90">
+                Playwright • Lighthouse • Plausible verified
+              </p>
+            </div>
           </div>
 
           <p className="sr-only" id={HERO_CTA_SUBCOPY_ID}>

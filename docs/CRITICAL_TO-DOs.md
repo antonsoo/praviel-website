@@ -1,6 +1,6 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 12, 2025 — handoff after view transition + Material Study release  
+**Last updated:** Nov 12, 2025 — post-hero accessibility + Field Reports refresh  
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev  
 **Last successful deploy:** fc75c11 (pnpm run deploy — Nov 12, 2025 20:55 UTC)  
 **Latest commit on main:** 1b0cc65 (docs refresh)
@@ -9,19 +9,19 @@
 
 ## Current status
 
-- Marketing site now includes the Material Study section, Field Reports (blog spotlight), and blog view transitions powered by `next-view-transitions`.
-- `pnpm lint`, `pnpm typecheck`, `pnpm build`, and `pnpm run deploy` have been run this session; production is serving the new UI.
-- Performance (mobile LCP) is still over target, and we have not re-run Lighthouse/Playwright after today’s changes.
-- Comfort controls, immersive toggles, and the new transitions have only been smoke-tested on Chromium desktop.
+- Marketing site now includes the Material Study section, Field Reports (blog spotlight), blog view transitions powered by `next-view-transitions`, and the new comfort + immersive controls wired via dataset bootstrap.
+- `pnpm lint`, `pnpm typecheck`, local OpenNext build/preview, and the hero/blog accessibility suites were re-run on Nov 12; production is still serving the pre-refresh hero until the next deploy.
+- Mobile Lighthouse remains over target (latest prod run: **2.57 s** LCP, perf 95) even after the hero tweaks, so we need another perf pass before we can check the box.
+- Comfort controls, immersive toggles, and transitions are only verified on Chromium desktop — Safari/Android still pending.
 
 ---
 
 ## Critical tasks (ordered)
 
 1. **Mobile LCP ≤ 2.5 s (blocking)**
-   - Re-run `pnpm perf:audit` (≥5 throttled runs) and `pnpm lcp:debug` after today’s hero/material changes.
-   - Experiment with: collapsing footer copy at first paint, simplifying hero gradients on mobile, inlining CTA styles, and ensuring the Field Reports cards do not appear above the fold on 360×640 viewports.
-   - Capture metrics (JSON + HTML reports) and keep the best + median runs in `test-results/`.
+   - Latest `pnpm perf:audit` (Nov 12 21:47 UTC) vs prod = **2.57 s** LCP / perf 95. OpenNext preview on 127.0.0.1:8787 measured **3.49 s**. Both fail the ≤ 2.5 s budget.
+   - `pnpm lcp:debug` (prod) shows the CTA span inside the hero button as the largest paint; preview shows the mobile CTA h2. Next steps: shrink/deflate the mobile CTA block, gate Field Reports cards lower on 360×640, and keep collapsing footer copy until Lighthouse passes.
+   - Keep archiving JSON/HTML reports in `test-results/` once we hit budget.
 
 2. **Responsive polish for hero + new sections**
    - Audit 360×640, 414×896, 768×1024, and 1280×720 using Chrome DevTools or Playwright screenshot tests.
@@ -36,8 +36,9 @@
    - If Safari lacks the API, gate `ViewTransitions` via feature detection.
 
 5. **Blog regression & content tooling**
-   - Re-run `tests/e2e/blog-navigation.spec.ts` against a local build (`BASE_URL=http://127.0.0.1:4410`).
-   - Add a prod smoke test that fetches `/blog` and `/blog/<slug>` via Playwright or curl to catch future JSON mismatches.
+   - ✅ Added two Field Reports (`2025-11-05` comfort controls + `2025-11-10` view transitions) and regenerated `lib/generated/blog-data.json` on build.
+   - ✅ `BASE_URL=http://127.0.0.1:3000 pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop` (Nov 12).
+   - TODO: add a prod smoke test that fetches `/blog` and `/blog/<slug>` via Playwright or curl to catch future JSON mismatches.
 
 6. **Monitoring + nightly automation**
    - Wire `pnpm monitor:plausible`, `pnpm perf:audit`, and the accessibility suites into CI/nightly workflow (`.github/workflows/nightly-monitor.yml` exists but is not checked in).
@@ -47,13 +48,13 @@
 
 ## Testing checklist for next agent
 
-- [ ] `pnpm lint`
-- [ ] `pnpm typecheck`
-- [ ] `pnpm perf:audit` (≥5 mobile runs, archive reports)
-- [ ] `pnpm lcp:debug` (record current hero candidate + paint size)
-- [ ] `BASE_URL=http://127.0.0.1:4410 pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop`
-- [ ] `pnpm playwright test tests/e2e/accessibility-hero-mobile.spec.ts --project=chromium-mobile`
-- [ ] `pnpm playwright test tests/e2e/accessibility-roadmap.spec.ts --project=chromium-desktop`
+- [x] `pnpm lint` (Nov 12 — clean)
+- [x] `pnpm typecheck` (Nov 12 — clean)
+- [x] `pnpm perf:audit` (Nov 12 — prod LCP 2.57 s, preview 3.49 s; fails target)
+- [x] `pnpm lcp:debug` (Nov 12 — CTA span and hero h2 are current candidates)
+- [x] `BASE_URL=http://127.0.0.1:3000 pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop`
+- [x] `pnpm playwright test tests/e2e/accessibility-hero-mobile.spec.ts --project=chromium-mobile`
+- [x] `pnpm playwright test tests/e2e/accessibility-roadmap.spec.ts --project=chromium-desktop`
 - [ ] Manual Safari iOS + Android Chrome checks for comfort controls, immersive toggles, Voice Tour, Material Study
 
 ---
