@@ -2,8 +2,8 @@
 
 **Last updated:** Nov 12, 2025 – Blog view transitions + Material Study deployment
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev
-**Last Successful Deployment:** d966bedf-3a78-4e4a-a605-f286db4a66c9 (Nov 12, 2025 00:32 UTC)
-**Latest Commit:** _tbd (view transitions + material study queued locally)_
+**Last Successful Deployment:** fc75c11 (pnpm run deploy — Nov 12, 2025 20:55 UTC)
+**Latest Commit:** fc75c11 (view transitions + field reports, now LIVE)
 
 ---
 
