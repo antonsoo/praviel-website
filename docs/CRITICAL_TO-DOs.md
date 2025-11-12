@@ -1,13 +1,19 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 12, 2025 – Deployment unblock + perf audit session (early AM follow-up)
+**Last updated:** Nov 12, 2025 – Blog view transitions + Material Study deployment
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev
 **Last Successful Deployment:** d966bedf-3a78-4e4a-a605-f286db4a66c9 (Nov 12, 2025 00:32 UTC)
-**Latest Commit:** f4a23c8 (language count fixes + blog fixes, now LIVE)
+**Latest Commit:** _tbd (view transitions + material study queued locally)_
 
 ---
 
 ## ✅ COMPLETED THIS SESSION
+
+### 11. Blog experience + material palette refresh
+- Added `next-view-transitions` wrapper + per-card `viewTransitionName` hooks so navigating between `/blog` and `/blog/[slug]` animates the papyrus cards instead of flashing white (see Next.js blog guidance on view transitions released Nov 10). Reduced-motion + immersive “off” modes now disable the track automatically.
+- Introduced the **Material Study** section (papyrus / marble / mosaic) plus the homepage **Field Reports** spotlight so investors can see how design decisions map to actual civilizations and jump straight into the latest essays.
+- Rewired blog metadata types (no more `Promise<params>`) and applied view-transition-safe links from `next-view-transitions/link` to keep hydration deterministic on Workers (no FS reads).
+- README now documents the new sections + commands so the broader team knows how to regenerate content and what changed visually.
 
 ### 0. Production deployment green again
 - `pnpm run deploy` succeeded on Nov 11 @ 22:37 UTC after falling back to sequential R2 uploads (missing `R2_ACCESS_KEY_ID` et al.).
@@ -218,6 +224,9 @@
 2. **Accessibility sweep** – Axe now covers the hero (Chromium mobile) + roadmap (Chromium desktop), but we still owe manual VoiceOver/TalkBack passes and the outstanding dark-mode/layout-overflow mobile sweeps mentioned above.
 3. **Proxy migration** – Keep `PRAVIEL_ENABLE_NODE_PROXY` off until OpenNext supports `proxy.ts`; once ready, flip the env and delete `middleware.ts` to avoid running both stacks.
 4. **Monitoring alerts** – Slack + Resend hooks are wired into the nightly workflow; ensure `SLACK_ALERT_WEBHOOK`, `RESEND_API_KEY`, and `ALERT_EMAIL_TO` are populated in repo secrets/vars (and consider mirroring the alerts in `quality.yml`).
+5. **High-contrast + font-pref polish** – We now expose `ComfortControls`, but only a few surfaces read the new `data-contrast`, `data-type-scale`, and `data-body-font` tokens. Need to define contrast-safe color tokens (CTA, FeatureGrid, roadmap, footer) and ensure serif selection cascades through prose components and blog entries. Include visual regression checks for both modes before merging.
+6. **Cross-browser QA for comfort/voice features** – The Voice Tour and immersive/comfort toggles were only smoke-tested on Chromium desktop. Need manual runs on Safari iOS + Android Chrome to confirm Speech Synthesis fallback text, reduced-motion honoring, localStorage syncing, and that the aria-live announcements behave with mobile screen readers.
+7. **View transitions on Safari/Firefox** – Follow up once Safari TP + Firefox enable View Transitions (per MDN roadmap). Need to verify the new blog transitions feature-detects properly and doesn’t throw when API is missing.
 
 ---
 

@@ -11,6 +11,12 @@ import FAQ from "@/components/FAQ";
 import ComparisonTable from "@/components/ComparisonTable";
 import LanguageShowcase from "@/components/LanguageShowcase";
 import PrivacyFirst from "@/components/PrivacyFirst";
+import CivilizationTriad from "@/components/CivilizationTriad";
+import MaterialStudy from "@/components/MaterialStudy";
+import BlogSpotlight from "@/components/BlogSpotlight";
+import LivingManuscript from "@/components/LivingManuscript";
+import JourneyTimeline from "@/components/JourneyTimeline";
+import VoiceTour from "@/components/VoiceTour";
 
 // Marketing site stays static via cacheLife + cacheComponents
 // Note: OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
@@ -18,11 +24,19 @@ import PrivacyFirst from "@/components/PrivacyFirst";
 
 export default async function HomePage() {
   "use cache";
-  cacheLife("hours");
+  cacheLife("days");
 
   return (
     <>
       <HeroSection />
+      <SectionDivider />
+      <CivilizationTriad />
+      <SectionDivider />
+      <MaterialStudy />
+      <SectionDivider />
+      <BlogSpotlight />
+      <SectionDivider />
+      <VoiceTour />
       <SectionDivider />
       <FeatureGrid />
       <SectionDivider />
@@ -30,7 +44,11 @@ export default async function HomePage() {
       <SectionDivider />
       <WhyPRAVIEL />
       <SectionDivider />
+      <LivingManuscript />
+      <SectionDivider />
       <ComparisonTable />
+      <SectionDivider />
+      <JourneyTimeline />
       <SectionDivider />
       <LanguageShowcase />
       <SectionDivider />

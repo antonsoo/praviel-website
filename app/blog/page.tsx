@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { getAllPosts, formatDate } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -51,7 +51,10 @@ export default function BlogPage() {
                 prefetch={false}
                 className="block group"
               >
-                <article className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-sm p-8 transition-all duration-300 hover:border-[#D4AF37]/30 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-[#D4AF37]/10">
+                <article
+                  className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/40 backdrop-blur-sm p-8 transition-all duration-300 hover:border-[#D4AF37]/30 hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-[#D4AF37]/10"
+                  style={{ viewTransitionName: `blog-card-${post.slug}` }}
+                >
                   {/* Hover glow effect */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
@@ -74,7 +77,10 @@ export default function BlogPage() {
                     )}
 
                     {/* Title */}
-                    <h2 className="text-2xl md:text-3xl font-bold mb-3 text-zinc-100 group-hover:text-[#E8C55B] transition-colors duration-300">
+                    <h2
+                      className="text-2xl md:text-3xl font-bold mb-3 text-zinc-100 group-hover:text-[#E8C55B] transition-colors duration-300"
+                      style={{ viewTransitionName: `blog-title-${post.slug}` }}
+                    >
                       {post.title}
                     </h2>
 
@@ -82,7 +88,10 @@ export default function BlogPage() {
                     <div className="flex items-center gap-4 text-sm text-zinc-500 mb-4">
                       <span>{post.author}</span>
                       <span>•</span>
-                      <time dateTime={post.publishDate}>
+                      <time
+                        dateTime={post.publishDate}
+                        style={{ viewTransitionName: `blog-date-${post.slug}` }}
+                      >
                         {formatDate(post.publishDate)}
                       </time>
                       <span>•</span>

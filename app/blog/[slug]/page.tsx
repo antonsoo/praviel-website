@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { getPostBySlug, getAllPostSlugs, formatDate } from "@/lib/blog";
 
 interface BlogPostPageProps {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 }
 
 // Static generation handled by generateStaticParams + cacheComponents in next.config.ts
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -60,7 +60,7 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -145,7 +145,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             )}
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-zinc-100 bg-clip-text text-transparent leading-tight">
+            <h1
+              className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-zinc-100 bg-clip-text text-transparent leading-tight"
+              style={{ viewTransitionName: `blog-title-${slug}` }}
+            >
               {post.title}
             </h1>
 
@@ -182,7 +185,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <time dateTime={post.publishDate}>
+                <time
+                  dateTime={post.publishDate}
+                  style={{ viewTransitionName: `blog-date-${slug}` }}
+                >
                   {formatDate(post.publishDate)}
                 </time>
               </div>

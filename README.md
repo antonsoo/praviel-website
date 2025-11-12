@@ -33,6 +33,7 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 - 🏛️ **Ancient civilization theme** anchored in Egyptian gold + lapis gradients with pure-CSS noise (no client canvas).
 - 🧠 **Server-rendered hero + Suspense gating** so the critical copy streams instantly while heavy demos hydrate only on user intent.
 - 🌍 **Interactive language showcase** featuring the 46-language roadmap with authentic samples and writing-system notes.
+- 🪨 **Material study lab** that lets visitors flip between papyrus, marble, and mosaic palettes to see how the design language adapts per civilization.
 - 📚 **Lessons + Reader demos** powered by canonical excerpts (Iliad 1.1, Torah, etc.) and deterministic fixtures for testing.
 - 🗺️ **How It Works** 4-step journey plus comparison table that explain the neuro-symbolic stack to prospective funders.
 - ❓ **Comprehensive FAQ** covering licensing, pedagogy, BYOK deployments, and school partnerships.
@@ -41,6 +42,8 @@ This repo is the **marketing website**. For the main platform (Python/FastAPI + 
 - 🔤 **Self-hosted Noto stack** (Latin, Greek, Devanagari, Hebrew, CJK) managed via `next/font/local` for deterministic LCP.
 - 🔍 **SEO + Analytics ready**: JSON-LD structured data, Sentry + `/api/observability/vitals` pipeline, Cloudflare Analytics hook.
 - 🌐 **Edge-deployed** on Cloudflare Workers through OpenNext with automated cache purges.
+- 📰 **Field reports spotlight** pulls the three latest blog essays directly into the homepage with papyrus-styled cards and announces new dispatches without leaving hero context.
+- 🌀 **Native View Transitions** (via `next-view-transitions`) keep blog list/detail navigation seamless while respecting reduced-motion and immersive-preference settings.
 
 ---
 
