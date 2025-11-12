@@ -10,9 +10,10 @@
 ## Current status
 
 - Marketing site now includes the Material Study section, Field Reports (blog spotlight), blog view transitions powered by `next-view-transitions`, and the new comfort + immersive controls wired via dataset bootstrap.
-- `pnpm lint`, `pnpm typecheck`, local OpenNext build/preview, and the hero/blog accessibility suites were re-run on Nov 12; production is still serving the pre-refresh hero until the next deploy.
-- Mobile Lighthouse remains over target (latest prod run: **2.57 s** LCP, perf 95) even after the hero tweaks, so we need another perf pass before we can check the box.
+- `pnpm lint`, `pnpm typecheck`, local OpenNext build/preview, and the hero/blog accessibility suites were re-run on Nov 12; the latest Worker (b39baddb) carries the slimmer mobile CTA but still needs perf polish.
+- Mobile Lighthouse remains over target (latest prod run: **4.09 s** LCP, perf 85) even after the hero tweaks; we regressed after removing the CTA card, so another perf pass is blocking launch.
 - Comfort controls, immersive toggles, and transitions are only verified on Chromium desktop — Safari/Android still pending.
+- `pnpm smoke:blog` now exists (listing + latest slug) and is wired into `.github/workflows/nightly-monitor.yml`, but Slack/Resend secrets are still unset so failures are silent until those env vars land.
 
 ---
 
@@ -41,8 +42,8 @@
    - ✅ New `pnpm smoke:blog` script fetches `/blog` + the latest slug; wired into nightly workflow with `BLOG_SMOKE_BASE=${BASE_URL}` (Nov 12).
 
 6. **Monitoring + nightly automation**
-   - Wire `pnpm monitor:plausible`, `pnpm perf:audit`, and the accessibility suites into CI/nightly workflow (`.github/workflows/nightly-monitor.yml` exists but is not checked in).
-   - Ensure Slack/Resend env vars are configured so failures alert us immediately.
+   - ✅ `.github/workflows/nightly-monitor.yml` is now committed: Plausible monitor, blog smoke, Playwright suites, Lighthouse, and LCP debug all run nightly.
+   - TODO: populate `SLACK_ALERT_WEBHOOK`, `RESEND_API_KEY`, and `ALERT_EMAIL_TO` so alerting steps actually fire; without them the workflow only uploads artifacts.
 
 ---
 
@@ -64,3 +65,10 @@
 - Always run `pnpm blog:generate` after editing markdown; Cloudflare Workers cannot read the filesystem.
 - Prefer `pnpm run dev`/`pnpm preview` for local QA so our edge-specific behavior (proxy, analytics) matches production.
 - Keep focus on meaningful progress: prioritize the mobile performance/a11y fixes before adding new sections.
+
+## Execution guardrails for the next session
+
+- **No low-signal work.** Only run Lighthouse/Playwright after meaningful code changes; otherwise keep iterating on the hero/mobile bottlenecks. Blog smoke + Plausible monitor already run nightly.
+- **Hit the blockers in order:** (1) drop mobile LCP ≤ 2.5 s, (2) run the pending Safari/Android manual passes, (3) configure Slack/Resend secrets so the nightly workflow can alert us.
+- **Cross-browser shakedown:** View Transitions + immersive toggles must be validated on Safari iOS 18 beta, Firefox Nightly, and Android Chrome, then summarize any deltas here.
+- **Document unfinished threads.** If you stop mid-investigation (e.g., hero perf experiment, cross-browser bug), list the exact steps + URLs here before ending the session so the next agent can pick up instantly.
