@@ -78,6 +78,7 @@ pnpm preview     # Local Cloudflare Workers preview
 pnpm build       # Production build
 pnpm typecheck   # TypeScript validation
 pnpm lint        # ESLint check
+pnpm blog:generate  # Rebuilds lib/generated/blog-data.json after editing markdown
 pnpm with-release <cmd>  # Inject release metadata + env for build tooling
 pnpm sentry:smoke        # Sends a test event using the env vars in .dev.vars
 ```

@@ -1,27 +1,51 @@
 import Link from "next/link";
 
-export default function PrimaryCTA() {
+type PrimaryCTAProps = {
+  ariaDescribedBy?: string;
+  lcpTarget?: string;
+  className?: string;
+  variant?: "default" | "mobile";
+};
+
+const variantClasses: Record<NonNullable<PrimaryCTAProps["variant"]>, string> = {
+  default: [
+    "inline-flex items-center justify-center gap-2 rounded-[24px] bg-[#F5E7C4]",
+    "min-h-[52px] px-8 py-3 text-base font-semibold text-black ring-1 ring-black/5",
+    "shadow-[0_4px_16px_rgba(245,231,196,0.4)] transition-all duration-150 ease-out",
+    "hover:bg-[#FFF4D9] active:bg-[#E8C55B]",
+  ].join(" "),
+  mobile: [
+    "inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-2xl border border-[#E8C55B]/30",
+    "bg-gradient-to-r from-[#1b1b16] via-[#10100c] to-[#1b1b16] px-6 py-4 text-lg font-semibold uppercase",
+    "tracking-[0.22em] text-[#E8C55B] ring-1 ring-[#E8C55B]/25 shadow-none transition-colors duration-150",
+    "hover:text-white hover:ring-[#E8C55B]/40",
+  ].join(" "),
+};
+
+export default function PrimaryCTA({
+  ariaDescribedBy,
+  lcpTarget = "hero-primary-cta",
+  className = "",
+  variant = "default",
+}: PrimaryCTAProps = {}) {
+  const href = "https://app.praviel.com";
+  const classes = [variantClasses[variant], className]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div className="relative mt-10 inline-flex items-center justify-center">
-      <span className="pointer-events-none absolute -inset-5 rounded-3xl bg-gradient-to-r from-[#D4AF37]/15 via-[#E8C55B]/20 to-[#C5A572]/15 blur-2xl" aria-hidden />
-      <Link
-        href="https://app.praviel.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative inline-flex min-h-[48px] items-center gap-2 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#E8C55B] to-[#D4AF37] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-black shadow-[0_0_20px_rgba(212,175,55,0.35)] sm:shadow-[0_0_45px_rgba(212,175,55,0.45)] ring-1 ring-[#E8C55B]/50 transition-all duration-300 ease-out hover:shadow-[0_0_35px_rgba(212,175,55,0.55)] sm:hover:shadow-[0_0_65px_rgba(212,175,55,0.65)] hover:scale-105 active:scale-100"
-      >
-        <span className="tracking-tight">Read the Originals Now</span>
-        <svg
-          viewBox="0 0 24 24"
-          className="h-5 w-5 transition-transform duration-300 ease-out group-hover:translate-x-1"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.4}
-        >
-          <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        <span className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 transition duration-500 ease-out group-hover:opacity-100" aria-hidden />
-      </Link>
-    </div>
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={classes}
+      aria-describedby={ariaDescribedBy}
+      {...(lcpTarget ? { "data-lcp-target": lcpTarget } : {})}
+    >
+      <span className="truncate">Read the originals</span>
+      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+        <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </Link>
   );
 }
