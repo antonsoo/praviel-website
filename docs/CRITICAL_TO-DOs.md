@@ -19,8 +19,8 @@
 ## Critical tasks (ordered)
 
 1. **Mobile LCP ≤ 2.5 s (blocking)**
-   - Latest `pnpm perf:audit` (Nov 12 21:47 UTC) vs prod = **2.57 s** LCP / perf 95. OpenNext preview on 127.0.0.1:8787 measured **3.49 s**. Both fail the ≤ 2.5 s budget.
-   - `pnpm lcp:debug` (prod) shows the CTA span inside the hero button as the largest paint; preview shows the mobile CTA h2. Next steps: shrink/deflate the mobile CTA block, gate Field Reports cards lower on 360×640, and keep collapsing footer copy until Lighthouse passes.
+   - Latest `pnpm perf:audit` (Nov 12 22:27 UTC) vs prod = **4.09 s** LCP / perf 85. Earlier baseline (21:47 UTC) was **2.57 s**. We clearly regressed under throttled mobile, so the hero/CTA still needs major simplification.
+   - `pnpm lcp:debug` (Nov 12, local dev) now reports the top nav wordmark (`<a>` at 1.16 s) followed by the mobile CTA subheading (1.36 s). The CTA card has been removed on mobile, but the typography + gradients are still heavy.
    - Keep archiving JSON/HTML reports in `test-results/` once we hit budget.
 
 2. **Responsive polish for hero + new sections**
