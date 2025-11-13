@@ -1,5 +1,7 @@
 "use client";
 
+import { LANGUAGE_COUNT } from "@/lib/languageStats";
+
 export default function FundingHero() {
   return (
     <section className="relative isolate px-6 py-24 sm:py-32 md:py-40">
@@ -40,7 +42,7 @@ export default function FundingHero() {
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <span>46 ancient languages with AI lesson generation</span>
+            <span>{LANGUAGE_COUNT} ancient languages with AI lesson generation</span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <svg

@@ -1,8 +1,12 @@
+import { LANGUAGE_COUNT } from "@/lib/languageStats";
+
 export const heroCopy = {
   eyebrow: "The Conversation Across Millennia",
   title: "Read the originals — not the translations.",
   subtitle:
     "When you read Homer in English, you're reading the translator—not Homer. Hear the ancient voices speak for themselves.",
+  subtitleShort: "Original voices. Zero translator bias.",
+  ctaSubcopy: "Web app live • iOS & Android alpha this week",
   mission:
     "Democratize access to 5,000 years of human knowledge by making ancient language learning accessible, engaging, and effective through modern AI technology while maintaining scholarly rigor.",
   valueProps: [
@@ -67,7 +71,7 @@ export const missionPillars = [
   {
     label: "Humanity",
     body:
-      "Preserve 5,000 years of linguistic memory—46 ancient languages prioritized by cultural risk, not popularity.",
+      `Preserve 5,000 years of linguistic memory—${LANGUAGE_COUNT} ancient languages prioritized by cultural risk, not popularity.`,
   },
 ];
 

@@ -3,13 +3,14 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
 import PapyrusScroll from "./PapyrusScroll";
+import { LANGUAGE_COUNT } from "@/lib/languageStats";
 
 export default function ImpactSection() {
   const impacts = [
     {
       title: "Linguistic Infrastructure",
       description:
-        "Server costs, database hosting, and API infrastructure to deliver instant morphological analysis for 46 ancient languages.",
+        `Server costs, database hosting, and API infrastructure to deliver instant morphological analysis for ${LANGUAGE_COUNT} ancient languages.`,
       icon: (
         <svg
           viewBox="0 0 24 24"

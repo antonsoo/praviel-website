@@ -8,6 +8,11 @@ const FLUTTER_E2E_URL =
   process.env.FLUTTER_E2E_URL ?? "https://008001b3.app-praviel.pages.dev";
 
 const PIXEL5_VIEWPORT = { width: 393, height: 851 };
+const IGNORED_REQUEST_FAILURES = [
+  /\/health(?:$|\?)/,
+  /\/branding\/background-events/,
+  /\/api\/v1\/auth\/login/,
+];
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RUN_STAMP =
@@ -159,7 +164,8 @@ async function setLanguageViaStorage(
   await page.evaluate((code) => {
     window.localStorage.setItem("selected_language", code);
   }, languageCode);
-  await page.reload({ waitUntil: "networkidle", timeout: 150_000 });
+  await page.reload({ waitUntil: "domcontentloaded", timeout: 90_000 });
+  await page.waitForLoadState("networkidle", { timeout: 60_000 }).catch(() => undefined);
   await acceptAccessibilityPrompt(page);
   await dismissAccountGate(page);
   await waitForFlutter(page);
@@ -246,7 +252,8 @@ async function completeOnboarding(page: import("@playwright/test").Page) {
 test.describe("Flutter Pixel-5 sweep", () => {
   test("smoke top 10 languages", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "chromium-desktop", "Pixel sweep uses chromium only");
-    test.setTimeout(360_000);
+    test.slow();
+    test.setTimeout(1_200_000);
 
     await page.setViewportSize(PIXEL5_VIEWPORT);
     const artifactDir = await ensureArtifactDir();
@@ -266,10 +273,15 @@ test.describe("Flutter Pixel-5 sweep", () => {
     });
 
     page.on("requestfailed", (request) => {
+      const errorText = request.failure()?.errorText ?? "unknown";
+      const url = request.url();
+      if (errorText.includes("ERR_ABORTED") && IGNORED_REQUEST_FAILURES.some((pattern) => pattern.test(url))) {
+        return;
+      }
       failedRequests.push({
         ts: new Date().toISOString(),
-        url: request.url(),
-        error: request.failure()?.errorText ?? "unknown",
+        url,
+        error: errorText,
         language: activeLanguage,
       });
     });

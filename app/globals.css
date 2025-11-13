@@ -434,8 +434,28 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.75;
+    opacity: 0.35;
     mix-blend-mode: screen;
+    transition: opacity 0.6s ease;
+  }
+
+  html:not([data-scene]) .civilization-layer {
+    opacity: 0.75;
+  }
+
+  html[data-scene="egypt"] .civilization-layer--egypt,
+  html[data-scene="greece"] .civilization-layer--greece,
+  html[data-scene="rome"] .civilization-layer--rome {
+    opacity: 0.9;
+  }
+
+  html[data-scene="egypt"] .civilization-layer--greece,
+  html[data-scene="egypt"] .civilization-layer--rome,
+  html[data-scene="greece"] .civilization-layer--egypt,
+  html[data-scene="greece"] .civilization-layer--rome,
+  html[data-scene="rome"] .civilization-layer--egypt,
+  html[data-scene="rome"] .civilization-layer--greece {
+    opacity: 0.15;
   }
 
   .civilization-layer--egypt {
@@ -497,6 +517,18 @@
     opacity: 0 !important;
     animation: none !important;
     pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    .civilization-layer,
+    .site-bg-constellation,
+    .site-bg-noise {
+      display: none !important;
+    }
+
+    .temple-nav {
+      display: none !important;
+    }
   }
 
   html[data-immersive-pref="off"] .glyph-ticker__track {
@@ -674,6 +706,397 @@
 
   .comfort-panel {
     transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+
+  .temple-nav {
+    position: fixed;
+    z-index: 35;
+    inset: auto;
+    right: 0;
+    left: 0;
+    bottom: calc(1.25rem + var(--safe-area-bottom));
+    margin-inline: auto;
+    width: min(92vw, 520px);
+    display: none;
+    padding-inline: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .temple-nav {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .temple-nav {
+      width: 240px;
+      right: clamp(0.75rem, 2vw, 2.5rem);
+      left: auto;
+      top: 50%;
+      bottom: auto;
+      padding: 0;
+      transform: translateY(-50%);
+    }
+  }
+
+  .temple-nav__panel {
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(6, 6, 6, 0.85);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(20px);
+    padding: 0.85rem 1rem 1rem;
+  }
+
+  @media (min-width: 1280px) {
+    .temple-nav__panel {
+      padding: 1rem;
+    }
+  }
+
+  .temple-nav__title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: rgba(248, 232, 196, 0.65);
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .temple-nav__list {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+  }
+
+  @media (min-width: 1280px) {
+    .temple-nav__list {
+      flex-direction: column;
+      overflow: visible;
+      gap: 0.5rem;
+    }
+  }
+
+  .temple-nav__item {
+    flex: 1 0 auto;
+  }
+
+  @media (min-width: 1280px) {
+    .temple-nav__item {
+      flex: unset;
+    }
+  }
+
+  .temple-nav__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(12, 12, 12, 0.7);
+    color: #f5e4b8;
+    text-decoration: none;
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+
+  .temple-nav__link:hover,
+  .temple-nav__link:focus-visible {
+    border-color: rgba(232, 197, 91, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .temple-nav__link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(232, 197, 91, 0.45);
+  }
+
+  .temple-nav__glyph {
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .temple-nav__copy {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .temple-nav__label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .temple-nav__description {
+    font-size: 0.65rem;
+    color: rgba(226, 232, 240, 0.65);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .temple-nav__link::after {
+    content: \"\";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(120deg, rgba(232, 197, 91, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+
+  .temple-nav__link--active::after {
+    opacity: 1;
+  }
+
+  .temple-nav__indicator {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 0.45rem;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(232, 197, 91, 0.9), transparent);
+    opacity: 0;
+    transform: scaleX(0.2);
+    transform-origin: left;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .temple-nav__link--active .temple-nav__indicator {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .temple-nav__link[data-civilization=\"egypt\"] {
+    --temple-nav-accent: rgba(212, 175, 55, 0.85);
+  }
+
+  .temple-nav__link[data-civilization=\"greece\"] {
+    --temple-nav-accent: rgba(59, 130, 246, 0.85);
+  }
+
+  .temple-nav__link[data-civilization=\"rome\"] {
+    --temple-nav-accent: rgba(205, 92, 92, 0.85);
+  }
+
+  .temple-nav__link[data-civilization] .temple-nav__indicator {
+    background: linear-gradient(90deg, var(--temple-nav-accent, rgba(232, 197, 91, 0.85)), transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .temple-nav__link {
+      transition: none;
+    }
+
+    .temple-nav__link::after,
+    .temple-nav__indicator {
+      transition: none;
+    }
+  }
+
+  .portal-grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .portal-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .portal-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(8, 8, 8, 0.8);
+    padding: 2rem;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 35px 140px rgba(0, 0, 0, 0.45);
+  }
+
+  .portal-card__halo {
+    position: absolute;
+    inset: -20% -20% auto -20%;
+    height: 60%;
+    border-radius: 50%;
+    filter: blur(35px);
+    opacity: 0.8;
+    pointer-events: none;
+    animation: portal-halo 24s ease-in-out infinite;
+  }
+
+  .portal-card--egypt .portal-card__halo {
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.35), transparent 60%);
+  }
+
+  .portal-card--greece .portal-card__halo {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.35), transparent 60%);
+  }
+
+  .portal-card--rome .portal-card__halo {
+    background: radial-gradient(circle, rgba(205, 92, 92, 0.35), transparent 60%);
+  }
+
+  .portal-card--egypt {
+    background-image: linear-gradient(135deg, rgba(232, 197, 91, 0.08), transparent 55%), rgba(8, 8, 8, 0.85);
+  }
+
+  .portal-card--greece {
+    background-image: linear-gradient(135deg, rgba(59, 130, 246, 0.08), transparent 55%), rgba(8, 8, 12, 0.85);
+  }
+
+  .portal-card--rome {
+    background-image: linear-gradient(135deg, rgba(205, 92, 92, 0.12), transparent 65%), rgba(9, 8, 7, 0.85);
+  }
+
+  .portal-card__epoch {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    color: rgba(226, 232, 240, 0.6);
+  }
+
+  .portal-card__title {
+    font-size: clamp(1.75rem, 2vw, 2.5rem);
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .portal-card__body {
+    font-size: 0.95rem;
+    color: rgba(226, 232, 240, 0.9);
+    line-height: 1.6;
+  }
+
+  .portal-card__highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: auto;
+  }
+
+  .portal-card__highlights li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .portal-card__dot {
+    margin-top: 0.35rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: rgba(232, 197, 91, 0.8);
+    flex-shrink: 0;
+  }
+
+  .portal-card--greece .portal-card__dot {
+    background: rgba(59, 130, 246, 0.8);
+  }
+
+  .portal-card--rome .portal-card__dot {
+    background: rgba(205, 92, 92, 0.8);
+  }
+
+  .portal-card__highlight-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: rgba(226, 232, 240, 0.6);
+  }
+
+  .portal-card__highlight-detail {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .portal-card__cta {
+    margin-top: 0.25rem;
+  }
+
+  .portal-card__cta-link {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.35);
+    color: #f5e4b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  }
+
+  .portal-card__cta-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .portal-card__cta-link:hover,
+  .portal-card__cta-link:focus-visible {
+    border-color: rgba(232, 197, 91, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .portal-card__cta-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(232, 197, 91, 0.45);
+  }
+
+  @media (max-width: 640px) {
+    .portal-card {
+      padding: 1.5rem;
+      min-height: 0;
+    }
+
+    .portal-card__title {
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    .portal-card__cta-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+    }
+  }
+
+  @keyframes portal-halo {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portal-card__halo {
+      animation: none;
+    }
+
+    .portal-card__cta-link {
+      transition: none;
+    }
   }
 
   html[data-contrast="high"] .comfort-panel,
@@ -1408,24 +1831,23 @@ a:focus-visible,
   }
 }
 
-/* Micro-interactions for buttons (2025 best practices) */
+/* Micro-interactions for buttons (scoped to explicit classes) */
 @media (prefers-reduced-motion: no-preference) {
-  button:not(:disabled):hover {
+  .btn-interactive:not(:disabled):hover {
     transform: translateY(-1px);
   }
 
-  button:not(:disabled):active {
+  .btn-interactive:not(:disabled):active {
     transform: translateY(0);
     transition-duration: 0.1s;
   }
 
-  /* Ripple effect base */
-  button, a {
+  /* Haptic-style feedback (opt-in via class) */
+  .haptic-feedback {
     position: relative;
     overflow: hidden;
   }
 
-  /* Haptic-style feedback */
   .haptic-feedback:active {
     animation: haptic-pulse 0.3s ease;
   }
@@ -1928,5 +2350,337 @@ a:focus-visible,
   .prose a {
     color: #0066cc !important;
     border-bottom-color: #0066cc !important;
+  }
+}
+
+/* Egyptian Hieroglyphs Component Styling */
+.egyptian-hieroglyphs {
+  position: relative;
+}
+
+.egyptian-glyph-container {
+  min-width: 60px;
+  min-height: 60px;
+  cursor: pointer;
+}
+
+.egyptian-glyph {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  display: inline-block;
+}
+
+/* Hide scrollbar for egyptian hieroglyphs horizontal layout */
+.egyptian-hieroglyphs.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.egyptian-hieroglyphs.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Greek Meander Border Animations */
+.greek-meander-border {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.greek-meander-animate {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Greek meander shimmer overlay effect */
+.greek-meander-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(96, 165, 250, 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: greek-shimmer 6s linear infinite;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+@keyframes greek-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .greek-meander-shimmer {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* Roman Architectural Frame Styling */
+.roman-frame {
+  position: relative;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Roman Column Hover Effects */
+@media (prefers-reduced-motion: no-preference) {
+  .roman-frame:hover .roman-column-glow {
+    opacity: 1;
+    animation: roman-glow-pulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes roman-glow-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Parallax Scroll Effects for Ancient Backgrounds (2025 CSS) */
+@supports (animation-timeline: scroll()) {
+  /* Parallax movement for civilization layers */
+  .parallax-slow {
+    animation: parallax-slow-move linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0vh 300vh;
+  }
+
+  .parallax-medium {
+    animation: parallax-medium-move linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0vh 300vh;
+  }
+
+  .parallax-fast {
+    animation: parallax-fast-move linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0vh 300vh;
+  }
+}
+
+@keyframes parallax-slow-move {
+  from {
+    transform: translateY(0) translateZ(0);
+  }
+  to {
+    transform: translateY(-15vh) translateZ(0);
+  }
+}
+
+@keyframes parallax-medium-move {
+  from {
+    transform: translateY(0) translateZ(0);
+  }
+  to {
+    transform: translateY(-30vh) translateZ(0);
+  }
+}
+
+@keyframes parallax-fast-move {
+  from {
+    transform: translateY(0) translateZ(0);
+  }
+  to {
+    transform: translateY(-50vh) translateZ(0);
+  }
+}
+
+/* Staggered Fade-In Animation for Content Sections */
+@media (prefers-reduced-motion: no-preference) {
+  .stagger-fade-in:nth-child(1) {
+    animation: fade-in-up 0.6s ease-out 0.1s both;
+  }
+
+  .stagger-fade-in:nth-child(2) {
+    animation: fade-in-up 0.6s ease-out 0.2s both;
+  }
+
+  .stagger-fade-in:nth-child(3) {
+    animation: fade-in-up 0.6s ease-out 0.3s both;
+  }
+
+  .stagger-fade-in:nth-child(4) {
+    animation: fade-in-up 0.6s ease-out 0.4s both;
+  }
+
+  .stagger-fade-in:nth-child(5) {
+    animation: fade-in-up 0.6s ease-out 0.5s both;
+  }
+
+  .stagger-fade-in:nth-child(6) {
+    animation: fade-in-up 0.6s ease-out 0.6s both;
+  }
+}
+
+/* Glyph Rotation Animation for Ancient Scripts */
+@media (prefers-reduced-motion: no-preference) {
+  .glyph-rotate-in {
+    animation: glyph-rotate 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  .glyph-pulse {
+    animation: glyph-pulse-animation 4s ease-in-out infinite;
+  }
+}
+
+@keyframes glyph-rotate {
+  from {
+    opacity: 0;
+    transform: rotateY(-180deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes glyph-pulse-animation {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Enhanced Performance Utilities for Mobile */
+@media (max-width: 640px) {
+  /* Reduce animation complexity on mobile */
+  .egyptian-hieroglyphs {
+    animation-duration: 0.4s !important;
+  }
+
+  .greek-meander-shimmer {
+    animation-duration: 8s !important;
+  }
+
+  /* Disable parallax on mobile for better performance */
+  .parallax-slow,
+  .parallax-medium,
+  .parallax-fast {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Simplify glow effects on mobile */
+  .text-shadow-glow,
+  .text-shadow-glow-blue {
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  }
+}
+
+/* Ancient Scroll Reveal Animation (Enter from different directions) */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .scroll-reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .scroll-reveal-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .scroll-reveal-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Content Visibility Performance Optimization */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* Ensure LCP elements are visible immediately */
+[data-lcp-target] {
+  content-visibility: visible !important;
+}
+
+/* Reduce paint complexity on mobile for hero */
+@media (max-width: 640px) {
+  /* Simplify hero gradient background on mobile */
+  .hero-backdrop {
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0.98), rgba(5, 5, 5, 0.6)) !important;
+  }
+
+  /* Remove heavy decorative elements on mobile */
+  [data-hero-decoration] {
+    display: none !important;
+  }
+}
+
+/* Optimized GPU Acceleration for Ancient Animations */
+.gpu-boost {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes to free GPU resources */
+@media (prefers-reduced-motion: no-preference) {
+  .gpu-boost-complete {
+    will-change: auto;
+  }
+}
+
+/* Ancient Typography Effects */
+.ancient-text-glow {
+  text-shadow:
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 30px currentColor;
+  opacity: 0.9;
+}
+
+.ancient-text-emboss {
+  text-shadow:
+    1px 1px 1px rgba(255, 255, 255, 0.1),
+    -1px -1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Reduce motion for all ancient animations */
+@media (prefers-reduced-motion: reduce) {
+  .egyptian-hieroglyphs *,
+  .greek-meander-border *,
+  .roman-frame *,
+  .parallax-slow,
+  .parallax-medium,
+  .parallax-fast,
+  .scroll-reveal-left,
+  .scroll-reveal-right,
+  .scroll-reveal-up,
+  .glyph-rotate-in,
+  .glyph-pulse,
+  .stagger-fade-in {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

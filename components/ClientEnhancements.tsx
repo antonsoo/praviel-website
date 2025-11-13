@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCookiePreferences } from "@/lib/cookieConsent";
 import { useUserIntentGate } from "@/lib/hooks/useUserIntentGate";
 import { useHydrated } from "@/lib/hooks/useHydrated";
+import { useImmersivePreference } from "@/lib/hooks/useImmersivePreference";
 import { scheduleIdleTask } from "@/lib/utils/idle";
 
 type OverlayBundle = {
@@ -13,18 +14,31 @@ type OverlayBundle = {
   MusicToggle: ComponentType;
 };
 
+type ImmersiveBundle = {
+  TorchCursor: ComponentType;
+  CursorGlow: ComponentType;
+  VolumetricLight: ComponentType;
+  AtmosphericFog: ComponentType;
+  FilmGrain: ComponentType;
+};
+
 export default function ClientEnhancements() {
   const hydrated = useHydrated();
   const [scrollProgressComponent, setScrollProgressComponent] = useState<ComponentType | null>(null);
   const [overlayBundle, setOverlayBundle] = useState<OverlayBundle | null>(null);
+  const [immersiveBundle, setImmersiveBundle] = useState<ImmersiveBundle | null>(null);
   const cookiePreferences = useCookiePreferences();
   const hasFunctionalConsent = cookiePreferences.functional;
   const userIntentReady = useUserIntentGate({ scrollDistance: 120 });
+  const [immersivePreference] = useImmersivePreference();
+  const userForcesImmersive = immersivePreference === "on";
+  const userDisablesImmersive = immersivePreference === "off";
 
-  const shouldSkipEnhancements = useMemo(() => {
+  const deviceConstrained = useMemo(() => {
     if (typeof window === "undefined") return true;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const isNarrowViewport = window.innerWidth < 768;
     const nav = window.navigator as Navigator & {
       connection?: { saveData?: boolean; effectiveType?: string };
       hardwareConcurrency?: number;
@@ -34,10 +48,17 @@ export default function ClientEnhancements() {
     const slowConnection = ["slow-2g", "2g"].includes(connection?.effectiveType ?? "");
     const lowPowerDevice = (nav.hardwareConcurrency ?? 8) <= 4;
 
-    return prefersReducedMotion || saveData || slowConnection || (coarsePointer && lowPowerDevice);
+    if (prefersReducedMotion || saveData || slowConnection) return true;
+    if (coarsePointer || isNarrowViewport) return true;
+    if (lowPowerDevice) return true;
+    return false;
   }, []);
 
+  const shouldSkipEnhancements = deviceConstrained && !userForcesImmersive;
+  const skipImmersiveBundle = shouldSkipEnhancements || userDisablesImmersive;
+
   const canLoadOverlays = hydrated && !shouldSkipEnhancements && hasFunctionalConsent && userIntentReady;
+  const canLoadImmersive = hydrated && hasFunctionalConsent && userIntentReady && !skipImmersiveBundle;
 
   // Lazily load the scroll progress bar after first paint.
   useEffect(() => {
@@ -91,6 +112,40 @@ export default function ClientEnhancements() {
     };
   }, [overlayBundle, canLoadOverlays]);
 
+  useEffect(() => {
+    if (!canLoadImmersive || immersiveBundle) return;
+
+    let cancelled = false;
+    const cancel = scheduleIdleTask(() => {
+      void Promise.all([
+        import("./TorchCursor"),
+        import("./CursorGlow"),
+        import("./VolumetricLight"),
+        import("./AtmosphericFog"),
+        import("./FilmGrain"),
+      ])
+        .then(([torch, glow, volumetric, fog, grain]) => {
+          if (!cancelled) {
+            setImmersiveBundle({
+              TorchCursor: torch.default,
+              CursorGlow: glow.default,
+              VolumetricLight: volumetric.default,
+              AtmosphericFog: fog.default,
+              FilmGrain: grain.default,
+            });
+          }
+        })
+        .catch(() => {
+          /* swallow - non critical */
+        });
+    }, { timeout: 900 });
+
+    return () => {
+      cancelled = true;
+      cancel();
+    };
+  }, [immersiveBundle, canLoadImmersive]);
+
   const ScrollProgress = scrollProgressComponent;
   const overlays = overlayBundle;
 
@@ -105,6 +160,15 @@ export default function ClientEnhancements() {
         <>
           <overlays.StickyCTA />
           <overlays.MusicToggle />
+        </>
+      ) : null}
+      {canLoadImmersive && immersiveBundle ? (
+        <>
+          <immersiveBundle.AtmosphericFog />
+          <immersiveBundle.VolumetricLight />
+          <immersiveBundle.FilmGrain />
+          <immersiveBundle.CursorGlow />
+          <immersiveBundle.TorchCursor />
         </>
       ) : null}
     </>

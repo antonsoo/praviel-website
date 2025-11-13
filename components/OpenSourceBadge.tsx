@@ -1,39 +1,43 @@
+const REPOSITORIES = [
+  {
+    href: "https://github.com/antonsoo/praviel",
+    label: "Core platform (API + apps)",
+    aria: "View the PRAVIEL core platform repository on GitHub",
+  },
+  {
+    href: "https://github.com/antonsoo/praviel-website",
+    label: "Marketing site",
+    aria: "View the PRAVIEL marketing site repository on GitHub",
+  },
+];
+
 export default function OpenSourceBadge() {
   return (
-    <a
-      href="https://github.com/antonsoo/praviel-website"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/80 px-4 py-2 text-sm text-zinc-400 transition-all duration-200 hover:border-[#D4AF37] hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60 motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02]"
-      aria-label="View source code on GitHub"
-    >
-      <svg
-        className="h-4 w-4 text-zinc-400 transition-colors duration-200 group-hover:text-[#E8C55B]"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          fillRule="evenodd"
-          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-          clipRule="evenodd"
-        />
-      </svg>
-      <span className="font-medium">Open Source</span>
-      <svg
-        className="h-3 w-3 text-zinc-600 transition-colors duration-200 group-hover:text-zinc-400"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-        />
-      </svg>
-    </a>
+    <div className="rounded-2xl border border-white/15 bg-zinc-900/80 p-4 text-sm text-zinc-100 shadow-inner shadow-black/20">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-300">
+        <svg className="h-4 w-4 text-zinc-200" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <path d="M12 2C6.48 2 2 6.58 2 12.17c0 4.46 2.87 8.22 6.84 9.54.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.78.61-3.37-1.35-3.37-1.35-.45-1.16-1.11-1.47-1.11-1.47-.91-.63.07-.62.07-.62 1.01.07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.12-4.56-4.97 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.28.1-2.66 0 0 .84-.27 2.75 1.03a9.5 9.5 0 015-.14c1.91-1.3 2.75-1.03 2.75-1.03.54 1.39.2 2.41.1 2.66.64.7 1.02 1.6 1.02 2.69 0 3.86-2.34 4.72-4.57 4.97.36.31.68.93.68 1.88 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.05 10.05 0 0022 12.17C22 6.58 17.52 2 12 2z" />
+        </svg>
+        <span>Open Source</span>
+      </div>
+      <p className="mt-2 text-xs text-zinc-300">Both the learning engine and marketing site ship publicly on GitHub.</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {REPOSITORIES.map((repo) => (
+          <a
+            key={repo.href}
+            href={repo.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={repo.aria}
+            className="group inline-flex items-center gap-1 rounded-full border border-white/25 px-3 py-1.5 text-xs font-medium text-white transition-colors duration-200 hover:border-[#D4AF37] hover:text-[#E8C55B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60"
+          >
+            <span>{repo.label}</span>
+            <span aria-hidden className="text-[#E8C55B]/70 transition-transform duration-200 group-hover:translate-x-0.5">
+              ↗
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -89,7 +89,7 @@ export default function FeatureGridContent({ headingId, descriptionId }: Feature
         {features.map((feature) => (
           <article
             key={feature.title}
-            className="group relative flex flex-col rounded-2xl border border-[#D4AF37]/15 bg-zinc-900/70 p-6 text-left shadow-lg shadow-black/30 transition-transform duration-300 ease-out hover:-translate-y-2 hover:border-[#D4AF37]/40 hover:shadow-2xl hover:shadow-[#D4AF37]/25"
+            className="group relative flex flex-col rounded-2xl border border-[#D4AF37]/15 bg-zinc-900/70 p-6 text-left shadow-lg shadow-black/30 transition-transform duration-300 ease-out hover:-translate-y-2 hover:border-[#D4AF37]/40 hover:shadow-2xl hover:shadow-[#D4AF37]/25 scroll-fade-in"
           >
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-[#3b82f6]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#D4AF37]/30 to-[#3b82f6]/30 ring-2 ring-[#D4AF37]/40 shadow-lg shadow-[#D4AF37]/20 text-[#E8C55B]">

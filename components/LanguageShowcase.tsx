@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import { languageShowcaseCopy } from "@/lib/canonicalCopy";
 import { languages, type Language } from "@/lib/languageData";
 import { languageRoadmapPhases, languageEmoji } from "@/lib/languageRoadmap";
@@ -7,7 +9,7 @@ function LanguageCard({ language }: { language: Language }) {
   const topWorks = language.topTenWorks.slice(0, 3);
 
   return (
-    <article className="rounded-3xl border border-white/10 bg-white/5/80 p-4 sm:p-6 shadow-xl shadow-black/30">
+    <article className="rounded-3xl border border-white/10 bg-white/5/80 p-4 sm:p-6 shadow-xl shadow-black/30 scroll-fade-in">
       <div className="flex flex-wrap items-start gap-3">
         <span className="text-3xl" aria-hidden>
           {language.emoji}
@@ -40,14 +42,21 @@ function LanguageCard({ language }: { language: Language }) {
   );
 }
 
+const deferredSectionStyle: CSSProperties = {
+  contentVisibility: "auto",
+  containIntrinsicSize: "1800px",
+};
+
 export default function LanguageShowcase() {
   const topTier = languages.filter((lang) => lang.tier === "top");
   const languageIndex = new Map(languages.map((lang) => [lang.name, lang]));
 
   return (
     <section
+      id="language-showcase"
       aria-labelledby="language-showcase-title"
       className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
+      style={deferredSectionStyle}
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-[#E8C55B]/5 to-transparent" />
 
@@ -75,44 +84,75 @@ export default function LanguageShowcase() {
 
         <AllLanguagesList languages={languages} />
 
-        <div className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-6 sm:p-8 shadow-2xl shadow-black/30">
+        <section
+          className="space-y-6 rounded-[32px] border border-white/10 bg-black/30 p-6 sm:p-8 shadow-2xl shadow-black/30"
+          id="language-roadmap"
+          aria-labelledby="language-roadmap-title"
+          aria-describedby="language-roadmap-description"
+        >
           <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500">
+            <p
+              id="language-roadmap-title"
+              className="text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500"
+            >
               Roadmap
             </p>
-            <p className="mt-2 text-sm text-zinc-300">
+            <p
+              id="language-roadmap-description"
+              className="mt-2 text-sm text-zinc-300"
+            >
               Directly lifted from the investment brief: keep the scholarship intact, sequence the cohorts, and ship.
             </p>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-3">
             {languageRoadmapPhases.map((phase) => {
+              const phaseHeadingId = `${phase.id}-heading`;
+              const phaseSummaryId = `${phase.id}-summary`;
+              const phaseNoteId = `${phase.id}-note`;
               return (
                 <article
                   key={phase.id}
-                  className="flex h-full flex-col rounded-2xl border border-white/10 bg-zinc-950/60 p-6"
+                  role="group"
+                  aria-labelledby={phaseHeadingId}
+                  aria-describedby={phase.note ? `${phaseSummaryId} ${phaseNoteId}` : phaseSummaryId}
+                  tabIndex={0}
+                  className="flex h-full flex-col rounded-2xl border border-white/10 bg-zinc-950/60 p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/40 scroll-fade-in"
                 >
-                  <div className="flex items-baseline justify-between gap-3">
+                  <div className="flex items-baseline justify-between gap-3" aria-live="polite">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-500">
                       {phase.timeframe}
                     </p>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.4em] text-white/60">
+                    <span
+                      id={phaseHeadingId}
+                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.4em] text-white/60"
+                    >
                       {phase.title}
                     </span>
                   </div>
-                  <p className="mt-4 text-sm leading-relaxed text-zinc-200">{phase.summary}</p>
+                  <p id={phaseSummaryId} className="mt-4 text-sm leading-relaxed text-zinc-200">
+                    {phase.summary}
+                  </p>
                   {phase.note ? (
-                    <p className="mt-2 text-xs text-zinc-500">{phase.note}</p>
+                    <p id={phaseNoteId} className="mt-2 text-xs text-zinc-500">
+                      {phase.note}
+                    </p>
                   ) : null}
 
-                  <ul className="mt-5 grid grid-cols-1 gap-2 text-sm text-white/80 sm:grid-cols-2">
+                  <ul
+                    className="mt-5 grid grid-cols-1 gap-2 text-sm text-white/80 sm:grid-cols-2"
+                    role="list"
+                    aria-label={`${phase.title} languages`}
+                  >
                     {phase.languages.map((name) => {
                       const language = languageIndex.get(name);
                       const emoji = language?.emoji ?? languageEmoji[name] ?? "•";
                       return (
                         <li
                           key={`${phase.id}-${name}`}
+                          role="listitem"
                           className={`flex items-center gap-3 rounded-2xl border border-white/5 bg-gradient-to-r ${phase.accent} px-3 py-2`}
+                          aria-label={`${name} (${phase.title})`}
                         >
                           <span className="text-xl" aria-hidden>
                             {emoji}
@@ -128,7 +168,7 @@ export default function LanguageShowcase() {
               );
             })}
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );

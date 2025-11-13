@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { Noto_Sans_Glagolitic } from "next/font/google";
 
 // Only the fonts that are actually used on the marketing surface live here.
 // The heavier script coverage (CJK, Brahmi, Phoenician, etc.) is scoped to the
@@ -12,9 +13,10 @@ const notoSans = localFont({
     { path: "../app/fonts/noto-sans/noto-sans-latin-700-normal.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-noto-sans",
-  display: "swap",
+  display: "optional",
   fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial"],
   preload: true,
+  adjustFontFallback: "Arial",
 });
 
 const notoSerif = localFont({
@@ -26,6 +28,7 @@ const notoSerif = localFont({
   display: "swap",
   fallback: ["Palatino", "Book Antiqua", "serif"],
   preload: false,
+  adjustFontFallback: "Times New Roman",
 });
 
 const notoSerifDisplay = localFont({
@@ -34,9 +37,10 @@ const notoSerifDisplay = localFont({
     { path: "../app/fonts/noto-serif-display/noto-serif-display-latin-600-normal.woff2", weight: "600", style: "normal" },
   ],
   variable: "--font-display-serif",
-  display: "swap",
+  display: "optional",
   fallback: ["Georgia", "Times New Roman", "serif"],
   preload: true, // Preload hero fonts for LCP optimization
+  adjustFontFallback: "Times New Roman",
 });
 
 const notoSerifGreek = localFont({
@@ -59,12 +63,21 @@ const notoSansHebrew = localFont({
   preload: false,
 });
 
+const notoSansGlagolitic = Noto_Sans_Glagolitic({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-glagolitic",
+  display: "swap",
+  preload: false,
+});
+
 export const fontVariables = [
   notoSans.variable,
   notoSerif.variable,
   notoSerifDisplay.variable,
   notoSerifGreek.variable,
   notoSansHebrew.variable,
+  notoSansGlagolitic.variable,
 ]
   .filter(Boolean)
   .join(" ");

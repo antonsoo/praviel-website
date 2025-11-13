@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 const CIVILIZATIONS = [
@@ -67,6 +67,33 @@ export default function HeroCivilizationCarousel() {
   const [activeId, setActiveId] = useState<typeof CIVILIZATIONS[number]["id"]>(CIVILIZATIONS[0].id);
   const activePanel = CIVILIZATIONS.find((civ) => civ.id === activeId) ?? CIVILIZATIONS[0];
   const shouldReduceMotion = useReducedMotion();
+
+  // Nudge the global background toward the active civilization when the hero
+  // is in view, without fighting the TempleNav scroll-based scene mapping.
+  useEffect(() => {
+    if (typeof document === "undefined" || typeof window === "undefined") {
+      return;
+    }
+
+    const doc = document.documentElement;
+
+    const syncSceneNearHero = () => {
+      // Only let the hero override the scene near the top of the page.
+      const nearTop = window.scrollY < 200;
+      if (!nearTop) {
+        return;
+      }
+      doc.dataset.scene = activeId;
+    };
+
+    // Initial sync in case the user lands and clicks immediately.
+    syncSceneNearHero();
+
+    window.addEventListener("scroll", syncSceneNearHero, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", syncSceneNearHero);
+    };
+  }, [activeId]);
 
   return (
     <div className="w-full max-w-4xl rounded-[32px] border border-white/10 bg-black/40 p-4 sm:p-6 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl">

@@ -6,6 +6,7 @@ import {
   Noto_Sans_Coptic,
   Noto_Sans_Cuneiform,
   Noto_Sans_Ethiopic,
+  Noto_Sans_Glagolitic,
   Noto_Sans_Gothic,
   Noto_Sans_Imperial_Aramaic,
   Noto_Sans_JP,
@@ -193,6 +194,14 @@ const notoSansOldTurkic = Noto_Sans_Old_Turkic({
   preload: false,
 });
 
+const notoSansGlagolitic = Noto_Sans_Glagolitic({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-glagolitic",
+  display: "swap",
+  preload: false,
+});
+
 export const scriptFontVariables = [
   notoSerifCyrillic.variable,
   notoSansDevanagari.variable,
@@ -215,6 +224,7 @@ export const scriptFontVariables = [
   notoSerifEthiopic.variable,
   notoSansGothic.variable,
   notoSansOldTurkic.variable,
+  notoSansGlagolitic.variable,
 ]
   .filter(Boolean)
   .join(" ");

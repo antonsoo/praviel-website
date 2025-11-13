@@ -1,6 +1,8 @@
+import { LANGUAGE_COUNT } from "@/lib/languageStats";
+
 const metrics = [
   {
-    value: "46",
+    value: LANGUAGE_COUNT.toString(),
     label: "Languages (Latin → Sumerian)",
     icon: (
       <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

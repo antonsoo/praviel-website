@@ -12,6 +12,7 @@ import RomanMosaicBorder from "@/components/RomanMosaicBorder";
 import ImmersiveModeToggle from "@/components/ImmersiveModeToggle";
 import ComfortControls from "@/components/ComfortControls";
 import GlyphTicker from "@/components/GlyphTicker";
+import DeferRender from "@/components/DeferRender";
 import { heroCopy } from "@/lib/canonicalCopy";
 import { LANGUAGE_COUNT } from "@/lib/languageStats";
 
@@ -19,6 +20,44 @@ const HERO_TITLE_ID = "hero-title";
 const HERO_SUBTITLE_ID = "hero-subtitle";
 const HERO_VISUAL_DESCRIPTION_ID = "hero-visual-description";
 const HERO_CTA_SUBCOPY_ID = "hero-cta-subcopy";
+
+const carouselFallback = (
+  <div
+    aria-hidden="true"
+    className="rounded-[28px] border border-white/10 bg-white/5/50 p-6 min-h-[220px] animate-pulse"
+  />
+);
+
+const tickerFallback = (
+  <div
+    aria-hidden="true"
+    className="h-10 w-full rounded-full border border-white/10 bg-white/5 animate-pulse"
+  />
+);
+
+const controlFallback = (
+  <div
+    aria-hidden="true"
+    className="h-[144px] rounded-[24px] border border-white/10 bg-white/5 animate-pulse"
+  />
+);
+
+const posterFallback = (
+  <div
+    aria-hidden="true"
+    className="relative mx-auto mb-6 w-full max-w-xl overflow-hidden rounded-[32px] border border-white/12 bg-white/5 min-h-[22rem] animate-pulse"
+  />
+);
+
+const papyrusFallback = (
+  <div className="pt-4 hidden w-full flex-col items-center gap-4 sm:flex lg:items-start lg:text-left">
+    <div className="h-[180px] w-full rounded-[28px] border border-white/10 bg-white/5 animate-pulse" aria-hidden="true" />
+  </div>
+);
+
+const crestFallback = (
+  <div className="hidden h-[160px] w-full rounded-[32px] border border-white/10 bg-white/5 animate-pulse sm:block" aria-hidden="true" />
+);
 
 export default function HeroSection() {
   return (
@@ -94,7 +133,7 @@ export default function HeroSection() {
                 <p className="text-sm text-zinc-300 text-center text-balance">
                   {LANGUAGE_COUNT} languages, manuscript scans, scholia, and citation trails you can audit.
                 </p>
-                <p className="text-[0.65rem] uppercase tracking-[0.45em] text-zinc-500/80 text-center">
+                <p className="text-[0.65rem] uppercase tracking-[0.45em] text-zinc-300 text-center">
                   Playwright • Lighthouse • Plausible verified
                 </p>
               </div>
@@ -104,22 +143,52 @@ export default function HeroSection() {
             {heroCopy.ctaSubcopy}
           </p>
 
-          <div className="pt-4 hidden w-full flex-col items-center gap-4 sm:flex lg:items-start lg:text-left">
-            <PrimaryCTA ariaDescribedBy={HERO_CTA_SUBCOPY_ID} lcpTarget="hero-desktop-cta" />
-            <PapyrusScroll className="w-full max-w-xl lg:max-w-lg">
-              <HeroCtaSubcopyVisual
-                text={heroCopy.ctaSubcopy}
-                className="text-xs sm:text-sm text-zinc-700"
-              />
-            </PapyrusScroll>
-          </div>
+          <DeferRender
+            fallback={papyrusFallback}
+            intentOptions={{ scrollDistance: 36, fallbackDelay: 3200 }}
+            rootMargin="64px"
+          >
+            <div className="pt-4 hidden w-full flex-col items-center gap-4 sm:flex lg:items-start lg:text-left">
+              <PrimaryCTA ariaDescribedBy={HERO_CTA_SUBCOPY_ID} lcpTarget="hero-desktop-cta" />
+              <PapyrusScroll className="w-full max-w-xl lg:max-w-lg">
+                <HeroCtaSubcopyVisual
+                  text={heroCopy.ctaSubcopy}
+                  className="text-xs sm:text-sm text-zinc-700"
+                />
+              </PapyrusScroll>
+            </div>
+          </DeferRender>
         </div>
 
         <div className="flex w-full flex-col gap-6">
-          <HeroPosterMobile />
-          <HeroCivilizationCarousel />
-          <HeroPosterDesktopGate />
-          <HeroCrest className="hidden sm:block" />
+          <DeferRender
+            fallback={posterFallback}
+            intentOptions={{ scrollDistance: 24, fallbackDelay: 2600 }}
+            rootMargin="64px"
+          >
+            <HeroPosterMobile />
+          </DeferRender>
+          <DeferRender
+            fallback={carouselFallback}
+            intentOptions={{ scrollDistance: 64, fallbackDelay: 4500 }}
+            rootMargin="48px"
+          >
+            <HeroCivilizationCarousel />
+          </DeferRender>
+          <DeferRender
+            fallback={posterFallback}
+            intentOptions={{ scrollDistance: 140, fallbackDelay: 5200 }}
+            rootMargin="32px"
+          >
+            <HeroPosterDesktopGate />
+          </DeferRender>
+          <DeferRender
+            fallback={crestFallback}
+            intentOptions={{ scrollDistance: 220, fallbackDelay: 5800 }}
+            rootMargin="32px"
+          >
+            <HeroCrest className="hidden sm:block" />
+          </DeferRender>
         </div>
       </div>
 
@@ -139,11 +208,29 @@ export default function HeroSection() {
       </div>
 
       <div className="mx-auto mt-8 grid w-full max-w-5xl gap-4 lg:grid-cols-2">
-        <ImmersiveModeToggle />
-        <ComfortControls />
+        <DeferRender
+          fallback={controlFallback}
+          intentOptions={{ scrollDistance: 120, fallbackDelay: 5000 }}
+          rootMargin="0px"
+        >
+          <ImmersiveModeToggle />
+        </DeferRender>
+        <DeferRender
+          fallback={controlFallback}
+          intentOptions={{ scrollDistance: 160, fallbackDelay: 5500 }}
+          rootMargin="0px"
+        >
+          <ComfortControls />
+        </DeferRender>
       </div>
 
-      <GlyphTicker className="mx-auto mt-8 w-full max-w-5xl" />
+      <DeferRender
+        fallback={tickerFallback}
+        intentOptions={{ scrollDistance: 140, fallbackDelay: 5200 }}
+        rootMargin="0px"
+      >
+        <GlyphTicker className="mx-auto mt-8 w-full max-w-5xl" />
+      </DeferRender>
 
       <div className="mx-auto mt-10 hidden w-full max-w-5xl sm:block">
         <RomanMosaicBorder height={50} animate={false} />

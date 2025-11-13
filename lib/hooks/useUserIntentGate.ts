@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type Options = {
+export type UserIntentGateOptions = {
   /**
    * Optional fallback (in ms) to activate even if the user never interacts.
    * Useful for compliance banners that must eventually be shown.
@@ -15,7 +15,7 @@ type Options = {
   scrollDistance?: number;
 };
 
-export function useUserIntentGate(options?: Options) {
+export function useUserIntentGate(options?: UserIntentGateOptions) {
   const [hasIntent, setHasIntent] = useState(false);
   const fallbackDelay = options?.fallbackDelay;
   const scrollDistance = Math.max(0, options?.scrollDistance ?? 0);

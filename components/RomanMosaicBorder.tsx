@@ -2,6 +2,8 @@
 
 import { useRef, useEffect } from "react";
 
+import { useImmersivePreference } from "@/lib/hooks/useImmersivePreference";
+
 interface RomanMosaicBorderProps {
   className?: string;
   height?: number;
@@ -19,6 +21,8 @@ export default function RomanMosaicBorder({
   animate = true,
 }: RomanMosaicBorderProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [immersivePreference] = useImmersivePreference();
+  const allowAnimation = animate && immersivePreference !== "off";
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,7 +39,7 @@ export default function RomanMosaicBorder({
     const cubeSize = 20;
     const numCubes = Math.ceil(canvas.offsetWidth / cubeSize);
 
-    let animationFrame: number;
+    let animationFrame: number | null = null;
     let offset = 0;
 
     const drawMosaicCube = (x: number, y: number, brightness: number) => {
@@ -93,7 +97,7 @@ export default function RomanMosaicBorder({
         drawMosaicCube(x, y, brightness);
       }
 
-      if (animate) {
+      if (allowAnimation) {
         offset += 0.2; // Slow animation for subtle effect
         if (offset > cubeSize) offset = 0;
         animationFrame = requestAnimationFrame(draw);
@@ -117,7 +121,7 @@ export default function RomanMosaicBorder({
         cancelAnimationFrame(animationFrame);
       }
     };
-  }, [height, animate]);
+  }, [height, allowAnimation]);
 
   return (
     <div className={`relative w-full overflow-hidden ${className}`} style={{ height: `${height}px` }}>

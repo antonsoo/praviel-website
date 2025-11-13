@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { cacheLife } from "next/cache";
-import { ViewTransitions } from "next-view-transitions";
+import ConditionalViewTransitions from "@/components/ConditionalViewTransitions";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import AncientBackground from "@/components/AncientBackground";
@@ -11,6 +11,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import CookieConsent from "@/components/CookieConsent";
 import AnalyticsConsentGate from "@/components/AnalyticsConsentGate";
 import PlausibleAnalytics from "@/components/PlausibleAnalytics";
+import TempleNav from "@/components/TempleNav";
 import { fontVariables } from "@/lib/fonts";
 import { publicEnv } from "@/lib/env";
 import { LANGUAGE_COUNT } from "@/lib/languageStats";
@@ -172,7 +173,7 @@ export default async function RootLayout({
     | null;
 
   return (
-    <ViewTransitions>
+    <ConditionalViewTransitions>
       <html
         lang="en"
         data-type-scale="base"
@@ -198,6 +199,7 @@ export default async function RootLayout({
         <SkipToContent />
 
         <AncientBackground />
+        <TempleNav />
 
         <SiteHeader />
         <main id="main-content" className="flex-1 pt-16">
@@ -221,6 +223,6 @@ export default async function RootLayout({
         />
         </body>
       </html>
-    </ViewTransitions>
+    </ConditionalViewTransitions>
   );
 }

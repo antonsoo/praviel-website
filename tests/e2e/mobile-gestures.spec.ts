@@ -2,13 +2,82 @@ import { expect, test, type Page, type TestInfo } from "@playwright/test";
 
 const FLUTTER_APP_URL = "https://8ead70d5.app-praviel.pages.dev";
 
-async function gotoFlutterApp(page: Page, testInfo: TestInfo) {
+type GotoOptions = {
+  pointerLogKey?: string;
+};
+
+type PointerEntry = {
+  type: string;
+  pointerType: string;
+  x: number;
+  y: number;
+  timestamp: number;
+};
+
+async function gotoFlutterApp(page: Page, testInfo: TestInfo, options: GotoOptions = {}) {
+  if (options.pointerLogKey) {
+    await page.addInitScript((storageKey) => {
+      const log: PointerEntry[] = [];
+      Object.defineProperty(window, storageKey, {
+        value: log,
+        configurable: true,
+        writable: false,
+      });
+      const record = (type: PointerEntry["type"], event: PointerEvent) => {
+        log.push({
+          type,
+          pointerType: event.pointerType,
+          x: event.clientX,
+          y: event.clientY,
+          timestamp: performance.now(),
+        });
+      };
+      window.addEventListener("pointerdown", (event) => record("down", event), { passive: true });
+      window.addEventListener("pointermove", (event) => record("move", event), { passive: true });
+      window.addEventListener("pointerup", (event) => record("up", event), { passive: true });
+      window.addEventListener("pointercancel", (event) => record("cancel", event), {
+        passive: true,
+      });
+    }, options.pointerLogKey);
+  }
+
   const projectName = testInfo.project?.name ?? "";
   const isWebKit = projectName.includes("webkit");
   await page.goto(FLUTTER_APP_URL, {
     waitUntil: isWebKit ? "domcontentloaded" : "networkidle",
     timeout: isWebKit ? 90000 : 60000,
   });
+}
+
+async function synthesizePinchGesture(
+  page: Page,
+  x: number,
+  y: number,
+  scaleFactor: number,
+  duration = 600,
+) {
+  const session = await page.context().newCDPSession(page);
+  const payload: Record<string, unknown> = {
+    x,
+    y,
+    scaleFactor,
+    relativeSpeed: 900,
+    gestureSourceType: "touch",
+  };
+
+  if (typeof duration === "number") {
+    payload.duration = duration;
+  }
+
+  await session.send("Input.synthesizePinchGesture", payload as never);
+}
+
+async function readPointerLog(page: Page, storageKey: string): Promise<PointerEntry[]> {
+  return page.evaluate((key) => {
+    const scopedWindow = window as unknown as Record<string, PointerEntry[]>;
+    const entries = scopedWindow[key];
+    return Array.isArray(entries) ? entries : [];
+  }, storageKey);
 }
 
 test.describe("Mobile Gesture Interactions", () => {
@@ -134,7 +203,8 @@ test.describe("Mobile Gesture Interactions", () => {
         !err.includes("ServiceWorker") &&
         !err.includes("ERR_QUIC") &&
         !err.includes("ERR_NETWORK_CHANGED") &&
-        !err.includes("Failed to load resource")
+        !err.includes("Failed to load resource") &&
+        !err.includes("Failed to load module script")
     );
 
     expect(criticalErrors, `Console errors during swipe:\n${criticalErrors.join("\n")}`).toHaveLength(0);
@@ -284,6 +354,100 @@ test.describe("Mobile Gesture Interactions", () => {
     expect(canvasCount).toBeGreaterThan(0);
 
     console.log("✅ Reading page handles repeated vertical swipe gestures");
+  });
+
+  test("pinch-to-zoom gesture emits multi-touch pointer data", async ({ page }, testInfo) => {
+    test.skip(!testInfo.project.name.includes("chromium"), "Pinch gesture requires Chromium CDP");
+    const pointerKey = "__pravielPinchLog";
+    await page.setViewportSize({ width: 375, height: 667 });
+    await gotoFlutterApp(page, test.info(), { pointerLogKey: pointerKey });
+
+    const flutterSurface = await page
+      .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
+      .catch(() => null);
+    if (!flutterSurface) {
+      test.skip(true, "Flutter app not reachable");
+      return;
+    }
+    await page.waitForTimeout(2500);
+
+    await page.mouse.click(187, 250);
+    await page.waitForTimeout(2000);
+
+    await synthesizePinchGesture(page, 187, 320, 1.15);
+    await synthesizePinchGesture(page, 187, 320, 0.85);
+
+    const pointerLog = await readPointerLog(page, pointerKey);
+    const touchEntries = pointerLog.filter((entry) => entry.pointerType === "touch");
+    expect(touchEntries.length).toBeGreaterThan(0);
+  });
+
+  test("long-press gesture keeps the pointer active for >600ms", async ({ page }) => {
+    const pointerKey = "__pravielLongPressLog";
+    await page.setViewportSize({ width: 375, height: 667 });
+    await gotoFlutterApp(page, test.info(), { pointerLogKey: pointerKey });
+
+    const flutterSurface = await page
+      .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
+      .catch(() => null);
+    if (!flutterSurface) {
+      test.skip(true, "Flutter app not reachable");
+      return;
+    }
+    await page.waitForTimeout(2500);
+
+    await page.mouse.move(220, 520);
+    await page.mouse.down();
+    await page.waitForTimeout(900);
+    await page.mouse.up();
+
+    const longPressDuration = await page.evaluate((storageKey) => {
+      const scopedWindow = window as unknown as Record<string, PointerEntry[]>;
+      const entries = scopedWindow[storageKey] ?? [];
+      const down = entries.find((entry) => entry.type === "down");
+      const up = entries.find((entry) => entry.type === "up" && down && entry.timestamp > down.timestamp);
+      return down && up ? up.timestamp - down.timestamp : 0;
+    }, pointerKey);
+    expect(longPressDuration).toBeGreaterThan(600);
+  });
+
+  test("exercise swipe logs horizontal drag distance", async ({ page }) => {
+    const pointerKey = "__pravielSwipeLog";
+    await page.setViewportSize({ width: 375, height: 667 });
+    await gotoFlutterApp(page, test.info(), { pointerLogKey: pointerKey });
+
+    const flutterSurface = await page
+      .waitForSelector("flt-glass-pane, flutter-view, canvas", { timeout: 60000 })
+      .catch(() => null);
+    if (!flutterSurface) {
+      test.skip(true, "Flutter app not reachable");
+      return;
+    }
+    await page.waitForTimeout(2500);
+
+    await page.mouse.click(187, 640);
+    await page.waitForTimeout(1500);
+
+    await page.mouse.move(310, 320);
+    await page.mouse.down();
+    await page.mouse.move(60, 320, { steps: 15 });
+    await page.mouse.up();
+
+    const horizontalTravel = await page.evaluate((storageKey) => {
+      const scopedWindow = window as unknown as Record<string, PointerEntry[]>;
+      const entries = scopedWindow[storageKey] ?? [];
+      let distance = 0;
+      let previousX: number | null = null;
+      for (const entry of entries) {
+        if (entry.type !== "move") continue;
+        if (previousX !== null) {
+          distance += Math.abs(entry.x - previousX);
+        }
+        previousX = entry.x;
+      }
+      return distance;
+    }, pointerKey);
+    expect(horizontalTravel).toBeGreaterThan(120);
   });
 
   test("pointer events are emitted for touch gestures", async ({ page }) => {

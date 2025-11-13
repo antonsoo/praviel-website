@@ -1,3 +1,5 @@
+import { LANGUAGE_COUNT } from "@/lib/languageStats";
+
 type HeroCrestProps = {
   className?: string;
 };
@@ -23,9 +25,9 @@ export default function HeroCrest({ className = "" }: HeroCrestProps) {
         className="flex h-full w-full flex-col justify-between rounded-[34px] bg-gradient-to-br from-[#D4AF37] via-[#E8C55B] to-[#3b82f6] p-6 text-[#050505] shadow-inner"
       >
         <div className="space-y-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.45em] text-black/60">
-            PRAVIEL · 46 LANGUAGES
-          </p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.45em] text-black/60">
+              PRAVIEL · {LANGUAGE_COUNT} LANGUAGES
+            </p>
           <div className="space-y-2 font-display">
             <p className="text-3xl font-semibold leading-tight">Every translation</p>
             <p className="text-3xl font-semibold leading-tight text-black/80">is an interpretation.</p>

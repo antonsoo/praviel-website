@@ -65,6 +65,7 @@ export default function MaterialStudy() {
 
   return (
     <section
+      id="material-study"
       aria-labelledby="material-study-title"
       className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
     >

@@ -31,7 +31,7 @@ export const languageRoadmapPhases: LanguageRoadmapPhase[] = [
       "Middle Egyptian",
       "Old English",
       "Yehudit (Paleo-Hebrew)",
-      "Coptic",
+      "Coptic (Sahidic)",
       "Ancient Sumerian",
       "Classical Tamil",
       "Classical Syriac",

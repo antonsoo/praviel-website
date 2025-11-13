@@ -22,6 +22,22 @@ const SECTIONS: Array<"home" | "lessons" | "profile" | "reading"> = [
   "reading",
 ];
 
+const requestedViewports = (process.env.LAYOUT_VIEWPORTS ?? "")
+  .split(",")
+  .map((name) => name.trim())
+  .filter(Boolean);
+const ACTIVE_VIEWPORTS = requestedViewports.length
+  ? VIEWPORTS.filter((viewport) => requestedViewports.includes(viewport.name))
+  : VIEWPORTS;
+
+const requestedSections = (process.env.LAYOUT_SECTIONS ?? "")
+  .split(",")
+  .map((name) => name.trim())
+  .filter(Boolean) as Array<"home" | "lessons" | "profile" | "reading">;
+const ACTIVE_SECTIONS = requestedSections.length
+  ? SECTIONS.filter((section) => requestedSections.includes(section))
+  : SECTIONS;
+
 async function gotoFlutter(
   page: Page,
   viewport: { width: number; height: number },
@@ -74,8 +90,8 @@ async function assertNoOverflow(page: Page, label: string) {
 }
 
 test.describe("Layout overflow guardrails", () => {
-  for (const viewport of VIEWPORTS) {
-    for (const section of SECTIONS) {
+  for (const viewport of ACTIVE_VIEWPORTS) {
+    for (const section of ACTIVE_SECTIONS) {
       test(`no horizontal overflow on ${section} (${viewport.name})`, async ({ page }) => {
         const ready = await gotoFlutter(page, viewport, test.info());
         if (!ready) {

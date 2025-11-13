@@ -18,6 +18,74 @@ async function isFlutterAppReachable(): Promise<boolean> {
 }
 
 test.describe("Flutter Web App Deployment", () => {
+  test("progressive loader metrics update before Flutter attaches", async ({ page }) => {
+    test.setTimeout(45000);
+    const isReachable = await isFlutterAppReachable();
+    test.skip(!isReachable, "Remote Flutter app is unreachable - skipping external service test");
+
+    await page.addInitScript(() => {
+      try {
+        localStorage.removeItem("praviel.bootstrapMetrics");
+      } catch {
+        // ignore
+      }
+    });
+
+    await page.goto(FLUTTER_APP_URL, { waitUntil: "domcontentloaded", timeout: 60000 });
+
+    await page.waitForTimeout(15000);
+    const metricsPayload = await page.evaluate(() => {
+      try {
+        const raw = localStorage.getItem("praviel.bootstrapMetrics");
+        if (!raw) {
+          return null;
+        }
+        const metrics = JSON.parse(raw);
+        if (
+          typeof metrics.languages === "number" &&
+          metrics.languages > 0 &&
+          typeof metrics.aiTutors === "number" &&
+          metrics.aiTutors > 0 &&
+          typeof metrics.fallbackLessons === "number" &&
+          metrics.fallbackLessons > 0
+        ) {
+          return metrics as Record<string, number>;
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    });
+
+    if (!metricsPayload) {
+      test.info().annotations.push({
+        type: "skip",
+        description: "Bootstrap metrics not exposed on current deployment"
+      });
+      return;
+    }
+
+    const metricTexts = await page.evaluate(() => {
+      const readValue = (id: string) => {
+        const el = document.getElementById(id);
+        return el?.textContent?.trim() ?? "";
+      };
+      return {
+        languages: readValue("metric-languages"),
+        tutors: readValue("metric-tutors"),
+        lessons: readValue("metric-lessons")
+      };
+    });
+    expect(metricTexts.languages).toMatch(/\d+/);
+    expect(metricTexts.tutors).toMatch(/\d+/);
+    expect(metricTexts.lessons).toMatch(/\d+/);
+
+    await page.screenshot({
+      path: "test-results/flutter-loader-metrics.png",
+      fullPage: false
+    });
+  });
+
   test("loads without console errors", async ({ page }) => {
     // Skip if the remote Flutter app is unreachable
     const isReachable = await isFlutterAppReachable();

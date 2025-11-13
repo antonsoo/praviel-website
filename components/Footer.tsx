@@ -1,5 +1,6 @@
 import OpenSourceBadge from "./OpenSourceBadge";
 import CurrentYear from "./CurrentYear";
+import DeferRender from "@/components/DeferRender";
 
 const CONTACT_LINKS = [
   { href: "mailto:contact@praviel.com", label: "contact@praviel.com" },
@@ -42,24 +43,30 @@ export default function Footer() {
             ))}
           </div>
 
-          <OpenSourceBadge />
+          <DeferRender
+            fallback={<div className="h-24 w-full rounded-2xl border border-white/10 bg-white/5 animate-pulse" aria-hidden />}
+            rootMargin="-50%"
+            className="block"
+          >
+            <OpenSourceBadge />
+          </DeferRender>
         </div>
 
-        <div className="flex flex-col gap-2 sm:gap-3">
+        <nav className="flex flex-col gap-2 sm:gap-3" aria-label="Footer links">
           {CONTACT_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="group relative flex min-h-[44px] w-fit items-center text-xs text-zinc-500 transition-colors duration-200 hover:text-[#E8C55B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60 sm:text-sm"
+              className="group relative flex min-h-[44px] w-fit items-center text-xs text-zinc-200 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60 sm:text-sm"
             >
               <span className="relative z-10">{link.label}</span>
-              <span className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-[#D4AF37] transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none" />
-              <span className="pointer-events-none absolute -right-3 top-0 translate-x-1 text-[#E8C55B] opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+              <span className="pointer-events-none absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-[#F5E4B8] transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:transition-none" aria-hidden />
+              <span className="pointer-events-none absolute -right-3 top-0 translate-x-1 text-[#E8C55B] opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100" aria-hidden>
                 →
               </span>
             </a>
           ))}
-        </div>
+        </nav>
       </div>
 
       <div className="relative z-10 mx-auto mt-8 max-w-6xl text-center text-[10px] text-zinc-700 sm:mt-12 sm:text-left sm:text-xs">

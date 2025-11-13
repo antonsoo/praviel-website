@@ -1,5 +1,7 @@
+import { LANGUAGE_COUNT } from "@/lib/languageStats";
+
 const features = [
-  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: "46 languages" },
+  { name: "Ancient languages", traditional: "Latin + Greek", apps: "None", praviel: `${LANGUAGE_COUNT} languages` },
   { name: "Accuracy", traditional: "Depends on instructor", apps: "Hallucinates", praviel: "Grounded in LSJ, Perseus, TLA" },
   { name: "Interactive reader", traditional: "Paper dictionary", apps: "Word hints", praviel: "Tap any word for morphology" },
   { name: "Privacy", traditional: "Offline books", apps: "Ads + tracking", praviel: "BYOK, zero tracking" },
@@ -77,7 +79,7 @@ export default function ComparisonTable() {
           {comparisonSummaries.map((item, index) => (
             <div
               key={item.label}
-              className={`rounded-xl border p-6 text-center backdrop-blur-sm transition-all hover:scale-105 ${
+              className={`rounded-xl border p-6 text-center backdrop-blur-sm transition-all hover:scale-105 scroll-fade-in ${
                 index === 2
                   ? "border-[#D4AF37]/30 bg-gradient-to-br from-[#D4AF37]/10 to-[#3b82f6]/10 ring-1 ring-[#D4AF37]/20"
                   : "border-zinc-800/50 bg-zinc-900/50"

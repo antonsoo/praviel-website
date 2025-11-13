@@ -184,13 +184,13 @@ export const languages: Language[] = [
   },
   {
     name: "Old Church Slavonic",
-    nativeName: "СЛОВѢНЬСКЪ ѨЗЫКЪ",
-    sample: "СЛОВѢНЬСКЪѨЗЫКЪ",
+    nativeName: "ⰔⰎⱁⰲⱑⰐⰟⰴⰟ ⱑⰸⱏⰽⰟ",
+    sample: "ⰔⰎⱁⰲⱑⰐⰟⰴⰟ ⱑⰸⱏⰽⰟ",
     translation: "The Slavonic tongue",
-    script: "Early Church Slavonic ustav",
+    script: "Early Glagolitic uncial (with Cyrillic ustav as fallback)",
     color: "from-purple-500 to-fuchsia-600",
     emoji: "☦️",
-    description: "Cyrillic liturgical language, foundation of Slavic culture.",
+    description: "Glagolitic and early Cyrillic liturgical language, foundation of Slavic culture.",
     topTenWorks: [
       "Codex Zographensis (Gospels)",
       "Ostromir Gospel",
@@ -205,7 +205,7 @@ export const languages: Language[] = [
     ],
     writingInfo:
       "Prefer Glagolitic uncial for earliest witnesses; if Cyrillic, use early ustav with full yats/yers/izhitsa/fita inventory. No lowercase; keep titlo for nomina sacra and numeral letters. Use only ancient middle/high dots and paragraph marks for punctuation. Numbers are letters with titlo; never Arabic digits; retain yers (Ъ/Ь) and nasal vowels (Ѧ/Ѫ) exactly as written.",
-    fontClass: "font-cyrillic",
+    fontClass: "font-glagolitic",
     isRTL: false,
     tier: "core",
   },

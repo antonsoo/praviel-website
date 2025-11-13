@@ -71,6 +71,11 @@ jobs:
       - name: Run Playwright tests
         run: pnpm test:e2e:ci
 
+      - name: Monitor Plausible proxy (local)
+        env:
+          MONITOR_URL: ${{ env.BASE_URL }}
+        run: pnpm monitor:plausible
+
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4

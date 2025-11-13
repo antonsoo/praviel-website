@@ -1,0 +1,66 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+
+import { useUserIntentGate, type UserIntentGateOptions } from "@/lib/hooks/useUserIntentGate";
+
+interface DeferRenderProps {
+  children: ReactNode;
+  fallback?: ReactNode;
+  className?: string;
+  hiddenClassName?: string;
+  visibleClassName?: string;
+  rootMargin?: string;
+  intentOptions?: UserIntentGateOptions;
+}
+
+function mergeClassNames(...classes: Array<string | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export default function DeferRender({
+  children,
+  fallback = null,
+  className,
+  hiddenClassName = "opacity-0 translate-y-6 pointer-events-none",
+  visibleClassName = "opacity-100 translate-y-0 pointer-events-auto",
+  rootMargin = "200px",
+  intentOptions,
+}: DeferRenderProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const intentReady = intentOptions ? useUserIntentGate(intentOptions) : true;
+  const shouldReveal = intentReady && isVisible;
+
+  useEffect(() => {
+    if (isVisible || !intentReady) return;
+    const element = containerRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry?.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [intentReady, isVisible, rootMargin]);
+
+  const classNames = useMemo(
+    () => mergeClassNames("transition-all duration-700", className, shouldReveal ? visibleClassName : hiddenClassName),
+    [className, hiddenClassName, visibleClassName, shouldReveal],
+  );
+
+  return (
+    <div ref={containerRef} className={classNames} style={{ willChange: "opacity, transform" }} aria-busy={!shouldReveal}>
+      {shouldReveal ? children : fallback}
+    </div>
+  );
+}

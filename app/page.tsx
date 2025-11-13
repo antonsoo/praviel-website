@@ -17,6 +17,7 @@ import BlogSpotlight from "@/components/BlogSpotlight";
 import LivingManuscript from "@/components/LivingManuscript";
 import JourneyTimeline from "@/components/JourneyTimeline";
 import VoiceTour from "@/components/VoiceTour";
+import CivilizationPortals from "@/components/CivilizationPortals";
 
 // Marketing site stays static via cacheLife + cacheComponents
 // Note: OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
@@ -29,6 +30,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <CivilizationPortals />
       <SectionDivider />
       <CivilizationTriad />
       <SectionDivider />

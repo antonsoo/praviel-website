@@ -180,6 +180,10 @@ async function runAudit(formFactor: "mobile" | "desktop") {
       reportPaths.html = htmlReportPath;
     }
 
+    console.log(`Reports saved to: ${Object.entries(reportPaths)
+      .map(([format, path]) => `${format}: ${path}`)
+      .join(", ")}`);
+
     const thresholds = {
       lcp: 2500,
       inp: 200,
