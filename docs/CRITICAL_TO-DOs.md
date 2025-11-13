@@ -120,11 +120,12 @@ Current LCP 2.91s is below the 3s psychological threshold but still above Google
 
 **These improve actual user experience, not just metrics:**
 
-1. **Living Manuscript Focus Trap** (verified already implemented)
-   - CRITICAL_TO-DOs.md claims it needs implementation
-   - Actually EXISTS: components/LivingManuscript.tsx:94-132
-   - Full Tab trap, Escape handler, focus restoration all present
-   - **ACTION: Update docs to reflect reality**
+1. **Living Manuscript Focus Trap** ✅ (already implemented)
+   - Full Tab trap implementation (lines 100-118)
+   - Escape handler (lines 95-97)
+   - Focus restoration to "Focus view" button (lines 77-80)
+   - Body scroll lock (lines 88-92)
+   - Implementation: components/LivingManuscript.tsx:94-132
 
 2. **Responsive Polish**
    - Test 360×640, 414×896, 768×1024 viewports
