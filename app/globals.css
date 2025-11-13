@@ -2353,98 +2353,6 @@ a:focus-visible,
   }
 }
 
-/* Egyptian Hieroglyphs Component Styling */
-.egyptian-hieroglyphs {
-  position: relative;
-}
-
-.egyptian-glyph-container {
-  min-width: 60px;
-  min-height: 60px;
-  cursor: pointer;
-}
-
-.egyptian-glyph {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  display: inline-block;
-}
-
-/* Hide scrollbar for egyptian hieroglyphs horizontal layout */
-.egyptian-hieroglyphs.scrollbar-hide {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.egyptian-hieroglyphs.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Greek Meander Border Animations */
-.greek-meander-border {
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.greek-meander-animate {
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-/* Greek meander shimmer overlay effect */
-.greek-meander-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(96, 165, 250, 0.15) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: greek-shimmer 6s linear infinite;
-  opacity: 0.5;
-  mix-blend-mode: screen;
-}
-
-@keyframes greek-shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .greek-meander-shimmer {
-    animation: none;
-    opacity: 0.3;
-  }
-}
-
-/* Roman Architectural Frame Styling */
-.roman-frame {
-  position: relative;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-/* Roman Column Hover Effects */
-@media (prefers-reduced-motion: no-preference) {
-  .roman-frame:hover .roman-column-glow {
-    opacity: 1;
-    animation: roman-glow-pulse 3s ease-in-out infinite;
-  }
-}
-
-@keyframes roman-glow-pulse {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
 
 /* Parallax Scroll Effects for Ancient Backgrounds (2025 CSS) */
 @supports (animation-timeline: scroll()) {
@@ -2522,50 +2430,9 @@ a:focus-visible,
   }
 }
 
-/* Glyph Rotation Animation for Ancient Scripts */
-@media (prefers-reduced-motion: no-preference) {
-  .glyph-rotate-in {
-    animation: glyph-rotate 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
-  }
-
-  .glyph-pulse {
-    animation: glyph-pulse-animation 4s ease-in-out infinite;
-  }
-}
-
-@keyframes glyph-rotate {
-  from {
-    opacity: 0;
-    transform: rotateY(-180deg) scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: rotateY(0deg) scale(1);
-  }
-}
-
-@keyframes glyph-pulse-animation {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
 
 /* Enhanced Performance Utilities for Mobile */
 @media (max-width: 640px) {
-  /* Reduce animation complexity on mobile */
-  .egyptian-hieroglyphs {
-    animation-duration: 0.4s !important;
-  }
-
-  .greek-meander-shimmer {
-    animation-duration: 8s !important;
-  }
-
   /* Disable parallax on mobile for better performance */
   .parallax-slow,
   .parallax-medium,
@@ -2649,34 +2516,15 @@ a:focus-visible,
   }
 }
 
-/* Ancient Typography Effects */
-.ancient-text-glow {
-  text-shadow:
-    0 0 10px currentColor,
-    0 0 20px currentColor,
-    0 0 30px currentColor;
-  opacity: 0.9;
-}
 
-.ancient-text-emboss {
-  text-shadow:
-    1px 1px 1px rgba(255, 255, 255, 0.1),
-    -1px -1px 1px rgba(0, 0, 0, 0.5);
-}
-
-/* Reduce motion for all ancient animations */
+/* Reduce motion for animations */
 @media (prefers-reduced-motion: reduce) {
-  .egyptian-hieroglyphs *,
-  .greek-meander-border *,
-  .roman-frame *,
   .parallax-slow,
   .parallax-medium,
   .parallax-fast,
   .scroll-reveal-left,
   .scroll-reveal-right,
   .scroll-reveal-up,
-  .glyph-rotate-in,
-  .glyph-pulse,
   .stagger-fade-in {
     animation: none !important;
     transition: none !important;

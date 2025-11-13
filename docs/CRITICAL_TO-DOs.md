@@ -1,9 +1,9 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 13, 2025 — mobile perf audits + background/UX refinements  
-**Production URL:** https://praviel-site.antonnsoloviev.workers.dev  
-**Last successful deploy:** fc75c11 (pnpm run deploy — Nov 12, 2025 20:55 UTC)  
-**Latest commit on main:** 1b0cc65 (docs refresh)
+**Last updated:** Nov 13, 2025 — LCP optimization attempt + bundle reduction
+**Production URL:** https://praviel-site.antonnsoloviev.workers.dev
+**Last successful deploy:** ff54c8c (Nov 13, 2025 — ancient-themed UI enhancements)
+**Latest commit on main:** ff54c8c (feat: Add ancient civilization-themed components)
 
 ---
 

@@ -69,14 +69,13 @@ export default function HeroSection() {
       role="region"
     >
       <HeroLcpObserver />
-      {/* Gradient-based background (no large images) to keep LCP < 2.5s */}
+      {/* Simplified background for mobile LCP performance */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[#050505]" aria-hidden />
-        <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_20%_20%,rgba(232,197,91,0.12),transparent_45%)] sm:block" aria-hidden />
-        <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_80%_10%,rgba(59,130,246,0.12),transparent_55%)] sm:block" aria-hidden />
-        <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_65%_80%,rgba(147,51,234,0.15),transparent_60%)] sm:block" aria-hidden />
-        <div className="absolute inset-0 hidden bg-gradient-to-br from-black/85 via-zinc-900/80 to-black/70 sm:block" aria-hidden />
-        <div className="absolute inset-0 hidden opacity-40 mix-blend-screen motion-safe:animate-[pulse_16s_ease-in-out_infinite] sm:block" style={{ backgroundImage: "linear-gradient(125deg, rgba(255,255,255,0.08) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.08) 100%)" }} aria-hidden />
+        {/* Desktop-only decorative gradients (not rendered on mobile) */}
+        <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_20%_20%,rgba(232,197,91,0.08),transparent_50%)] sm:block" aria-hidden />
+        <div className="absolute inset-0 hidden bg-[radial-gradient(circle_at_80%_10%,rgba(59,130,246,0.08),transparent_60%)] sm:block" aria-hidden />
+        <div className="absolute inset-0 hidden bg-gradient-to-br from-black/90 via-zinc-900/85 to-black/80 sm:block" aria-hidden />
       </div>
       <DecorativeColumns />
 
