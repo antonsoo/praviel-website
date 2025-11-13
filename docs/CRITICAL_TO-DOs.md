@@ -1,9 +1,10 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 13, 2025 — LCP optimization attempt + bundle reduction
+**Last updated:** Nov 13, 2025 — Mobile LCP optimization deployed
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev
-**Last successful deploy:** ff54c8c (Nov 13, 2025 — ancient-themed UI enhancements)
-**Latest commit on main:** ff54c8c (feat: Add ancient civilization-themed components)
+**Last successful deploy:** 6e004f8 (Nov 13, 2025 — mobile LCP optimizations)
+**Latest commit on main:** 6e004f8 (perf: Optimize mobile LCP - remove unused components and simplify hero)
+**Version ID:** 95bc0bc0-51bb-4ba9-a1d7-91742b0df331
 
 ---
 
