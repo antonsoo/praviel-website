@@ -1,9 +1,36 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 13, 2025 22:30 UTC — Documentation verified, all systems operational
+**Last updated:** Nov 13, 2025 23:00 UTC — Latest dependencies deployed
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev
-**Current Version ID:** 5cec0dd7-f90f-43ca-af3a-c3255169b3ec
-**Production Status:** ✅ **EXCELLENT** (Performance 90/100, CLS 0.110, LCP 2.91s)
+**Current Version ID:** 4d0eae6a-6bad-4d85-a200-1b4f543c5814
+**Production Status:** ✅ **EXCELLENT** (Next.js 16.0.3, Performance 90/100, CLS 0.110, LCP 2.91s)
+
+---
+
+## ✅ COMPLETED: Dependency Updates & Production Deployment (Nov 13, 2025 22:30-23:00 UTC)
+
+**Dependency Updates:**
+- ✅ Next.js: 16.0.1 → 16.0.3 (latest stable)
+- ✅ @types/node: 24.10.0 → 24.10.1
+- ✅ @types/react: 19.2.2 → 19.2.4
+- ✅ @types/react-dom: 19.2.2 → 19.2.3
+- ✅ lenis: 1.3.14 → 1.3.15
+- ✅ typescript-eslint: 8.46.3 → 8.46.4
+- ✅ wait-on: 9.0.1 → 9.0.3
+- ✅ @sentry/nextjs: 10.23.0 → 10.25.0
+- ✅ wrangler: 4.46.0 → 4.48.0
+
+**Verification Completed:**
+- ✅ Type checks: PASS
+- ✅ Linting: PASS (0 warnings)
+- ✅ Build: SUCCESS (23 pages generated)
+- ✅ Deploy: SUCCESS (version 4d0eae6a)
+- ✅ All pages verified: Homepage, Blog, Fund, Privacy (all 200 OK)
+
+**Technical Notes:**
+- React 19 backward compatibility confirmed with next-view-transitions
+- OpenTelemetry/Sentry warnings are expected (third-party dependencies)
+- All existing functionality preserved and tested
 
 ---
 
