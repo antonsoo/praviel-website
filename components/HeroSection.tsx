@@ -101,7 +101,7 @@ export default function HeroSection() {
             data-lcp-target="hero-headline"
           >
             <span className="block">Read the originals.</span>
-            <span className="mt-2 block text-3xl sm:text-[3.5rem] md:text-[4rem] text-white sm:bg-gradient-to-r sm:from-[#E8C55B] sm:via-[#D4AF37] sm:to-[#3b82f6] sm:bg-clip-text sm:text-transparent leading-tight motion-safe:animate-gradient-x">
+            <span className="mt-2 block text-3xl sm:text-[3.5rem] md:text-[4rem] text-white sm:bg-gradient-to-r sm:from-[#E8C55B] sm:via-[#D4AF37] sm:to-[#3b82f6] sm:bg-clip-text sm:text-transparent leading-tight">
               Not the translations.
             </span>
           </h1>
@@ -144,8 +144,8 @@ export default function HeroSection() {
 
           <DeferRender
             fallback={papyrusFallback}
-            intentOptions={{ scrollDistance: 36, fallbackDelay: 3200 }}
-            rootMargin="64px"
+            intentOptions={{ scrollDistance: 0, fallbackDelay: 100 }}
+            rootMargin="200px"
           >
             <div className="pt-4 hidden w-full flex-col items-center gap-4 sm:flex lg:items-start lg:text-left">
               <PrimaryCTA ariaDescribedBy={HERO_CTA_SUBCOPY_ID} lcpTarget="hero-desktop-cta" />
@@ -162,29 +162,29 @@ export default function HeroSection() {
         <div className="flex w-full flex-col gap-6">
           <DeferRender
             fallback={posterFallback}
-            intentOptions={{ scrollDistance: 24, fallbackDelay: 2600 }}
-            rootMargin="64px"
+            intentOptions={{ scrollDistance: 0, fallbackDelay: 50 }}
+            rootMargin="100px"
           >
             <HeroPosterMobile />
           </DeferRender>
           <DeferRender
             fallback={carouselFallback}
-            intentOptions={{ scrollDistance: 64, fallbackDelay: 4500 }}
-            rootMargin="48px"
+            intentOptions={{ scrollDistance: 0, fallbackDelay: 200 }}
+            rootMargin="150px"
           >
             <HeroCivilizationCarousel />
           </DeferRender>
           <DeferRender
             fallback={posterFallback}
-            intentOptions={{ scrollDistance: 140, fallbackDelay: 5200 }}
-            rootMargin="32px"
+            intentOptions={{ scrollDistance: 0, fallbackDelay: 300 }}
+            rootMargin="200px"
           >
             <HeroPosterDesktopGate />
           </DeferRender>
           <DeferRender
             fallback={crestFallback}
-            intentOptions={{ scrollDistance: 220, fallbackDelay: 5800 }}
-            rootMargin="32px"
+            intentOptions={{ scrollDistance: 0, fallbackDelay: 400 }}
+            rootMargin="250px"
           >
             <HeroCrest className="hidden sm:block" />
           </DeferRender>
@@ -209,15 +209,15 @@ export default function HeroSection() {
       <div className="mx-auto mt-8 grid w-full max-w-5xl gap-4 lg:grid-cols-2">
         <DeferRender
           fallback={controlFallback}
-          intentOptions={{ scrollDistance: 120, fallbackDelay: 5000 }}
-          rootMargin="0px"
+          intentOptions={{ scrollDistance: 0, fallbackDelay: 500 }}
+          rootMargin="100px"
         >
           <ImmersiveModeToggle />
         </DeferRender>
         <DeferRender
           fallback={controlFallback}
-          intentOptions={{ scrollDistance: 160, fallbackDelay: 5500 }}
-          rootMargin="0px"
+          intentOptions={{ scrollDistance: 0, fallbackDelay: 600 }}
+          rootMargin="100px"
         >
           <ComfortControls />
         </DeferRender>
@@ -225,8 +225,8 @@ export default function HeroSection() {
 
       <DeferRender
         fallback={tickerFallback}
-        intentOptions={{ scrollDistance: 140, fallbackDelay: 5200 }}
-        rootMargin="0px"
+        intentOptions={{ scrollDistance: 0, fallbackDelay: 700 }}
+        rootMargin="150px"
       >
         <GlyphTicker className="mx-auto mt-8 w-full max-w-5xl" />
       </DeferRender>
