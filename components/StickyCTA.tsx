@@ -24,10 +24,10 @@ export default function StickyCTA() {
 
   return (
     <div
-      className={`fixed left-1/2 z-40 -translate-x-1/2 md:hidden transition-all duration-300 ease-out ${
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0 pointer-events-none"
+      className={`fixed left-1/2 z-40 -translate-x-1/2 md:hidden transition-opacity duration-300 ease-out ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
-      style={{ bottom: "calc(1.25rem + var(--safe-area-bottom))" }}
+      style={{ bottom: "calc(1.25rem + var(--safe-area-bottom))", willChange: isVisible ? "auto" : "opacity" }}
       aria-hidden={!isVisible}
     >
       <a

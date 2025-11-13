@@ -22,8 +22,8 @@ export default function DeferRender({
   children,
   fallback = null,
   className,
-  hiddenClassName = "opacity-0 translate-y-6 pointer-events-none",
-  visibleClassName = "opacity-100 translate-y-0 pointer-events-auto",
+  hiddenClassName = "opacity-0 pointer-events-none",
+  visibleClassName = "opacity-100 pointer-events-auto",
   rootMargin = "200px",
   intentOptions,
 }: DeferRenderProps) {
@@ -59,7 +59,7 @@ export default function DeferRender({
   );
 
   return (
-    <div ref={containerRef} className={classNames} style={{ willChange: "opacity, transform" }} aria-busy={!shouldReveal}>
+    <div ref={containerRef} className={classNames} style={{ willChange: shouldReveal ? "auto" : "opacity" }} aria-busy={!shouldReveal}>
       {shouldReveal ? children : fallback}
     </div>
   );
