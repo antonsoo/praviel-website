@@ -1756,34 +1756,55 @@ a:focus-visible,
   }
 }
 
-/* CSS Scroll-Driven Animations (2025 standard) */
+/* CSS Scroll-Driven Animations (2025 standard) - Enhanced Ancient Theme */
 @supports (animation-timeline: scroll()) {
-  /* Fade in elements as they enter viewport */
+  /* Fade in elements as they enter viewport - Egyptian papyrus unfurl */
   .scroll-fade-in {
     animation: fade-in-up linear both;
     animation-timeline: view();
-    animation-range: entry 0% cover 30%;
+    animation-range: entry 0% cover 35%;
   }
 
-  /* Scale elements on scroll */
+  /* Scale elements on scroll - Greek amphitheater reveal */
   .scroll-scale {
     animation: scale-in linear both;
     animation-timeline: view();
-    animation-range: entry 0% cover 30%;
+    animation-range: entry 0% cover 35%;
   }
 
-  /* Slide from left */
+  /* Slide from left - Roman legion march */
   .scroll-slide-left {
     animation: slide-from-left linear both;
     animation-timeline: view();
-    animation-range: entry 0% cover 30%;
+    animation-range: entry 0% cover 35%;
   }
 
-  /* Slide from right */
+  /* Slide from right - Egyptian hieroglyph reveal */
   .scroll-slide-right {
     animation: slide-from-right linear both;
     animation-timeline: view();
-    animation-range: entry 0% cover 30%;
+    animation-range: entry 0% cover 35%;
+  }
+
+  /* Ancient stone inscription reveal */
+  .scroll-stone-reveal {
+    animation: stone-inscription-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+
+  /* Papyrus scroll unroll */
+  .scroll-papyrus-unroll {
+    animation: papyrus-unroll linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 45%;
+  }
+
+  /* Column rise from ruins */
+  .scroll-column-rise {
+    animation: column-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
   }
 }
 
@@ -1828,6 +1849,45 @@ a:focus-visible,
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes stone-inscription-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes papyrus-unroll {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8) translateY(15px);
+    transform-origin: top center;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+    transform-origin: top center;
+  }
+}
+
+@keyframes column-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scaleY(0.9);
+    transform-origin: bottom center;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    transform-origin: bottom center;
   }
 }
 

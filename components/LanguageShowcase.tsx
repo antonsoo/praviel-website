@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import { languageShowcaseCopy } from "@/lib/canonicalCopy";
 import { languages, type Language } from "@/lib/languageData";
 import { languageRoadmapPhases, languageEmoji } from "@/lib/languageRoadmap";
@@ -42,11 +40,6 @@ function LanguageCard({ language }: { language: Language }) {
   );
 }
 
-const deferredSectionStyle: CSSProperties = {
-  contentVisibility: "auto",
-  containIntrinsicSize: "1800px",
-};
-
 export default function LanguageShowcase() {
   const topTier = languages.filter((lang) => lang.tier === "top");
   const languageIndex = new Map(languages.map((lang) => [lang.name, lang]));
@@ -56,7 +49,6 @@ export default function LanguageShowcase() {
       id="language-showcase"
       aria-labelledby="language-showcase-title"
       className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
-      style={deferredSectionStyle}
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-[#E8C55B]/5 to-transparent" />
 

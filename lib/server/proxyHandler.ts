@@ -19,12 +19,12 @@ export function handleNetworkBoundary(req: NextRequest) {
 
   const cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com",
+    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://static.cloudflareinsights.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
     "media-src 'self' blob:",
-    "connect-src 'self' https://app.praviel.com https://*.neon.tech",
+    "connect-src 'self' https://app.praviel.com https://*.neon.tech https://cloudflareinsights.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self' https://app.praviel.com",

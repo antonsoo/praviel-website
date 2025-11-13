@@ -8,7 +8,8 @@ type ConditionalViewTransitionsProps = {
 };
 
 export default function ConditionalViewTransitions({ children }: ConditionalViewTransitionsProps) {
-  const [supportsViewTransitions, setSupportsViewTransitions] = useState<boolean>(() => true);
+  // Initialize to false to match server-side rendering, preventing hydration mismatch
+  const [supportsViewTransitions, setSupportsViewTransitions] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof document === "undefined") {

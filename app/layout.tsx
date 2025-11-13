@@ -11,6 +11,9 @@ import CookieConsent from "@/components/CookieConsent";
 import AnalyticsConsentGate from "@/components/AnalyticsConsentGate";
 import PlausibleAnalytics from "@/components/PlausibleAnalytics";
 import TempleNav from "@/components/TempleNav";
+import AncientBackground from "@/components/AncientBackground";
+import HieroglyphicParticles from "@/components/HieroglyphicParticles";
+import MarbleDust from "@/components/MarbleDust";
 import { fontVariables } from "@/lib/fonts";
 import { publicEnv } from "@/lib/env";
 import { LANGUAGE_COUNT } from "@/lib/languageStats";
@@ -197,10 +200,10 @@ export default async function RootLayout({
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
 
-        {/* Disabled heavy animations to fix performance lag on desktop */}
-        {/* <AncientBackground /> */}
-        {/* <HieroglyphicParticles /> */}
-        {/* <MarbleDust /> */}
+        {/* Ancient-themed background layers - now performance-optimized */}
+        <AncientBackground />
+        <HieroglyphicParticles />
+        <MarbleDust />
         <TempleNav />
 
         <SiteHeader />

@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import WaitlistForm from "@/components/WaitlistForm";
 import RomanMosaicBorder from "@/components/RomanMosaicBorder";
 
@@ -27,18 +25,12 @@ const TIMELINE_STEPS = [
   },
 ];
 
-const deferredSectionStyle: CSSProperties = {
-  contentVisibility: "auto",
-  containIntrinsicSize: "900px",
-};
-
 export default function JourneyTimeline() {
   return (
     <section
       id="journey-timeline"
       className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
       aria-labelledby="journey-timeline-title"
-      style={deferredSectionStyle}
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0f16]/50 to-transparent" />
       <div className="relative z-10 mx-auto max-w-6xl space-y-12">

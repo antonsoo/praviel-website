@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import PortalCard3D from "@/components/PortalCard3D";
 
 type Portal = {
@@ -56,18 +55,12 @@ const PORTALS: Portal[] = [
   },
 ];
 
-const deferredSectionStyle: CSSProperties = {
-  contentVisibility: "auto",
-  containIntrinsicSize: "900px",
-};
-
 export default function CivilizationPortals() {
   return (
     <section
       id="civilization-portals"
       className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
       aria-labelledby="civilization-portals-title"
-      style={deferredSectionStyle}
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#120f08]/60 to-transparent" />
       <div className="relative z-10 mx-auto max-w-6xl space-y-12">
