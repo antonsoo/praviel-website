@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import PortalCard3D from "@/components/PortalCard3D";
 
 type Portal = {
   id: "egypt" | "greece" | "rome";
@@ -82,44 +83,45 @@ export default function CivilizationPortals() {
 
         <div className="portal-grid">
           {PORTALS.map((portal) => (
-            <article
-              key={portal.id}
-              className={`portal-card portal-card--${portal.id}`}
-              role="group"
-              aria-labelledby={`portal-${portal.id}-title`}
-            >
-              <div className="portal-card__halo" aria-hidden />
-              <p className="portal-card__epoch">{portal.epoch}</p>
-              <h3 id={`portal-${portal.id}-title`} className="portal-card__title">
-                {portal.headline}
-              </h3>
-              <p className="portal-card__body">{portal.body}</p>
+            <PortalCard3D key={portal.id}>
+              <article
+                className={`portal-card portal-card--${portal.id}`}
+                role="group"
+                aria-labelledby={`portal-${portal.id}-title`}
+              >
+                <div className="portal-card__halo" aria-hidden />
+                <p className="portal-card__epoch">{portal.epoch}</p>
+                <h3 id={`portal-${portal.id}-title`} className="portal-card__title">
+                  {portal.headline}
+                </h3>
+                <p className="portal-card__body">{portal.body}</p>
 
-              <ul className="portal-card__highlights" aria-label={`${portal.headline} highlights`}>
-                {portal.highlights.map((highlight) => (
-                  <li key={`${portal.id}-${highlight.label}`}>
-                    <span className="portal-card__dot" aria-hidden />
-                    <div>
-                      <p className="portal-card__highlight-label">{highlight.label}</p>
-                      <p className="portal-card__highlight-detail">{highlight.detail}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                <ul className="portal-card__highlights" aria-label={`${portal.headline} highlights`}>
+                  {portal.highlights.map((highlight) => (
+                    <li key={`${portal.id}-${highlight.label}`}>
+                      <span className="portal-card__dot" aria-hidden />
+                      <div>
+                        <p className="portal-card__highlight-label">{highlight.label}</p>
+                        <p className="portal-card__highlight-detail">{highlight.detail}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
 
-              <div className="portal-card__cta">
-                <a
-                  className="portal-card__cta-link"
-                  href={portal.ctaHref}
-                  aria-describedby={`portal-${portal.id}-title`}
-                >
-                  <span>{portal.ctaLabel}</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden className="portal-card__cta-icon">
-                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </article>
+                <div className="portal-card__cta">
+                  <a
+                    className="portal-card__cta-link"
+                    href={portal.ctaHref}
+                    aria-describedby={`portal-${portal.id}-title`}
+                  >
+                    <span>{portal.ctaLabel}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden className="portal-card__cta-icon">
+                      <path d="M13 7l5 5m0 0l-5 5m5-5H6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </PortalCard3D>
           ))}
         </div>
       </div>

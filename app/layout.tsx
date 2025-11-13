@@ -12,6 +12,8 @@ import CookieConsent from "@/components/CookieConsent";
 import AnalyticsConsentGate from "@/components/AnalyticsConsentGate";
 import PlausibleAnalytics from "@/components/PlausibleAnalytics";
 import TempleNav from "@/components/TempleNav";
+import HieroglyphicParticles from "@/components/HieroglyphicParticles";
+import MarbleDust from "@/components/MarbleDust";
 import { fontVariables } from "@/lib/fonts";
 import { publicEnv } from "@/lib/env";
 import { LANGUAGE_COUNT } from "@/lib/languageStats";
@@ -199,6 +201,8 @@ export default async function RootLayout({
         <SkipToContent />
 
         <AncientBackground />
+        <HieroglyphicParticles />
+        <MarbleDust />
         <TempleNav />
 
         <SiteHeader />
