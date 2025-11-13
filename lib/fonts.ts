@@ -13,9 +13,9 @@ const notoSans = localFont({
     { path: "../app/fonts/noto-sans/noto-sans-latin-700-normal.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-noto-sans",
-  display: "optional",
+  display: "swap", // Changed from optional to swap for better LCP
   fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial"],
-  preload: true,
+  preload: true, // Critical for body text
   adjustFontFallback: "Arial",
 });
 
@@ -37,9 +37,9 @@ const notoSerifDisplay = localFont({
     { path: "../app/fonts/noto-serif-display/noto-serif-display-latin-600-normal.woff2", weight: "600", style: "normal" },
   ],
   variable: "--font-display-serif",
-  display: "optional",
+  display: "swap", // Changed to swap - hero text is critical
   fallback: ["Georgia", "Times New Roman", "serif"],
-  preload: true, // Preload hero fonts for LCP optimization
+  preload: true, // Critical for hero headline (LCP element)
   adjustFontFallback: "Times New Roman",
 });
 
