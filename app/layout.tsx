@@ -200,9 +200,10 @@ export default async function RootLayout({
         {/* Skip to content link for accessibility (WCAG 2.1 Level A) */}
         <SkipToContent />
 
-        <AncientBackground />
-        <HieroglyphicParticles />
-        <MarbleDust />
+        {/* Disabled heavy animations to fix performance lag on desktop */}
+        {/* <AncientBackground /> */}
+        {/* <HieroglyphicParticles /> */}
+        {/* <MarbleDust /> */}
         <TempleNav />
 
         <SiteHeader />
