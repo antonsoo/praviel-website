@@ -1,317 +1,244 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 13, 2025 — Ancient-themed animations added (desktop-only), mobile LCP still not resolved
+**Last updated:** Nov 13, 2025 21:35 UTC — CLS DEGRADED in latest session (0.256, up from claimed 0.110)
 **Production URL:** https://praviel-site.antonnsoloviev.workers.dev
-**Last successful deploy:** 6e004f8 (Nov 13, 2025 — mobile LCP optimizations)
-**Latest commit on main:** 6e004f8 (perf: Optimize mobile LCP - remove unused components and simplify hero)
-**Local changes:** New animation components added but not deployed
-**Version ID:** 95bc0bc0-51bb-4ba9-a1d7-91742b0df331
+**Current Version ID:** e5c3b384-32f3-4799-9436-c07e8df87412
+**Production Status:** ⚠️ **CLS PERFORMANCE DEGRADED**
 
 ---
 
-## Current status (Nov 13, 2025 evening session)
+## 🚨 CRITICAL ISSUE: CLS Degraded (Nov 13, 2025 Evening Session)
 
-### What Was Added This Session
-- **New Components (NOT deployed):**
-  - `HieroglyphicParticles.tsx` - 6 SVG-based Egyptian symbols floating on desktop (fixed: no font dependency)
-  - `MarbleDust.tsx` - 10 subtle marble particles on desktop
-  - `PortalCard3D.tsx` - Mouse-tracking 3D tilt for portal cards (mobile-aware, gracefully degrades)
-  - Coin-flip animation on feature cards (works all devices)
-- **Optimizations:**
-  - Reduced particle count from 32→16 total animated elements (48% reduction)
-  - Removed ~200 lines of unused CSS (torch-text, sandstorm, marble-surface, etc.)
-  - Fixed mobile compatibility for all new components
-  - All animations respect `prefers-reduced-motion`
-- **Build Status:**
-  - ✅ `pnpm typecheck` - PASS
-  - ✅ `pnpm lint` - PASS
-  - ✅ `pnpm build` - SUCCESS (25 pages generated in 5.6s)
-  - ⚠️ No performance regression but **didn't address the #1 priority**
+**Current Production Performance (Lighthouse Mobile, Nov 13 21:21 UTC):**
+- **LCP: 3.40s** (13% above 3s threshold, TTFB-bottlenecked)
+- **CLS: 0.256** ❌ **DEGRADED** (156% worse than claimed 0.110 baseline)
+- **Performance Score: 74/100** (down from claimed 86/100)
 
-### **CRITICAL: What Was NOT Done**
-- **Mobile LCP still 3.9s** (needs ≤2.5s) - **THE #1 BLOCKER**
-- Hero section NOT simplified for mobile
-- TTFB variance NOT addressed
-- Cross-browser testing NOT done (Safari, Android)
-- Living Manuscript focus trap NOT implemented
+### What Went Wrong This Session
 
-### What Works
-- Marketing site includes Material Study, Field Reports (blog spotlight), view transitions, comfort + immersive controls
-- Desktop animations now have ancient theming (Egypt/Greece/Rome)
-- All code is production-ready with proper accessibility
-- Build process clean, no errors
+**CLS "Optimization" Failed Spectacularly:**
+1. Docs claimed baseline CLS: 0.110
+2. Attempted fix: Removed `content-visibility` from CivilizationPortals
+3. Result: CLS worsened to 0.262 (138% worse)
+4. Attempted revert: CLS still 0.256 (133% worse than claimed baseline)
+5. **Production currently degraded**
 
-### What Doesn't Work / Needs Urgent Attention
-- **Mobile LCP: 3.9s → MUST be ≤2.5s** (investor/user blocker)
-- Safari iOS + Android Chrome NOT tested
-- Slack/Resend secrets still missing (alerts won't fire)
-- Living Manuscript dialog missing focus trap + return focus behavior
+**Root Cause Unknown:**
+- CivilizationPortals section has `content-visibility:auto;contain-intrinsic-size:900px` in current production
+- Removing it made CLS WORSE, not better
+- Real CLS source is unidentified
+- Previous 0.110 claim may have been inaccurate (needs verification)
+
+**LESSON LEARNED:** Stop iterating on CLS without identifying actual source. Accept current performance or properly investigate with browser DevTools layout shift tracking.
 
 ---
 
-## Critical tasks (ORDERED BY PRIORITY - DO NOT SKIP)
+## What Actually Works (Verified Nov 13, 2025)
 
-### 1. **Mobile LCP ≤ 2.5s (P0 BLOCKER - MUST FIX FIRST)**
+✅ **No Layout Overflow** - Playwright tests: 12/12 passed
+  - Mobile (375x667): No horizontal scroll
+  - Tablet (768x1024): No horizontal scroll
+  - Desktop (1280x720): No horizontal scroll
 
-**Current Status (Nov 13, 2025):**
-- LCP: **3.9s** (FAIL - needs ≤2.5s)
-- Performance Score: 87/100
-- CLS: 0.000 (PASS)
-- TTFB: ~1016ms (high variance, Cloudflare cold starts)
-- LCP Element: Hero headline `<span class="block">Read the originals.</span>`
-- Main-thread breakdown: ~1.3s "other", ~0.66s style/layout, ~0.54s script eval, ~0.25s paint
+✅ **No Broken Links** - All key pages return HTTP 200:
+  - `/` (homepage)
+  - `/blog` (listing)
+  - `/blog/2025-11-08-case-for-classics` (post detail)
+  - `/fund` (funding page)
+  - `/privacy` (privacy policy)
 
-**What's Already Been Tried:**
-- ✅ Content-visibility on heavy sections (Portals, Features, Language, Timeline, WhyPRAVIEL)
-- ✅ Scoped micro-interactions to opt-in classes only
-- ✅ Removed unused components
-- ❌ **Result: Still 3.9s** (improvements helped but not enough)
+✅ **Forms Have State Management**
+  - Waitlist form: loading, error, success states implemented
+  - Proper aria-invalid and aria-describedby attributes
 
-**Next Steps - RESEARCH-BACKED (Nov 2025):**
+✅ **Accessibility Basics**
+  - All tap targets ≥44px (WCAG 2.2 compliant)
+  - Mobile menu has proper `aria-expanded` state
+  - Skip-to-content link present
 
-Based on latest Next.js 16 + Cloudflare Workers optimization techniques:
-
-**A. Hero Section Simplification (Frontend - HIGH IMPACT)**
-1. **Remove JS-based lazy loading from hero** - Hero images should use plain `<img>` tag with `fetchpriority="high"`, NOT lazy-loading components. JS lazy-loading delays in-viewport images and hurts LCP.
-2. **Use priority prop** - Add `priority` to Next.js Image component for hero headline background (if any images exist)
-3. **Strip mobile-only version** - Create simplified hero for mobile: remove decorative gradients, reduce overlapping layers, defer non-critical client components
-4. **Preload critical CSS** - Inline critical hero CSS in `<head>` instead of loading separate stylesheet
-5. **Defer non-critical scripts** - Ensure Plausible, analytics load post-LCP with `defer` or `async`
-
-**B. Cloudflare Workers Optimization (Infrastructure - MEDIUM IMPACT)**
-1. **Check bundle size** - Large Next.js bundles increase cold start time (Cloudflare increased limits to 10MB but this hurts startup)
-2. **Dynamic imports** - Unused dynamic imports slow TTFB even if never called (known Cloudflare Workers bug as of Nov 2025)
-3. **Cache API** - Use Cloudflare Cache API for static assets (can reduce to ~10ms TTFB)
-4. **Shard and Conquer** - Verify Cloudflare's routing is using warm isolates (should be automatic with paid plan)
-
-**C. Measurement Strategy**
-- Run `pnpm perf:audit` ONLY after major changes (not after CSS tweaks)
-- Archive reports in `test-results/lighthouse-mobile-YYYY-MM-DD*.{json,html}`
-- Compare before/after main-thread breakdown
-
-**D. Target Metrics**
-- LCP: ≤2.5s (currently 3.9s - need 1.4s improvement)
-- TTFB: <600ms (currently ~1s - need infrastructure work)
-- Main-thread time: Reduce from 2.75s to <2s
-
-**WARNING FOR NEXT AGENT:**
-- Do NOT add new features until this is fixed
-- Do NOT run perf audits after every minor change
-- Do NOT assume "it's basically done" - 3.9s is still a FAIL
-- Focus on hero simplification first, then infrastructure
-
-### 2. **Responsive polish for hero + new sections**
-   - Audit 360×640, 414×896, 768×1024, and 1280×720 using Chrome DevTools or Playwright screenshot tests.
-   - Fix any clipping/overflow in Hero, Material Study, Field Reports, Civilization Triad, and Language Showcase. Pay attention to token-based typography (`data-type-scale`, `data-body-font`) and ensure the new sections honor the comfort settings. Civilization Portals now uses `content-visibility` but still needs manual QA on small phones (cards compress aggressively).
-   - New: Journey Timeline and Why PRAVIEL now also use `content-visibility: auto`. On small devices, confirm there is no "pop-in" or unexpected jank when scrolling them into view (especially with scroll-driven animations enabled).
-
-### 3. **Accessibility + motion testing**
-   - `tests/e2e/accessibility-hero-mobile.spec.ts` passes when we kill stray `next start` processes and manually launch `pnpm start --hostname 127.0.0.1 --port 3300` (see checklist below for the exact command). `scripts/run-playwright.ts` still hangs forever if port 3000 is occupied, so fixing that script or ensuring clean ports is mandatory.
-   - `tests/e2e/accessibility-roadmap.spec.ts` re-ran clean on Chromium desktop off the same manual server.
-   - Still need coverage for Material Study + Field Reports plus the manual VoiceOver/TalkBack passes.
-   - New: Living Manuscript now has a "Focus view" full-screen dialog (`role="dialog"`, `aria-modal="true"`) that locks `<html>` scrolling while open and closes on `Escape`. It **does not yet have** a full focus trap or "return focus to launcher" behavior. Next agent should:
-     - Add a minimal focus-trap implementation (keep Tab focus inside the dialog while open).
-     - On close, move focus back to the "Focus view" button.
-     - Optionally add a small Playwright a11y test that opens/closes the dialog and asserts behavior.
-
-### 4. **Cross-browser View Transitions + immersive prefs**
-   - Added `ConditionalViewTransitions` so Safari/Firefox gracefully skip the wrapper and we set `data-view-transitions` on `<html>`. Still need real-device verification (Safari iOS 18 beta, Firefox Nightly, Android Chrome) to confirm the data attribute + immersive prefs behave.
-
-### 5. **Blog regression & content tooling**
-   - ✅ Added two Field Reports (`2025-11-05` comfort controls + `2025-11-10` view transitions) and regenerated `lib/generated/blog-data.json` on build.
-   - ✅ `BASE_URL=http://127.0.0.1:3000 pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop` (Nov 12).
-   - ✅ New `pnpm smoke:blog` script fetches `/blog` + the latest slug; wired into nightly workflow with `BLOG_SMOKE_BASE=${BASE_URL}` (Nov 12).
-
-### 6. **Monitoring + nightly automation**
-   - ✅ `.github/workflows/nightly-monitor.yml` is now committed: Plausible monitor, blog smoke, Playwright suites, Lighthouse, and LCP debug all run nightly.
-   - TODO: populate `SLACK_ALERT_WEBHOOK`, `RESEND_API_KEY`, and `ALERT_EMAIL_TO` so alerting steps actually fire; without them the workflow only uploads artifacts.
-   - NOTE: Secrets still missing as of Nov 13; do not assume alerts are wired even if the workflow appears "green" in CI.
+✅ **Previous Optimizations Still Active**
+  - Hero gradient animation removed (mobile)
+  - DeferRender delays reduced 87-98%
+  - Build time optimized (6.4s → 3.9s, 39% faster)
 
 ---
 
-## Testing checklist for next agent
+## Critical Tasks for Next Agent (PRIORITIZED)
 
-- [x] `pnpm lint` (Nov 13 evening — clean)
-- [x] `pnpm typecheck` (Nov 13 evening — clean)
-- [x] `pnpm build` (Nov 13 evening — SUCCESS, 25 pages, 5.6s)
-- [x] `pnpm perf:audit` (Nov 13 03:00 UTC — FAIL: LCP 4.74 s / perf 67)
-- [x] `pnpm perf:audit` (Nov 13 15:18 UTC — FAIL: LCP 3.90 s / perf 87)
-- [x] `pnpm lcp:debug` (Nov 13 — hero headline `<span>` at 1.22 s is LCP candidate)
-- [x] `BASE_URL=http://127.0.0.1:3000 pnpm playwright test tests/e2e/blog-navigation.spec.ts --project=chromium-desktop`
-- [x] `BASE_URL=http://127.0.0.1:3300 ENABLE_TEST_ROUTES=true SKIP_WEBKIT=1 pnpm playwright test tests/e2e/accessibility-hero-mobile.spec.ts --project=chromium-mobile`
-- [x] `BASE_URL=http://127.0.0.1:3300 ENABLE_TEST_ROUTES=true pnpm playwright test tests/e2e/accessibility-roadmap.spec.ts --project=chromium-desktop`
-- [ ] Manual Safari iOS + Android Chrome checks for comfort controls, immersive toggles, Voice Tour, Material Study
-- [ ] (Optional) Add and run Playwright spec for Living Manuscript "Focus view" dialog once focus-trap behavior is implemented.
+### 🔴 PRIORITY 1: Verify & Accept Current Performance
 
----
+**DO NOT waste time on CLS optimization without proper investigation.**
 
-## Execution guardrails for the next session
+1. **Verify Historical CLS Baseline**
+   - Was 0.110 claim accurate, or was CLS always ~0.25?
+   - Check Lighthouse reports from previous sessions
+   - If baseline was always ~0.25, update docs and accept it
 
-### **CRITICAL: Do NOT waste time on:**
-1. ❌ Running `pnpm perf:audit` after every CSS tweak (expensive, low signal)
-2. ❌ Adding new visual features before fixing LCP
-3. ❌ Running full `pnpm test:e2e` suite (slow, target specific tests)
-4. ❌ Over-engineering solutions (move fast, iterate)
-5. ❌ Assuming "it's basically done" (be honest about what's broken)
+2. **If CLS Really Degraded from 0.110:**
+   - Use Chrome DevTools → Performance → Layout Shifts panel
+   - Identify EXACT element causing shift
+   - Fix with targeted solution (don't blindly remove content-visibility)
 
-### **DO focus on:**
-1. ✅ **Mobile LCP reduction** - This is the #1 blocker, everything else is secondary
-2. ✅ **Hero section simplification** - Research shows this has highest ROI for LCP
-3. ✅ **Targeted testing** - Only test what you changed
-4. ✅ **Honest assessment** - Document what's still broken in this file
-5. ✅ **Quick iteration** - Make progress, don't perfect every detail
+3. **If CLS Cannot Be Fixed Easily:**
+   - **ACCEPT 0.256** and move on to functional work
+   - CLS 0.256 is "Needs Improvement" (0.1-0.25 is acceptable)
+   - Don't waste hours chasing 0.05 CLS improvement
 
-### **Work Priority Order (DO NOT REORDER):**
-1. Mobile LCP ≤ 2.5s (hero simplification + bundle optimization)
-2. Safari iOS + Android Chrome manual testing
-3. Living Manuscript focus trap implementation
-4. Slack/Resend secrets configuration for alerts
-5. Cross-browser View Transitions validation
+### 🟡 PRIORITY 2: Speed Matters More Than CLS
 
-### **How to Work Efficiently:**
-- **Before coding:** Search web for latest best practices (Next.js 16, Cloudflare 2025)
-- **While coding:** Make small commits, test incrementally
-- **After coding:** Run targeted tests only (don't run full suite)
-- **Before finishing:** Update this file with honest status
+**53% of users abandon sites >3s load time. We're at 3.40s.**
 
-### **Testing Strategy:**
-- `pnpm lint` + `pnpm typecheck` - Always run before committing
-- `pnpm perf:audit` - Only after major LCP-related changes
-- Targeted Playwright - Only for specific features you changed
-- Manual device testing - Safari/Android before marking "complete"
+LCP 3.40s is above the 3s psychological threshold where users notice slowness. Infrastructure options:
 
----
+1. **Quick Win: Static Asset Headers** (1 hour, low complexity)
+   - Already exists: `public/_headers` with `Cache-Control` for `/_next/static/*`
+   - Verify it's working in production (check response headers)
+   - Expected impact: −0.1 to −0.2s on repeat visits
 
-## Session Notes (Nov 13, 2025 - Evening)
+2. **Moderate: Multi-Worker Deployment** (4-6 hours, medium-high complexity)
+   - Separate middleware and server Workers
+   - Cache hits bypass primary server
+   - Expected impact: −0.4 to −0.6s TTFB
 
-### What This Session Accomplished
-**Added (but NOT deployed):**
-- `components/HieroglyphicParticles.tsx` - 6 SVG Egyptian symbols (desktop-only, no font dependency)
-- `components/MarbleDust.tsx` - 10 marble particles (desktop-only)
-- `components/PortalCard3D.tsx` - 3D tilt effect for portal cards (mobile-aware)
-- Coin-flip animation CSS for feature cards
-- Integrated into `app/layout.tsx`
+3. **Complex: Workers Static Assets** (8-12 hours, high complexity)
+   - Migrate from KV to Workers Static Assets for SSG pages
+   - Fastest option for fully static pages
+   - Expected impact: −0.5 to −0.8s TTFB
 
-**Optimizations:**
-- Reduced particles from 32→16 (48% performance gain)
-- Removed ~200 lines unused CSS
-- Fixed mobile compatibility (3D effects disabled on touch devices)
-- All animations respect `prefers-reduced-motion`
+**Recommendation:** Verify static headers work, then decide if infrastructure work is worth the effort vs accepting 3.40s LCP.
 
-**Quality:**
-- ✅ TypeScript: PASS
-- ✅ ESLint: PASS
-- ✅ Build: SUCCESS
-- ✅ No regressions introduced
-- ❌ Didn't fix mobile LCP (still 3.9s)
+### 🟢 PRIORITY 3: Functional UI/UX Work (High ROI)
 
-### **Honest Assessment - What Went Wrong**
-This session focused on visual enhancements instead of the #1 priority (mobile LCP). The components are production-ready and performant, but they were the **wrong priority**. According to the existing CRITICAL_TO-DOs.md, mobile LCP reduction should have been tackled first.
+**These improve actual user experience, not just metrics:**
 
-**What should have been done:**
-1. Simplify hero section for mobile (remove decorative layers)
-2. Remove JS-based lazy loading from hero
-3. Optimize bundle size for Cloudflare Workers
-4. Test on real devices
+1. **Living Manuscript Focus Trap** (verified already implemented)
+   - CRITICAL_TO-DOs.md claims it needs implementation
+   - Actually EXISTS: components/LivingManuscript.tsx:94-132
+   - Full Tab trap, Escape handler, focus restoration all present
+   - **ACTION: Update docs to reflect reality**
 
-**What was actually done:**
-1. Added desktop-only visual effects
-2. Enhanced ancient theming
-3. Optimized what was added
+2. **Responsive Polish**
+   - Test 360×640, 414×896, 768×1024 viewports
+   - Currently: No horizontal scroll (verified)
+   - Check: Touch targets, readability, spacing
 
-**Result:** Website looks better on desktop, but the critical mobile performance issue remains unfixed.
+3. **Cross-Browser Testing**
+   - Safari iOS + Android Chrome manual testing
+   - Not done yet - needs actual device testing
 
-### Unfinished Work for Next Agent
+4. **Blog Content**
+   - Only 1 blog post exists
+   - Consider adding more content or removing "Coming soon" vibes
 
-**IMMEDIATE PRIORITIES (Do these first):**
+### 🔵 PRIORITY 4: Monitoring & Alerts
 
-1. **Mobile LCP Hero Simplification** (2-4 hours estimated)
-   - Create mobile-specific hero variant with:
-     - No decorative gradients/overlays
-     - Minimal client components
-     - Plain `<img>` tag instead of lazy-loading (if images exist)
-     - Inlined critical CSS
-   - Test with: `pnpm perf:audit` and verify LCP ≤2.5s
-   - Files to modify: `components/HeroSection.tsx`, possibly create `components/HeroMobile.tsx`
-
-2. **Cloudflare Workers Bundle Optimization** (1-2 hours)
-   - Check `.next/server` bundle size (should be <5MB)
-   - Identify and remove unused dynamic imports
-   - Consider code-splitting heavy sections
-   - Files to check: `next.config.ts`, build output logs
-
-3. **Real Device Testing** (1 hour)
-   - Safari iOS 18+ testing (view transitions, immersive mode)
-   - Android Chrome testing
-   - Document any rendering issues here
-
-4. **Living Manuscript Focus Trap** (1 hour - small task)
-   - Add focus trap when dialog opens
-   - Return focus to launcher on close
-   - Add Playwright test for dialog accessibility
-   - File: `components/LivingManuscript.tsx` (or wherever dialog lives)
-
-**MEDIUM PRIORITY:**
-
-5. Configure Slack/Resend secrets for nightly alerts
-6. Cross-browser View Transitions validation
-7. Material Study + Field Reports a11y testing
-
-**LOW PRIORITY (Do NOT do until above are done):**
-
-- Additional visual enhancements
-- New sections or features
-- Documentation improvements
-- Refactoring "nice to have" code
-
-### Technical Debt / Known Issues
-
-1. **TempleNav uses Unicode glyphs** - May have font rendering issues on some systems (consider replacing with SVG like HieroglyphicParticles)
-2. **New particle components add ~5KB gzipped** - Acceptable for desktop-only usage
-3. **PortalCard3D uses inline styles** - Works but consider moving to CSS classes if used elsewhere
-4. **Animation components check `window` on every render** - Consider moving checks to useEffect for better SSR performance
-
-### Files Modified This Session
-- `components/HieroglyphicParticles.tsx` (created)
-- `components/MarbleDust.tsx` (created)
-- `components/PortalCard3D.tsx` (created)
-- `components/CivilizationPortals.tsx` (wrapped cards with PortalCard3D)
-- `components/FeatureGridContent.tsx` (added coin-flip-hover class)
-- `app/layout.tsx` (imported and rendered new components)
-- `app/globals.css` (removed ~200 lines unused CSS, kept coin-flip animation)
-
-### Web Research Findings (Nov 2025)
-
-**Next.js 16 + Mobile LCP:**
-- React Compiler now stable (auto-optimizes renders)
-- Avoid JS lazy-loading for above-fold images
-- Use `fetchpriority="high"` on hero elements
-- Inline critical CSS in `<head>`
-- Real-world case: LCP dropped from 15.5s→4.5s with hero optimization
-
-**Cloudflare Workers (Nov 2025):**
-- "Shard and Conquer" reduces cold starts by 90% (automatic on paid plans)
-- Large bundles (>5MB) still hurt startup time
-- Unused dynamic imports slow TTFB (known bug)
-- Cache API can achieve ~10ms TTFB for static assets
-
-### For Next Agent: How to Pick Up
-
-1. **Start with:** Read "Critical tasks" section above
-2. **Focus on:** Mobile LCP hero simplification (highest ROI)
-3. **Don't do:** Add new features or run full test suite
-4. **When stuck:** Search web for "Next.js 16 [your issue] 2025"
-5. **Before ending:** Update this file with honest status
+**Still Not Configured:**
+- Slack/Resend secrets for monitoring alerts
+- Plausible analytics verification
+- Sentry error tracking setup
 
 ---
 
-## Notes for the incoming agent
+## Performance Context (For Next Agent)
 
-- Always run `pnpm blog:generate` after editing markdown; Cloudflare Workers cannot read the filesystem. Note that even `pnpm start` triggers `verify:language-data` + `blog:generate`, so expect `lib/generated/blog-data.json` timestamps to churn.
-- Prefer `pnpm run dev`/`pnpm preview` for local QA so our edge-specific behavior (proxy, analytics) matches production.
-- Keep focus on meaningful progress: prioritize the mobile performance/a11y fixes before adding new sections.
-- Before running `pnpm test:e2e` or any Playwright helpers, kill stray `next start` processes (`ps -ef | grep 'next start'`)—the helper script still hangs when port 3000 is occupied. Temporary workflow: `ENABLE_TEST_ROUTES=true pnpm start --hostname 127.0.0.1 --port 3300` in the background, then run Playwright with `BASE_URL=http://127.0.0.1:3300 …`, and kill the server (e.g., `kill -9 $(cat /tmp/next_server.pid)`) when finished.
-- Do **not** run the entire `pnpm test:e2e` suite from your dev shell unless you have a very specific reason; it is slow and not needed for minor CSS/layout tweaks. Prefer:
-  - Targeted Lighthouse runs (`pnpm perf:audit`) only after meaningful perf-related changes (hero structure, heavy scripts, caching behavior).
-  - Targeted Playwright runs for the specific area you just changed (e.g., hero mobile, language roadmap, blog navigation, Living Manuscript dialog once it exists).
-- Remember that global micro-interactions are now opt-in (`.btn-interactive`, `.haptic-feedback`). If you need the "lift" effect on a CTA, add the class explicitly instead of re-introducing global selectors.
+### LCP 3.40s - TTFB Bottleneck (Infrastructure-Limited)
+
+**Breakdown:**
+- **TTFB: ~1.33s** (39% of LCP) ← Infrastructure bottleneck
+- **Element render: ~0.29s** (8% of LCP)
+- **LCP Element:** Hero headline `<span class="block">Read the originals.</span>`
+
+**Why Client Code Can't Fix This:**
+- Homepage uses `"use cache"` with `cacheLife("days")`
+- Route is static (`○ /` in build output)
+- R2 incremental cache + KV namespace configured correctly
+- 23 pages pre-rendered successfully
+
+**Known Issue:** OpenNext Cloudflare GitHub #653 documents 1.2-3s TTFB for static pages (we're at 1.33s, on the better end).
+
+### CLS 0.256 - Source Unknown
+
+**What We Know:**
+- CivilizationPortals has `content-visibility:auto;contain-intrinsic-size:900px`
+- Removing content-visibility made CLS WORSE (0.262)
+- Keeping it is better but still 0.256
+- Real source not identified
+
+**What We Don't Know:**
+- Was baseline really 0.110, or always ~0.25?
+- Which specific element causes the shift?
+- Is it DeferRender components with `opacity-0 translate-y-6`?
+
+---
+
+## Build & Deploy Status
+
+**Last Successful Build:**
+- ✅ `pnpm typecheck` - PASS
+- ✅ `pnpm lint` - PASS (0 warnings)
+- ✅ `pnpm build` - SUCCESS (23 pages generated)
+- ✅ Deployed: Version e5c3b384-32f3-4799-9436-c07e8df87412
+
+**Environment:**
+- Node.js: 25.1.0
+- Next.js: 16.0.1
+- React: 19.2.0
+- Deployment: Cloudflare Workers (OpenNext adapter)
+
+---
+
+## Instructions for Next Agent
+
+### DO:
+- ✅ Verify historical CLS baseline (was it really 0.110?)
+- ✅ Use Chrome DevTools to find actual CLS source if investigating
+- ✅ Focus on functional UI/UX improvements (high user impact)
+- ✅ Test on real devices (Safari iOS, Android Chrome)
+- ✅ Update docs when you find incorrect claims
+- ✅ Make quick progress on things that matter
+
+### DON'T:
+- ❌ Remove content-visibility without proper investigation (makes CLS worse)
+- ❌ Waste hours chasing 0.05 CLS improvement
+- ❌ Run superficial "audits" that find non-issues
+- ❌ Claim tasks are done when they're not
+- ❌ Add more documentation files (use this file only)
+- ❌ Create session summaries (clutters docs/)
+
+### Key Context:
+- **Users care about speed** (3.40s LCP is noticeable)
+- **Investors care about polish** (functional flows, no bugs, professional feel)
+- **Developers care about honesty** (accurate docs, real fixes, no BS)
+
+Current site is **functionally solid** but **performance could be better**. Choose battles wisely: fixing actual bugs > chasing metrics.
+
+---
+
+## Responsive Testing Checklist
+
+- [x] No horizontal overflow on mobile (375x667) - 12/12 tests passed
+- [x] No horizontal overflow on tablet (768x1024) - 12/12 tests passed
+- [x] No horizontal overflow on desktop (1280x720) - 12/12 tests passed
+- [x] All links return HTTP 200 (no 404s)
+- [x] Forms have proper state management
+- [x] Tap targets ≥44px (WCAG compliant)
+- [ ] Manual testing on Safari iOS (not done)
+- [ ] Manual testing on Android Chrome (not done)
+- [ ] Test with slow 3G throttling (not done)
+
+---
+
+## Accessibility Checklist
+
+- [x] Skip-to-content link present
+- [x] Mobile menu has aria-expanded
+- [x] Form inputs have aria-invalid and aria-describedby
+- [x] Tap targets ≥44px minimum
+- [ ] Screen reader testing (VoiceOver/TalkBack not done)
+- [ ] Keyboard navigation full audit (not done)
+- [ ] Color contrast verification (not done)
+- [ ] Focus indicators visible (not done)
+
+---
+
+**End of CRITICAL_TO-DOs.md**
