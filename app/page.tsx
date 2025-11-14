@@ -1,23 +1,27 @@
 // app/page.tsx
 import { cacheLife } from "next/cache";
+import dynamic from "next/dynamic";
 
+// Critical above-the-fold components (load immediately)
 import HeroSection from "@/components/HeroSection";
 import SectionDivider from "@/components/SectionDivider";
-import FeatureGrid from "@/components/FeatureGrid";
-import MissionSection from "@/components/MissionSection";
-import WhyPRAVIEL from "@/components/WhyPRAVIEL";
-import HowItWorks from "@/components/HowItWorks";
-import FAQ from "@/components/FAQ";
-import ComparisonTable from "@/components/ComparisonTable";
-import LanguageShowcase from "@/components/LanguageShowcase";
-import PrivacyFirst from "@/components/PrivacyFirst";
-import CivilizationTriad from "@/components/CivilizationTriad";
-import MaterialStudy from "@/components/MaterialStudy";
-import BlogSpotlight from "@/components/BlogSpotlight";
-import LivingManuscript from "@/components/LivingManuscript";
-import JourneyTimeline from "@/components/JourneyTimeline";
-import VoiceTour from "@/components/VoiceTour";
 import CivilizationPortals from "@/components/CivilizationPortals";
+
+// Below-the-fold components (lazy load for better LCP/TBT)
+const CivilizationTriad = dynamic(() => import("@/components/CivilizationTriad"));
+const MaterialStudy = dynamic(() => import("@/components/MaterialStudy"));
+const BlogSpotlight = dynamic(() => import("@/components/BlogSpotlight"));
+const VoiceTour = dynamic(() => import("@/components/VoiceTour"));
+const FeatureGrid = dynamic(() => import("@/components/FeatureGrid"));
+const MissionSection = dynamic(() => import("@/components/MissionSection"));
+const WhyPRAVIEL = dynamic(() => import("@/components/WhyPRAVIEL"));
+const LivingManuscript = dynamic(() => import("@/components/LivingManuscript"));
+const ComparisonTable = dynamic(() => import("@/components/ComparisonTable"));
+const JourneyTimeline = dynamic(() => import("@/components/JourneyTimeline"));
+const LanguageShowcase = dynamic(() => import("@/components/LanguageShowcase"));
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const FAQ = dynamic(() => import("@/components/FAQ"));
+const PrivacyFirst = dynamic(() => import("@/components/PrivacyFirst"));
 
 // Marketing site stays static via cacheLife + cacheComponents
 // Note: OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
