@@ -13,15 +13,16 @@ type SectionNavItem = {
 };
 
 function useMediaQuery(query: string, fallback = true) {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window === "undefined") {
-      return fallback;
-    }
-    return window.matchMedia(query).matches;
-  });
+  // Always use fallback on first render to prevent hydration mismatch
+  const [matches, setMatches] = useState(fallback);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasMounted || typeof window === "undefined") {
       return;
     }
     const mediaQuery = window.matchMedia(query);
@@ -29,7 +30,7 @@ function useMediaQuery(query: string, fallback = true) {
     update();
     mediaQuery.addEventListener("change", update);
     return () => mediaQuery.removeEventListener("change", update);
-  }, [query]);
+  }, [query, hasMounted]);
 
   return matches;
 }
@@ -169,12 +170,13 @@ export default function TempleNav() {
     return () => observer.disconnect();
   }, [enableObserver]);
 
-  if (!showNav) {
-    return null;
-  }
-
   return (
-    <nav className="temple-nav" aria-label="Civilization quick links">
+    <nav
+      className="temple-nav"
+      aria-label="Civilization quick links"
+      style={{ display: showNav ? 'block' : 'none' }}
+      aria-hidden={!showNav}
+    >
       <div className="temple-nav__panel">
         <p className="temple-nav__title">Temple map</p>
         <ul className="temple-nav__list">

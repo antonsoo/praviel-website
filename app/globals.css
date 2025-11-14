@@ -541,6 +541,36 @@
     }
   }
 
+  @keyframes torch-flicker {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    25% {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+    50% {
+      opacity: 0.95;
+      transform: scale(0.98);
+    }
+    75% {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes torch-pulse {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1) translateZ(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15) translateZ(0);
+    }
+  }
+
   .civilization-layer--greece {
     z-index: -37;
     background-image:

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Egyptian Torch Cursor Effect
@@ -11,35 +11,35 @@ export default function EgyptianTorchCursor() {
   const cursorRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const [isActive, setIsActive] = useState(false);
-  const [immersivePreference, setImmersivePreference] = useState<string | null>(null);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [shouldShow, setShouldShow] = useState(false);
 
-  // Check immersive preference from document
+  // Mount detection
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    setHasMounted(true);
+  }, []);
 
-    const checkPreference = () => {
-      const pref = document.documentElement.dataset.immersivePref;
-      setImmersivePreference(pref || "auto");
+  // Check if should show (only after mount to prevent hydration mismatch)
+  useEffect(() => {
+    if (!hasMounted || typeof window === "undefined") return;
+
+    const checkShouldShow = () => {
+      const immersivePref = document.documentElement.dataset.immersivePref || "auto";
+      const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setShouldShow(!isMobile && !prefersReducedMotion && immersivePref !== "off");
     };
 
-    checkPreference();
+    checkShouldShow();
 
-    const observer = new MutationObserver(checkPreference);
+    const observer = new MutationObserver(checkShouldShow);
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-immersive-pref"],
     });
 
     return () => observer.disconnect();
-  }, []);
-
-  // Only show on desktop with immersive mode enabled
-  const shouldShow = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    return !isMobile && !prefersReducedMotion && immersivePreference !== "off";
-  }, [immersivePreference]);
+  }, [hasMounted]);
 
   useEffect(() => {
     if (!shouldShow) return;
@@ -88,8 +88,6 @@ export default function EgyptianTorchCursor() {
     };
   }, [shouldShow]);
 
-  if (!shouldShow) return null;
-
   return (
     <div
       ref={cursorRef}
@@ -97,6 +95,7 @@ export default function EgyptianTorchCursor() {
       style={{
         opacity: isActive ? 1 : 0,
         willChange: "transform, opacity",
+        display: shouldShow ? 'block' : 'none',
       }}
       aria-hidden="true"
     >
@@ -150,38 +149,6 @@ export default function EgyptianTorchCursor() {
           animation: "torch-pulse 1.2s ease-in-out infinite",
         }}
       />
-
-      <style jsx>{`
-        @keyframes torch-flicker {
-          0%, 100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-          25% {
-            opacity: 0.85;
-            transform: scale(1.05);
-          }
-          50% {
-            opacity: 0.95;
-            transform: scale(0.98);
-          }
-          75% {
-            opacity: 0.9;
-            transform: scale(1.02);
-          }
-        }
-
-        @keyframes torch-pulse {
-          0%, 100% {
-            opacity: 0.8;
-            transform: scale(1) translateZ(0);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.15) translateZ(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }

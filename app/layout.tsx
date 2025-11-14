@@ -178,6 +178,11 @@ export default async function RootLayout({
       <html
         lang="en"
         className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}
+        suppressHydrationWarning
+        data-type-scale="base"
+        data-contrast="default"
+        data-body-font="sans"
+        data-immersive-pref="auto"
       >
         <head>
           <script
