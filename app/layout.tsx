@@ -178,20 +178,18 @@ export default async function RootLayout({
     <ConditionalViewTransitions>
       <html
         lang="en"
-        data-type-scale="base"
-        data-contrast="default"
-        data-body-font="sans"
-        data-immersive-pref="auto"
         className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}
       >
+        <head>
+          <script
+            id="preferences-bootstrap"
+            dangerouslySetInnerHTML={{ __html: preferenceBootstrapScript }}
+          />
+        </head>
         <body
           className="min-h-dvh flex flex-col overflow-x-hidden font-sans"
           style={{ paddingTop: "var(--safe-area-top)" }}
         >
-        <script
-          id="preferences-bootstrap"
-          dangerouslySetInnerHTML={{ __html: preferenceBootstrapScript }}
-        />
         {/* Plausible Analytics - Privacy-focused, GDPR compliant, no cookies
             Using custom proxy through our domain to avoid ad blockers
             Must be a client component to work with Next.js Script strategy */}
