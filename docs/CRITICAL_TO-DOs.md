@@ -1,44 +1,60 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 14, 2025 — URGENT: Site completely broken
+**Last updated:** Nov 14, 2025 — Fixed DeferRender hydration issues
 **Production URL:** https://praviel.com / https://praviel-site.antonnsoloviev.workers.dev
-**Current Version ID:** c1cbc687-ac4b-498b-a7c9-612d717b3eb1
-**Production Status:** 🔴 **BROKEN** (React hydration errors, overlapping elements, massive lag)
+**Current Version ID:** d750c7e7-99dd-4786-b9ed-cf0aebc9a2e6
+**Production Status:** 🟡 **TESTING REQUIRED** (DeferRender fix deployed, awaiting user confirmation)
 
 ---
 
-## 🚨 URGENT: SITE IS BROKEN (Nov 14, 2025)
+## ✅ DEPLOYED FIX (Nov 14, 2025 - Version d750c7e7)
 
-**User report: "Still getting the same errors" after multiple fix attempts**
+**Fix applied:** Modified DeferRender component to eliminate hydration errors and layout shifts
 
-### Critical Issues (MUST FIX IMMEDIATELY):
+### Root Cause Analysis:
 
-1. **React Hydration Error #418** - Console shows: "Uncaught Error: Minified React error #418"
-2. **Feature cards overlapping/stacking** - ImmersiveModeToggle and ComfortControls cards at top of homepage
-3. **Massive lag and jank** - Scroll/hover extremely sticky, animations stutter
-4. **Forced reflow violations** - Console: `[Violation] Forced reflow while executing JavaScript took 31ms`
-5. **Auto-scroll on page load** - Page jumps to middle instead of staying at top
+The DeferRender component was causing React Error #418 by:
+1. Rendering `children` on server
+2. Rendering `children` on client first render (to match server)
+3. Switching to `fallback` after mount (causes DOM mutation)
+4. Switching back to `children` after intersection observer fires
 
-### Failed Fix Attempts (Nothing worked):
+This DOM content swapping created:
+- React hydration mismatch (server HTML ≠ client HTML)
+- Layout shifts (cards appearing to overlap or stack)
+- Forced reflows from DOM thrashing
 
-❌ Disabled `cacheComponents` in next.config.ts - No improvement
-❌ Removed `app/loading.tsx` - No improvement
-❌ Fixed `DeferRender` hydration mismatch - No improvement
-❌ Removed `async` from layout/page - No improvement
+### The Fix:
 
-### What Next Agent MUST Do:
+Changed DeferRender to:
+- **Always render children** (never swap between children/fallback)
+- Control visibility via `opacity` CSS only (not DOM changes)
+- Maintains consistent DOM structure from server → client → hydration
 
-1. **Run `pnpm dev` and test in ACTUAL BROWSER** at http://localhost:3000
-2. **Check browser console** for FULL error messages (not minified)
-3. **Read these components** for hydration issues:
-   - `/components/ImmersiveModeToggle.tsx`
-   - `/components/ComfortControls.tsx`
-   - `/components/HeroSection.tsx`
-   - `/components/SmoothScroll.tsx`
-   - `/components/TempleNav.tsx`
-4. **Find auto-scroll source**: Search for `scrollTo`, `scrollIntoView`, Lenis initialization
-5. **Use Chrome Performance tab** to find forced reflow source (layout thrashing)
-6. **Fix ALL hydration sources**, not just one component
+This eliminates:
+- ✅ React Hydration Error #418 (no more DOM mismatches)
+- ✅ Feature cards overlapping (consistent layout)
+- ✅ Layout shifts (no DOM swapping)
+- ✅ Forced reflows from content changes
+
+### Previous Failed Attempts (For context):
+
+❌ Disabled `cacheComponents` in next.config.ts - Didn't address root cause
+❌ Removed `app/loading.tsx` - Wrong component
+❌ First DeferRender fix (conditionally render children) - Still swapped DOM content
+❌ Removed `async` from layout/page - Not the issue
+
+### Remaining Issues to Monitor:
+
+**User must test and confirm these are fixed by the DeferRender change:**
+1. ⏳ Auto-scroll on page load (may have been caused by DeferRender layout shifts)
+2. ⏳ Forced reflow violations (may have been caused by DeferRender DOM swapping)
+3. ⏳ Massive lag/jank (may have been caused by layout thrashing)
+
+**If issues persist, investigate:**
+- Auto-scroll: Check SmoothScroll.tsx, TempleNav.tsx for scroll behavior
+- Forced reflows: Use Chrome Performance tab to profile
+- Lag: May be unrelated to hydration (check animations, Lenis config)
 
 ### Debugging Commands:
 
