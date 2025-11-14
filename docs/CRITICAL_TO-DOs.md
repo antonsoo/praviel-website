@@ -1,9 +1,75 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 13, 2025 23:15 UTC — Honest handoff to next agent
-**Production URL:** https://praviel-site.antonnsoloviev.workers.dev
-**Current Version ID:** 4d0eae6a-6bad-4d85-a200-1b4f543c5814
-**Production Status:** ⚠️ **NEEDS VERIFICATION** (Dependencies updated, but interactive features NOT tested)
+**Last updated:** Nov 14, 2025 — URGENT: Site completely broken
+**Production URL:** https://praviel.com / https://praviel-site.antonnsoloviev.workers.dev
+**Current Version ID:** c1cbc687-ac4b-498b-a7c9-612d717b3eb1
+**Production Status:** 🔴 **BROKEN** (React hydration errors, overlapping elements, massive lag)
+
+---
+
+## 🚨 URGENT: SITE IS BROKEN (Nov 14, 2025)
+
+**User report: "Still getting the same errors" after multiple fix attempts**
+
+### Critical Issues (MUST FIX IMMEDIATELY):
+
+1. **React Hydration Error #418** - Console shows: "Uncaught Error: Minified React error #418"
+2. **Feature cards overlapping/stacking** - ImmersiveModeToggle and ComfortControls cards at top of homepage
+3. **Massive lag and jank** - Scroll/hover extremely sticky, animations stutter
+4. **Forced reflow violations** - Console: `[Violation] Forced reflow while executing JavaScript took 31ms`
+5. **Auto-scroll on page load** - Page jumps to middle instead of staying at top
+
+### Failed Fix Attempts (Nothing worked):
+
+❌ Disabled `cacheComponents` in next.config.ts - No improvement
+❌ Removed `app/loading.tsx` - No improvement
+❌ Fixed `DeferRender` hydration mismatch - No improvement
+❌ Removed `async` from layout/page - No improvement
+
+### What Next Agent MUST Do:
+
+1. **Run `pnpm dev` and test in ACTUAL BROWSER** at http://localhost:3000
+2. **Check browser console** for FULL error messages (not minified)
+3. **Read these components** for hydration issues:
+   - `/components/ImmersiveModeToggle.tsx`
+   - `/components/ComfortControls.tsx`
+   - `/components/HeroSection.tsx`
+   - `/components/SmoothScroll.tsx`
+   - `/components/TempleNav.tsx`
+4. **Find auto-scroll source**: Search for `scrollTo`, `scrollIntoView`, Lenis initialization
+5. **Use Chrome Performance tab** to find forced reflow source (layout thrashing)
+6. **Fix ALL hydration sources**, not just one component
+
+### Debugging Commands:
+
+```bash
+# Run dev server to see FULL errors (not minified)
+pnpm dev
+
+# Search for hydration sources
+grep -r "typeof window\|window\.\|document\." components/ --include="*.tsx"
+grep -r "Date\.now\|Math\.random\|performance\.now" components/
+
+# Find auto-scroll culprits
+grep -r "scrollTo\|scrollIntoView\|scroll\(" components/
+
+# Build and deploy after fixing
+pnpm build
+SKIP_OBSERVABILITY_CHECK=true pnpm run deploy
+```
+
+### Success Criteria (ALL must pass):
+
+- ✅ No React Error #418 in console
+- ✅ Feature cards layout correctly (no overlap)
+- ✅ No lag - smooth scroll and hover
+- ✅ No auto-scroll - page stays at top on load
+- ✅ No forced reflow violations in console
+- ✅ User confirms praviel.com works
+
+**DO NOT claim it's fixed without user confirmation on praviel.com**
+
+---
 
 ---
 
