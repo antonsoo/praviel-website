@@ -25,8 +25,7 @@ import PrivacyFirst from "@/components/PrivacyFirst";
 // OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
 // See: https://github.com/opennextjs/opennextjs-cloudflare/issues/653
 
-export default async function HomePage() {
-
+export default function HomePage() {
   return (
     <>
       <HeroSection />
