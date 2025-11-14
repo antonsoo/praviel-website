@@ -10,7 +10,7 @@ type SetImmersivePreference = (_value: ImmersivePreference) => void;
 
 const isBrowser = () => typeof window !== "undefined";
 
-function readStoredPreference(): ImmersivePreference | null {
+function _readStoredPreference(): ImmersivePreference | null {
   if (!isBrowser()) return null;
   try {
     const stored = window.localStorage.getItem(IMMERSIVE_STORAGE_KEY);
@@ -38,26 +38,22 @@ function updateDocumentDataset(value: ImmersivePreference) {
 }
 
 export function useImmersivePreference(): [ImmersivePreference, SetImmersivePreference] {
-  // CRITICAL FIX: Initialize state from data attribute set by bootstrap script
-  // This prevents hydration mismatch by ensuring server and client render the same initial state
-  const [preference, setPreferenceState] = useState<ImmersivePreference>(() => {
-    if (!isBrowser()) return "auto";
-
-    // Read from data attribute that was set by the bootstrap script in layout.tsx
-    // This ensures the initial React state matches what's already in the DOM
-    const stored = document.documentElement.dataset.immersivePref;
-    if (stored === "auto" || stored === "on" || stored === "off") {
-      return stored;
-    }
-    return "auto";
-  });
+  // CRITICAL FIX: Initialize with "auto" default to prevent hydration mismatch
+  // Server and client both render with "auto" initially
+  // Then update from stored preference after mount
+  const [preference, setPreferenceState] = useState<ImmersivePreference>("auto");
 
   useEffect(() => {
-    // Verify stored preference matches current state, update if needed
-    const stored = readStoredPreference();
-    if (stored && stored !== preference) {
-      setPreferenceState(stored);
-      updateDocumentDataset(stored);
+    if (!isBrowser()) return;
+
+    // Read from data attribute set by bootstrap script
+    const stored = document.documentElement.dataset.immersivePref;
+    if (stored === "auto" || stored === "on" || stored === "off") {
+      // Only update if different from default (prevents unnecessary re-render)
+      if (stored !== "auto") {
+        setPreferenceState(stored);
+        updateDocumentDataset(stored);
+      }
     }
   }, []);
 

@@ -34,7 +34,7 @@ const clampPreferences = (value: unknown): ComfortPreferences => {
   };
 };
 
-function readStoredPreferences(): ComfortPreferences | null {
+function _readStoredPreferences(): ComfortPreferences | null {
   if (!isBrowser()) return null;
   try {
     const stored = window.localStorage.getItem(COMFORT_STORAGE_KEY);
@@ -64,32 +64,28 @@ function applyDataset(value: ComfortPreferences) {
 }
 
 export function useComfortPreferences(): [ComfortPreferences, UpdateComfortPreferences] {
-  // CRITICAL FIX: Initialize state from data attributes set by bootstrap script
-  // This prevents hydration mismatch by ensuring server and client render the same initial state
-  const [preferences, setPreferences] = useState<ComfortPreferences>(() => {
-    if (!isBrowser()) return DEFAULT_PREFERENCES;
-
-    // Read from data attributes that were set by the bootstrap script in layout.tsx
-    // This ensures the initial React state matches what's already in the DOM
-    const root = document.documentElement;
-    return {
-      typeScale: root.dataset.typeScale === "plus" ? "plus" : "base",
-      contrast: root.dataset.contrast === "high" ? "high" : "default",
-      bodyFont: root.dataset.bodyFont === "serif" ? "serif" : "sans",
-    };
-  });
+  // CRITICAL FIX: Initialize with defaults to prevent hydration mismatch
+  // Server and client both render with DEFAULT_PREFERENCES initially
+  // Then update from stored preferences after mount
+  const [preferences, setPreferences] = useState<ComfortPreferences>(DEFAULT_PREFERENCES);
 
   useEffect(() => {
-    // Verify stored preferences match current state, update if needed
-    const stored = readStoredPreferences();
-    if (stored) {
-      const current = preferences;
-      if (stored.typeScale !== current.typeScale ||
-          stored.contrast !== current.contrast ||
-          stored.bodyFont !== current.bodyFont) {
-        setPreferences(stored);
-        applyDataset(stored);
-      }
+    if (!isBrowser()) return;
+
+    // Read from data attributes set by bootstrap script
+    const root = document.documentElement;
+    const stored = {
+      typeScale: root.dataset.typeScale === "plus" ? "plus" : ("base" as TypeScalePreference),
+      contrast: root.dataset.contrast === "high" ? "high" : ("default" as ContrastPreference),
+      bodyFont: root.dataset.bodyFont === "serif" ? "serif" : ("sans" as BodyFontPreference),
+    };
+
+    // Only update if different from defaults (prevents unnecessary re-render)
+    if (stored.typeScale !== DEFAULT_PREFERENCES.typeScale ||
+        stored.contrast !== DEFAULT_PREFERENCES.contrast ||
+        stored.bodyFont !== DEFAULT_PREFERENCES.bodyFont) {
+      setPreferences(stored);
+      applyDataset(stored);
     }
   }, []);
 

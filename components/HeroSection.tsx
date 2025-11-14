@@ -63,7 +63,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero-section"
-      className="relative isolate flex items-center overflow-hidden px-4 sm:px-6 py-16 sm:py-24 md:py-32 min-h-[100svh] sm:min-h-[88svh] lg:min-h-screen"
+      className="relative isolate flex flex-col items-center overflow-hidden px-4 sm:px-6 py-16 sm:py-24 md:py-32 min-h-[100svh] sm:min-h-[88svh] lg:min-h-screen"
       aria-labelledby={HERO_TITLE_ID}
       aria-describedby={`${HERO_SUBTITLE_ID} ${HERO_VISUAL_DESCRIPTION_ID}`}
       role="region"
