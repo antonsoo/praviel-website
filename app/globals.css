@@ -1038,6 +1038,63 @@
     background: linear-gradient(90deg, var(--temple-nav-accent, rgba(232, 197, 91, 0.85)), transparent);
   }
 
+  /* ========================================
+   * SCROLL PERFORMANCE OPTIMIZATIONS
+   * Pause expensive animations during scroll for 60fps
+   * ======================================== */
+
+  /* Add CSS containment to background layers for better rendering isolation */
+  .civilization-layer,
+  .site-bg-gradient,
+  .site-bg-strata,
+  .site-bg-constellation,
+  .site-bg-noise {
+    contain: layout style paint;
+  }
+
+  /* Pause all background animations during scroll */
+  html.is-scrolling .civilization-layer,
+  html.is-scrolling .site-bg-constellation,
+  html.is-scrolling .site-bg-noise {
+    animation-play-state: paused !important;
+  }
+
+  /* Optimize button tap performance - instant visual feedback */
+  button,
+  a[role="button"],
+  [type="button"],
+  [type="submit"] {
+    transition-duration: 100ms !important;  /* Faster than default 200-300ms */
+  }
+
+  /* Simplify animations on mobile for better performance */
+  @media (max-width: 768px) {
+    .civilization-layer--egypt {
+      animation-duration: 48s, 60s;
+    }
+
+    .civilization-layer--greece {
+      animation-duration: 54s, 60s;
+    }
+
+    .civilization-layer--rome {
+      animation-duration: 60s, 68s;
+    }
+
+    /* Reduce complexity of background gradients on mobile */
+    .civilization-layer {
+      background-size: 250% 250%, 220% 220%, 120% 120%, cover, 160px 160px !important;
+    }
+
+    /* Faster tap response on mobile */
+    button,
+    a[role="button"],
+    [type="button"],
+    [type="submit"] {
+      transition-duration: 80ms !important;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .temple-nav__link {
       transition: none;

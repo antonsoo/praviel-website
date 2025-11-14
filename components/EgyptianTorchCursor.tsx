@@ -13,11 +13,34 @@ export default function EgyptianTorchCursor() {
   const [isActive, setIsActive] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   // Mount detection
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  // Pause animation during scroll for better performance
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [hasMounted]);
 
   // Check if should show (only after mount to prevent hydration mismatch)
   useEffect(() => {
@@ -42,7 +65,7 @@ export default function EgyptianTorchCursor() {
   }, [hasMounted]);
 
   useEffect(() => {
-    if (!shouldShow) return;
+    if (!shouldShow || isScrolling) return;
 
     const cursor = cursorRef.current;
     if (!cursor) return;
@@ -86,7 +109,7 @@ export default function EgyptianTorchCursor() {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [shouldShow]);
+  }, [shouldShow, isScrolling]);
 
   return (
     <div

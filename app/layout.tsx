@@ -8,6 +8,7 @@ import ClientEnhancements from "@/components/ClientEnhancements";
 import SmoothScroll from "@/components/SmoothScroll";
 import CookieConsent from "@/components/CookieConsent";
 import AnalyticsConsentGate from "@/components/AnalyticsConsentGate";
+import ScrollPerformance from "@/components/ScrollPerformance";
 import PlausibleAnalytics from "@/components/PlausibleAnalytics";
 import TempleNav from "@/components/TempleNav";
 import AncientBackground from "@/components/AncientBackground";
@@ -217,6 +218,7 @@ export default async function RootLayout({
         <CookieConsent />
         <ClientEnhancements />
         <SmoothScroll />
+        <ScrollPerformance />
         <AnalyticsConsentGate
           provider={analyticsProvider}
           cloudflareToken={publicEnv.NEXT_PUBLIC_CF_ANALYTICS_TOKEN}

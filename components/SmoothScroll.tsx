@@ -32,13 +32,13 @@ export default function SmoothScroll() {
       if (!isMounted) return;
 
       const lenis = new LenisModule({
-        duration: 1.2,
+        duration: 0.5,  // Reduced from 1.2s for faster, more responsive scrolling
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: "vertical",
         gestureOrientation: "vertical",
         smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 1.2,
+        wheelMultiplier: 1.5,  // Increased for faster wheel scroll
+        touchMultiplier: 1.5,  // Increased for faster touch scroll
         infinite: false,
       });
 
