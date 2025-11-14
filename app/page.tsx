@@ -1,5 +1,4 @@
 // app/page.tsx
-import { cacheLife } from "next/cache";
 import dynamic from "next/dynamic";
 
 // Critical above-the-fold components (load immediately)
@@ -23,13 +22,12 @@ const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
 const FAQ = dynamic(() => import("@/components/FAQ"));
 const PrivacyFirst = dynamic(() => import("@/components/PrivacyFirst"));
 
-// Marketing site stays static via cacheLife + cacheComponents
-// Note: OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
+// Marketing site pages are statically optimized by Next.js
+// Note: Removed "use cache" directive as it conflicts with dynamic imports of client components
+// OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
 // See: https://github.com/opennextjs/opennextjs-cloudflare/issues/653
 
 export default async function HomePage() {
-  "use cache";
-  cacheLife("days");
 
   return (
     <>

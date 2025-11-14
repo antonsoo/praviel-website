@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { cacheLife } from "next/cache";
 import ConditionalViewTransitions from "@/components/ConditionalViewTransitions";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
@@ -14,6 +13,7 @@ import TempleNav from "@/components/TempleNav";
 import AncientBackground from "@/components/AncientBackground";
 import HieroglyphicParticles from "@/components/HieroglyphicParticles";
 import MarbleDust from "@/components/MarbleDust";
+import EgyptianTorchCursor from "@/components/EgyptianTorchCursor";
 import { fontVariables } from "@/lib/fonts";
 import { publicEnv } from "@/lib/env";
 import { LANGUAGE_COUNT } from "@/lib/languageStats";
@@ -129,8 +129,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  "use cache";
-  cacheLife("hours"); // Match page cache to prevent hydration mismatches
+  // Removed "use cache" directive to prevent client component hydration issues
 
   // Structured data for SEO (safe - using static data)
   // Note: This is safe to use with dangerouslySetInnerHTML because:
@@ -202,6 +201,7 @@ export default async function RootLayout({
         <AncientBackground />
         <HieroglyphicParticles />
         <MarbleDust />
+        <EgyptianTorchCursor />
         <TempleNav />
 
         <SiteHeader />
