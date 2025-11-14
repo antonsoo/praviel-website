@@ -15,6 +15,7 @@ function shouldEnableLenis() {
 
 export default function SmoothScroll() {
   const lenisRef = useRef<Lenis | null>(null);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
     let frame = 0;
@@ -24,6 +25,13 @@ export default function SmoothScroll() {
     async function init() {
       if (!shouldEnableLenis() || !isMounted) {
         return;
+      }
+
+      // CRITICAL FIX: Ensure page is scrolled to top before Lenis initializes
+      // This prevents the auto-scroll bug where Lenis picks up a non-zero scroll position during hydration
+      if (!isInitializedRef.current) {
+        window.scrollTo(0, 0);
+        isInitializedRef.current = true;
       }
 
       const { default: LenisModule } = (await import("lenis")) as {
@@ -40,9 +48,16 @@ export default function SmoothScroll() {
         wheelMultiplier: 1.5,  // Increased for faster wheel scroll
         touchMultiplier: 1.5,  // Increased for faster touch scroll
         infinite: false,
+        // Fix for Next.js auto-scroll issues with lazy-loaded content
+        __experimental__naiveDimensions: true,
+      } as ConstructorParameters<typeof LenisModule>[0] & {
+        __experimental__naiveDimensions?: boolean;
       });
 
       lenisRef.current = lenis;
+
+      // Reset scroll position after Lenis is initialized to prevent auto-scroll
+      lenis.scrollTo(0, { immediate: true });
 
       const raf = (time: number) => {
         lenis.raf(time);
@@ -55,7 +70,8 @@ export default function SmoothScroll() {
     const start = () => {
       void init();
     };
-    cancelIdle = scheduleIdleTask(start, { timeout: 1500 });
+    // Increased timeout to ensure DOM is fully loaded before Lenis initializes
+    cancelIdle = scheduleIdleTask(start, { timeout: 2000 });
 
     return () => {
       isMounted = false;

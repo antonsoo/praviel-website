@@ -57,33 +57,34 @@ export default function TorchCursor() {
       timeRef.current += 0.016;
       emberSpawnTimer.current += 0.016;
 
-      // Spawn new embers (REDUCED for performance)
-      if (emberSpawnTimer.current > 0.15) {
+      // Spawn new embers (HEAVILY REDUCED for performance)
+      if (emberSpawnTimer.current > 0.25) {  // Increased spawn interval
         emberSpawnTimer.current = 0;
         setEmbers((prev) => {
           const newEmbers = [...prev];
 
-          // Spawn only 1 ember per cycle (reduced from 1-2)
+          // Spawn only 1 ember per cycle, less frequently
           newEmbers.push({
             x: (Math.random() - 0.5) * 15,
             y: -20 + Math.random() * 10,
-            size: Math.random() * 3 + 1,
-            opacity: Math.random() * 0.8 + 0.2,
+            size: Math.random() * 2 + 1,  // Reduced max size
+            opacity: Math.random() * 0.6 + 0.2,  // Reduced opacity
             life: 1,
             velocityX: (Math.random() - 0.5) * 0.5,
             velocityY: -(Math.random() * 1.5 + 1),
           });
 
           // Update and filter embers (simplified Perlin noise)
+          // PERFORMANCE: Reduced max embers from 15 to 8
           return newEmbers
             .map((ember) => ({
               ...ember,
               x: ember.x + ember.velocityX + perlin.noise(ember.x * 0.1, ember.y * 0.1, timeRef.current) * 0.3,
               y: ember.y + ember.velocityY,
-              life: ember.life - 0.02,
-              opacity: ember.opacity * 0.97,
+              life: ember.life - 0.025,  // Faster decay
+              opacity: ember.opacity * 0.96,  // Faster fade
             }))
-            .filter((ember) => ember.life > 0 && newEmbers.length < 15);
+            .filter((ember) => ember.life > 0 && newEmbers.length < 8);
         });
       }
 

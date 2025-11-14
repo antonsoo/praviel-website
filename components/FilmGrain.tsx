@@ -22,13 +22,26 @@ export default function FilmGrain() {
     window.addEventListener("resize", updateSize);
 
     // Film grain animation
-    const animate = () => {
+    // PERFORMANCE FIX: Reduce frame rate to 30fps instead of 60fps
+    let lastFrameTime = 0;
+    const targetFrameTime = 1000 / 30;  // 30fps
+
+    const animate = (currentTime: number) => {
+      const deltaTime = currentTime - lastFrameTime;
+
+      if (deltaTime < targetFrameTime) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      lastFrameTime = currentTime;
+
       const { width, height } = canvas;
       const imageData = ctx.createImageData(width, height);
       const buffer = new Uint32Array(imageData.data.buffer);
 
       // Generate random noise with varying intensity
-      const grainIntensity = 0.08; // Subtle grain
+      const grainIntensity = 0.05; // Reduced grain intensity for better performance
       for (let i = 0; i < buffer.length; i++) {
         const noise = Math.random() * 255 * grainIntensity;
         const gray = Math.floor(noise);
@@ -40,7 +53,7 @@ export default function FilmGrain() {
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("resize", updateSize);

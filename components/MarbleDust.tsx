@@ -27,17 +27,18 @@ export default function MarbleDust() {
 
   // Generate particles on mount (client-only) - FIXED hydration issue
   // Previously used Math.random() in useMemo which caused server/client mismatch
+  // PERFORMANCE FIX: Reduced from 14 to 6 particles to reduce GPU load
   useEffect(() => {
     if (!shouldShow) return;
 
     setParticles(
-      Array.from({ length: 14 }, (_, i) => ({
+      Array.from({ length: 6 }, (_, i) => ({
         id: i,
         left: `${10 + Math.random() * 80}%`,
-        size: 1.2 + Math.random() * 3,
+        size: 1.2 + Math.random() * 2,  // Reduced max size
         animationDuration: `${28 + Math.random() * 35}s`,
         animationDelay: `${Math.random() * -30}s`,
-        opacity: 0.03 + Math.random() * 0.06,
+        opacity: 0.02 + Math.random() * 0.04,  // Reduced opacity
       })),
     );
   }, [shouldShow]);

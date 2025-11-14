@@ -3,9 +3,20 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "motion/react";
 
+interface DustMote {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  delay: number;
+  xOffset: number;
+}
+
 export default function VolumetricLight() {
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const [dustMotes, setDustMotes] = useState<DustMote[]>([]);
   const timeRef = useRef(0);
+  const beamsRef = useRef<Array<{ angle: number; distance: number; opacity: number; width: number }>>([]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -24,22 +35,38 @@ export default function VolumetricLight() {
     return () => clearInterval(interval);
   }, []);
 
-  // Create volumetric light beams
-  const beamCount = 12;
-  const beams = Array.from({ length: beamCount }, (_, i) => {
-    const angle = (i / beamCount) * Math.PI * 2;
-    const distance = 600 + Math.sin(timeRef.current + i) * 50;
-    const opacity = 0.03 + Math.sin(timeRef.current * 2 + i) * 0.02;
+  // Generate beams once on mount (client-only) - FIXED hydration issue
+  // PERFORMANCE FIX: Reduced from 12 to 6 beams
+  useEffect(() => {
+    const beamCount = 6;
+    const initialBeams = Array.from({ length: beamCount }, (_, i) => ({
+      angle: (i / beamCount) * Math.PI * 2,
+      distance: 600 + Math.sin(i) * 50,
+      opacity: 0.02 + Math.sin(i) * 0.01,  // Reduced opacity
+      width: 120 + Math.sin(i * 0.5) * 30,  // Reduced max width
+    }));
+    beamsRef.current = initialBeams;
+  }, []);
 
-    return {
-      angle,
-      distance,
-      opacity,
-      width: 120 + Math.sin(timeRef.current * 1.5 + i * 0.5) * 40,
-    };
-  });
+  // Generate dust motes once on mount (client-only) - FIXED hydration issue
+  // PERFORMANCE FIX: Reduced from 30 to 12 dust motes
+  useEffect(() => {
+    if (mousePos.x === -1000) return;
+
+    const initialMotes = Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      x: mousePos.x + (Math.random() - 0.5) * 400,
+      y: mousePos.y + (Math.random() - 0.5) * 400,
+      size: Math.random() * 3 + 1,  // Reduced max size
+      delay: Math.random() * 2,
+      xOffset: (Math.random() - 0.5) * 30,
+    }));
+    setDustMotes(initialMotes);
+  }, [mousePos.x, mousePos.y]);
 
   if (mousePos.x === -1000) return null;
+
+  const beams = beamsRef.current;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
@@ -105,42 +132,37 @@ export default function VolumetricLight() {
       </motion.div>
 
       {/* Dust motes illuminated by torch */}
-      {Array.from({ length: 30 }).map((_, i) => {
-        const dx = mousePos.x - window.innerWidth / 2;
-        const dy = mousePos.y - window.innerHeight / 2;
+      {dustMotes.map((mote) => {
+        const dx = mousePos.x - (typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+        const dy = mousePos.y - (typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
         const distance = Math.sqrt(dx * dx + dy * dy);
         const lightRadius = 500;
 
         if (distance > lightRadius) return null;
 
-        const x = mousePos.x + (Math.random() - 0.5) * 400;
-        const y = mousePos.y + (Math.random() - 0.5) * 400;
-        const size = Math.random() * 4 + 1;
-        const delay = Math.random() * 2;
-
         return (
           <motion.div
-            key={i}
+            key={mote.id}
             className="absolute rounded-full bg-amber-200/60"
             style={{
-              left: x,
-              top: y,
-              width: size,
-              height: size,
-              boxShadow: `0 0 ${size * 3}px rgba(255,200,100,0.8)`,
+              left: mote.x,
+              top: mote.y,
+              width: mote.size,
+              height: mote.size,
+              boxShadow: `0 0 ${mote.size * 3}px rgba(255,200,100,0.8)`,
               filter: "blur(1px)",
               mixBlendMode: "screen",
             }}
             animate={{
               y: [0, -50, -100],
-              x: [0, (Math.random() - 0.5) * 30],
+              x: [0, mote.xOffset],
               opacity: [0, 0.8, 0],
               scale: [0.5, 1, 0.5],
             }}
             transition={{
               duration: 8,
               repeat: Infinity,
-              delay: delay,
+              delay: mote.delay,
               ease: "linear",
             }}
           />

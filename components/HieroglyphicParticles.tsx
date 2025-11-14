@@ -51,18 +51,19 @@ export default function HieroglyphicParticles() {
 
   // Generate glyphs on mount (client-only) - FIXED hydration issue
   // Previously used Math.random() in useMemo which caused server/client mismatch
+  // PERFORMANCE FIX: Reduced from 8 to 4 particles to reduce GPU load
   useEffect(() => {
     if (!shouldShow) return;
 
     setGlyphs(
-      Array.from({ length: 8 }, (_, i) => ({
+      Array.from({ length: 4 }, (_, i) => ({
         id: i,
         symbol: SVG_GLYPHS[i % SVG_GLYPHS.length].key as string,
         left: `${10 + Math.random() * 80}%`,
         animationDuration: `${45 + Math.random() * 50}s`,
         animationDelay: `${Math.random() * -50}s`,
-        opacity: 0.04 + Math.random() * 0.07,
-        size: 18 + Math.random() * 30,
+        opacity: 0.03 + Math.random() * 0.04,  // Reduced opacity for less visual overhead
+        size: 18 + Math.random() * 20,  // Reduced max size
       })),
     );
   }, [shouldShow]);
