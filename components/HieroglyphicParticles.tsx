@@ -36,6 +36,7 @@ const SVG_GLYPHS = [
 
 export default function HieroglyphicParticles() {
   const [isVisible, setIsVisible] = useState(false);
+  const [glyphs, setGlyphs] = useState<Glyph[]>([]);
 
   // Check preferences for reduced motion and mobile
   const shouldShow = useMemo(() => {
@@ -47,6 +48,24 @@ export default function HieroglyphicParticles() {
     // Show on desktop only, respect reduced motion
     return !isMobile && !prefersReducedMotion;
   }, []);
+
+  // Generate glyphs on mount (client-only) - FIXED hydration issue
+  // Previously used Math.random() in useMemo which caused server/client mismatch
+  useEffect(() => {
+    if (!shouldShow) return;
+
+    setGlyphs(
+      Array.from({ length: 8 }, (_, i) => ({
+        id: i,
+        symbol: SVG_GLYPHS[i % SVG_GLYPHS.length].key as string,
+        left: `${10 + Math.random() * 80}%`,
+        animationDuration: `${45 + Math.random() * 50}s`,
+        animationDelay: `${Math.random() * -50}s`,
+        opacity: 0.04 + Math.random() * 0.07,
+        size: 18 + Math.random() * 30,
+      })),
+    );
+  }, [shouldShow]);
 
   // Check immersive mode preference
   useEffect(() => {
@@ -67,21 +86,6 @@ export default function HieroglyphicParticles() {
     });
 
     return () => observer.disconnect();
-  }, [shouldShow]);
-
-  // Generate glyphs on mount - 8 glyphs for richer effect while maintaining performance
-  const glyphs = useMemo<Glyph[]>(() => {
-    if (!shouldShow) return [];
-
-    return Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      symbol: SVG_GLYPHS[i % SVG_GLYPHS.length].key as string,
-      left: `${10 + Math.random() * 80}%`,
-      animationDuration: `${45 + Math.random() * 50}s`,
-      animationDelay: `${Math.random() * -50}s`,
-      opacity: 0.04 + Math.random() * 0.07,
-      size: 18 + Math.random() * 30,
-    }));
   }, [shouldShow]);
 
   if (!shouldShow || !isVisible) return null;

@@ -13,6 +13,7 @@ interface Particle {
 
 export default function MarbleDust() {
   const [isVisible, setIsVisible] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   // Check preferences
   const shouldShow = useMemo(() => {
@@ -23,6 +24,23 @@ export default function MarbleDust() {
 
     return !isMobile && !prefersReducedMotion;
   }, []);
+
+  // Generate particles on mount (client-only) - FIXED hydration issue
+  // Previously used Math.random() in useMemo which caused server/client mismatch
+  useEffect(() => {
+    if (!shouldShow) return;
+
+    setParticles(
+      Array.from({ length: 14 }, (_, i) => ({
+        id: i,
+        left: `${10 + Math.random() * 80}%`,
+        size: 1.2 + Math.random() * 3,
+        animationDuration: `${28 + Math.random() * 35}s`,
+        animationDelay: `${Math.random() * -30}s`,
+        opacity: 0.03 + Math.random() * 0.06,
+      })),
+    );
+  }, [shouldShow]);
 
   // Check immersive mode
   useEffect(() => {
@@ -42,20 +60,6 @@ export default function MarbleDust() {
     });
 
     return () => observer.disconnect();
-  }, [shouldShow]);
-
-  // Generate particles - 14 particles for richer marble shimmer effect
-  const particles = useMemo<Particle[]>(() => {
-    if (!shouldShow) return [];
-
-    return Array.from({ length: 14 }, (_, i) => ({
-      id: i,
-      left: `${10 + Math.random() * 80}%`,
-      size: 1.2 + Math.random() * 3,
-      animationDuration: `${28 + Math.random() * 35}s`,
-      animationDelay: `${Math.random() * -30}s`,
-      opacity: 0.03 + Math.random() * 0.06,
-    }));
   }, [shouldShow]);
 
   if (!shouldShow || !isVisible) return null;
