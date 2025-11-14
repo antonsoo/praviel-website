@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 interface Particle {
   id: number;
@@ -14,19 +14,19 @@ interface Particle {
 export default function MarbleDust() {
   const [isVisible, setIsVisible] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [shouldShow, setShouldShow] = useState(false);
 
-  // Check preferences
-  const shouldShow = useMemo(() => {
-    if (typeof window === "undefined") return false;
+  // Check preferences (client-only to prevent hydration mismatch)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    return !isMobile && !prefersReducedMotion;
+    setShouldShow(!isMobile && !prefersReducedMotion);
   }, []);
 
-  // Generate particles on mount (client-only) - FIXED hydration issue
-  // Previously used Math.random() in useMemo which caused server/client mismatch
+  // Generate particles on mount (client-only)
   // PERFORMANCE FIX: Reduced from 14 to 6 particles to reduce GPU load
   useEffect(() => {
     if (!shouldShow) return;

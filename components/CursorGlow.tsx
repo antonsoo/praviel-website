@@ -1,23 +1,24 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
 export default function CursorGlow() {
   const [isVisible, setIsVisible] = useState(false);
+  const [shouldShow, setShouldShow] = useState(false);
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
 
-  // Check if user prefers reduced motion or is on mobile
-  const shouldShow = useMemo(() => {
-    if (typeof window === 'undefined') return false;
+  // Check if user prefers reduced motion or is on mobile (client-only to prevent hydration mismatch)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isTouchDevice = 'ontouchstart' in window;
 
     // Don't show on mobile, touch devices, or if reduced motion preferred
-    return !isMobile && !isTouchDevice && !prefersReducedMotion;
+    setShouldShow(!isMobile && !isTouchDevice && !prefersReducedMotion);
   }, []);
 
   const springConfig = { damping: 25, stiffness: 200 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface RomanTessellationProps {
   className?: string;
@@ -22,6 +22,7 @@ export default function RomanTessellation({
 }: RomanTessellationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [immersivePreference, setImmersivePreference] = useState<string | null>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -29,14 +30,13 @@ export default function RomanTessellation({
     setImmersivePreference(pref);
   }, []);
 
-  const allowAnimation = animate && immersivePreference !== "off";
-
-  // Check for reduced motion preference
-  const prefersReducedMotion = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Check for reduced motion preference (client-only to prevent hydration mismatch)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
+  const allowAnimation = animate && immersivePreference !== "off";
   const shouldAnimate = allowAnimation && !prefersReducedMotion;
 
   useEffect(() => {

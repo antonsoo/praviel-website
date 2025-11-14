@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useMemo, type ReactNode } from "react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
 
 interface PortalCard3DProps {
   children: ReactNode;
@@ -12,17 +12,18 @@ export default function PortalCard3D({ children, className = "" }: PortalCard3DP
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [shouldEnable3D, setShouldEnable3D] = useState(false);
 
-  // Check if reduced motion is preferred or if on mobile
-  const shouldEnable3D = useMemo(() => {
-    if (typeof window === "undefined") return false;
+  // Check if reduced motion is preferred or if on mobile (client-only to prevent hydration mismatch)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isTouchDevice = "ontouchstart" in window;
 
     // Disable on mobile/touch devices or if reduced motion preferred
-    return !isMobile && !isTouchDevice && !prefersReducedMotion;
+    setShouldEnable3D(!isMobile && !isTouchDevice && !prefersReducedMotion);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

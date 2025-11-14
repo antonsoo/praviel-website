@@ -17,14 +17,29 @@ export default function VolumetricLight() {
   const [dustMotes, setDustMotes] = useState<DustMote[]>([]);
   const timeRef = useRef(0);
   const beamsRef = useRef<Array<{ angle: number; distance: number; opacity: number; width: number }>>([]);
+  const mousePosRef = useRef({ x: -1000, y: -1000 });
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      mousePosRef.current = { x: e.clientX, y: e.clientY };
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    // Use RAF to throttle state updates
+    const updateMousePos = () => {
+      setMousePos(mousePosRef.current);
+      rafRef.current = requestAnimationFrame(updateMousePos);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    rafRef.current = requestAnimationFrame(updateMousePos);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {

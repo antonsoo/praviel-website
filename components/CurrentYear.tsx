@@ -1,5 +1,13 @@
-const CURRENT_YEAR = new Date().getFullYear();
+"use client";
+
+import { useEffect, useState } from "react";
 
 export default function CurrentYear() {
-  return <span suppressHydrationWarning>{CURRENT_YEAR}</span>;
+  const [year, setYear] = useState(2025);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
+  return <span>{year}</span>;
 }

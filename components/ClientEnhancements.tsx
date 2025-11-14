@@ -1,7 +1,7 @@
 "use client";
 
 import type { ComponentType } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useCookiePreferences } from "@/lib/cookieConsent";
 import { useUserIntentGate } from "@/lib/hooks/useUserIntentGate";
@@ -27,6 +27,7 @@ export default function ClientEnhancements() {
   const [scrollProgressComponent, setScrollProgressComponent] = useState<ComponentType | null>(null);
   const [overlayBundle, setOverlayBundle] = useState<OverlayBundle | null>(null);
   const [immersiveBundle, setImmersiveBundle] = useState<ImmersiveBundle | null>(null);
+  const [deviceConstrained, setDeviceConstrained] = useState(true);
   const cookiePreferences = useCookiePreferences();
   const hasFunctionalConsent = cookiePreferences.functional;
   const userIntentReady = useUserIntentGate({ scrollDistance: 120 });
@@ -34,8 +35,9 @@ export default function ClientEnhancements() {
   const userForcesImmersive = immersivePreference === "on";
   const userDisablesImmersive = immersivePreference === "off";
 
-  const deviceConstrained = useMemo(() => {
-    if (typeof window === "undefined") return true;
+  // Check device constraints (client-only to prevent hydration mismatch)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const isNarrowViewport = window.innerWidth < 768;
@@ -48,10 +50,19 @@ export default function ClientEnhancements() {
     const slowConnection = ["slow-2g", "2g"].includes(connection?.effectiveType ?? "");
     const lowPowerDevice = (nav.hardwareConcurrency ?? 8) <= 4;
 
-    if (prefersReducedMotion || saveData || slowConnection) return true;
-    if (coarsePointer || isNarrowViewport) return true;
-    if (lowPowerDevice) return true;
-    return false;
+    if (prefersReducedMotion || saveData || slowConnection) {
+      setDeviceConstrained(true);
+      return;
+    }
+    if (coarsePointer || isNarrowViewport) {
+      setDeviceConstrained(true);
+      return;
+    }
+    if (lowPowerDevice) {
+      setDeviceConstrained(true);
+      return;
+    }
+    setDeviceConstrained(false);
   }, []);
 
   const shouldSkipEnhancements = deviceConstrained && !userForcesImmersive;

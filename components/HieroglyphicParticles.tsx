@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 interface Glyph {
   id: number;
@@ -37,20 +37,20 @@ const SVG_GLYPHS = [
 export default function HieroglyphicParticles() {
   const [isVisible, setIsVisible] = useState(false);
   const [glyphs, setGlyphs] = useState<Glyph[]>([]);
+  const [shouldShow, setShouldShow] = useState(false);
 
-  // Check preferences for reduced motion and mobile
-  const shouldShow = useMemo(() => {
-    if (typeof window === "undefined") return false;
+  // Check preferences for reduced motion and mobile (client-only to prevent hydration mismatch)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Show on desktop only, respect reduced motion
-    return !isMobile && !prefersReducedMotion;
+    setShouldShow(!isMobile && !prefersReducedMotion);
   }, []);
 
-  // Generate glyphs on mount (client-only) - FIXED hydration issue
-  // Previously used Math.random() in useMemo which caused server/client mismatch
+  // Generate glyphs on mount (client-only)
   // PERFORMANCE FIX: Reduced from 8 to 4 particles to reduce GPU load
   useEffect(() => {
     if (!shouldShow) return;

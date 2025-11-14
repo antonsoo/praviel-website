@@ -191,21 +191,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="mx-auto mt-8 hidden w-full max-w-5xl flex-wrap items-center justify-center gap-6 text-sm text-zinc-400 sm:flex">
-        <span className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-          {LANGUAGE_COUNT} Ancient Languages
-        </span>
-        <span className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-          Research-Grade Accuracy
-        </span>
-        <span className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
-          AI-Powered
-        </span>
-      </div>
-
       <div className="mx-auto mt-8 grid w-full max-w-5xl gap-4 lg:grid-cols-2">
         <DeferRender
           fallback={controlFallback}
@@ -221,6 +206,21 @@ export default function HeroSection() {
         >
           <ComfortControls />
         </DeferRender>
+      </div>
+
+      <div className="mx-auto mt-8 hidden w-full max-w-5xl flex-wrap items-center justify-center gap-6 text-sm text-zinc-400 sm:flex">
+        <span className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
+          {LANGUAGE_COUNT} Ancient Languages
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
+          Research-Grade Accuracy
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E8C55B]" />
+          AI-Powered
+        </span>
       </div>
 
       <DeferRender
