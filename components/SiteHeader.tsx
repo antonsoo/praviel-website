@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import SiteHeaderMobileMenu from "@/components/SiteHeaderMobileMenu";
+import WaitlistButton from "@/components/WaitlistButton";
 
 const NAV_LINKS = [
   { href: "https://app.praviel.com", label: "Launch app" },
@@ -42,16 +43,7 @@ export default function SiteHeader() {
         </nav>
 
         <div className="hidden sm:block">
-          <a
-            href="#waitlist"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/12 via-[#D4AF37]/5 to-[#3b82f6]/12 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#E8C55B] transition-all duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] hover:border-[#E8C55B]/50 hover:text-[#F5E4B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/70"
-          >
-            Join the waitlist
-          </a>
+          <WaitlistButton className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/12 via-[#D4AF37]/5 to-[#3b82f6]/12 px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#E8C55B] transition-all duration-200 ease-out motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] hover:border-[#E8C55B]/50 hover:text-[#F5E4B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/70" />
         </div>
 
         <SiteHeaderMobileMenu links={NAV_LINKS} />
