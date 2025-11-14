@@ -1,15 +1,16 @@
 # CRITICAL TO-DOs
 
 **Last updated:** Nov 14, 2025 — Fixed ACTUAL hydration bug (Math.random in particles)
-**Production URL:** https://praviel.com / https://praviel-site.antonnsoloviev.workers.dev
-**Current Version ID:** 3fd04056-3de0-4800-9585-f8c4455af1c3
-**Production Status:** 🟡 **TESTING REQUIRED** (Math.random hydration fix deployed, awaiting user confirmation)
+**Production URL:** https://praviel.com
+**Current Version ID:** 75284826-a607-4212-8c67-8f4be96a4fb6
+**Production Status:** 🟢 **LIVE** (Math.random hydration fix deployed to praviel.com, awaiting user test confirmation)
 
 ---
 
-## ✅ DEPLOYED FIX (Nov 14, 2025 - Version 3fd04056) - ACTUAL ROOT CAUSE
+## ✅ DEPLOYED FIX (Nov 14, 2025 - Version 75284826) - ACTUAL ROOT CAUSE
 
 **Fix applied:** Moved Math.random() from useMemo to useEffect in particle components
+**Deployed to:** praviel.com (production)
 
 ### Root Cause Analysis (THE REAL BUG):
 
