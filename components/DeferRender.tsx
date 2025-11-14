@@ -28,12 +28,20 @@ export default function DeferRender({
   intentOptions,
 }: DeferRenderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const intentReady = intentOptions ? useUserIntentGate(intentOptions) : true;
-  const shouldReveal = intentReady && isVisible;
+
+  // On server and initial client render: always show children to avoid hydration mismatch
+  // After mount: use intersection observer to defer rendering
+  const shouldReveal = !isMounted || (intentReady && isVisible);
 
   useEffect(() => {
-    if (isVisible || !intentReady) return;
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted || isVisible || !intentReady) return;
     const element = containerRef.current;
     if (!element) return;
 
@@ -51,7 +59,7 @@ export default function DeferRender({
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [intentReady, isVisible, rootMargin]);
+  }, [isMounted, intentReady, isVisible, rootMargin]);
 
   const classNames = useMemo(
     () => mergeClassNames("transition-all duration-700", className, shouldReveal ? visibleClassName : hiddenClassName),
