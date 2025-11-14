@@ -7,12 +7,12 @@ export default function WaitlistButton({ className }: { className?: string }) {
   };
 
   return (
-    <a
-      href="#waitlist"
+    <button
+      type="button"
       onClick={handleClick}
       className={className}
     >
       Join the waitlist
-    </a>
+    </button>
   );
 }

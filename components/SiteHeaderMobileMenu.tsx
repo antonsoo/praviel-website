@@ -59,18 +59,17 @@ export default function SiteHeaderMobileMenu({ links }: SiteHeaderMobileMenuProp
               {link.label}
             </Link>
           ))}
-          <a
-            href="#waitlist"
-            onClick={(e) => {
-              e.preventDefault();
+          <button
+            type="button"
+            onClick={() => {
               closeMenu();
               document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="block min-h-[44px] rounded-lg px-4 py-3 font-medium text-[#E8C55B] transition-colors duration-200 hover:text-[#F5E4B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60"
+            className="block min-h-[44px] rounded-lg px-4 py-3 text-left font-medium text-[#E8C55B] transition-colors duration-200 hover:text-[#F5E4B8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8C55B]/60"
             role="menuitem"
           >
             Get early access
-          </a>
+          </button>
         </div>
       </div>
     </div>
