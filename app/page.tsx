@@ -1,29 +1,27 @@
 // app/page.tsx
-import dynamic from "next/dynamic";
-
-// Critical above-the-fold components (load immediately)
+// All components imported normally to avoid Next.js 16 Turbopack dynamic import bug
+// See: https://github.com/vercel/next.js/discussions/84264
 import HeroSection from "@/components/HeroSection";
 import SectionDivider from "@/components/SectionDivider";
 import CivilizationPortals from "@/components/CivilizationPortals";
-
-// Below-the-fold components (lazy load for better LCP/TBT)
-const CivilizationTriad = dynamic(() => import("@/components/CivilizationTriad"));
-const MaterialStudy = dynamic(() => import("@/components/MaterialStudy"));
-const BlogSpotlight = dynamic(() => import("@/components/BlogSpotlight"));
-const VoiceTour = dynamic(() => import("@/components/VoiceTour"));
-const FeatureGrid = dynamic(() => import("@/components/FeatureGrid"));
-const MissionSection = dynamic(() => import("@/components/MissionSection"));
-const WhyPRAVIEL = dynamic(() => import("@/components/WhyPRAVIEL"));
-const LivingManuscript = dynamic(() => import("@/components/LivingManuscript"));
-const ComparisonTable = dynamic(() => import("@/components/ComparisonTable"));
-const JourneyTimeline = dynamic(() => import("@/components/JourneyTimeline"));
-const LanguageShowcase = dynamic(() => import("@/components/LanguageShowcase"));
-const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
-const FAQ = dynamic(() => import("@/components/FAQ"));
-const PrivacyFirst = dynamic(() => import("@/components/PrivacyFirst"));
+import CivilizationTriad from "@/components/CivilizationTriad";
+import MaterialStudy from "@/components/MaterialStudy";
+import BlogSpotlight from "@/components/BlogSpotlight";
+import VoiceTour from "@/components/VoiceTour";
+import FeatureGrid from "@/components/FeatureGrid";
+import MissionSection from "@/components/MissionSection";
+import WhyPRAVIEL from "@/components/WhyPRAVIEL";
+import LivingManuscript from "@/components/LivingManuscript";
+import ComparisonTable from "@/components/ComparisonTable";
+import JourneyTimeline from "@/components/JourneyTimeline";
+import LanguageShowcase from "@/components/LanguageShowcase";
+import HowItWorks from "@/components/HowItWorks";
+import FAQ from "@/components/FAQ";
+import PrivacyFirst from "@/components/PrivacyFirst";
 
 // Marketing site pages are statically optimized by Next.js
-// Note: Removed "use cache" directive as it conflicts with dynamic imports of client components
+// Note: Removed dynamic() imports due to Next.js 16 Turbopack HMR bug causing components to not hydrate
+// All components use DeferRender for below-fold lazy loading instead
 // OpenNext Cloudflare has known TTFB issues (1.5s+) that require upstream fixes
 // See: https://github.com/opennextjs/opennextjs-cloudflare/issues/653
 
