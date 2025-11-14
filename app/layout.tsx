@@ -125,12 +125,12 @@ export const viewport: Viewport = {
   viewportFit: "cover", // Ensures content extends into safe areas on notched devices
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Removed "use cache" directive to prevent client component hydration issues
+  // Removed "use cache" directive and async keyword to prevent Suspense boundary issues
 
   // Structured data for SEO (safe - using static data)
   // Note: This is safe to use with dangerouslySetInnerHTML because:
