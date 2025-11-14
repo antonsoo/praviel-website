@@ -1,60 +1,57 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 14, 2025 — Fixed DeferRender hydration issues
+**Last updated:** Nov 14, 2025 — Fixed ACTUAL hydration bug (Math.random in particles)
 **Production URL:** https://praviel.com / https://praviel-site.antonnsoloviev.workers.dev
-**Current Version ID:** d750c7e7-99dd-4786-b9ed-cf0aebc9a2e6
-**Production Status:** 🟡 **TESTING REQUIRED** (DeferRender fix deployed, awaiting user confirmation)
+**Current Version ID:** 3fd04056-3de0-4800-9585-f8c4455af1c3
+**Production Status:** 🟡 **TESTING REQUIRED** (Math.random hydration fix deployed, awaiting user confirmation)
 
 ---
 
-## ✅ DEPLOYED FIX (Nov 14, 2025 - Version d750c7e7)
+## ✅ DEPLOYED FIX (Nov 14, 2025 - Version 3fd04056) - ACTUAL ROOT CAUSE
 
-**Fix applied:** Modified DeferRender component to eliminate hydration errors and layout shifts
+**Fix applied:** Moved Math.random() from useMemo to useEffect in particle components
 
-### Root Cause Analysis:
+### Root Cause Analysis (THE REAL BUG):
 
-The DeferRender component was causing React Error #418 by:
-1. Rendering `children` on server
-2. Rendering `children` on client first render (to match server)
-3. Switching to `fallback` after mount (causes DOM mutation)
-4. Switching back to `children` after intersection observer fires
+**MarbleDust.tsx and HieroglyphicParticles.tsx** were using `Math.random()` inside `useMemo`:
+1. Server-side render: Generated particles with random values (e.g., `left: "45%"`)
+2. Client-side hydration: Generated DIFFERENT particles with DIFFERENT random values (e.g., `left: "78%"`)
+3. React detected HTML mismatch → React Error #418
 
-This DOM content swapping created:
-- React hydration mismatch (server HTML ≠ client HTML)
-- Layout shifts (cards appearing to overlap or stack)
-- Forced reflows from DOM thrashing
+The `shouldShow` useMemo also changed between server (false) and client (true), compounding the issue.
 
 ### The Fix:
 
-Changed DeferRender to:
-- **Always render children** (never swap between children/fallback)
-- Control visibility via `opacity` CSS only (not DOM changes)
-- Maintains consistent DOM structure from server → client → hydration
+Changed both components to:
+- Initialize `particles`/`glyphs` as empty array in `useState` (consistent server/client)
+- Move random generation to `useEffect` (client-only execution)
+- Server and client both start with `[]` → no hydration mismatch
+- After mount, useEffect populates particles (no DOM mismatch)
 
-This eliminates:
-- ✅ React Hydration Error #418 (no more DOM mismatches)
-- ✅ Feature cards overlapping (consistent layout)
-- ✅ Layout shifts (no DOM swapping)
-- ✅ Forced reflows from content changes
+**Files changed:**
+- components/MarbleDust.tsx:48-59 → moved to useEffect
+- components/HieroglyphicParticles.tsx:73-85 → moved to useEffect
 
-### Previous Failed Attempts (For context):
+### Previous Attempts (For context):
 
-❌ Disabled `cacheComponents` in next.config.ts - Didn't address root cause
+❌ DeferRender fix (Version d750c7e7) - Fixed ONE symptom, not root cause
+❌ Disabled `cacheComponents` in next.config.ts - Wrong approach
 ❌ Removed `app/loading.tsx` - Wrong component
-❌ First DeferRender fix (conditionally render children) - Still swapped DOM content
-❌ Removed `async` from layout/page - Not the issue
+❌ First DeferRender fix - Still had Math.random() bugs
 
 ### Remaining Issues to Monitor:
 
-**User must test and confirm these are fixed by the DeferRender change:**
-1. ⏳ Auto-scroll on page load (may have been caused by DeferRender layout shifts)
-2. ⏳ Forced reflow violations (may have been caused by DeferRender DOM swapping)
-3. ⏳ Massive lag/jank (may have been caused by layout thrashing)
+**User must test and confirm these are NOW FIXED by the Math.random fix:**
+1. ⏳ React Hydration Error #418 (should be GONE - root cause fixed)
+2. ⏳ Feature cards overlapping/stacking (should be GONE - no more hydration mismatches)
+3. ⏳ Auto-scroll on page load (may have been caused by hydration layout shifts)
+4. ⏳ Forced reflow violations (may have been caused by hydration DOM changes)
+5. ⏳ Massive lag/jank (may have been caused by hydration re-renders)
 
-**If issues persist, investigate:**
-- Auto-scroll: Check SmoothScroll.tsx, TempleNav.tsx for scroll behavior
+**If issues persist after this fix, investigate:**
+- Auto-scroll: Check SmoothScroll.tsx:1-71, TempleNav.tsx:1-211 for scroll behavior
 - Forced reflows: Use Chrome Performance tab to profile
-- Lag: May be unrelated to hydration (check animations, Lenis config)
+- Lag: May be unrelated to hydration (check animations, Lenis config, TorchCursor.tsx)
 
 ### Debugging Commands:
 
