@@ -20,7 +20,7 @@ function mergeClassNames(...classes: Array<string | undefined>) {
 
 export default function DeferRender({
   children,
-  fallback = null,
+  fallback: _fallback = null,
   className,
   hiddenClassName = "opacity-0 pointer-events-none",
   visibleClassName = "opacity-100 pointer-events-auto",
@@ -32,8 +32,8 @@ export default function DeferRender({
   const [isVisible, setIsVisible] = useState(false);
   const intentReady = intentOptions ? useUserIntentGate(intentOptions) : true;
 
-  // On server and initial client render: always show children to avoid hydration mismatch
-  // After mount: use intersection observer to defer rendering
+  // CRITICAL: Always render children (not fallback) to avoid hydration mismatch and layout shifts
+  // Control visibility via opacity only, never swap DOM content after initial render
   const shouldReveal = !isMounted || (intentReady && isVisible);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function DeferRender({
 
   return (
     <div ref={containerRef} className={classNames} style={{ willChange: shouldReveal ? "auto" : "opacity" }} aria-busy={!shouldReveal}>
-      {shouldReveal ? children : fallback}
+      {children}
     </div>
   );
 }
