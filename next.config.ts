@@ -4,7 +4,10 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 const nextConfig: NextConfig = {
   // React Compiler + Cache Components are now first-class config keys in Next.js 16
   reactCompiler: true,
-  cacheComponents: true,
+  // TEMPORARY: Disabled due to Next.js 16 bug causing Suspense boundaries to never resolve
+  // See: https://github.com/vercel/next.js/issues/85490
+  // Re-enable when bug is fixed or when using explicit Suspense instead of loading.tsx
+  cacheComponents: false,
   productionBrowserSourceMaps: true,
 
   experimental: {
