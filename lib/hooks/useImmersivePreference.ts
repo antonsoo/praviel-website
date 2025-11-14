@@ -38,15 +38,26 @@ function updateDocumentDataset(value: ImmersivePreference) {
 }
 
 export function useImmersivePreference(): [ImmersivePreference, SetImmersivePreference] {
-  const [preference, setPreferenceState] = useState<ImmersivePreference>("auto");
+  // CRITICAL FIX: Initialize state from data attribute set by bootstrap script
+  // This prevents hydration mismatch by ensuring server and client render the same initial state
+  const [preference, setPreferenceState] = useState<ImmersivePreference>(() => {
+    if (!isBrowser()) return "auto";
+
+    // Read from data attribute that was set by the bootstrap script in layout.tsx
+    // This ensures the initial React state matches what's already in the DOM
+    const stored = document.documentElement.dataset.immersivePref;
+    if (stored === "auto" || stored === "on" || stored === "off") {
+      return stored;
+    }
+    return "auto";
+  });
 
   useEffect(() => {
+    // Verify stored preference matches current state, update if needed
     const stored = readStoredPreference();
-    if (stored) {
+    if (stored && stored !== preference) {
       setPreferenceState(stored);
       updateDocumentDataset(stored);
-    } else {
-      updateDocumentDataset("auto");
     }
   }, []);
 

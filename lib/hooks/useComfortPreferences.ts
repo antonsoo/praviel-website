@@ -64,15 +64,32 @@ function applyDataset(value: ComfortPreferences) {
 }
 
 export function useComfortPreferences(): [ComfortPreferences, UpdateComfortPreferences] {
-  const [preferences, setPreferences] = useState<ComfortPreferences>(DEFAULT_PREFERENCES);
+  // CRITICAL FIX: Initialize state from data attributes set by bootstrap script
+  // This prevents hydration mismatch by ensuring server and client render the same initial state
+  const [preferences, setPreferences] = useState<ComfortPreferences>(() => {
+    if (!isBrowser()) return DEFAULT_PREFERENCES;
+
+    // Read from data attributes that were set by the bootstrap script in layout.tsx
+    // This ensures the initial React state matches what's already in the DOM
+    const root = document.documentElement;
+    return {
+      typeScale: root.dataset.typeScale === "plus" ? "plus" : "base",
+      contrast: root.dataset.contrast === "high" ? "high" : "default",
+      bodyFont: root.dataset.bodyFont === "serif" ? "serif" : "sans",
+    };
+  });
 
   useEffect(() => {
+    // Verify stored preferences match current state, update if needed
     const stored = readStoredPreferences();
     if (stored) {
-      setPreferences(stored);
-      applyDataset(stored);
-    } else {
-      applyDataset(DEFAULT_PREFERENCES);
+      const current = preferences;
+      if (stored.typeScale !== current.typeScale ||
+          stored.contrast !== current.contrast ||
+          stored.bodyFont !== current.bodyFont) {
+        setPreferences(stored);
+        applyDataset(stored);
+      }
     }
   }, []);
 

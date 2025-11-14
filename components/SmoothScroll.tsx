@@ -27,12 +27,22 @@ export default function SmoothScroll() {
         return;
       }
 
-      // CRITICAL FIX: Ensure page is scrolled to top before Lenis initializes
-      // This prevents the auto-scroll bug where Lenis picks up a non-zero scroll position during hydration
+      // CRITICAL FIX #1: Force scroll to top before initialization
+      // Prevents Lenis from picking up non-zero scroll position during hydration
       if (!isInitializedRef.current) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
         isInitializedRef.current = true;
       }
+
+      // CRITICAL FIX #2: Wait for layout stability after hydration
+      // This ensures React has finished rendering and the DOM is stable
+      await new Promise(resolve => setTimeout(resolve, 100));
+      if (!isMounted) return;
+
+      // CRITICAL FIX #3: Final scroll reset before Lenis takes over
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
       const { default: LenisModule } = (await import("lenis")) as {
         default: typeof Lenis;
@@ -56,8 +66,14 @@ export default function SmoothScroll() {
 
       lenisRef.current = lenis;
 
-      // Reset scroll position after Lenis is initialized to prevent auto-scroll
-      lenis.scrollTo(0, { immediate: true });
+      // CRITICAL FIX #4: Immediately set Lenis scroll to 0 after initialization
+      // Use both scrollTo and direct position setting for reliability
+      lenis.scrollTo(0, { immediate: true, force: true });
+      requestAnimationFrame(() => {
+        if (lenis && isMounted) {
+          lenis.scrollTo(0, { immediate: true, force: true });
+        }
+      });
 
       const raf = (time: number) => {
         lenis.raf(time);
@@ -70,8 +86,9 @@ export default function SmoothScroll() {
     const start = () => {
       void init();
     };
-    // Increased timeout to ensure DOM is fully loaded before Lenis initializes
-    cancelIdle = scheduleIdleTask(start, { timeout: 2000 });
+    // Increased timeout to ensure hydration completes and DOM is stable
+    // This prevents Lenis from initializing during React's hydration phase
+    cancelIdle = scheduleIdleTask(start, { timeout: 3000 });
 
     return () => {
       isMounted = false;
