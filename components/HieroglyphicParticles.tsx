@@ -69,18 +69,18 @@ export default function HieroglyphicParticles() {
     return () => observer.disconnect();
   }, [shouldShow]);
 
-  // Generate glyphs on mount - reduced from 12 to 6 for performance
+  // Generate glyphs on mount - 8 glyphs for richer effect while maintaining performance
   const glyphs = useMemo<Glyph[]>(() => {
     if (!shouldShow) return [];
 
-    return Array.from({ length: 6 }, (_, i) => ({
+    return Array.from({ length: 8 }, (_, i) => ({
       id: i,
       symbol: SVG_GLYPHS[i % SVG_GLYPHS.length].key as string,
-      left: `${15 + Math.random() * 70}%`,
-      animationDuration: `${50 + Math.random() * 40}s`,
-      animationDelay: `${Math.random() * -40}s`,
-      opacity: 0.03 + Math.random() * 0.05,
-      size: 20 + Math.random() * 24,
+      left: `${10 + Math.random() * 80}%`,
+      animationDuration: `${45 + Math.random() * 50}s`,
+      animationDelay: `${Math.random() * -50}s`,
+      opacity: 0.04 + Math.random() * 0.07,
+      size: 18 + Math.random() * 30,
     }));
   }, [shouldShow]);
 
@@ -103,11 +103,11 @@ export default function HieroglyphicParticles() {
               top: "-10%",
               width: `${glyph.size}px`,
               height: `${glyph.size}px`,
-              color: "#D4AF37",
+              color: "#E8C55B",
               opacity: glyph.opacity,
               animation: `hieroglyphFloat ${glyph.animationDuration} linear ${glyph.animationDelay} infinite`,
               transform: "translateZ(0)",
-              filter: "blur(0.5px)",
+              filter: `drop-shadow(0 0 ${glyph.size * 0.6}px rgba(232, 197, 91, ${glyph.opacity * 1.5})) blur(0.4px)`,
             }}
           >
             {SvgComponent}

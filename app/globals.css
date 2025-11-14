@@ -42,6 +42,34 @@
   --shadow-glow-gold: 0 0 40px rgba(250, 204, 21, 0.4);
 }
 
+/* Modern @property declarations for animatable gradients (Chrome/Safari/Edge only)
+   Firefox fallback: animations still work but transitions won't be smooth */
+@supports (syntax: '<angle>') {
+  @property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @property --torch-glow-intensity {
+    syntax: '<percentage>';
+    initial-value: 100%;
+    inherits: false;
+  }
+
+  @property --marble-shimmer {
+    syntax: '<percentage>';
+    initial-value: 0%;
+    inherits: false;
+  }
+
+  @property --mosaic-shift {
+    syntax: '<percentage>';
+    initial-value: 0%;
+    inherits: false;
+  }
+}
+
 @layer base {
   :root {
     --safe-area-top: env(safe-area-inset-top, 0px);
@@ -413,10 +441,31 @@
     inset: 0;
     z-index: -40;
     background:
-      radial-gradient(circle at 15% 20%, rgba(232, 197, 91, 0.18), transparent 55%),
-      radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.16), transparent 50%),
-      radial-gradient(circle at 50% 60%, rgba(205, 92, 92, 0.12), transparent 65%),
-      linear-gradient(180deg, #010101, #050505 55%, #060606);
+      radial-gradient(circle at 15% 20%, rgba(232, 197, 91, 0.22), transparent 50%),
+      radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.2), transparent 45%),
+      radial-gradient(circle at 50% 60%, rgba(205, 92, 92, 0.16), transparent 60%),
+      radial-gradient(circle at 30% 80%, rgba(166, 138, 90, 0.14), transparent 55%),
+      linear-gradient(180deg, #010101, #040404 35%, #050505 70%, #070707);
+    background-size: 300% 300%, 250% 250%, 280% 280%, 260% 260%, 100% 100%;
+    background-position: 0% 0%, 100% 0%, 50% 100%, 0% 100%, 0% 0%;
+    animation: ancient-aurora 40s ease-in-out infinite;
+    will-change: background-position;
+    transform: translateZ(0);
+  }
+
+  @keyframes ancient-aurora {
+    0%, 100% {
+      background-position: 0% 0%, 100% 0%, 50% 100%, 0% 100%, 0% 0%;
+    }
+    25% {
+      background-position: 25% 15%, 85% 10%, 60% 90%, 15% 85%, 0% 0%;
+    }
+    50% {
+      background-position: 40% 25%, 70% 20%, 70% 80%, 25% 75%, 0% 0%;
+    }
+    75% {
+      background-position: 20% 10%, 90% 15%, 45% 95%, 10% 90%, 0% 0%;
+    }
   }
 
   .site-bg-strata {
@@ -461,31 +510,103 @@
   .civilization-layer--egypt {
     z-index: -38;
     background-image:
-      radial-gradient(circle at 20% 70%, rgba(212, 175, 55, 0.25), transparent 60%),
-      linear-gradient(160deg, rgba(166, 138, 90, 0.4), transparent 60%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='0.6' opacity='0.2'%3E%3Cpath d='M40 30h60l-20 40h-20zM120 110h60l-30 50h-30zM220 40l30 50h-60z'/%3E%3Cpath d='M10 210h40l-20 35H-10zM210 250h60l-25 40h-35z'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: cover, 120% 120%, 320px 320px;
-    animation: civilization-parallax 36s ease-in-out infinite;
+      radial-gradient(ellipse at 20% 70%, rgba(232, 197, 91, calc(0.32 * var(--torch-glow-intensity, 1))), transparent 55%),
+      radial-gradient(ellipse at 75% 25%, rgba(212, 175, 55, calc(0.28 * var(--torch-glow-intensity, 1))), transparent 50%),
+      linear-gradient(calc(160deg + var(--gradient-angle, 0deg)), rgba(166, 138, 90, 0.45), transparent 58%),
+      linear-gradient(45deg, rgba(232, 220, 196, 0.08) 0%, transparent 30%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='0.7' opacity='0.25'%3E%3Cpath d='M40 30h60l-20 40h-20zM120 110h60l-30 50h-30zM220 40l30 50h-60z'/%3E%3Cpath d='M10 210h40l-20 35H-10zM210 250h60l-25 40h-35z'/%3E%3Ccircle cx='80' cy='150' r='25'/%3E%3Cpath d='M250 180l15 25 15-25h-30'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 350% 350%, 300% 300%, 140% 140%, cover, 320px 320px;
+    background-position: 20% 70%, 75% 25%, 0% 0%, 0% 0%, 0% 0%;
+    animation: egypt-torchlight 36s ease-in-out infinite, civilization-parallax 52s ease-in-out infinite;
+    will-change: opacity;
+    transform: translateZ(0);
+  }
+
+  @keyframes egypt-torchlight {
+    0%, 100% {
+      --torch-glow-intensity: 100%;
+      --gradient-angle: 0deg;
+    }
+    25% {
+      --torch-glow-intensity: 85%;
+      --gradient-angle: 5deg;
+    }
+    50% {
+      --torch-glow-intensity: 110%;
+      --gradient-angle: -3deg;
+    }
+    75% {
+      --torch-glow-intensity: 90%;
+      --gradient-angle: 2deg;
+    }
   }
 
   .civilization-layer--greece {
     z-index: -37;
     background-image:
-      radial-gradient(circle at 70% 20%, rgba(59, 130, 246, 0.18), transparent 55%),
-      linear-gradient(120deg, rgba(30, 58, 138, 0.35), transparent 70%),
-      repeating-linear-gradient(90deg, rgba(232, 234, 255, 0.12) 0, rgba(232, 234, 255, 0.12) 4px, transparent 4px, transparent 16px);
-    background-size: cover, cover, 220px 220px;
-    animation: civilization-parallax 42s ease-in-out infinite reverse;
+      radial-gradient(ellipse at 70% 20%, rgba(59, 130, 246, calc(0.22 + 0.08 * var(--marble-shimmer, 0) / 100%)), transparent 50%),
+      radial-gradient(ellipse at 30% 75%, rgba(147, 197, 253, calc(0.16 + 0.06 * var(--marble-shimmer, 0) / 100%)), transparent 55%),
+      linear-gradient(calc(120deg - var(--gradient-angle, 0deg) * 0.5), rgba(30, 58, 138, 0.4), transparent 65%),
+      repeating-linear-gradient(90deg, rgba(245, 245, 240, 0.08) 0, rgba(245, 245, 240, 0.08) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(90deg, rgba(232, 234, 255, 0.14) 0, rgba(232, 234, 255, 0.14) 4px, transparent 4px, transparent 16px);
+    background-size: 320% 320%, 280% 280%, 160% 160%, 6px 6px, 220px 220px;
+    background-position: 70% 20%, 30% 75%, 0% 0%, 0% 0%, 0% 0%;
+    animation: greece-marble-shimmer 42s ease-in-out infinite reverse, civilization-parallax 48s ease-in-out infinite;
+    will-change: opacity;
+    transform: translateZ(0);
+  }
+
+  @keyframes greece-marble-shimmer {
+    0%, 100% {
+      --marble-shimmer: 0%;
+      --gradient-angle: 0deg;
+    }
+    25% {
+      --marble-shimmer: 30%;
+      --gradient-angle: 8deg;
+    }
+    50% {
+      --marble-shimmer: 100%;
+      --gradient-angle: 0deg;
+    }
+    75% {
+      --marble-shimmer: 40%;
+      --gradient-angle: -6deg;
+    }
   }
 
   .civilization-layer--rome {
     z-index: -36;
     background-image:
-      radial-gradient(circle at 80% 80%, rgba(205, 92, 92, 0.22), transparent 55%),
-      linear-gradient(145deg, rgba(92, 37, 26, 0.65), transparent 60%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23ffe1b4' stroke-width='0.7' opacity='0.18'%3E%3Cpath d='M40 40h60v60H40zM130 130h60v60h-60z'/%3E%3Cpath d='M0 130l130-130 130 130-130 130z'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: cover, 160% 160%, 260px 260px;
-    animation: civilization-parallax 52s ease-in-out infinite;
+      radial-gradient(ellipse at 80% 80%, rgba(205, 92, 92, calc(0.26 + 0.06 * var(--mosaic-shift, 0) / 100%)), transparent 50%),
+      radial-gradient(ellipse at 20% 30%, rgba(166, 138, 90, calc(0.2 + 0.05 * var(--mosaic-shift, 0) / 100%)), transparent 55%),
+      linear-gradient(calc(145deg + var(--gradient-angle, 0deg) * 0.7), rgba(92, 37, 26, 0.7), rgba(140, 109, 61, 0.3) 45%, transparent 58%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23ffe1b4' stroke-width='0.8' opacity='0.22'%3E%3Cpath d='M40 40h60v60H40zM130 130h60v60h-60z'/%3E%3Cpath d='M0 130l130-130 130 130-130 130z'/%3E%3Crect x='200' y='20' width='40' height='40'/%3E%3Cpath d='M80 200h40v40H80z'/%3E%3Cpath d='M160 40l30 30-30 30-30-30z'/%3E%3C/g%3E%3C/svg%3E"),
+      repeating-linear-gradient(45deg, rgba(200, 90, 58, 0.05) 0, rgba(200, 90, 58, 0.05) 2px, transparent 2px, transparent 8px);
+    background-size: 330% 330%, 290% 290%, 180% 180%, 260px 260px, 12px 12px;
+    background-position: 80% 80%, 20% 30%, 0% 0%, 0% 0%, 0% 0%;
+    animation: rome-mosaic-shift 52s ease-in-out infinite, civilization-parallax 56s ease-in-out infinite reverse;
+    will-change: opacity;
+    transform: translateZ(0);
+  }
+
+  @keyframes rome-mosaic-shift {
+    0%, 100% {
+      --mosaic-shift: 0%;
+      --gradient-angle: 0deg;
+    }
+    25% {
+      --mosaic-shift: 40%;
+      --gradient-angle: -7deg;
+    }
+    50% {
+      --mosaic-shift: 100%;
+      --gradient-angle: 4deg;
+    }
+    75% {
+      --mosaic-shift: 35%;
+      --gradient-angle: -5deg;
+    }
   }
 
   .site-bg-constellation {

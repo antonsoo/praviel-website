@@ -44,17 +44,17 @@ export default function MarbleDust() {
     return () => observer.disconnect();
   }, [shouldShow]);
 
-  // Generate particles - reduced from 20 to 10 for better performance
+  // Generate particles - 14 particles for richer marble shimmer effect
   const particles = useMemo<Particle[]>(() => {
     if (!shouldShow) return [];
 
-    return Array.from({ length: 10 }, (_, i) => ({
+    return Array.from({ length: 14 }, (_, i) => ({
       id: i,
-      left: `${15 + Math.random() * 70}%`,
-      size: 1.5 + Math.random() * 2,
-      animationDuration: `${30 + Math.random() * 30}s`,
-      animationDelay: `${Math.random() * -25}s`,
-      opacity: 0.025 + Math.random() * 0.05,
+      left: `${10 + Math.random() * 80}%`,
+      size: 1.2 + Math.random() * 3,
+      animationDuration: `${28 + Math.random() * 35}s`,
+      animationDelay: `${Math.random() * -30}s`,
+      opacity: 0.03 + Math.random() * 0.06,
     }));
   }, [shouldShow]);
 
@@ -75,11 +75,12 @@ export default function MarbleDust() {
             top: "-5%",
             width: `${particle.size}px`,
             height: `${particle.size}px`,
-            background: "radial-gradient(circle, rgba(245, 245, 240, 0.8), rgba(245, 245, 240, 0.2))",
+            background: "radial-gradient(circle, rgba(245, 245, 240, 0.9), rgba(147, 197, 253, 0.4) 50%, rgba(245, 245, 240, 0.15))",
             opacity: particle.opacity,
             animation: `marbleDustFloat ${particle.animationDuration} linear ${particle.animationDelay} infinite`,
             willChange: "transform",
-            boxShadow: `0 0 ${particle.size * 2}px rgba(245, 245, 240, ${particle.opacity})`,
+            boxShadow: `0 0 ${particle.size * 3}px rgba(245, 245, 240, ${particle.opacity * 1.2}), 0 0 ${particle.size * 1.5}px rgba(147, 197, 253, ${particle.opacity * 0.6})`,
+            filter: `blur(0.3px)`,
           }}
         />
       ))}
