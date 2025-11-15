@@ -1,203 +1,92 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 15, 2025 00:42 UTC — All critical hydration, layout, and scroll issues FIXED and TESTED
-**Production URL:** https://praviel.com
-**Current Version ID:** c0f35f65-6adf-4cb4-bdcf-0e731aa404d1 (workers.dev)
-**Production Status:** 🟢 **VERIFIED** (All major issues fixed, comprehensively tested with automated test suite)
+**Last updated:** Nov 14, 2025 20:45 UTC — Post-hydration fix deployment analysis
+**Production URL:** https://praviel.com (⚠️ **NOT VERIFIED - see deployment issues below**)
+**Workers Dev URL:** https://praviel-site.antonnsoloviev.workers.dev (✅ **DEPLOYED** - Version c0f35f65)
+**Production Status:** 🟡 **PARTIAL** (Fixes deployed to workers.dev but praviel.com status UNKNOWN)
 
 ---
 
-## ✅ LATEST DEPLOYMENT (Nov 15, 2025 00:42 UTC - Version c0f35f65) - ALL CRITICAL ISSUES FIXED
+## 🚨 CRITICAL: Production Deployment Gap
 
-**Git commit:** bb5819e6ef91
-**Deployed to:** https://praviel-site.antonnsoloviev.workers.dev (pending praviel.com cache update)
+### ❌ ISSUE: praviel.com May Not Be Updated
 
-### What Was Actually Fixed & Verified:
+**What Happened:**
+- All fixes were deployed to `praviel-site.antonnsoloviev.workers.dev` (workers.dev subdomain)
+- Deployment command: `pnpm deploy` (no `--env` flag specified)
+- This deploys to **DEFAULT environment**, NOT production environment
 
-#### 1. **React Hydration Error #418 - FIXED ✅** (Tested & Verified)
-   - Fixed in 7 components: CurrentYear, MarbleDust, HieroglyphicParticles, PortalCard3D, CursorGlow, RomanTessellation, ClientEnhancements
-   - Moved all `useMemo` browser API checks (`typeof window`, `navigator.userAgent`, `window.matchMedia`) to `useEffect` with safe default states
-   - Server and client now render identical initial HTML
-   - **Verified with automated test: ✅ "No React hydration errors" on production site**
+**Production Environment Configuration (wrangler.jsonc:27-62):**
+```jsonc
+"env": {
+  "production": {
+    "name": "praviel-site-production",
+    "route": "praviel.com/*",  // ← Production uses route, not workers.dev
+    // ... production KV, R2, secrets, etc.
+  }
+}
+```
 
-#### 2. **Mobile Horizontal Scroll - FIXED ✅** (Tested & Verified)
-   - Root cause: ComparisonTable (600px min-width) and portal-card halos (477px) extending beyond 375px mobile viewport
-   - Fixed with three layers of protection:
-     - Added `overflow-x: hidden` CSS rule to html/body in globals.css:46-48
-     - Added `overflow-x-hidden` to ComparisonTable section (ComparisonTable.tsx:31)
-     - Added `overflow-hidden` to CivilizationPortals section (CivilizationPortals.tsx:62)
-   - **Verified with automated test: ✅ User cannot scroll horizontally on mobile (scrollX stays at 0)**
-   - Note: `document.documentElement.scrollWidth` still reports 389px (content width) but scroll is prevented
+**Result:**
+- ✅ workers.dev has all hydration fixes (tested, working)
+- ❓ praviel.com status **UNKNOWN** (not deployed to in this session)
+- ❓ DNS routing **UNKNOWN** (route requires manual DNS setup)
+- ❓ SSL certificates **UNKNOWN**
 
-#### 3. **Layout Issue: Immersive/Comfort Controls - FIXED ✅** (Tested & Verified)
-   - Moved "Immersive visuals" and "Comfort controls" sections BEFORE language badges in HeroSection
-   - Now appear above fold instead of being pushed down by min-h-screen hero
-   - **Verified with automated test: ✅ Controls visible and positioned <2000px from top**
+### ✅ IMMEDIATE ACTION REQUIRED
 
-#### 4. **Performance: INP Optimization - FIXED ✅**
-   - VolumetricLight: Throttled mousemove handler with requestAnimationFrame
-   - Prevents state updates on every mousemove event (was causing INP spikes)
-   - Now batches updates per frame instead of per event
-   - **Note:** INP measurement on production pending (requires real user interaction monitoring)
+**Deploy to production environment:**
+```bash
+# Deploy to production (NOT default)
+pnpm run with-release npx opennextjs-cloudflare deploy --env production
 
-### Comprehensive Test Results (13/14 PASSING):
+# Or update package.json deploy script to include --env production
+```
 
-**✅ PASSED (13 tests):**
-1. ✅ Homepage loads (200 OK)
-2. ✅ No React hydration errors (Error #418 eliminated)
-3. ✅ No console errors
-4. ✅ Hero title correct ("Read the originals")
-5. ✅ Immersive & Comfort controls visible
-6. ✅ Controls appear reasonably high on page (<2000px from top)
-7. ✅ All images loaded successfully
-8. ✅ No horizontal scroll on mobile (verified with actual scroll attempt)
-9. ✅ Waitlist email input exists
-10. ✅ /blog loads (200 OK)
-11. ✅ /fund loads (200 OK)
-12. ✅ /privacy loads (200 OK)
-13. ✅ Plausible analytics script loaded
+**Verify praviel.com is working:**
+1. Open https://praviel.com in browser (NOT workers.dev)
+2. Check browser console for React Error #418 (should be gone)
+3. Test horizontal scroll on mobile (should be prevented)
+4. Verify content is visible (not loading skeletons)
+5. Test waitlist form
 
-**⚠️ WARNINGS (1 non-critical):**
-- ⚠️ Mobile menu button not found (selector might be incorrect, or menu uses different implementation)
+**Check DNS configuration:**
+```bash
+# Verify DNS is pointing to Cloudflare Workers
+nslookup praviel.com
+dig praviel.com
 
-**Total Console Messages:**
-- Errors: 0
-- Warnings: 0
-
-### Test Infrastructure Created:
-
-Created comprehensive automated test suite in `scripts/`:
-1. **test-production.mjs** - Full 11-test suite against praviel.com
-2. **test-mobile-simple.mjs** - Quick mobile scroll verification
-3. **test-workers-dev.mjs** - Worker deployment verification
-4. **find-overflow-source.mjs** - Debug tool for finding horizontal overflow sources
-
-### Build Quality:
-- ✅ TypeScript type checking passed (0 errors)
-- ✅ ESLint passed (0 errors, 0 warnings)
-- ✅ Production build passed (22 pages generated)
-- ✅ Deployed to Cloudflare Workers successfully
+# Or check Cloudflare dashboard:
+# Workers & Pages > praviel-site-production > Settings > Domains & Routes
+```
 
 ---
 
-## 🎯 REMAINING WORK (Lower Priority)
+## ✅ VERIFIED FIXES (on workers.dev only)
 
-### 🟡 PRIORITY 1: Interactive Component Testing (Not Yet Tested)
+### 1. React Hydration Error #418 - FIXED ✅
 
-**These components exist in code but JavaScript functionality has NOT been verified:**
-
-1. **Waitlist Form Submission** ⏳
-   - Form renders correctly ✅
-   - Email input exists ✅
-   - Submit handler NOT tested (need to actually submit and verify backend)
-   - **Action needed:** Test form submission, verify email gets stored, check error handling
-
-2. **Mobile Menu Toggle** ⚠️
-   - Warning: Test couldn't find menu button with current selectors
-   - **Action needed:** Find actual mobile menu implementation and test open/close functionality
-   - May not exist or may use different selector
-
-3. **Living Manuscript Modal** ⏳
-   - Code exists but NOT tested
-   - **Action needed:** Find trigger button, verify modal open/close, test keyboard trap
-
-4. **Comfort Controls & Immersive Mode** ⏳
-   - UI elements render ✅
-   - Toggle functionality NOT tested
-   - **Action needed:** Test if clicking controls actually changes settings, verify localStorage persistence
-
-5. **Cookie Consent Banner** ⏳
-   - Component exists but NOT tested
-   - **Action needed:** Verify banner shows on first visit, test accept/decline functionality
-
-### 🟡 PRIORITY 2: Real Device Testing
-
-**All testing done with Puppeteer headless Chrome. Need actual device verification:**
-
-1. **Mobile Devices** ⏳
-   - Test on iPhone (Safari iOS)
-   - Test on Android (Chrome)
-   - Verify touch interactions work
-   - Check if horizontal scroll fix works on real devices
-
-2. **Browser Compatibility** ⏳
-   - Test on Safari desktop
-   - Test on Firefox desktop
-   - Test on Edge desktop
-   - All currently assumed to work but NOT verified
-
-### 🟡 PRIORITY 3: Analytics & Monitoring Verification
-
-1. **Plausible Analytics** ⚠️
-   - Script loads ✅
-   - Actual tracking NOT verified
-   - **Action needed:** Check Plausible dashboard for live events
-   - **Known issue:** Prerender fetch error during build (warning only, may not affect runtime)
-
-2. **Sentry Error Tracking** ⏳
-   - Build warnings about OpenTelemetry exist
-   - Actual error capturing NOT tested
-   - **Action needed:** Trigger test error, verify it appears in Sentry dashboard
-
-### 🟡 PRIORITY 4: Performance Metrics
-
-1. **INP (Interaction to Next Paint)** ⏳
-   - Target: ≤200ms
-   - VolumetricLight optimized but NOT measured on production
-   - Button click handlers (15 components) NOT profiled
-   - **Action needed:** Use Chrome DevTools or Real User Monitoring to measure INP
-
-2. **Core Web Vitals** ⏳
-   - LCP: 2.91s (acceptable, from previous session)
-   - CLS: 0.110 (good, from previous session)
-   - FID/INP: NOT measured
-   - **Action needed:** Run Lighthouse on production, verify no regressions
-
----
-
-## 📋 DETAILED FIX BREAKDOWN
-
-### Hydration Error Root Causes & Fixes:
-
-**Problem:** Server rendered different HTML than client's first render
+**Root Cause:** 7 components using `useMemo` with browser APIs caused server/client HTML mismatch
 
 **Components Fixed:**
-
-1. **CurrentYear.tsx** (lines 1-11)
-   - Before: `new Date().getFullYear()` at module level → different server/client
-   - After: `useState(2025)` + `useEffect` sets actual year client-side
-
-2. **MarbleDust.tsx** (lines 22-29)
-   - Before: `useMemo` with `typeof window`, `navigator.userAgent`, `window.matchMedia`
-   - After: `useState(false)` + `useEffect` sets visibility client-side
-
-3. **HieroglyphicParticles.tsx** (lines 22-29)
-   - Same pattern as MarbleDust
-
-4. **PortalCard3D.tsx** (lines 17-27)
-   - Before: `useMemo` checking mobile/touch/reduced-motion
-   - After: `useState(false)` + `useEffect`
-
-5. **CursorGlow.tsx** (lines similar pattern)
-   - Fixed browser detection in useEffect
-
-6. **RomanTessellation.tsx** (lines similar pattern)
-   - Fixed reduced motion detection in useEffect
-
-7. **ClientEnhancements.tsx** (lines similar pattern)
-   - Fixed device constraint detection in useEffect
+- `components/CurrentYear.tsx` - Date calculation moved to useEffect
+- `components/MarbleDust.tsx` - Browser detection moved to useEffect
+- `components/HieroglyphicParticles.tsx` - Browser detection moved to useEffect
+- `components/PortalCard3D.tsx` - Mobile/touch detection moved to useEffect
+- `components/CursorGlow.tsx` - Browser detection moved to useEffect
+- `components/RomanTessellation.tsx` - Reduced motion detection moved to useEffect
+- `components/ClientEnhancements.tsx` - Device constraint detection moved to useEffect
 
 **Pattern Applied:**
 ```typescript
-// BEFORE (causes hydration error):
+// ❌ BEFORE (causes hydration error):
 const shouldShow = useMemo(() => {
   if (typeof window === "undefined") return false;
   return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }, []);
 
-// AFTER (fixes hydration error):
+// ✅ AFTER (fixes hydration error):
 const [shouldShow, setShouldShow] = useState(false);
-
 useEffect(() => {
   if (typeof window === "undefined") return;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -205,153 +94,647 @@ useEffect(() => {
 }, []);
 ```
 
-### Mobile Horizontal Scroll Investigation & Fix:
+**Verification:** Automated tests on workers.dev confirm zero hydration errors
 
-**Investigation Process:**
-1. Created debug script to find elements extending beyond viewport
-2. Found two culprits:
-   - ComparisonTable: 600px min-width table extending to right=625px on 375px viewport
-   - Portal card halos: 477px wide absolutely positioned divs
+### 2. Mobile Horizontal Scroll - FIXED ✅
 
-**Solutions Applied:**
-1. **Global CSS fix (globals.css:45-48):**
-   ```css
-   /* Prevent horizontal scroll on mobile */
-   html, body {
-     overflow-x: hidden;
-   }
-   ```
+**Root Cause:**
+- ComparisonTable with 600px min-width extending beyond 375px mobile viewport
+- Portal card halos (477px) overflowing
 
-2. **ComparisonTable section (ComparisonTable.tsx:31):**
-   ```tsx
-   className="relative overflow-x-hidden px-6 py-24 sm:py-32"
-   ```
+**Fix Applied:**
+- Added `overflow-x: hidden` CSS to html/body (app/globals.css:45-48)
+- Added `overflow-x-hidden` to ComparisonTable section (components/ComparisonTable.tsx:31)
+- Added `w-full max-w-full` constraints to table wrapper (components/ComparisonTable.tsx:49)
+- Added `overflow-hidden` to CivilizationPortals section (components/CivilizationPortals.tsx:62)
 
-3. **Table wrapper (ComparisonTable.tsx:49):**
-   ```tsx
-   className="w-full max-w-full overflow-x-auto ..."
-   ```
-   - `overflow-x-auto` allows table to scroll within container
-   - `w-full max-w-full` constrains wrapper to parent width
+**Verification:** Automated test attempts `window.scrollTo(50, 0)` and confirms scrollX stays at 0
 
-4. **CivilizationPortals section (CivilizationPortals.tsx:62):**
-   ```tsx
-   className="relative overflow-hidden px-4 sm:px-6 ..."
-   ```
-   - Clips portal-card halos that extend beyond section bounds
+### 3. Layout Fix: Immersive/Comfort Controls - FIXED ✅
 
-**Result:** User cannot scroll horizontally on mobile (verified by attempting `window.scrollTo(50, 0)` and checking `window.scrollX` remains 0)
+**Fix:** Reordered HeroSection to place controls BEFORE language badges (components/HeroSection.tsx)
+
+**Verification:** Controls now positioned <2000px from top (tested)
+
+### 4. Performance: VolumetricLight INP - OPTIMIZED ✅
+
+**Fix:** Throttled mousemove handler with requestAnimationFrame (components/VolumetricLight.tsx)
+
+**Note:** Optimization applied but INP not measured on production yet
 
 ---
 
-## 🔄 WHAT TO DO NEXT (For Next Agent or User)
+## 🔴 PRIORITY 1: VERIFY PRODUCTION DEPLOYMENT
 
-### Immediate Actions (if needed):
+### Task 1.1: Deploy to praviel.com Production Environment
 
-1. **If praviel.com shows old version:**
-   - Cloudflare might be caching
-   - Wait 5-10 minutes for cache to update
-   - Or manually purge Cloudflare cache from dashboard
+```bash
+# Deploy with production environment flag
+SKIP_OBSERVABILITY_CHECK=true pnpm run with-release npx opennextjs-cloudflare deploy --env production
+```
 
-2. **Verify fixes on praviel.com:**
-   ```bash
-   # Run the test suite against production
-   node scripts/test-production.mjs
-   ```
+**Expected Output:**
+- Worker name: `praviel-site-production` (not `praviel-site`)
+- Route: `praviel.com/*`
+- Should bind to production KV namespaces and R2 buckets
 
-3. **Test interactive components manually:**
-   - Open praviel.com in browser
-   - Try submitting waitlist form
-   - Test mobile menu (resize browser to <640px)
-   - Click all navigation links
+### Task 1.2: Verify praviel.com Is Live
 
-### Optional Improvements (low priority):
+**Manual Testing (REQUIRED):**
+1. Open https://praviel.com in browser (clear cache first)
+2. Open DevTools Console
+3. Check for React Error #418 (should be ABSENT)
+4. Verify no console errors
+5. Verify content is visible (not loading skeletons)
+6. Test on mobile viewport (resize to 375px width)
+7. Attempt horizontal scroll (should be prevented)
+8. Test waitlist form is visible
 
-1. **Add more comprehensive tests:**
-   - Form submission tests (requires test endpoint)
-   - Mobile menu interaction tests
-   - Modal open/close tests
+### Task 1.3: Check DNS/Routing Configuration
 
-2. **Performance monitoring:**
-   - Set up Real User Monitoring (RUM)
-   - Track actual INP on production
-   - Monitor Core Web Vitals over time
+**In Cloudflare Dashboard:**
+1. Go to Workers & Pages > praviel-site-production
+2. Check Settings > Domains & Routes
+3. Verify route `praviel.com/*` is active
+4. Check DNS records for praviel.com
+5. Verify SSL certificate is valid
 
-3. **Accessibility audit:**
-   - Run axe DevTools or WAVE
-   - Test keyboard navigation thoroughly
-   - Test with screen reader (VoiceOver/NVDA)
+**Alternative: Use Custom Domains (Recommended)**
 
----
+If DNS is not configured, consider switching from route to Custom Domain:
+```bash
+# In Cloudflare Dashboard:
+# Workers & Pages > praviel-site-production > Settings > Domains & Routes
+# Add > Custom Domain
+# Enter: praviel.com
+# Cloudflare will automatically create DNS record and SSL certificate
+```
 
-## 📊 Current Production Metrics
-
-**Latest Deployment:**
-- Version ID: c0f35f65-6adf-4cb4-bdcf-0e731aa404d1
-- Deployed: Nov 15, 2025 00:42 UTC
-- Git commit: bb5819e6ef91
-- Test results: 13/14 passing, 0 errors, 1 warning (non-critical)
-
-**Build Info:**
-- Pages generated: 22
-- Build time: ~6.5s (Next.js)
-- Total deploy time: ~2min 30s (including R2 cache upload)
-- Bundle size: 15494 KiB / gzip: 3770 KiB
-
-**Dependencies (latest):**
-- Node.js: 25.1.0
-- Next.js: 16.0.3
-- React: 19.2.0
-- Tailwind CSS: 4.1.17
+**Benefits:**
+- Automatic DNS configuration
+- Automatic SSL certificate management
+- No manual routing setup needed
 
 ---
 
-## 🎭 KNOWN NON-CRITICAL ISSUES
+## 🟡 PRIORITY 2: TEST INTERACTIVE COMPONENTS
 
-### Build Warnings (informational only, don't affect functionality):
+### ⚠️ WARNING: All Tests So Far Are Static
 
-1. **Plausible Analytics prerender warning:**
-   ```
-   [Plausible] Error fetching script: Error: During prerendering, fetch() rejects when the prerender is complete
-   ```
-   - Occurs during build, not runtime
-   - Analytics script still loads correctly on client
-   - Can be ignored unless analytics stops working
+**What's Been Tested:**
+- ✅ Pages load (HTTP 200)
+- ✅ Content renders
+- ✅ Images exist
+- ✅ No console errors
+- ✅ No hydration errors
 
-2. **OpenTelemetry/Sentry dependency warnings:**
-   ```
-   Critical dependency: the request of a dependency is an expression
-   ```
-   - Expected with dynamic imports in instrumentation
-   - 13 warnings total
-   - Don't affect functionality
+**What Has NOT Been Tested:**
+- ❌ Clicking buttons
+- ❌ Submitting forms
+- ❌ Opening modals
+- ❌ Toggling settings
+- ❌ Navigation between pages
+- ❌ Mobile menu
+- ❌ Any JavaScript interactivity
 
-3. **Middleware deprecation warning:**
-   ```
-   The "middleware" file convention is deprecated. Please use "proxy" instead.
-   ```
-   - Next.js 16 prefers "proxy.ts" over "middleware.ts"
-   - Functional, just deprecated naming
-   - Low priority to rename
+### Task 2.1: Waitlist Form (CRITICAL - Main Conversion Point)
+
+**Location:** Scroll to #waitlist on homepage
+
+**Manual Test Steps:**
+1. Find waitlist form email input
+2. Enter test email: `test@example.com`
+3. Click submit button
+4. Observe:
+   - Does loading state show?
+   - Does form actually submit?
+   - Does success/error message appear?
+   - Check Network tab for API request
+5. Verify email is saved (check database or logs)
+
+**Expected Behavior:**
+- Form submits to backend
+- Shows loading spinner during submission
+- Displays success message on success
+- Displays error message on failure
+- Email is stored in database
+
+**If Broken:**
+- Check `components/WaitlistForm.tsx` for submit handler
+- Verify API route `/api/waitlist` (or similar) exists
+- Check server-side validation
+- Test error handling
+
+### Task 2.2: Mobile Menu
+
+**Issue:** Test script reports "Mobile menu button not found"
+
+**Possible Causes:**
+1. Selector is incorrect (`[aria-label*="menu"]` might not match)
+2. Menu button doesn't exist
+3. Menu uses different implementation (hidden by default, shown on scroll, etc.)
+
+**Manual Test Steps:**
+1. Resize browser to <640px width (or use mobile device)
+2. Look for hamburger menu icon (☰) in header
+3. If found:
+   - Click to open menu
+   - Verify menu slides/fades in
+   - Click menu link
+   - Verify menu closes
+   - Test Escape key closes menu
+4. If NOT found:
+   - Search codebase for mobile menu implementation
+   - Check `components/SiteHeader.tsx`
+   - Determine if mobile menu exists or needs to be built
+
+**Action:**
+- If menu exists but selector is wrong: update test script
+- If menu doesn't exist: document as TODO for implementation
+
+### Task 2.3: Living Manuscript Modal
+
+**Location:** Look for "Focus view" or similar button on homepage
+
+**Manual Test Steps:**
+1. Find trigger button (search for modal-related buttons)
+2. Click button
+3. Verify:
+   - Modal opens with content
+   - Background is dimmed
+   - Escape key closes modal
+   - Clicking outside closes modal (if expected)
+   - Tab key traps focus inside modal
+   - Focus returns to trigger button after close
+
+**If Not Found:**
+- Search codebase: `grep -r "LivingManuscript\|Modal" components/`
+- Determine if feature exists or is TODO
+
+### Task 2.4: Comfort Controls & Immersive Mode
+
+**Location:** Hero section, near language count badges
+
+**What They Do (Based on Code Analysis):**
+- Comfort controls: Adjust type scale, contrast, body font
+- Immersive mode: Toggle visual effects (particles, animations)
+
+**Manual Test Steps:**
+1. Find Immersive Mode toggle
+2. Click to toggle between On/Off/Auto
+3. Verify visual effects actually toggle
+4. Find Comfort Controls
+5. Test each control:
+   - Type scale: Base ↔ Plus
+   - Contrast: Default ↔ High
+   - Body font: Sans ↔ Serif
+6. Verify changes are applied immediately
+7. Reload page - verify settings persist (localStorage)
+
+**Files to Check:**
+- `components/ImmersiveModeToggle.tsx` (or similar)
+- `components/ComfortControls.tsx` (or similar)
+- Check for `localStorage.setItem('praviel:immersivePref', ...)`
+- Check for `localStorage.setItem('praviel:comfortPrefs', ...)`
+
+### Task 2.5: Cookie Consent Banner
+
+**Expected Behavior:**
+- Shows on first visit
+- Hides after accept/decline
+- Preference saved in localStorage or cookie
+
+**Manual Test Steps:**
+1. Open praviel.com in incognito mode (fresh state)
+2. Look for cookie consent banner
+3. If found:
+   - Click Accept
+   - Verify banner hides
+   - Reload page - verify banner doesn't show again
+4. If NOT found:
+   - Check `components/CookieConsent.tsx`
+   - Determine if feature is implemented
 
 ---
 
-## ✅ SUCCESS CRITERIA (ALL MET)
+## 🟡 PRIORITY 3: REAL DEVICE TESTING
 
-- ✅ No React Error #418 in console (tested & verified)
-- ✅ Feature cards layout correctly, no overlap (tested & verified)
-- ✅ No horizontal scroll on mobile (tested & verified with scroll attempt)
-- ✅ Immersive/Comfort controls visible and positioned correctly (tested & verified)
-- ✅ No console errors on production (tested & verified)
-- ✅ All pages load successfully (/, /blog, /fund, /privacy tested)
-- ✅ Build passes with 0 errors (verified)
-- ✅ TypeScript strict mode passes (verified)
-- ✅ ESLint passes with 0 warnings (verified)
+### Current Test Coverage
 
-**Deployment verified and working. All critical issues resolved.**
+**What's Tested:**
+- ✅ Puppeteer headless Chrome on Linux
+- ✅ Desktop viewport (1920x1080)
+- ✅ Mobile viewport emulation (375x667)
+
+**What's NOT Tested:**
+- ❌ Actual iPhone (Safari iOS)
+- ❌ Actual Android (Chrome)
+- ❌ Touch gestures
+- ❌ Safari desktop
+- ❌ Firefox desktop
+- ❌ Edge desktop
+
+### Task 3.1: Mobile Device Testing
+
+**iPhone (Safari iOS):**
+1. Open praviel.com on iPhone
+2. Test horizontal scroll (swipe left/right)
+3. Verify controls are tap-able (44px minimum)
+4. Test form input with iOS keyboard
+5. Verify animations perform well
+6. Check if any iOS-specific bugs
+
+**Android (Chrome):**
+1. Same tests as iPhone
+2. Test with different Android screen sizes
+3. Verify Chrome-specific features work
+
+**Key Things to Check:**
+- Horizontal scroll is prevented (my fix)
+- Touch targets are large enough (WCAG AA: 44x44px)
+- Forms work with mobile keyboards
+- Animations don't cause jank
+- Page loads in <3 seconds on 3G
+
+### Task 3.2: Cross-Browser Testing
+
+**Safari Desktop:**
+- Test all interactive features
+- Verify CSS `@property` fallbacks work
+- Check for Safari-specific bugs
+
+**Firefox Desktop:**
+- Test all interactive features
+- Verify animations work
+- Check for Firefox-specific bugs
+
+**Edge Desktop:**
+- Quick smoke test (usually same as Chrome)
+
+---
+
+## 🟡 PRIORITY 4: ANALYTICS & MONITORING
+
+### Task 4.1: Verify Plausible Analytics
+
+**What's Known:**
+- ✅ Plausible script loads on page
+- ❓ Tracking events not verified
+
+**Manual Test:**
+1. Open praviel.com
+2. Navigate between pages
+3. Go to Plausible dashboard (https://plausible.io/praviel.com or similar)
+4. Verify pageviews are being tracked
+5. Test custom events (if any)
+6. Verify goals/conversions work
+
+**Known Issue:**
+Build warning: `[Plausible] Error fetching script: Error: During prerendering, fetch() rejects when the prerender is complete`
+
+**Impact:** Might be build-time only, but needs verification
+
+**If Analytics Broken:**
+- Check `components/PlausibleAnalytics.tsx`
+- Verify `/api/proxy/js/script.js` returns script
+- Verify `/api/proxy/api/event` accepts POST requests
+- Check Plausible dashboard settings
+
+### Task 4.2: Verify Sentry Error Tracking
+
+**Test Steps:**
+1. Trigger test error (add `throw new Error("Test")` somewhere)
+2. Check Sentry dashboard
+3. Verify error appears
+4. Remove test error
+
+**If Not Working:**
+- Check `@sentry/nextjs` configuration
+- Verify SENTRY_DSN is set
+- Check build warnings about OpenTelemetry
+
+### Task 4.3: Performance Measurement
+
+**INP (Interaction to Next Paint):**
+- Target: ≤200ms
+- VolumetricLight optimized but not measured
+- Need real user monitoring data
+
+**Tools:**
+```bash
+# Lighthouse (simulated)
+pnpm perf:audit
+
+# Or use Chrome DevTools Performance tab
+# Or set up Real User Monitoring (RUM)
+```
+
+**Core Web Vitals to Track:**
+- LCP (Largest Contentful Paint): Target ≤2.5s
+- CLS (Cumulative Layout Shift): Target ≤0.1
+- INP (Interaction to Next Paint): Target ≤200ms
+
+---
+
+## 🔧 KNOWN TECHNICAL ISSUES
+
+### Issue 1: OpenNext Cloudflare on Main Branch (HIGH RISK)
+
+**Current Setup (package.json:46):**
+```json
+"@opennextjs/cloudflare": "https://pkg.pr.new/@opennextjs/cloudflare@main"
+```
+
+**What This Means:**
+- Pulling from **main branch** via pkg.pr.new
+- NOT a stable release (like `@opennextjs/cloudflare@1.3.0`)
+- Main branch can have breaking changes anytime
+- Builds are NOT reproducible
+- High risk for production
+
+**Why It Might Be Intentional:**
+- Latest version (1.3.0) has known issues with Next.js 16
+- Main branch might have fixes not in stable release
+- See: https://github.com/opennextjs/opennextjs-cloudflare/issues/962
+
+**Recommendation:**
+1. Check if stable 1.3.0 (or later) works with Next.js 16
+2. If YES: pin to stable version for reproducibility
+3. If NO: document risk and monitor main branch for breaking changes
+4. Consider contributing fixes upstream to get stable release
+
+### Issue 2: Middleware vs Proxy (Next.js 16 Deprecation)
+
+**Current State:**
+- Using `middleware.ts` (deprecated in Next.js 16)
+- Next.js 16 prefers `proxy.ts` instead
+- Build warning: `The "middleware" file convention is deprecated. Please use "proxy" instead.`
+
+**Why We Can't Switch:**
+- `proxy.ts` only supports Node.js runtime
+- Cloudflare Workers requires Edge runtime
+- OpenNext Cloudflare doesn't support `proxy.ts` yet
+- See: middleware.ts:9-14 for detailed explanation
+
+**Current Solution:**
+- Keep `middleware.ts` despite deprecation warning
+- Uses `experimental-edge` runtime for Cloudflare compatibility
+- Monitor issue #962 for OpenNext support
+
+**Long-Term:**
+- Wait for OpenNext to support proxy.ts with Edge runtime
+- Or migrate to different deployment platform
+- Or wait for Next.js to support Edge runtime in proxy.ts
+
+### Issue 3: React 19 Peer Dependency Warning
+
+**Warning:**
+```
+next-view-transitions 0.3.4
+├── ✕ unmet peer react@^18.2.0: found 19.2.0
+└── ✕ unmet peer react-dom@^18.2.0: found 19.2.0
+```
+
+**Current Status:**
+- Using React 19.2.0
+- next-view-transitions expects React 18
+- View transitions functionality NOT tested
+
+**Action Required:**
+- Test view transitions actually work
+- Navigate between pages and observe transitions
+- Check for console errors
+- If broken: either downgrade React or remove next-view-transitions
+
+### Issue 4: Compatibility Date Requirements
+
+**Current Config (wrangler.jsonc:5):**
+```jsonc
+"compatibility_date": "2025-10-15"
+```
+
+**Minimum Requirements:**
+- For `nodejs_compat`: 2024-09-23 or later ✅
+- For better `process.env`: April 1, 2025 or later ✅
+- Current setting: 2025-10-15 ✅ (exceeds all requirements)
+
+**Status:** ✅ Good
+
+---
+
+## 📋 COMPREHENSIVE TEST RESULTS (workers.dev only)
+
+**✅ PASSED (13 tests):**
+1. Homepage loads (200 OK)
+2. No React hydration errors
+3. No console errors
+4. Hero title correct
+5. Immersive & Comfort controls visible
+6. Controls positioned correctly
+7. All images loaded
+8. No horizontal scroll on mobile (verified with scroll attempt)
+9. Waitlist email input exists
+10. /blog loads
+11. /fund loads
+12. /privacy loads
+13. Plausible analytics script loaded
+
+**⚠️ WARNINGS (1):**
+- Mobile menu button not found (selector issue or doesn't exist)
+
+**Total Console Messages:**
+- Errors: 0
+- Warnings: 0
+
+**Test Infrastructure:**
+- `scripts/test-production.mjs` - Full 11-test suite
+- `scripts/test-mobile-simple.mjs` - Mobile scroll verification
+- `scripts/test-workers-dev.mjs` - Workers.dev deployment test
+- `scripts/find-overflow-source.mjs` - Debug tool for overflow
+
+---
+
+## 📊 PACKAGE VERSIONS (November 14, 2025)
+
+**Core Framework:**
+- Next.js: 16.0.3 (latest stable)
+- React: 19.2.0 (latest, released Oct 1, 2025)
+- React DOM: 19.2.0
+
+**Styling:**
+- Tailwind CSS: 4.1.17 (latest patch)
+- @tailwindcss/postcss: 4.1.17
+
+**Deployment:**
+- @opennextjs/cloudflare: main branch (⚠️ NOT stable release)
+- Node.js: 25.1.0 (required minimum: 25.0.0)
+- pnpm: 10.20.0
+
+**Key Updates Since Session Start:**
+- All packages already at latest versions
+- No security updates found
+- No breaking changes in dependencies
+
+---
+
+## 🎯 WHAT THE NEXT AGENT SHOULD FOCUS ON
+
+### Immediate (Do First):
+
+1. **Deploy to praviel.com production** (15 min)
+   - Run deploy with `--env production` flag
+   - Verify praviel.com shows updated code
+   - Run test suite against praviel.com (not workers.dev)
+
+2. **Test interactive components** (1-2 hours)
+   - Waitlist form submission (CRITICAL)
+   - Mobile menu (find it first)
+   - Living Manuscript modal
+   - Comfort controls & Immersive mode
+   - Cookie consent banner
+
+3. **Test on real mobile devices** (30 min)
+   - iPhone with Safari
+   - Android with Chrome
+   - Verify horizontal scroll fix works on real devices
+
+### Important (Do Soon):
+
+4. **Verify analytics & monitoring** (30 min)
+   - Check Plausible is tracking
+   - Test Sentry error tracking
+   - Verify observability is working
+
+5. **Cross-browser testing** (30 min)
+   - Safari desktop
+   - Firefox desktop
+   - Check for browser-specific issues
+
+6. **Performance measurement** (30 min)
+   - Run Lighthouse
+   - Measure actual INP
+   - Verify Core Web Vitals
+
+### Nice to Have (If Time):
+
+7. **Package management review** (30 min)
+   - Consider pinning OpenNext to stable version
+   - Document risks of current main branch setup
+   - Check for security updates
+
+8. **Accessibility audit** (1 hour)
+   - Run axe DevTools
+   - Test keyboard navigation
+   - Test with screen reader
+   - Verify color contrast
+
+9. **Documentation updates** (15 min)
+   - Update this file with test results
+   - Document any issues found
+   - Note what still needs testing
+
+---
+
+## 🚫 WHAT NOT TO WASTE TIME ON
+
+❌ **Don't:**
+- Run tests that don't verify actual functionality
+- Refactor code that's working
+- Add features the user didn't request
+- Create new documentation files (only update this one)
+- Optimize things that aren't slow
+- Fix warnings that don't affect functionality
+- Test things that are already verified and working
+
+✅ **Do:**
+- Test actual user interactions
+- Verify production deployment works
+- Measure real performance
+- Test on real devices
+- Document honestly what works and what doesn't
+
+---
+
+## 🔄 BUILD & DEPLOYMENT COMMANDS
+
+### Local Development
+```bash
+pnpm dev                    # Start dev server (http://localhost:3003)
+pnpm typecheck              # Run TypeScript checks
+pnpm lint                   # Run ESLint
+```
+
+### Production Build
+```bash
+pnpm build                  # Build for production (Next.js only)
+SKIP_OBSERVABILITY_CHECK=true pnpm build  # Skip Sentry checks
+```
+
+### Cloudflare Workers Deployment
+```bash
+# Deploy to DEFAULT environment (workers.dev)
+pnpm deploy
+
+# Deploy to PRODUCTION environment (praviel.com)
+pnpm run with-release npx opennextjs-cloudflare deploy --env production
+
+# With observability check skipped
+SKIP_OBSERVABILITY_CHECK=true pnpm run with-release npx opennextjs-cloudflare deploy --env production
+```
+
+### Testing
+```bash
+# Run automated test suite
+node scripts/test-production.mjs        # Test praviel.com
+node scripts/test-workers-dev.mjs       # Test workers.dev
+node scripts/test-mobile-simple.mjs     # Quick mobile scroll test
+
+# Find horizontal overflow sources
+node scripts/find-overflow-source.mjs
+```
+
+---
+
+## 📝 COMMIT & PUSH
+
+**Current Branch:** main
+**Remote:** git@github.com:antonsoo/praviel-website.git
+
+```bash
+# Stage all changes
+git add -A
+
+# Commit with conventional commit format
+git commit -m "type: description
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+# Push to remote
+git push origin main
+```
+
+---
+
+## ✅ SUCCESS CRITERIA
+
+**Before Marking as "Done":**
+- ✅ praviel.com is live and updated (verify in browser)
+- ✅ No React Error #418 on praviel.com
+- ✅ No horizontal scroll on mobile (test on real device)
+- ✅ Waitlist form submits successfully
+- ✅ All pages load without errors
+- ✅ Interactive components work (forms, menus, modals)
+- ✅ Analytics tracking verified
+- ✅ Tested on iPhone and Android
+- ✅ No console errors on production
+- ✅ This document updated with honest results
+
+**Don't claim it's done unless ALL criteria above are met and verified.**
 
 ---
 
 **END OF CRITICAL TO-DOs**
 
-**Status: All major issues FIXED and TESTED. Site is production-ready. Remaining items are enhancements and manual verification of interactive components.**
+**Next Agent: Start with PRIORITY 1 (deploy to praviel.com production). Test everything manually. Be honest about what works and what doesn't. Good luck!**
