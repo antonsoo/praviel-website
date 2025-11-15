@@ -716,11 +716,31 @@ html, body {
     transition: none !important;
   }
 
+  /* Explicitly disable pseudo-element animations in minimal mode */
+  html[data-immersive-pref="off"] *::before,
+  html[data-immersive-pref="off"] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Explicitly disable aurora animations in minimal mode */
+  html[data-immersive-pref="off"] .site-bg-gradient::before,
+  html[data-immersive-pref="off"] .site-bg-gradient::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
   /* PERFORMANCE FIX: Disable heavy animations in auto mode on mobile */
   @media (max-width: 640px) {
     html[data-immersive-pref="auto"] .portal-card__halo,
     html[data-immersive-pref="auto"] .site-bg-gradient,
     html[data-immersive-pref="auto"] .header-border-sheen {
+      animation: none !important;
+    }
+
+    /* Explicitly disable pseudo-element animations in auto mode on mobile */
+    html[data-immersive-pref="auto"] .site-bg-gradient::before,
+    html[data-immersive-pref="auto"] .site-bg-gradient::after {
       animation: none !important;
     }
   }

@@ -12,7 +12,8 @@ export default [
       "dist/**",
       "build/**",
       "playwright-report/**",
-      "test-results/**"
+      "test-results/**",
+      "scripts/**/*.mjs"
     ]
   },
   js.configs.recommended,

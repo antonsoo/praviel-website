@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useId } from "react";
 import WaitlistForm from "./WaitlistForm";
 
 export default function WaitlistSection() {
-  const [showWaitlist, setShowWaitlist] = useState(true);
   const waitlistPanelId = useId();
 
   return (
@@ -34,7 +33,6 @@ export default function WaitlistSection() {
         <div className="flex flex-col items-center gap-6">
           <div
             id={waitlistPanelId}
-            aria-hidden={!showWaitlist}
             className="w-full max-w-xl rounded-2xl border border-[#E8C55B]/20 bg-[#E8C55B]/5 p-8 backdrop-blur"
           >
             <div className="flex justify-center">
