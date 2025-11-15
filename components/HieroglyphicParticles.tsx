@@ -51,12 +51,12 @@ export default function HieroglyphicParticles() {
   }, []);
 
   // Generate glyphs on mount (client-only)
-  // PERFORMANCE FIX: Reduced from 8 to 4 particles to reduce GPU load
+  // PERFORMANCE FIX: Reduced from 8→4→2 particles to reduce GPU load and animation count
   useEffect(() => {
     if (!shouldShow) return;
 
     setGlyphs(
-      Array.from({ length: 4 }, (_, i) => ({
+      Array.from({ length: 2 }, (_, i) => ({
         id: i,
         symbol: SVG_GLYPHS[i % SVG_GLYPHS.length].key as string,
         left: `${10 + Math.random() * 80}%`,

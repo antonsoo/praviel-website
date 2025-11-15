@@ -27,12 +27,12 @@ export default function MarbleDust() {
   }, []);
 
   // Generate particles on mount (client-only)
-  // PERFORMANCE FIX: Reduced from 14 to 6 particles to reduce GPU load
+  // PERFORMANCE FIX: Reduced from 14→6→3 particles to reduce GPU load and animation count
   useEffect(() => {
     if (!shouldShow) return;
 
     setParticles(
-      Array.from({ length: 6 }, (_, i) => ({
+      Array.from({ length: 3 }, (_, i) => ({
         id: i,
         left: `${10 + Math.random() * 80}%`,
         size: 1.2 + Math.random() * 2,  // Reduced max size

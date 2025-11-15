@@ -53,7 +53,12 @@ export default function AnalyticsConsentGate({ provider = null, cloudflareToken,
     return <VercelAnalytics mode="production" />;
   }
 
-  if (provider === "cloudflare" && cloudflareToken) {
+  // Only load Cloudflare analytics if token is actually provided
+  if (provider === "cloudflare") {
+    if (!cloudflareToken) {
+      // Token not configured - skip loading (prevents RUM endpoint errors)
+      return null;
+    }
     return (
       <Script
         id="cloudflare-analytics"
