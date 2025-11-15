@@ -38,10 +38,10 @@ function updateDocumentDataset(value: ImmersivePreference) {
 }
 
 export function useImmersivePreference(): [ImmersivePreference, SetImmersivePreference] {
-  // CRITICAL FIX: Initialize with "auto" default to prevent hydration mismatch
-  // Server and client both render with "auto" initially
+  // PERFORMANCE FIX: Default to "off" (minimal) for better performance
+  // Server and client both render with "off" initially
   // Then update from stored preference after mount
-  const [preference, setPreferenceState] = useState<ImmersivePreference>("auto");
+  const [preference, setPreferenceState] = useState<ImmersivePreference>("off");
 
   useEffect(() => {
     if (!isBrowser()) return;
@@ -50,7 +50,7 @@ export function useImmersivePreference(): [ImmersivePreference, SetImmersivePref
     const stored = document.documentElement.dataset.immersivePref;
     if (stored === "auto" || stored === "on" || stored === "off") {
       // Only update if different from default (prevents unnecessary re-render)
-      if (stored !== "auto") {
+      if (stored !== "off") {
         setPreferenceState(stored);
         updateDocumentDataset(stored);
       }

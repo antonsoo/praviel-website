@@ -56,9 +56,11 @@ const preferenceBootstrapScript = `(() => {
     if (storedImmersive === "auto" || storedImmersive === "on" || storedImmersive === "off") {
       applyImmersive(storedImmersive);
     } else {
+      // PERFORMANCE FIX: Default to "off" (minimal) for better performance
+      // Users can opt-in to animations via Immersive toggle if they want them
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const saveData = navigator.connection?.saveData;
-      applyImmersive(reduceMotion || saveData ? "off" : "auto");
+      applyImmersive(reduceMotion || saveData ? "off" : "off");
     }
   } catch (error) {
     // Swallow bootstrap errors to avoid breaking rendering
@@ -184,7 +186,7 @@ export default function RootLayout({
         data-type-scale="base"
         data-contrast="default"
         data-body-font="sans"
-        data-immersive-pref="auto"
+        data-immersive-pref="off"
       >
         <head>
           <script
