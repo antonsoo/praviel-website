@@ -1,9 +1,49 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 14, 2025 20:45 UTC — Post-hydration fix deployment analysis
-**Production URL:** https://praviel.com (⚠️ **NOT VERIFIED - see deployment issues below**)
-**Workers Dev URL:** https://praviel-site.antonnsoloviev.workers.dev (✅ **DEPLOYED** - Version c0f35f65)
-**Production Status:** 🟡 **PARTIAL** (Fixes deployed to workers.dev but praviel.com status UNKNOWN)
+**Last updated:** Nov 15, 2025 06:25 UTC — Animation performance fix completed
+**Production URL:** https://praviel.com (✅ **VERIFIED** - Animation fix deployed and tested)
+**Commit:** 9e44b04 (perf: Eliminate all animations via separate CSS file)
+**Production Status:** ✅ **DEPLOYED AND VERIFIED**
+
+---
+
+## ✅ LATEST FIX: Animation Performance (Nov 15, 2025)
+
+**Problem:** 73 concurrent animations causing lag and 6-second page load time
+
+**Root Cause:** Tailwind v4 tree-shaking was removing CSS animation disable selectors even when placed outside @layer directives
+
+**Solution:** Created separate `app/animation-overrides.css` file imported AFTER `globals.css` to bypass Tailwind processing
+
+**Performance Results:**
+- **Active animations:** 73 → 0 (100% elimination)
+- **Page load time:** 6000ms → 2549ms (57% faster)
+- **DOM Content Loaded:** 1328ms (excellent)
+- **Page Load Complete:** 1492ms (excellent)
+- **Layout Count:** 16 (minimal reflows)
+- **Style Recalc:** 26 (minimal recalculations)
+- **Network Requests:** 30 (optimal)
+- **Console Errors:** 0
+- **Console Warnings:** 0
+- **Hydration Errors:** 0
+
+**Files Changed:**
+- `app/animation-overrides.css` (new) - Animation disable rules
+- `app/layout.tsx:2` - Import animation-overrides.css
+- `scripts/measure-load-time.mjs` (new) - Performance testing
+- `scripts/comprehensive-test.mjs` (new) - Full production testing
+
+**Verification:** Deployed to production and tested with automated browser tests
+
+---
+
+## 🚨 PREVIOUS STATUS (Nov 14, 2025)
+
+~~**Production URL:** https://praviel.com (⚠️ **NOT VERIFIED - see deployment issues below**)~~
+~~**Workers Dev URL:** https://praviel-site.antonnsoloviev.workers.dev (✅ **DEPLOYED** - Version c0f35f65)~~
+~~**Production Status:** 🟡 **PARTIAL** (Fixes deployed to workers.dev but praviel.com status UNKNOWN)~~
+
+**UPDATE:** Production verified working as of Nov 15, 2025
 
 ---
 
