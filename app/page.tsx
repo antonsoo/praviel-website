@@ -7,13 +7,11 @@ import CivilizationPortals from "@/components/CivilizationPortals";
 import CivilizationTriad from "@/components/CivilizationTriad";
 import MaterialStudy from "@/components/MaterialStudy";
 import BlogSpotlight from "@/components/BlogSpotlight";
-import VoiceTour from "@/components/VoiceTour";
 import FeatureGrid from "@/components/FeatureGrid";
 import MissionSection from "@/components/MissionSection";
 import WhyPRAVIEL from "@/components/WhyPRAVIEL";
 import LivingManuscript from "@/components/LivingManuscript";
 import ComparisonTable from "@/components/ComparisonTable";
-import JourneyTimeline from "@/components/JourneyTimeline";
 import LanguageShowcase from "@/components/LanguageShowcase";
 import HowItWorks from "@/components/HowItWorks";
 import FAQ from "@/components/FAQ";
@@ -37,8 +35,6 @@ export default function HomePage() {
       <SectionDivider />
       <BlogSpotlight />
       <SectionDivider />
-      <VoiceTour />
-      <SectionDivider />
       <FeatureGrid />
       <SectionDivider />
       <MissionSection />
@@ -48,8 +44,6 @@ export default function HomePage() {
       <LivingManuscript />
       <SectionDivider />
       <ComparisonTable />
-      <SectionDivider />
-      <JourneyTimeline />
       <SectionDivider />
       <LanguageShowcase />
       <SectionDivider />
