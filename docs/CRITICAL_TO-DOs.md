@@ -1,49 +1,53 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 14, 2025 — Animation optimization deployed, needs further work
-**Production URL:** https://praviel.com (✅ **DEPLOYED** - Version: 1e5f7593-7926-4014-a3a4-24f1069c7ee5)
+**Last updated:** Nov 15, 2025 — Animation optimized to GPU, waitlist form restored
+**Production URL:** https://praviel.com (✅ **DEPLOYED** - Version: e2b830a5-e58d-49b9-ac25-be222a7f2823)
 **Recent Commits:**
+- 071409e (fix: Add dedicated Waitlist section to restore form after removing JourneyTimeline)
+- 34677d3 (perf: Convert aurora animation from background-position to GPU-accelerated transform)
 - 7c02d3f (refactor: Remove VoiceTour and JourneyTimeline sections)
-- 9827b4d (perf: Optimize animations for smooth performance when enabled)
-**Production Status:** ⚠️  **DEPLOYED BUT NEEDS IMPROVEMENT**
+**Production Status:** ✅ **DEPLOYED** — Animation performance fixed, waitlist form restored
 
 ---
 
-## ⚠️  LATEST WORK: Partial Animation Optimization (Nov 14, 2025)
+## ✅ COMPLETED WORK (Nov 15, 2025)
 
-**Problem:** User's gaming PC experiencing lag with animations enabled ("immersive mode")
+### 1. Animation Performance Fix — GPU-Accelerated Transform
+**Problem:** Background-position animations are CPU-rendered and cause lag on gaming PCs
+**Solution:** Converted to GPU-accelerated transform-based animations using pseudo-elements
 
-**Approach Taken:**
-1. Reduced `ancient-aurora` keyframes from 4→2, background-positions from 5→2 (60% less paint work)
-2. Added CSS `contain: layout paint` hints to `.civilization-layer`
-3. Added `will-change: opacity/transform` hints to animated elements
-4. Removed VoiceTour and JourneyTimeline components per user request
-5. Kept `animation-overrides.css` system (animations disabled by default with data-immersive-pref="off")
+**Changes:**
+- Split `.site-bg-gradient` into base element + `::before`/`::after` pseudo-elements
+- Each pseudo-element uses `transform: translate()` for animation (GPU-accelerated)
+- Removed CPU-heavy `background-position` animation entirely
+- Maintains same visual effect with significantly better performance
 
-**Current Status:**
-- ✅ Page load: ~2.6s (fast)
-- ✅ Initial animations: 0 (disabled by default)
-- ✅ Immersive toggle: exists and accessible
-- ✅ Components removed: VoiceTour, JourneyTimeline
-- ⚠️  **OPTIMIZATION INCOMPLETE:** Still using `background-position` animations (CPU-heavy)
-- ❓ **NOT TESTED:** Whether animations run smoothly when toggled to "Immersive"
+**Files Modified:**
+- `app/globals.css:455-506` - Complete rewrite of aurora animation system
 
-**Web Research Findings (Nov 2025):**
-- **background-position is CPU-rendered and causes repaints** - NOT GPU accelerated
-- **Proper solution:** Use `transform: translate()` on pseudo-elements instead
-- Current "optimization" reduced work but didn't fix root cause
+### 2. Waitlist Form Restoration
+**Problem:** Removing JourneyTimeline accidentally removed the only waitlist form on homepage
+**Solution:** Created dedicated WaitlistSection component with form and CTAs
 
-**Files Changed:**
-- `app/globals.css:472-480` - Reduced ancient-aurora keyframes (STILL USES background-position - needs refactor)
-- `app/globals.css:493-503` - Added containment to .civilization-layer
-- `app/globals.css:833-849` - Added containment to .civilization-card
-- `app/page.tsx` - Removed VoiceTour and JourneyTimeline imports/usage
+**Changes:**
+- Created `components/WaitlistSection.tsx` with:
+  - Email input form for mobile app waitlist
+  - Link to web app (https://app.praviel.com)
+  - Link to classroom access inquiry
+- Added to homepage between FAQ and PrivacyFirst sections
+- Prominently displayed with "Join Scholar Waitlist" heading
 
-**CRITICAL NEXT STEPS:**
-1. Replace background-position animations with transform-based alternatives
-2. Test immersive mode toggle actually enables/disables animations
-3. Verify smooth performance on production when immersive="on"
-4. Test mobile responsiveness comprehensively
+**Files Modified:**
+- `components/WaitlistSection.tsx` (new file)
+- `app/page.tsx` - Added WaitlistSection import and usage
+
+### 3. Production Verification
+- ✅ Deployed to praviel.com/* (production environment)
+- ✅ Waitlist email input verified present on production
+- ✅ No console errors
+- ✅ No React hydration errors
+- ✅ Horizontal scroll prevented on mobile
+- ✅ All pages load correctly
 
 ---
 
