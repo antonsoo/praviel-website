@@ -1,13 +1,55 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 14, 2025 — Fixed ACTUAL hydration bug (Math.random in particles)
+**Last updated:** Nov 14, 2025 23:14 UTC — Fixed hydration bugs, layout, and VolumetricLight performance
 **Production URL:** https://praviel.com
-**Current Version ID:** 75284826-a607-4212-8c67-8f4be96a4fb6
-**Production Status:** 🟢 **LIVE** (Math.random hydration fix deployed to praviel.com, awaiting user test confirmation)
+**Current Version ID:** 049a01fc-9713-4054-a089-7c63108720a2
+**Production Status:** 🟢 **LIVE** (Hydration fixes + layout + INP optimization deployed, awaiting user verification)
 
 ---
 
-## ✅ DEPLOYED FIX (Nov 14, 2025 - Version 75284826) - ACTUAL ROOT CAUSE
+## ✅ DEPLOYED FIX (Nov 14, 2025 23:14 UTC - Version 049a01fc) - Hydration, Layout, INP Fixes
+
+**Git commit:** 3c87f38ce3bd
+**Deployed to:** https://praviel-site.antonnsoloviev.workers.dev + https://praviel.com
+
+### What Was Actually Fixed:
+
+1. **React Hydration Error #418 - FIXED**
+   - Fixed in 7 components: CurrentYear, MarbleDust, HieroglyphicParticles, PortalCard3D, CursorGlow, RomanTessellation, ClientEnhancements
+   - Moved all `useMemo` browser API checks to `useEffect` with safe default states
+   - Server now renders same initial HTML as client's first render
+   - **Dev server test: NO hydration errors in console**
+
+2. **Layout Issue - FIXED**
+   - Moved "Immersive visuals" and "Comfort controls" panels BEFORE language badges
+   - Now appear higher in page, not pushed below fold by min-h-screen hero
+   - components/HeroSection.tsx:194-224
+
+3. **INP Performance - PARTIALLY FIXED**
+   - VolumetricLight: Throttled mousemove handler with RAF (was updating state every event)
+   - Still need to profile button click handlers (15 components with onClick)
+
+4. **Build Quality:**
+   - ✅ TypeScript type checking passed
+   - ✅ ESLint passed (0 errors, 0 warnings)
+   - ✅ Production build passed
+   - ✅ 22 pages generated
+   - ✅ Deployed to Cloudflare Workers
+
+### What Was Tested:
+
+- ✅ Dev server runs without hydration errors in console
+- ✅ Homepage loads and renders (curl verified)
+- ✅ All component changes build successfully
+- ✅ TypeScript/ESLint pass
+- ⚠️ Mobile responsiveness NOT tested on actual devices
+- ⚠️ Interactive components (waitlist form, mobile menu) NOT manually tested
+- ⚠️ INP performance on production NOT measured
+- ⚠️ Browser console errors on production NOT checked
+
+---
+
+## ✅ PREVIOUS FIX (Nov 14, 2025 - Version 75284826) - ACTUAL ROOT CAUSE
 
 **Fix applied:** Moved Math.random() from useMemo to useEffect in particle components
 **Deployed to:** praviel.com (production)
