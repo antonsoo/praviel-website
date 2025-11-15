@@ -686,6 +686,21 @@ html, body {
     pointer-events: none;
   }
 
+  /* PERFORMANCE FIX: Disable ALL animations in minimal mode */
+  html[data-immersive-pref="off"] * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* PERFORMANCE FIX: Disable heavy animations in auto mode on mobile */
+  @media (max-width: 640px) {
+    html[data-immersive-pref="auto"] .portal-card__halo,
+    html[data-immersive-pref="auto"] .site-bg-gradient,
+    html[data-immersive-pref="auto"] .header-border-sheen {
+      animation: none !important;
+    }
+  }
+
   @media (max-width: 640px) {
     .civilization-layer,
     .site-bg-constellation,
