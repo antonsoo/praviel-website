@@ -15,6 +15,7 @@ import ComparisonTable from "@/components/ComparisonTable";
 import LanguageShowcase from "@/components/LanguageShowcase";
 import HowItWorks from "@/components/HowItWorks";
 import FAQ from "@/components/FAQ";
+import WaitlistSection from "@/components/WaitlistSection";
 import PrivacyFirst from "@/components/PrivacyFirst";
 
 // Marketing site pages are statically optimized by Next.js
@@ -50,6 +51,8 @@ export default function HomePage() {
       <HowItWorks />
       <SectionDivider />
       <FAQ />
+      <SectionDivider />
+      <WaitlistSection />
       <SectionDivider />
       <PrivacyFirst />
     </>
