@@ -59,7 +59,7 @@ export default function CivilizationPortals() {
   return (
     <section
       id="civilization-portals"
-      className="relative px-4 sm:px-6 py-16 sm:py-24 md:py-32"
+      className="relative overflow-hidden px-4 sm:px-6 py-16 sm:py-24 md:py-32"
       aria-labelledby="civilization-portals-title"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#120f08]/60 to-transparent" />

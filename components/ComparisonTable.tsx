@@ -28,7 +28,7 @@ const comparisonSummaries = [
 export default function ComparisonTable() {
   return (
     <section
-      className="relative overflow-hidden px-6 py-24 sm:py-32"
+      className="relative overflow-x-hidden px-6 py-24 sm:py-32"
       aria-labelledby="comparison-title"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[#1e40af]/5 to-transparent" />
@@ -46,7 +46,7 @@ export default function ComparisonTable() {
           </p>
         </header>
 
-        <div className="overflow-x-auto rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
+        <div className="w-full max-w-full overflow-x-auto rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
           <table className="w-full border-collapse text-xs sm:text-sm text-zinc-200 min-w-[600px]">
             <thead>
               <tr className="text-left text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-zinc-500">

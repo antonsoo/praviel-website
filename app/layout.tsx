@@ -178,7 +178,7 @@ export default function RootLayout({
     <ConditionalViewTransitions>
       <html
         lang="en"
-        className={`bg-bg-page text-zinc-100 antialiased ${fontVariables}`}
+        className={`bg-bg-page text-zinc-100 antialiased overflow-x-hidden ${fontVariables}`}
         suppressHydrationWarning
         data-type-scale="base"
         data-contrast="default"

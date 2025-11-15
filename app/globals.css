@@ -42,6 +42,11 @@
   --shadow-glow-gold: 0 0 40px rgba(250, 204, 21, 0.4);
 }
 
+/* Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+}
+
 /* Modern @property declarations for animatable gradients (Chrome/Safari/Edge only)
    Firefox fallback: animations still work but transitions won't be smooth */
 @supports (syntax: '<angle>') {
