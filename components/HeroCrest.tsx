@@ -43,7 +43,6 @@ export default function HeroCrest({ className = "" }: HeroCrestProps) {
         <div className="space-y-2 rounded-2xl border border-black/10 bg-white/70 p-4 text-xs font-semibold text-black/70">
           <p className="uppercase tracking-[0.35em] text-black/50">Upcoming cohorts</p>
           <p>Sanskrit · Classical Chinese · Pali · Old Church Slavonic · Classical Arabic</p>
-          <p className="text-[11px] text-black/60">Mission credo · BIG_PICTURE_from_main_repo.md</p>
         </div>
       </div>
     </figure>
