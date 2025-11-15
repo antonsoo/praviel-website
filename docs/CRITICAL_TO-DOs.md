@@ -1,39 +1,49 @@
 # CRITICAL TO-DOs
 
-**Last updated:** Nov 15, 2025 06:25 UTC — Animation performance fix completed
-**Production URL:** https://praviel.com (✅ **VERIFIED** - Animation fix deployed and tested)
-**Commit:** 9e44b04 (perf: Eliminate all animations via separate CSS file)
-**Production Status:** ✅ **DEPLOYED AND VERIFIED**
+**Last updated:** Nov 14, 2025 — Animation optimization deployed, needs further work
+**Production URL:** https://praviel.com (✅ **DEPLOYED** - Version: 1e5f7593-7926-4014-a3a4-24f1069c7ee5)
+**Recent Commits:**
+- 7c02d3f (refactor: Remove VoiceTour and JourneyTimeline sections)
+- 9827b4d (perf: Optimize animations for smooth performance when enabled)
+**Production Status:** ⚠️  **DEPLOYED BUT NEEDS IMPROVEMENT**
 
 ---
 
-## ✅ LATEST FIX: Animation Performance (Nov 15, 2025)
+## ⚠️  LATEST WORK: Partial Animation Optimization (Nov 14, 2025)
 
-**Problem:** 73 concurrent animations causing lag and 6-second page load time
+**Problem:** User's gaming PC experiencing lag with animations enabled ("immersive mode")
 
-**Root Cause:** Tailwind v4 tree-shaking was removing CSS animation disable selectors even when placed outside @layer directives
+**Approach Taken:**
+1. Reduced `ancient-aurora` keyframes from 4→2, background-positions from 5→2 (60% less paint work)
+2. Added CSS `contain: layout paint` hints to `.civilization-layer`
+3. Added `will-change: opacity/transform` hints to animated elements
+4. Removed VoiceTour and JourneyTimeline components per user request
+5. Kept `animation-overrides.css` system (animations disabled by default with data-immersive-pref="off")
 
-**Solution:** Created separate `app/animation-overrides.css` file imported AFTER `globals.css` to bypass Tailwind processing
+**Current Status:**
+- ✅ Page load: ~2.6s (fast)
+- ✅ Initial animations: 0 (disabled by default)
+- ✅ Immersive toggle: exists and accessible
+- ✅ Components removed: VoiceTour, JourneyTimeline
+- ⚠️  **OPTIMIZATION INCOMPLETE:** Still using `background-position` animations (CPU-heavy)
+- ❓ **NOT TESTED:** Whether animations run smoothly when toggled to "Immersive"
 
-**Performance Results:**
-- **Active animations:** 73 → 0 (100% elimination)
-- **Page load time:** 6000ms → 2549ms (57% faster)
-- **DOM Content Loaded:** 1328ms (excellent)
-- **Page Load Complete:** 1492ms (excellent)
-- **Layout Count:** 16 (minimal reflows)
-- **Style Recalc:** 26 (minimal recalculations)
-- **Network Requests:** 30 (optimal)
-- **Console Errors:** 0
-- **Console Warnings:** 0
-- **Hydration Errors:** 0
+**Web Research Findings (Nov 2025):**
+- **background-position is CPU-rendered and causes repaints** - NOT GPU accelerated
+- **Proper solution:** Use `transform: translate()` on pseudo-elements instead
+- Current "optimization" reduced work but didn't fix root cause
 
 **Files Changed:**
-- `app/animation-overrides.css` (new) - Animation disable rules
-- `app/layout.tsx:2` - Import animation-overrides.css
-- `scripts/measure-load-time.mjs` (new) - Performance testing
-- `scripts/comprehensive-test.mjs` (new) - Full production testing
+- `app/globals.css:472-480` - Reduced ancient-aurora keyframes (STILL USES background-position - needs refactor)
+- `app/globals.css:493-503` - Added containment to .civilization-layer
+- `app/globals.css:833-849` - Added containment to .civilization-card
+- `app/page.tsx` - Removed VoiceTour and JourneyTimeline imports/usage
 
-**Verification:** Deployed to production and tested with automated browser tests
+**CRITICAL NEXT STEPS:**
+1. Replace background-position animations with transform-based alternatives
+2. Test immersive mode toggle actually enables/disables animations
+3. Verify smooth performance on production when immersive="on"
+4. Test mobile responsiveness comprehensively
 
 ---
 
