@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./animation-overrides.css";
 import type { Metadata, Viewport } from "next";
 import ConditionalViewTransitions from "@/components/ConditionalViewTransitions";
 import SiteHeader from "@/components/SiteHeader";

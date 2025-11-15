@@ -1,0 +1,25 @@
+/* ==================================================================================
+   ANIMATION OVERRIDES: Disable ALL animations when data-immersive-pref="off"
+   This file is imported AFTER Tailwind to prevent tree-shaking
+   ================================================================================== */
+
+/* Hide ALL animated decorative elements */
+html[data-immersive-pref="off"] .portal-card__halo,
+html[data-immersive-pref="off"] .header-border-sheen,
+html[data-immersive-pref="off"] .footer-border-sheen,
+html[data-immersive-pref="off"] .footer-bg-glow,
+html[data-immersive-pref="off"] .animate-divider-symbol,
+html[data-immersive-pref="off"] .footer-symbol,
+html[data-immersive-pref="off"] [class*="animate-"] {
+  display: none !important;
+}
+
+/* Disable animations on ALL elements (content stays visible) */
+html[data-immersive-pref="off"] .civilization-card,
+html[data-immersive-pref="off"] .journey-card,
+html[data-immersive-pref="off"] article,
+html[data-immersive-pref="off"] .portal-card,
+html[data-immersive-pref="off"] * {
+  animation: none !important;
+  transition: none !important;
+}
